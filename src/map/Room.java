@@ -1,6 +1,7 @@
 package map;
 
 import java.util.ArrayList;
+
 import util.RandUtil;
 
 /**
@@ -28,13 +29,14 @@ public class Room {
 		this.individual_x = individual_x;
 		this.individual_y = individual_y;
 	}
-	
+
 	/**
 	 * Given the length of a union between rooms, it gives a series
 	 * of numbers where the door should be placed in that area.
 	 * @param length of the column/row where both rooms collide
 	 * @return List of numbers where the rooms should
 	 */
+	
 	public ArrayList<Integer> AssignRandomDoors(int length){
 		
 		int i = 0;
@@ -42,8 +44,9 @@ public class Room {
 		int randNumber;
 		int resultDiv = length/10;
 		ArrayList<Integer> finalRooms = new ArrayList<Integer>();
-		if (resultDiv <= 0) 
+		if (resultDiv <= 0){ 
 			numDoors = 1;
+		}
 		else {
 			numDoors = resultDiv;
 		}
@@ -68,6 +71,38 @@ public class Room {
 		for (int i = 0; i < test.size(); i++){
 			System.out.println(test.get(i));
 		}
+	}
+	
+	public int getIndividual_x() {
+		return individual_x;
+	}
+
+	public void setIndividual_x(int individual_x) {
+		this.individual_x = individual_x;
+	}
+
+	public int getIndividual_y() {
+		return individual_y;
+	}
+
+	public void setIndividual_y(int individual_y) {
+		this.individual_y = individual_y;
+	}
+
+	public int getGlobal_x() {
+		return global_x;
+	}
+
+	public void setGlobal_x(int global_x) {
+		this.global_x = global_x;
+	}
+
+	public int getGlobal_y() {
+		return global_y;
+	}
+
+	public void setGlobal_y(int global_y) {
+		this.global_y = global_y;
 	}
 
 }
