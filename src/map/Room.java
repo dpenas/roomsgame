@@ -6,8 +6,8 @@ import util.RandUtil;
 
 /**
  * A room is randomly generated depending on the given size and
- * number of elements in it. These values doesn't have to be specified.
- * @author Darío
+ * number of elements in it. These values don't have to be specified.
+ * @author Dario
  *
  */
 public class Room {
