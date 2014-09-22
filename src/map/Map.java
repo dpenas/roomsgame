@@ -101,6 +101,41 @@ public class Map {
 		return possibleExtensionPoints.get(position_random_selected);
 
 	}
+	
+	
+	/**
+	 * Sets to 1 the space of the two rooms defined by the tuples in the free room array
+	 * @param tuple1
+	 * @param tuple2
+	 */
+	public void createRoomMatrix(Tuple<Integer, Integer> tuple1, Tuple<Integer, Integer> tuple2){
+		int lowestX;
+		int highestX;
+		int lowestY;
+		int highestY;
+		
+		if (tuple1.x < tuple2.x){
+			lowestX = tuple1.x;
+			highestX = tuple2.x;
+		} else {
+			lowestX = tuple2.x;
+			highestX = tuple1.x;
+		}
+		
+		if (tuple1.y < tuple2.y){
+			lowestY = tuple1.y;
+			highestY = tuple2.y;
+		} else {
+			lowestY = tuple2.y;
+			highestY = tuple1.y;
+		}
+		
+		for (int i = lowestX; i < highestX; i++){
+			for (int j = lowestY; j < highestY; j ++){
+				free_room[i][j] = 1;
+			}
+		}
+	}
 
 	/**
 	 * Main function that creates a map given its size, using the rest of the
