@@ -7,8 +7,9 @@ import util.Tuple;
 
 /**
  * TODO RELEVANT:
- * - Complete initialize_rooms_map, which should call the other functions and create the actual map
-ß * 
+ * - Complete nextPoint and initialize_rooms_map, which should call 
+ * the other functions and create the actual map
+ * 
  * TODO ADDITIONAL: 
  * - Map of maps? So we can teleport to other maps and stuff.
  *
@@ -21,6 +22,8 @@ public class Map {
 	private int real_x;
 	private int real_y;
 	byte[][] free_room;
+//	private int free_room_x;
+//	private int free_room_y;
 	private int size;
 
 	/**
@@ -32,11 +35,14 @@ public class Map {
 	public Map(Tuple<Integer, Integer> global_init, Tuple<Integer, Integer> global_fin){
 		this.set_global_init(global_init);
 		this.set_global_init(global_fin);
+//		this.set_free_room_x(0);
+//		this.set_free_room_y(0);
 		real_x = this.global_fin().x - this.global_init().x;
 		real_y = this.global_fin().y - this.global_init().y;
 		size = real_x * real_y;
 		free_room = new byte[real_x][real_y];
 		initializeMatrixZero(free_room);
+		this.initialize_rooms_map();
 	}
 	
 	/**
@@ -68,7 +74,7 @@ public class Map {
 	
 	/**
 	 * 
-	 * @return Position of the next room that we must extend
+	 * @return Tuple of the position of the next room that we must extend
 	 */
 	public Tuple<Integer, Integer> obtainAvailableRooms(){
 		int real_x = this.global_fin().x - this.global_init().x;
@@ -136,13 +142,62 @@ public class Map {
 			}
 		}
 	}
+	
+
+	/**
+	 * Given a Tuple, it returns the length from that x and y to the next 1 of the free_room array.
+	 * This is useful to know the space we have left in a certain space for the next room
+	 * @param initial_tuple
+	 * @return
+	 */
+	public Tuple<Integer, Integer> get_free_room_x_y(Tuple<Integer, Integer> initial_tuple){
+		int initial_x = initial_tuple.x + 1;
+		int initial_y = initial_tuple.y + 1;
+		int final_x = 0;
+		int final_y = 0;
+		for (int i = initial_x; i < real_x; i++){
+			if (free_room[i][initial_y] == 0){
+				final_y++;
+			} else break;
+		}
+		for (int j = initial_y; j < real_x; j++){
+			if (free_room[initial_x][j] == 0){
+				final_x++;
+			} else break;
+		}
+		Tuple<Integer, Integer> free_x_and_y = new Tuple<Integer, Integer>(final_x, final_y);
+		return free_x_and_y;
+	}
+	
+	/**
+	 * TODO: Finish this function
+	 * Given an initial point, it returns the other point where the rooms expands to
+	 * should be extended to
+	 * @param originalPoint
+	 * @return
+	 */
+	public Tuple<Integer, Integer> nextPoint(Tuple<Integer, Integer> originalPoint, int remainingRooms){
+		Tuple<Integer, Integer> nextRoom;
+		int leftPoint;
+		int rightPoint;
+		Tuple<Integer, Integer> freeRoomSpace = get_free_room_x_y(originalPoint);
+		int free_room_space_x = freeRoomSpace.x;
+		int free_room_space_y = freeRoomSpace.y;
+		return null;
+	}
 
 	/**
 	 * Main function that creates a map given its size, using the rest of the
 	 * class functions
 	 */
 	public void initialize_rooms_map(){
+		int number_rooms = 0;
+		Tuple<Integer, Integer> nextRoom;
 		
+		while (number_rooms < size){
+			nextRoom = this.obtainAvailableRooms();
+			number_rooms++;
+		}
 	}
 	
 	
@@ -169,6 +224,22 @@ public class Map {
 	public void set_size(int size) {
 		this.size = size;
 	}
+	
+//	public int get_free_room_x() {
+//		return this.free_room_x;
+//	}
+//	
+//	public void set_free_room_x(int available_size) {
+//		this.free_room_x = available_size;
+//	}
+//	
+//	public int get_free_room_y() {
+//		return this.free_room_y;
+//	}
+//	
+//	public void set_free_room_y(int available_size) {
+//		this.free_room_y = available_size;
+//	}
 
 	public static void main(String[] args) {
 
