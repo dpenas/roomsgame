@@ -3,6 +3,7 @@ package map;
 import java.util.ArrayList;
 
 import util.RandUtil;
+import util.Tuple;
 
 /**
  * A room is randomly generated depending on the given size and
@@ -17,17 +18,20 @@ public class Room {
 	 *  itself, whereas global_x and global_y refers to the location of the
 	 *  room inside a map
 	 */
-	
-	private int individual_x;
-	private int individual_y;
-	private int global_x;
-	private int global_y;
+	private Tuple<Integer, Integer> individual_initial;
+	private Tuple<Integer, Integer> individual_final;
+	private Tuple<Integer, Integer> global_initial;
+	private Tuple<Integer, Integer> global_final;
 	private ArrayList<int[][]> doors;
 	private ArrayList<Room> connected_rooms;
 	
-	public Room(int individual_x, int individual_y) {
-		this.individual_x = individual_x;
-		this.individual_y = individual_y;
+	public Room(Tuple<Integer, Integer> global_initial, Tuple<Integer, Integer> global_final){
+		int individual_final_x = global_final.x - global_initial.x;
+		int individual_final_y = global_final.y - global_initial.y;
+		this.individual_initial = new Tuple<Integer, Integer>(0, 0);
+		this.individual_final = new Tuple<Integer, Integer>(individual_final_x, individual_final_y);
+		this.global_initial = global_initial;
+		this.global_final = global_final;
 	}
 
 	/**
@@ -64,45 +68,7 @@ public class Room {
 	}
 
 	public static void main(String[] args) {
-		Room r = new Room(10, 10);
-		ArrayList<Integer> test = new ArrayList<Integer>();
-		test = r.AssignRandomDoors(5);
-		
-		for (int i = 0; i < test.size(); i++){
-			System.out.println(test.get(i));
-		}
-	}
-	
-	public int getIndividual_x() {
-		return individual_x;
-	}
 
-	public void setIndividual_x(int individual_x) {
-		this.individual_x = individual_x;
-	}
-
-	public int getIndividual_y() {
-		return individual_y;
-	}
-
-	public void setIndividual_y(int individual_y) {
-		this.individual_y = individual_y;
-	}
-
-	public int getGlobal_x() {
-		return global_x;
-	}
-
-	public void setGlobal_x(int global_x) {
-		this.global_x = global_x;
-	}
-
-	public int getGlobal_y() {
-		return global_y;
-	}
-
-	public void setGlobal_y(int global_y) {
-		this.global_y = global_y;
 	}
 
 }
