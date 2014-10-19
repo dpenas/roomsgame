@@ -2,6 +2,7 @@ package map;
 
 import java.util.ArrayList;
 
+import util.GenericMatrixFunctions;
 import util.RandUtil;
 import util.Tuple;
 
@@ -34,7 +35,7 @@ public class Map {
 	
 	public Map(Tuple<Integer, Integer> global_init, Tuple<Integer, Integer> global_fin){
 		this.set_global_init(global_init);
-		this.set_global_init(global_fin);
+		this.set_global_fin(global_fin);
 		real_x = this.global_fin().x - this.global_init().x;
 		real_y = this.global_fin().y - this.global_init().y;
 		size = real_x * real_y;
@@ -53,6 +54,7 @@ public class Map {
 		double reduced_size = size/100;
 		int min_num = (int) Math.floor(reduced_size);
 		int max_num = (int) Math.ceil(reduced_size);
+		if (min_num == max_num) return min_num;
 		return RandUtil.RandomNumber(min_num, max_num);
 	}
 	
@@ -89,14 +91,17 @@ public class Map {
 					if (free_room[0][j] == 0 && free_room[0][j-1] == 1){
 						possibleExtensionPoints.add(new Tuple<Integer, Integer>(0, j-1));
 					}
-				}
-				if (j == 0 && i != 0){
-					if (free_room[i][0] == 0 && free_room[i-1][0] == 1){
-						possibleExtensionPoints.add(new Tuple<Integer, Integer>(i-1, 0));
+				} else {
+					if (j == 0 && i != 0){
+						if (free_room[i][0] == 0 && free_room[i-1][0] == 1){
+							possibleExtensionPoints.add(new Tuple<Integer, Integer>(i-1, 0));
+						}
+					} else {
+						// System.out.println("i = " + i + "\n" + "j = " + j);
+						if (j != 0 && i != 0 && (free_room[i-1][j-1] == 1 && free_room[i][j] == 0)){
+							possibleExtensionPoints.add(new Tuple<Integer, Integer>(i-1, j-1));
+						}
 					}
-				}
-				if ((free_room[i-1][j-1] == 1 && free_room[i][j] == 0)){
-					possibleExtensionPoints.add(new Tuple<Integer, Integer>(i-1, j-1));
 				}
 			}
 		}
@@ -126,15 +131,16 @@ public class Map {
 			lowestX = tuple2.x;
 			highestX = tuple1.x;
 		}
-		
 		if (tuple1.y < tuple2.y){
 			lowestY = tuple1.y;
 			highestY = tuple2.y;
+			//System.out.println("Entro en la primera: highestY " + highestY + "\n");
+			//System.out.println("Entro en la primera: lowestY " + lowestY + "\n");
 		} else {
+			//System.out.println("Entro en la segunda " + tuple1.y + "\n");
 			lowestY = tuple2.y;
 			highestY = tuple1.y;
 		}
-		
 		for (int i = lowestX; i < highestX; i++){
 			for (int j = lowestY; j < highestY; j ++){
 				free_room[i][j] = 1;
@@ -150,22 +156,19 @@ public class Map {
 	 * @return
 	 */
 	public Tuple<Integer, Integer> get_free_room_x_y(Tuple<Integer, Integer> initial_tuple){
+		// System.out.println("initial_tuple: " + initial_tuple.x + " " + initial_tuple.y);
 		int initial_x = initial_tuple.x + 1;
 		int initial_y = initial_tuple.y + 1;
-		int final_x = 0;
-		int final_y = 0;
 		for (int i = initial_x; i < real_x; i++){
-			if (free_room[i][initial_y] == 0){
-				final_y++;
-			} else break;
+			for (int j = initial_y; j < real_y; j++){
+				if (free_room[i][j] == 1){
+					Tuple<Integer, Integer> free_x_and_y = new Tuple<Integer, Integer>(i - 1, j - 1);
+					// System.out.println("final_tuple!!!!!: " + free_x_and_y.x + " " + free_x_and_y.y);
+					return free_x_and_y;
+				}
+			}
 		}
-		for (int j = initial_y; j < real_x; j++){
-			if (free_room[initial_x][j] == 0){
-				final_x++;
-			} else break;
-		}
-		Tuple<Integer, Integer> free_x_and_y = new Tuple<Integer, Integer>(final_x, final_y);
-		return free_x_and_y;
+		return new Tuple<Integer, Integer>(real_x, real_y);
 	}
 	
 	/**
@@ -181,6 +184,10 @@ public class Map {
 		if (remainingRooms == 1){
 			int actual_x = originalPoint.x + free_room_space_x;
 			int actual_y = originalPoint.y + free_room_space_y;
+			System.out.println("free_room_space_x: " + free_room_space_x + "\n");
+			System.out.println("free_room_space_y: " + free_room_space_y + "\n");
+			System.out.println("Actual_x: " + actual_x + "\n");
+			System.out.println("actual_y: " + actual_y + "\n");
 			Tuple<Integer, Integer> nextRoom = new Tuple<Integer, Integer>(actual_x, actual_y);
 			return nextRoom;
 		} else{
@@ -203,25 +210,6 @@ public class Map {
 				return nextRoom;
 			}
 		}
-	}
-
-	/**
-	 * Main function that creates a map given its size, using the rest of the
-	 * class functions
-	 */
-	public void initialize_rooms_map(){
-		int number_rooms = 0;
-		Tuple<Integer, Integer> InitialPoint;
-		Tuple<Integer, Integer> FinalPoint;
-		
-		while (number_rooms < size){
-			InitialPoint = this.obtainAvailableRoom();
-			FinalPoint = nextPoint(InitialPoint, size - number_rooms);
-			Room r = new Room(InitialPoint, FinalPoint);
-			this.rooms.add(r);
-			number_rooms++;
-		}
-		complete_map();
 	}
 	
 	/**
@@ -247,15 +235,18 @@ public class Map {
 	 * rooms, so this function will create rooms in those free spaces
 	 */
 	public void complete_map(){
-		Tuple<Integer, Integer> InitialPoint;
-		Tuple<Integer, Integer> FinalPoint;
+		Tuple<Integer, Integer> initialPoint;
+		Tuple<Integer, Integer> finalPoint;
 		while (is_there_free_space){
 			for (int i = 0; i < real_x; i++){
 				for (int j = 0; j < real_y; j++){
 					if (free_room[i][j] == 0){
-						InitialPoint = new Tuple<Integer, Integer>(i, j);
-						FinalPoint = nextPoint(InitialPoint, 1);
-						Room r = new Room(InitialPoint, FinalPoint);
+						initialPoint = new Tuple<Integer, Integer>(i, j);
+						finalPoint = nextPoint(initialPoint, 1);
+//						System.out.println("InitialPoint: " + initialPoint.x + " " + initialPoint.y + "\n");
+//						System.out.println("FinalPoint: " + finalPoint.x + " " + finalPoint.y + "\n");
+						createRoomMatrix(initialPoint, finalPoint);
+						Room r = new Room(initialPoint, finalPoint);
 						this.rooms.add(r);
 					}
 				}
@@ -263,6 +254,32 @@ public class Map {
 			check_free_space();
 		}
 	}
+	
+	/**
+	 * Main function that creates a map given its size, using the rest of the
+	 * class functions
+	 */
+	public void initialize_rooms_map(){
+		int number_rooms = 0;
+		Tuple<Integer, Integer> initialPoint;
+		Tuple<Integer, Integer> finalPoint;
+		// int total_number_rooms = this.obtainNumberRooms();
+		int total_number_rooms = 1;
+		
+		while (number_rooms < total_number_rooms){
+			System.out.println("WEEEEEI");
+			initialPoint = this.obtainAvailableRoom();
+			finalPoint = nextPoint(initialPoint, total_number_rooms - number_rooms);
+			System.out.println("InitialPoint HOLA: " + initialPoint.x + " " + initialPoint.y + "\n");
+			System.out.println("finalPoint HOLA: " + finalPoint.x + " " + finalPoint.y + "\n");
+			Room r = new Room(initialPoint, finalPoint);
+			createRoomMatrix(initialPoint, finalPoint);
+			this.rooms.add(r);
+			number_rooms++;
+		}
+		complete_map();
+	}
+	
 	
 	
 	public Tuple<Integer, Integer> global_init() {
@@ -287,10 +304,6 @@ public class Map {
 	
 	public void set_size(int size) {
 		this.size = size;
-	}
-
-	public static void main(String[] args) {
-
 	}
 
 }
