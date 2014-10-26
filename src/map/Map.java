@@ -97,7 +97,6 @@ public class Map {
 							possibleExtensionPoints.add(new Tuple<Integer, Integer>(i-1, 0));
 						}
 					} else {
-						// System.out.println("i = " + i + "\n" + "j = " + j);
 						if (j != 0 && i != 0 && (free_room[i-1][j-1] == 1 && free_room[i][j] == 0)){
 							possibleExtensionPoints.add(new Tuple<Integer, Integer>(i-1, j-1));
 						}
@@ -106,10 +105,65 @@ public class Map {
 			}
 		}
 		
+		possibleExtensionPoints = cleanArray(possibleExtensionPoints);
+		
+		for(int i = 0; i < possibleExtensionPoints.size(); i++) {
+		    System.out.print("Posible punto: " + possibleExtensionPoints.get(i).x + " " + possibleExtensionPoints.get(i).y + "\n");
+		}
+		
 		int position_random_selected = RandUtil.RandomNumber(0, possibleExtensionPoints.size());
 		
 		return possibleExtensionPoints.get(position_random_selected);
 
+	}
+	
+	/**
+	 * Returns a tuple without the useless positions of the map. We want to get the
+	 * positions where either i or j are 0 and then the corners; the rest of the positions
+	 * are not interesting for the map generation since it would create very small rooms
+	 * @param tuple1
+	 * @return
+	 */
+	public ArrayList<Tuple<Integer, Integer>> cleanArray(ArrayList<Tuple<Integer, Integer>> arrayTuple){
+		ArrayList<Tuple<Integer, Integer>> finalArrayList = new ArrayList<>();
+		Tuple<Integer, Integer> cornerTuple = null; // Tuple in the corner
+		Tuple<Integer, Integer> leftTuple = null; // Tuple in the left
+		Tuple<Integer, Integer> rightTuple = null; // Tuple in the right
+		for (int i = 0; i < arrayTuple.size(); i++){
+			Tuple<Integer, Integer> actualTuple = arrayTuple.get(i);
+			if (i == 0){
+				leftTuple = arrayTuple.get(i);
+				cornerTuple = arrayTuple.get(i);
+				rightTuple = arrayTuple.get(i);
+			} else{
+				// If it is the point most on the left
+				if (actualTuple.x < leftTuple.x){
+					leftTuple = actualTuple;
+				}
+				// If it is the point most of the right and down
+				if (actualTuple.y >= cornerTuple.y && actualTuple.x > cornerTuple.x){
+					cornerTuple = actualTuple;
+				}
+				
+				if(actualTuple.y <= rightTuple.y && actualTuple.x > rightTuple.x){
+					rightTuple = actualTuple;
+				}
+			}
+		}
+		
+		// We check if there are tuples that are the same before
+		// putting them into the array
+		finalArrayList.add(leftTuple);
+		if (leftTuple.x != rightTuple.x || leftTuple.y != rightTuple.y){
+			finalArrayList.add(rightTuple);
+		}
+		if (leftTuple.x != cornerTuple.x || leftTuple.y != cornerTuple.y){
+			if (rightTuple.x != cornerTuple.x || rightTuple.y != cornerTuple.y){
+				finalArrayList.add(cornerTuple);
+			}
+		}
+		
+		return finalArrayList;
 	}
 	
 	
@@ -141,6 +195,10 @@ public class Map {
 			lowestY = tuple2.y;
 			highestY = tuple1.y;
 		}
+		System.out.println("lowestY: " + lowestY + "\n");
+		System.out.println("lowestX: " + lowestX + "\n");
+		System.out.println("highestX: " + highestX + "\n");
+		System.out.println("highestY: " + highestY + "\n");
 		for (int i = lowestX; i < highestX; i++){
 			for (int j = lowestY; j < highestY; j ++){
 				free_room[i][j] = 1;
@@ -162,12 +220,13 @@ public class Map {
 		for (int i = initial_x; i < real_x; i++){
 			for (int j = initial_y; j < real_y; j++){
 				if (free_room[i][j] == 1){
-					Tuple<Integer, Integer> free_x_and_y = new Tuple<Integer, Integer>(i - 1, j - 1);
+					Tuple<Integer, Integer> free_x_and_y = new Tuple<Integer, Integer>(i - initial_x - 1, j - initial_y - 1);
 					// System.out.println("final_tuple!!!!!: " + free_x_and_y.x + " " + free_x_and_y.y);
 					return free_x_and_y;
 				}
 			}
 		}
+		System.out.println("ENTRO AQUÍ\n");
 		return new Tuple<Integer, Integer>(real_x, real_y);
 	}
 	
@@ -182,13 +241,8 @@ public class Map {
 		int free_room_space_x = freeRoomSpace.x;
 		int free_room_space_y = freeRoomSpace.y;
 		if (remainingRooms == 1){
-			int actual_x = originalPoint.x + free_room_space_x;
-			int actual_y = originalPoint.y + free_room_space_y;
-			System.out.println("free_room_space_x: " + free_room_space_x + "\n");
-			System.out.println("free_room_space_y: " + free_room_space_y + "\n");
-			System.out.println("Actual_x: " + actual_x + "\n");
-			System.out.println("actual_y: " + actual_y + "\n");
-			Tuple<Integer, Integer> nextRoom = new Tuple<Integer, Integer>(actual_x, actual_y);
+			// If there's only one room left, then we cover all the space
+			Tuple<Integer, Integer> nextRoom = new Tuple<Integer, Integer>(free_room_space_x, free_room_space_y);
 			return nextRoom;
 		} else{
 			double possible_real_x = free_room_space_x/remainingRooms;
@@ -243,6 +297,7 @@ public class Map {
 					if (free_room[i][j] == 0){
 						initialPoint = new Tuple<Integer, Integer>(i, j);
 						finalPoint = nextPoint(initialPoint, 1);
+						System.out.println("Punto 49 44: " + free_room[80][80] + "\n");
 //						System.out.println("InitialPoint: " + initialPoint.x + " " + initialPoint.y + "\n");
 //						System.out.println("FinalPoint: " + finalPoint.x + " " + finalPoint.y + "\n");
 						createRoomMatrix(initialPoint, finalPoint);
@@ -264,16 +319,16 @@ public class Map {
 		Tuple<Integer, Integer> initialPoint;
 		Tuple<Integer, Integer> finalPoint;
 		// int total_number_rooms = this.obtainNumberRooms();
-		int total_number_rooms = 1;
+		int total_number_rooms = 2;
 		
 		while (number_rooms < total_number_rooms){
-			System.out.println("WEEEEEI");
 			initialPoint = this.obtainAvailableRoom();
 			finalPoint = nextPoint(initialPoint, total_number_rooms - number_rooms);
 			System.out.println("InitialPoint HOLA: " + initialPoint.x + " " + initialPoint.y + "\n");
 			System.out.println("finalPoint HOLA: " + finalPoint.x + " " + finalPoint.y + "\n");
 			Room r = new Room(initialPoint, finalPoint);
 			createRoomMatrix(initialPoint, finalPoint);
+			System.out.println("Free room: " + free_room[49][49] + "\n");
 			this.rooms.add(r);
 			number_rooms++;
 		}
