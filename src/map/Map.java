@@ -221,14 +221,12 @@ public class Map {
 			for (int j = initial_y; j < real_y; j++){
 				if (free_room[i][j] == 1){
 					System.out.println("i = " + i + " j = " + j + " free_room[i][j] = " + free_room[i][j] + "\n");
-					//System.out.println("This is one!!");
 					Tuple<Integer, Integer> free_x_and_y = new Tuple<Integer, Integer>(i - initial_x - 1, j - initial_y - 1);
 					// System.out.println("final_tuple!!!!!: " + free_x_and_y.x + " " + free_x_and_y.y);
 					return free_x_and_y;
 				}
 			}
 		}
-		System.out.println("ENTRO AQUÍ\n");
 		return new Tuple<Integer, Integer>(real_x, real_y);
 	}
 	
@@ -321,8 +319,8 @@ public class Map {
 		int number_rooms = 0;
 		Tuple<Integer, Integer> initialPoint;
 		Tuple<Integer, Integer> finalPoint;
-		// int total_number_rooms = this.obtainNumberRooms();
-		int total_number_rooms = 3;
+		//int total_number_rooms = this.obtainNumberRooms();
+		int total_number_rooms = 4;
 		
 		while (number_rooms < total_number_rooms){
 			System.out.println("This is the room number: " + (number_rooms + 1));
