@@ -12,8 +12,8 @@ public class ActiveCharacterTest {
 
 	@Test
 	public void test() {
-		ActiveCharacter attacker = new ActiveCharacter("", "", true, null, null, null, 40, 10, 100, 50);
-		ActiveCharacter defender = new ActiveCharacter("", "", true, null, null, null, 40, 10, 100, 100);
+		ActiveCharacter attacker = new ActiveCharacter("", "", "", null, null, null, 40, 10, 100, 50, 100, 100, null, null);
+		ActiveCharacter defender = new ActiveCharacter("", "", "", null, null, null, 40, 10, 100, 100, 100, 100, null, null);
 		if (attacker.attack(defender)){
 			assertEquals(defender.getLife(), 70);
 		}
