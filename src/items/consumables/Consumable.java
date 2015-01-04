@@ -1,6 +1,7 @@
 package items.consumables;
 
 import items.Item;
+import characters.Character;
 
 public abstract class Consumable extends Item {
 	

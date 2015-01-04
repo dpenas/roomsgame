@@ -1,6 +1,7 @@
 package items.wereables;
 
 import items.Item;
+import characters.Character;
 
 public abstract class Wereable extends Item {
 	

@@ -1,21 +1,25 @@
 package items.wereables;
 
+import java.util.ArrayList;
+
 import items.ItemEnumerate;
+import items.ItemEnumerate.ArmorType;
+import characters.Character;
 
-public abstract class WereableArmor extends Wereable {
+public class WereableArmor extends Wereable {
 
-	private ItemEnumerate.ArmorType armorType;
+	private ArrayList<ItemEnumerate.ArmorType> armorType;
 	private int defense;
 	
 	public WereableArmor(String description, String gender, int weight,
-			int space, ItemEnumerate.ArmorType armorType, int durability,
+			int space, ArrayList<ItemEnumerate.ArmorType> armorType, int durability,
 			Character character, int defense) {
 		super(description, gender, weight, space, durability, character);
 		this.armorType = armorType;
 		this.defense = defense;
 	}
 	
-	public ItemEnumerate.ArmorType getArmorType(){
+	public ArrayList<ArmorType> getArmorType(){
 		return armorType;
 	}
 	

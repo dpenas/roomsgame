@@ -1,5 +1,7 @@
 package items;
 
+import characters.Character;
+
 public abstract class Item {
 	
 	private String description;
@@ -33,8 +35,12 @@ public abstract class Item {
 		return space;
 	}
 	
-	public int getCharacter() {
+	public Character getCharacter() {
 		return character;
+	}
+	
+	public void setCharacter(Character character){
+		this.character = character;
 	}
 
 }

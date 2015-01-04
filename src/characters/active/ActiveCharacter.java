@@ -7,10 +7,10 @@ import map.Room;
 import characters.Character;
 import util.RandUtil;
 import util.Tuple;
-import items.wereables.Wereable;
 import items.wereables.WereableWeapon;
 import items.wereables.WereableArmor;
 import items.ItemEnumerate;
+import items.ItemEnumerate.ArmorType;
 import items.ItemEnumerate.WeaponType;
 
 /**
@@ -28,20 +28,23 @@ public class ActiveCharacter extends Character {
 	private int defense;
 	private int life;
 	private int luck;
+	private int inventorySpace;
 	private ArrayList<WereableWeapon> weaponsEquipped;
 	private ArrayList<WereableArmor> armorsEquipped;
 
 	public ActiveCharacter(String name, String description, String gender,
 			Map map, Room room, Tuple<Integer, Integer> position, int damage,
 			int defense, int life, int luck, int weight, int length, ArrayList<WereableWeapon> weaponsEquipped,
-			ArrayList<WereableArmor> armorsEquipped) {
-		super(name, description, gender, map, room, position, weight, length);
+			ArrayList<WereableArmor> armorsEquipped, int inventorySpace, int carryWeight,
+			int actualCarryWeight) {
+		super(name, description, gender, map, room, position, weight, length, carryWeight, actualCarryWeight);
 		this.damage = damage;
 		this.defense = defense;
 		this.life = life;
 		this.luck = luck;
 		this.weaponsEquipped = weaponsEquipped;
 		this.armorsEquipped = armorsEquipped;
+		this.inventorySpace = inventorySpace;
 	}
 
 	public boolean attack(ActiveCharacter defender){
@@ -64,10 +67,8 @@ public class ActiveCharacter extends Character {
 		}
 		
 		for (WereableWeapon w: weaponsEquipped){
-			for (ItemEnumerate.WeaponType a: availableSlots){
-				if (w.getWeaponType() == a){
-					availableSlots.remove(a);
-				}
+			for (WeaponType a: w.getWeaponType()){
+				availableSlots.remove(a);
 			}
 		}
 		return availableSlots;
@@ -79,15 +80,41 @@ public class ActiveCharacter extends Character {
 		for (ItemEnumerate.ArmorType armorType : ItemEnumerate.ArmorType.values()){
 			availableSlots.add(armorType);
 		}
-		
-		for (WereableArmor w: armorsEquipped){
-			for (ItemEnumerate.ArmorType a: availableSlots){
-				if (w.getArmorType() == a){
-					availableSlots.remove(a);
-				}
+		for (WereableArmor a: this.getArmorsEquipped()){
+			for (ArmorType i: a.getArmorType()){
+				availableSlots.remove(i);
 			}
 		}
+		
 		return availableSlots;
+	}
+	
+	public boolean equipWeapon(WereableWeapon weapon){
+		ArrayList<WeaponType> freeSlots = new ArrayList<WeaponType>(this.getFreeWeaponSlots());
+		ArrayList<WeaponType> weaponType = weapon.getWeaponType();
+		if (freeSlots.containsAll(weaponType)){
+			if ((this.getCarryWeight() >= weapon.getWeight() + this.getActualCarryWeight() )){
+				this.setActualCarryWeight(this.getActualCarryWeight() + weapon.getWeight());
+				this.weaponsEquipped.add(weapon);
+				weapon.setCharacter(this);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean equipArmor(WereableArmor armor){
+		ArrayList<ArmorType> freeSlots = new ArrayList<ArmorType>(this.getFreeArmorSlots());
+		ArrayList<ArmorType> armorType = armor.getArmorType();
+		if (freeSlots.containsAll(armorType)){
+			if ((this.getCarryWeight() >= armor.getWeight() + this.getActualCarryWeight() )){
+				this.setActualCarryWeight(this.getActualCarryWeight() + armor.getWeight());
+				this.armorsEquipped.add(armor);
+				armor.setCharacter(this);
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public int getDamage() {
@@ -124,31 +151,25 @@ public class ActiveCharacter extends Character {
 	public ArrayList<WereableWeapon> getWeaponsEquipped(){
 		return weaponsEquipped;
 	}
-	
-	public ArrayList<WereableArmor> getArmorEquipped(){
+
+	public int getInventorySpace() {
+		return inventorySpace;
+	}
+
+	public void setInventorySpace(int inventorySpace) {
+		this.inventorySpace = inventorySpace;
+	}
+
+	public ArrayList<WereableArmor> getArmorsEquipped() {
 		return armorsEquipped;
 	}
-	
-	public boolean equipWeapon(WereableWeapon weapon){
-		// TODO: Finish this. Probably we need to change the Type in WereableWeapon 
-		// to an ArrayList, so we that an item could get multiple spaces.
-		ArrayList<WeaponType> freeSlots = new ArrayList<WeaponType>(this.getFreeWeaponSlots());
-		WeaponType weaponType = weapon.getWeaponType();
-		for (WeaponType a: freeSlots){
-			if (weaponType == a){
-				
-				
-				return true;
-			}
-			
-		}
-		return false;
+
+	public void setArmorsEquipped(ArrayList<WereableArmor> armorsEquipped) {
+		this.armorsEquipped = armorsEquipped;
 	}
-	
-	public boolean equipArmor(){
-		return false;
+
+	public void setWeaponsEquipped(ArrayList<WereableWeapon> weaponsEquipped) {
+		this.weaponsEquipped = weaponsEquipped;
 	}
-	
-	
 
 }

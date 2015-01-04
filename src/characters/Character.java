@@ -11,7 +11,9 @@ public abstract class Character {
 	private String name;
 	private String description;
 	private String gender;
-	private int weight;
+	private int weight; // Character's weight
+	private int carryWeight; // Max weight we can carry
+	private int actualCarryWeight;
 	private int length;
 	private Map map;
 	private Room room;
@@ -19,7 +21,8 @@ public abstract class Character {
 	private ArrayList<Item> inventory;
 	
 	public Character(String name, String description, String gender, Map map,
-			Room room, Tuple<Integer, Integer> position, int weight, int length) {
+			Room room, Tuple<Integer, Integer> position, int weight, int length, int carryWeight,
+			int actualCarryWeight) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -29,6 +32,8 @@ public abstract class Character {
 		this.position = position;
 		this.weight = weight;
 		this.length = length;
+		this.carryWeight = carryWeight;
+		this.actualCarryWeight = actualCarryWeight;
 	}
 
 	public String getName() {
@@ -73,6 +78,54 @@ public abstract class Character {
 	
 	public int getWeight(){
 		return weight;
+	}
+	
+	public int getCarryWeight(){
+		return carryWeight;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public int getActualCarryWeight() {
+		return actualCarryWeight;
+	}
+
+	public void setActualCarryWeight(int actualCarryWeight) {
+		this.actualCarryWeight = actualCarryWeight;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
+	public void setCarryWeight(int carryWeight) {
+		this.carryWeight = carryWeight;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+
+	public void setMap(Map map) {
+		this.map = map;
+	}
+
+	public void setInventory(ArrayList<Item> inventory) {
+		this.inventory = inventory;
 	}
 
 }
