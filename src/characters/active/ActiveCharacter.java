@@ -9,6 +9,7 @@ import util.RandUtil;
 import util.Tuple;
 import items.wereables.WereableWeapon;
 import items.wereables.WereableArmor;
+import items.Item;
 import items.ItemEnumerate;
 import items.ItemEnumerate.ArmorType;
 import items.ItemEnumerate.WeaponType;
@@ -36,8 +37,8 @@ public class ActiveCharacter extends Character {
 			Map map, Room room, Tuple<Integer, Integer> position, int damage,
 			int defense, int life, int luck, int weight, int length, ArrayList<WereableWeapon> weaponsEquipped,
 			ArrayList<WereableArmor> armorsEquipped, int inventorySpace, int carryWeight,
-			int actualCarryWeight) {
-		super(name, description, gender, map, room, position, weight, length, carryWeight, actualCarryWeight);
+			int actualCarryWeight, ArrayList<Item> inventory) {
+		super(name, description, gender, map, room, position, weight, length, carryWeight, actualCarryWeight, inventory);
 		this.damage = damage;
 		this.defense = defense;
 		this.life = life;
@@ -117,9 +118,38 @@ public class ActiveCharacter extends Character {
 		return false;
 	}
 	
+	/**
+	 * The armor will go to the inventory if there's enough space
+	 * @param armor
+	 * @return
+	 */
+	
+	public boolean unEquipArmor(WereableArmor armor){
+		if (armor.getCharacter().equals(this) && this.getActualCarryWeight() + armor.getWeight() <= this.getCarryWeight()){
+			this.getArmorsEquipped().remove(armor);
+			this.getInventory().add(armor);
+			this.setActualCarryWeight(this.getActualCarryWeight() + armor.getWeight());
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean unEquipWeapon(WereableWeapon weapon){
+		if (weapon.getCharacter().equals(this) && this.getActualCarryWeight() + weapon.getWeight() <= this.getCarryWeight()){
+			this.getWeaponsEquipped().remove(weapon);
+			this.getInventory().add(weapon);
+			this.setActualCarryWeight(this.getActualCarryWeight() + weapon.getWeight());
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public int getDamage() {
 		return damage;
 	}
+	
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}

@@ -22,7 +22,7 @@ public abstract class Character {
 	
 	public Character(String name, String description, String gender, Map map,
 			Room room, Tuple<Integer, Integer> position, int weight, int length, int carryWeight,
-			int actualCarryWeight) {
+			int actualCarryWeight, ArrayList<Item> inventory) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -34,6 +34,7 @@ public abstract class Character {
 		this.length = length;
 		this.carryWeight = carryWeight;
 		this.actualCarryWeight = actualCarryWeight;
+		this.inventory = inventory;
 	}
 
 	public String getName() {
