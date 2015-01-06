@@ -146,6 +146,24 @@ public class ActiveCharacter extends Character {
 		return false;
 	}
 	
+	public boolean throwItem(Item item){
+		if (item.getCharacter().equals(this)){
+			item.setCharacter(null);
+			item.setRoom(this.getRoom());
+			item.setPosition(this.getPosition());
+			if (this.getWeaponsEquipped().contains(item)){
+				this.getWeaponsEquipped().remove(item);
+			} else if (this.getArmorsEquipped().contains(item)){
+				this.getArmorsEquipped().remove(item);
+			} else if (this.getInventory().contains(item)){
+				this.getInventory().remove(item);
+			}
+			this.setActualCarryWeight(this.getActualCarryWeight() - item.getWeight());
+			return true;
+		}
+		return false;
+	}
+	
 	public int getDamage() {
 		return damage;
 	}

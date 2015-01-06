@@ -13,6 +13,8 @@ import items.wereables.WereableWeapon;
 
 import org.junit.Test;
 
+import util.Tuple;
+
 public class ActiveCharacterTest {
 
 	@Test
@@ -31,8 +33,9 @@ public class ActiveCharacterTest {
 	
 	@Test
 	public void testEquipItems() {
+		Tuple<Integer, Integer> position = new Tuple<Integer, Integer>(10, 2);
 		// Equip character with an armor normally
-		ActiveCharacter c1 = new ActiveCharacter("", "", "", null, null, null, 40, 
+		ActiveCharacter c1 = new ActiveCharacter("", "", "", null, null, position, 40, 
 				10, 100, 50, 100, 100, new ArrayList<WereableWeapon>(), new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>());
 		ArrayList<ItemEnumerate.ArmorType> itemTypeArmor = new ArrayList<ItemEnumerate.ArmorType>();
@@ -55,7 +58,7 @@ public class ActiveCharacterTest {
 		assertEquals(armor2.getCharacter(), null);
 		
 		// Equip character with an armor normally
-		ActiveCharacter c3 = new ActiveCharacter("", "", "", null, null, null, 40, 
+		ActiveCharacter c3 = new ActiveCharacter("", "", "", null, null, position, 40, 
 				10, 100, 50, 100, 100, new ArrayList<WereableWeapon>(), new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>());
 		ArrayList<ItemEnumerate.WeaponType> itemTypeWeapon = new ArrayList<ItemEnumerate.WeaponType>();
@@ -78,6 +81,21 @@ public class ActiveCharacterTest {
 		c3.unEquipWeapon(weapon1);
 		assertEquals(c3.getInventory().get(0), weapon1);
 		assertEquals(c3.getWeaponsEquipped().contains(weapon1), false);
+		
+		// Equip weapon again
+		c3.equipWeapon(weapon1);
+		assertEquals(c3.getWeaponsEquipped().get(0), weapon1);
+		c3.throwItem(weapon1);
+		assertEquals(c3.getWeaponsEquipped().contains(weapon1), false);
+		assertEquals(weapon1.getPosition(), position);
+		
+		// Equip armor again
+		
+		c1.equipArmor(armor1);
+		assertEquals(c1.getArmorsEquipped().get(0), armor1);
+		c1.throwItem(armor1);
+		assertEquals(c1.getArmorsEquipped().contains(armor1), false);
+		assertEquals(armor1.getPosition(), c1.getPosition());
 	}
 	
 }
