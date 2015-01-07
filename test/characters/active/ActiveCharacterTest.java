@@ -20,9 +20,9 @@ public class ActiveCharacterTest {
 	@Test
 	public void testSimpleAttack() {
 		ActiveCharacter attacker = new ActiveCharacter("", "", "", null, null, null, 40, 
-				10, 100, 50, 100, 100, null, null, 0, 0, 0, new ArrayList<Item>());
+				10, 100, 50, 100, 100, null, null, 0, 0, 0, new ArrayList<Item>(), 0);
 		ActiveCharacter defender = new ActiveCharacter("", "", "", null, null, null, 40, 
-				10, 100, 100, 100, 100, null, null, 0, 0, 0, new ArrayList<Item>());
+				10, 100, 100, 100, 100, null, null, 0, 0, 0, new ArrayList<Item>(), 0);
 		if (attacker.attack(defender)){
 			assertEquals(defender.getLife(), 70);
 		}
@@ -37,7 +37,7 @@ public class ActiveCharacterTest {
 		// Equip character with an armor normally
 		ActiveCharacter c1 = new ActiveCharacter("", "", "", null, null, position, 40, 
 				10, 100, 50, 100, 100, new ArrayList<WereableWeapon>(), new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>());
+				new ArrayList<Item>(), 0);
 		ArrayList<ItemEnumerate.ArmorType> itemTypeArmor = new ArrayList<ItemEnumerate.ArmorType>();
 		itemTypeArmor.add(ArmorType.CHEST);
 		WereableArmor armor1 = new WereableArmor("", "", 10, 0, itemTypeArmor, 0, null, 10, null, null, null);
@@ -49,10 +49,28 @@ public class ActiveCharacterTest {
 		c1.equipArmor(armor3);
 		assertEquals(armor3.getCharacter(), null);
 		
+		// Checking space
+		ArrayList<ItemEnumerate.WeaponType> itemTypeWeapon = new ArrayList<ItemEnumerate.WeaponType>();
+		ActiveCharacter c5 = new ActiveCharacter("", "", "", null, null, position, 40, 
+				10, 100, 50, 100, 100, new ArrayList<WereableWeapon>(), new ArrayList<WereableArmor>(), 100, 100, 0,
+				new ArrayList<Item>(), 0);
+		WereableArmor armor4 = new WereableArmor("", "", 10, 20, itemTypeArmor, 0, null, 10, null, null, null);
+		c5.equipArmor(armor4);
+		assertEquals(armor4.getCharacter(), c5);
+		c5.equipArmor(armor4);
+		WereableWeapon weapon5 = new WereableWeapon("", "", 10, 95, 0, null, itemTypeWeapon, null, null, null);
+		c5.equipWeapon(weapon5);
+		assertEquals(weapon5.getCharacter(), null);
+		c5.throwItem(armor4);
+		c5.equipWeapon(weapon5);
+		assertEquals(weapon5.getCharacter(), c5);
+		assertEquals(armor4.getCharacter(), null);
+		
+		
 		// Equip character with an armor when there's not enough weight available
 		ActiveCharacter c2 = new ActiveCharacter("", "", "", null, null, null, 40, 
 				10, 100, 50, 100, 100, new ArrayList<WereableWeapon>(), new ArrayList<WereableArmor>(), 100, 100, 95,
-				new ArrayList<Item>());
+				new ArrayList<Item>(), 0);
 		WereableArmor armor2 = new WereableArmor("", "", 10, 0, itemTypeArmor, 0, null, 10, null, null, null);
 		c2.equipArmor(armor2);
 		assertEquals(armor2.getCharacter(), null);
@@ -60,8 +78,7 @@ public class ActiveCharacterTest {
 		// Equip character with an armor normally
 		ActiveCharacter c3 = new ActiveCharacter("", "", "", null, null, position, 40, 
 				10, 100, 50, 100, 100, new ArrayList<WereableWeapon>(), new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>());
-		ArrayList<ItemEnumerate.WeaponType> itemTypeWeapon = new ArrayList<ItemEnumerate.WeaponType>();
+				new ArrayList<Item>(), 0);
 		itemTypeWeapon.add(WeaponType.LEFTHAND);
 		WereableWeapon weapon1 = new WereableWeapon("", "", 10, 0, 0, null, itemTypeWeapon, null, null, null);
 		c3.equipWeapon(weapon1);

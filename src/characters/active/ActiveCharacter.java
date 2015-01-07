@@ -30,6 +30,7 @@ public class ActiveCharacter extends Character {
 	private int life;
 	private int luck;
 	private int inventorySpace;
+	private int actualInventorySpace;
 	private ArrayList<WereableWeapon> weaponsEquipped;
 	private ArrayList<WereableArmor> armorsEquipped;
 
@@ -37,7 +38,7 @@ public class ActiveCharacter extends Character {
 			Map map, Room room, Tuple<Integer, Integer> position, int damage,
 			int defense, int life, int luck, int weight, int length, ArrayList<WereableWeapon> weaponsEquipped,
 			ArrayList<WereableArmor> armorsEquipped, int inventorySpace, int carryWeight,
-			int actualCarryWeight, ArrayList<Item> inventory) {
+			int actualCarryWeight, ArrayList<Item> inventory, int actualInventorySpace) {
 		super(name, description, gender, map, room, position, weight, length, carryWeight, actualCarryWeight, inventory);
 		this.damage = damage;
 		this.defense = defense;
@@ -46,6 +47,7 @@ public class ActiveCharacter extends Character {
 		this.weaponsEquipped = weaponsEquipped;
 		this.armorsEquipped = armorsEquipped;
 		this.inventorySpace = inventorySpace;
+		this.actualInventorySpace = actualInventorySpace;
 	}
 
 	public boolean attack(ActiveCharacter defender){
@@ -95,10 +97,13 @@ public class ActiveCharacter extends Character {
 		ArrayList<WeaponType> weaponType = weapon.getWeaponType();
 		if (freeSlots.containsAll(weaponType)){
 			if ((this.getCarryWeight() >= weapon.getWeight() + this.getActualCarryWeight() )){
-				this.setActualCarryWeight(this.getActualCarryWeight() + weapon.getWeight());
-				this.weaponsEquipped.add(weapon);
-				weapon.setCharacter(this);
-				return true;
+				if (this.getInventorySpace() >= this.getActualInventorySpace() + weapon.getSpace()){
+					this.setActualCarryWeight(this.getActualCarryWeight() + weapon.getWeight());
+					this.setInventorySpace(this.getActualInventorySpace() + weapon.getSpace());
+					this.weaponsEquipped.add(weapon);
+					weapon.setCharacter(this);
+					return true;
+				}
 			}
 		}
 		return false;
@@ -109,10 +114,13 @@ public class ActiveCharacter extends Character {
 		ArrayList<ArmorType> armorType = armor.getArmorType();
 		if (freeSlots.containsAll(armorType)){
 			if ((this.getCarryWeight() >= armor.getWeight() + this.getActualCarryWeight() )){
-				this.setActualCarryWeight(this.getActualCarryWeight() + armor.getWeight());
-				this.armorsEquipped.add(armor);
-				armor.setCharacter(this);
-				return true;
+				if (this.getInventorySpace() >= this.getActualInventorySpace() + armor.getSpace()){
+					this.setActualCarryWeight(this.getActualCarryWeight() + armor.getWeight());
+					this.setActualInventorySpace(this.getActualInventorySpace() + armor.getSpace());
+					this.armorsEquipped.add(armor);
+					armor.setCharacter(this);
+					return true;
+				}
 			}
 		}
 		return false;
@@ -125,10 +133,12 @@ public class ActiveCharacter extends Character {
 	 */
 	
 	public boolean unEquipArmor(WereableArmor armor){
-		if (armor.getCharacter().equals(this) && this.getActualCarryWeight() + armor.getWeight() <= this.getCarryWeight()){
+		if (armor.getCharacter().equals(this) && this.getActualCarryWeight() + armor.getWeight() <= this.getCarryWeight()
+				&& this.getInventorySpace() >= this.getActualInventorySpace() + armor.getSpace()){
 			this.getArmorsEquipped().remove(armor);
 			this.getInventory().add(armor);
-			this.setActualCarryWeight(this.getActualCarryWeight() + armor.getWeight());
+			this.setActualInventorySpace(this.getActualInventorySpace() - armor.getSpace());
+			this.setActualCarryWeight(this.getActualCarryWeight() - armor.getWeight());
 			return true;
 		}
 		
@@ -136,10 +146,12 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public boolean unEquipWeapon(WereableWeapon weapon){
-		if (weapon.getCharacter().equals(this) && this.getActualCarryWeight() + weapon.getWeight() <= this.getCarryWeight()){
+		if (weapon.getCharacter().equals(this) && this.getActualCarryWeight() + weapon.getWeight() <= this.getCarryWeight()
+				&& this.getInventorySpace() >= this.getActualInventorySpace() + weapon.getSpace()){
 			this.getWeaponsEquipped().remove(weapon);
 			this.getInventory().add(weapon);
-			this.setActualCarryWeight(this.getActualCarryWeight() + weapon.getWeight());
+			this.setActualInventorySpace(this.getActualInventorySpace() - weapon.getSpace());
+			this.setActualCarryWeight(this.getActualCarryWeight() - weapon.getWeight());
 			return true;
 		}
 		
@@ -159,6 +171,7 @@ public class ActiveCharacter extends Character {
 				this.getInventory().remove(item);
 			}
 			this.setActualCarryWeight(this.getActualCarryWeight() - item.getWeight());
+			this.setActualInventorySpace(this.getActualInventorySpace() - item.getSpace());
 			return true;
 		}
 		return false;
@@ -218,6 +231,14 @@ public class ActiveCharacter extends Character {
 
 	public void setWeaponsEquipped(ArrayList<WereableWeapon> weaponsEquipped) {
 		this.weaponsEquipped = weaponsEquipped;
+	}
+	
+	public int getActualInventorySpace() {
+		return actualInventorySpace;
+	}
+
+	public void setActualInventorySpace(int actualInventorySpace) {
+		this.actualInventorySpace = actualInventorySpace;
 	}
 
 }
