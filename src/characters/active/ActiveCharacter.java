@@ -55,7 +55,7 @@ public class ActiveCharacter extends Character {
 	public int getAttackFromWeapons(ActiveCharacter character){
 		int damage = 0;
 		for (WereableWeapon w: weaponsEquipped){
-			damage += w.getDamage();
+			damage += w.getAttack();
 		}
 		return damage;
 	}
@@ -71,7 +71,7 @@ public class ActiveCharacter extends Character {
 	public int getFullAttackNumbers(ActiveCharacter attacker, ActiveCharacter defender){
 		int randNumber = RandUtil.RandomNumber(0, 100);
 		if (attacker.getLuck() >= randNumber && defender.evasion < randNumber){
-			int damage = this.getAttackFromWeapons(attacker) - this.getDefenseFromArmor(defender)
+			int damage = this.getAttackFromWeapons(attacker) - this.getDefenseFromArmor(defender);
 			if (damage > 0){
 				return damage;
 			}
@@ -92,7 +92,7 @@ public class ActiveCharacter extends Character {
 				w.setDurability(w.getDurability() - w.getErosion());
 			}
 		}
-		for (WereableArmor w: defender.getArmorsEquipped){
+		for (WereableArmor w: defender.getArmorsEquipped()){
 			randNumber = RandUtil.RandomNumber(0, 100);
 			if (this.getLuck() < randNumber){
 				w.setDurability(w.getDurability() - w.getErosion());
