@@ -6,7 +6,7 @@ import map.Room;
 import characters.Character;
 
 public abstract class Item {
-	
+
 	private String description;
 	private String gender;
 	private int weight;
@@ -15,9 +15,10 @@ public abstract class Item {
 	private Map map;
 	private Room room;
 	private Tuple<Integer, Integer> position;
-	
-	public Item(String description, String gender, int weight, int space, Character character,
-			Map map, Room room, Tuple<Integer, Integer> position) {
+
+	public Item(String description, String gender, int weight, int space,
+			Character character, Map map, Room room,
+			Tuple<Integer, Integer> position) {
 		super();
 		this.description = description;
 		this.gender = gender;
@@ -28,28 +29,28 @@ public abstract class Item {
 		this.room = room;
 		this.position = position;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public String getGender() {
 		return gender;
 	}
-	
+
 	public int getWeight() {
 		return weight;
 	}
-	
+
 	public int getSpace() {
 		return space;
 	}
-	
+
 	public Character getCharacter() {
 		return character;
 	}
-	
-	public void setCharacter(Character character){
+
+	public void setCharacter(Character character) {
 		this.character = character;
 	}
 

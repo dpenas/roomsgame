@@ -39,7 +39,7 @@ public class ActiveCharacter extends Character {
 			Map map, Room room, Tuple<Integer, Integer> position, int damage,
 			int defense, int life, int luck, int weight, int length, ArrayList<WereableWeapon> weaponsEquipped,
 			ArrayList<WereableArmor> armorsEquipped, int inventorySpace, int carryWeight,
-			int actualCarryWeight, ArrayList<Item> inventory, int actualInventorySpace) {
+			int actualCarryWeight, ArrayList<Item> inventory, int actualInventorySpace, int evasion) {
 		super(name, description, gender, map, room, position, weight, length, carryWeight, actualCarryWeight, inventory);
 		this.damage = damage;
 		this.defense = defense;
@@ -54,23 +54,35 @@ public class ActiveCharacter extends Character {
 
 	public int getAttackFromWeapons(ActiveCharacter character){
 		int damage = 0;
-		for (WereableWeapon w: weaponsEquipped){
-			damage += w.getAttack();
+		for (WereableWeapon w: character.getWeaponsEquipped()){
+			if (w.getDurability() > 0){
+				int randNumber = RandUtil.RandomNumber(0, 100);
+				if (character.getLuck() <= randNumber){
+					w.setDurability(w.getDurability() - w.getErosion());
+				}
+				damage += w.getAttack();
+			}
 		}
 		return damage;
 	}
 
 	public int getDefenseFromArmor(ActiveCharacter character){
 		int defense = 0;
-		for (WereableArmor w: armorsEquipped){
-			defense += w.getDefense();
+		for (WereableArmor w: character.getArmorsEquipped()){
+			if (w.getDurability() > 0){
+				int randNumber = RandUtil.RandomNumber(0, 100);
+				if (character.getLuck() <= randNumber){
+					w.setDurability(w.getDurability() - w.getErosion());
+				}
+				defense += w.getDefense();
+			}
 		}
 		return defense;
 	}
 
 	public int getFullAttackNumbers(ActiveCharacter attacker, ActiveCharacter defender){
 		int randNumber = RandUtil.RandomNumber(0, 100);
-		if (attacker.getLuck() >= randNumber && defender.evasion < randNumber){
+		if (attacker.getLuck() >= randNumber && defender.evasion <= randNumber){
 			int damage = this.getAttackFromWeapons(attacker) - this.getDefenseFromArmor(defender);
 			if (damage > 0){
 				return damage;
@@ -85,19 +97,6 @@ public class ActiveCharacter extends Character {
 		int defenderLife = defender.getLife() - damageDone;
 		defenderLife = defenderLife < 0 ? 0 : defenderLife;
 		defender.setLife(defenderLife);
-		int randNumber;
-		for (WereableWeapon w: this.weaponsEquipped){
-			randNumber = RandUtil.RandomNumber(0, 100);
-			if (this.getLuck() < randNumber){
-				w.setDurability(w.getDurability() - w.getErosion());
-			}
-		}
-		for (WereableArmor w: defender.getArmorsEquipped()){
-			randNumber = RandUtil.RandomNumber(0, 100);
-			if (this.getLuck() < randNumber){
-				w.setDurability(w.getDurability() - w.getErosion());
-			}
-		}
 		return true;
 	}
 	
