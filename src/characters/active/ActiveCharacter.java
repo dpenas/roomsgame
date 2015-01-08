@@ -79,8 +79,9 @@ public class ActiveCharacter extends Character {
 		return 0;
 	}
 
-	public void attack(ActiveCharacter defender){
+	public boolean attack(ActiveCharacter defender){
 		int damageDone = this.getFullAttackNumbers(this, defender);
+		if (damageDone <= 0) return false;
 		int defenderLife = defender.getLife() - damageDone;
 		defenderLife = defenderLife < 0 ? 0 : defenderLife;
 		defender.setLife(defenderLife);
@@ -97,6 +98,7 @@ public class ActiveCharacter extends Character {
 				w.setDurability(w.getDurability() - w.getErosion());
 			}
 		}
+		return true;
 	}
 	
 	public ArrayList<ItemEnumerate.WeaponType> getFreeWeaponSlots(){
