@@ -31,6 +31,7 @@ public class ActiveCharacter extends Character {
 	private int luck;
 	private int inventorySpace;
 	private int actualInventorySpace;
+	private int evasion;
 	private ArrayList<WereableWeapon> weaponsEquipped;
 	private ArrayList<WereableArmor> armorsEquipped;
 
@@ -43,22 +44,59 @@ public class ActiveCharacter extends Character {
 		this.damage = damage;
 		this.defense = defense;
 		this.life = life;
-		this.luck = luck;
+		this.luck = luck; // number between 0 and 100
 		this.weaponsEquipped = weaponsEquipped;
 		this.armorsEquipped = armorsEquipped;
 		this.inventorySpace = inventorySpace;
 		this.actualInventorySpace = actualInventorySpace;
+		this.evasion = evasion; // number between 0 and 100
 	}
 
-	public boolean attack(ActiveCharacter defender){
-		int randNumber = RandUtil.RandomNumber(0, 100);
-		if (this.luck >= randNumber){
-			int defenderLife = defender.getLife() - (this.getDamage() - defender.getDefense());
-			defenderLife = defenderLife < 0 ? 0 : defenderLife;
-			defender.setLife(defenderLife);
-			return true;
+	public int getAttackFromWeapons(ActiveCharacter character){
+		int damage = 0;
+		for (WereableWeapon w: weaponsEquipped){
+			damage += w.getDamage();
 		}
-		return false;
+		return damage;
+	}
+
+	public int getDefenseFromArmor(ActiveCharacter character){
+		int defense = 0;
+		for (WereableArmor w: armorsEquipped){
+			defense += w.getDefense();
+		}
+		return defense;
+	}
+
+	public int getFullAttackNumbers(ActiveCharacter attacker, ActiveCharacter defender){
+		int randNumber = RandUtil.RandomNumber(0, 100);
+		if (attacker.getLuck() >= randNumber && defender.evasion < randNumber){
+			int damage = this.getAttackFromWeapons(attacker) - this.getDefenseFromArmor(defender)
+			if (damage > 0){
+				return damage;
+			}
+		}
+		return 0;
+	}
+
+	public void attack(ActiveCharacter defender){
+		int damageDone = this.getFullAttackNumbers(this, defender);
+		int defenderLife = defender.getLife() - damageDone;
+		defenderLife = defenderLife < 0 ? 0 : defenderLife;
+		defender.setLife(defenderLife);
+		int randNumber;
+		for (WereableWeapon w: this.weaponsEquipped){
+			randNumber = RandUtil.RandomNumber(0, 100);
+			if (this.getLuck() < randNumber){
+				w.setDurability(w.getDurability() - w.getErosion());
+			}
+		}
+		for (WereableArmor w: defender.getArmorsEquipped){
+			randNumber = RandUtil.RandomNumber(0, 100);
+			if (this.getLuck() < randNumber){
+				w.setDurability(w.getDurability() - w.getErosion());
+			}
+		}
 	}
 	
 	public ArrayList<ItemEnumerate.WeaponType> getFreeWeaponSlots(){
@@ -239,6 +277,14 @@ public class ActiveCharacter extends Character {
 
 	public void setActualInventorySpace(int actualInventorySpace) {
 		this.actualInventorySpace = actualInventorySpace;
+	}
+
+	public int getEvasion(){
+		return this.evasion;
+	}
+
+	public void setEvasion(int evasion){
+		this.evasion = evasion;
 	}
 
 }

@@ -31,4 +31,12 @@ public abstract class Wereable extends Item {
 		return erosion;
 	}
 
+	public void setDurability(int durability){
+		this.durability = durability;
+	}
+
+	public void setErosion(int erosion){
+		this.erosion = erosion;
+	}
+
 }
