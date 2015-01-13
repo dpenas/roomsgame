@@ -134,11 +134,16 @@ public class ActiveCharacter extends Character {
 	public boolean equipWeapon(WereableWeapon weapon){
 		ArrayList<WeaponType> freeSlots = new ArrayList<WeaponType>(this.getFreeWeaponSlots());
 		ArrayList<WeaponType> weaponType = weapon.getWeaponType();
-		if (freeSlots.containsAll(weaponType)){
+		if (freeSlots.containsAll(weaponType) || (weapon.getIsSingleHand() && !freeSlots.isEmpty())){
 			if ((this.getCarryWeight() >= weapon.getWeight() + this.getActualCarryWeight() )){
 				if (this.getInventorySpace() >= this.getActualInventorySpace() + weapon.getSpace()){
 					this.setActualCarryWeight(this.getActualCarryWeight() + weapon.getWeight());
 					this.setInventorySpace(this.getActualInventorySpace() + weapon.getSpace());
+					if (weapon.getIsSingleHand()){
+						ArrayList<WeaponType> type = new ArrayList<WeaponType>();
+						type.add(freeSlots.get(0));
+						weapon.setWeaponType(type);
+					}
 					this.weaponsEquipped.add(weapon);
 					weapon.setCharacter(this);
 					return true;
@@ -187,6 +192,9 @@ public class ActiveCharacter extends Character {
 	public boolean unEquipWeapon(WereableWeapon weapon){
 		if (weapon.getCharacter().equals(this) && this.getActualCarryWeight() + weapon.getWeight() <= this.getCarryWeight()
 				&& this.getInventorySpace() >= this.getActualInventorySpace() + weapon.getSpace()){
+			if (weapon.getIsSingleHand()){
+				weapon.setWeaponType(new ArrayList<ItemEnumerate.WeaponType>());
+			}
 			this.getWeaponsEquipped().remove(weapon);
 			this.getInventory().add(weapon);
 			this.setActualInventorySpace(this.getActualInventorySpace() - weapon.getSpace());
@@ -214,6 +222,19 @@ public class ActiveCharacter extends Character {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Needs its own method, since the weapon's type needs to be set to
+	 * empty in case it doesn't 2 hands
+	 * @return
+	 */
+	public boolean throwWeapon(WereableWeapon weapon){
+		if (weapon.getIsSingleHand() && weapon.getCharacter().equals(this)){
+			weapon.setWeaponType(new ArrayList<WeaponType>());
+		}
+		return this.throwItem(weapon);
+		
 	}
 	
 	public int getDamage() {
