@@ -50,7 +50,7 @@ public class ActiveCharacterTest {
 		ArrayList<ItemEnumerate.WeaponType> itemTypeWeapon = new ArrayList<ItemEnumerate.WeaponType>();
 		itemTypeWeapon.add(WeaponType.LEFTHAND);
 		WereableWeapon weapon5 = new WereableWeapon("", "", 10, 10, 10, null, itemTypeWeapon, null, null, null, 
-				30, 1, true);
+				30, 1, true, 0);
 		attacker.equipWeapon(weapon5);
 		assertEquals(weapon5.getCharacter(), attacker);
 		defender.equipArmor(armor1);
@@ -93,7 +93,7 @@ public class ActiveCharacterTest {
 		assertEquals(armor4.getCharacter(), c5);
 		c5.equipArmor(armor4);
 		WereableWeapon weapon5 = new WereableWeapon("", "", 10, 95, 0, null, itemTypeWeapon, null, null, null, 
-				0, 0, true);
+				0, 0, true, 0);
 		c5.equipWeapon(weapon5);
 		assertEquals(weapon5.getCharacter(), null);
 		c5.throwItem(armor4);
@@ -116,13 +116,13 @@ public class ActiveCharacterTest {
 				new ArrayList<Item>(), 0, 0);
 		itemTypeWeapon.add(WeaponType.LEFTHAND);
 		WereableWeapon weapon1 = new WereableWeapon("", "", 10, 0, 0, null, itemTypeWeapon, null, null, null, 
-				0, 0, true);
+				0, 0, true, 0);
 		c3.equipWeapon(weapon1);
 		assertEquals(weapon1.getCharacter(), c3);
 		assertEquals(c3.getActualCarryWeight(), 10);
 		assertEquals(c3.getWeaponsEquipped().get(0), weapon1);
 		WereableWeapon weapon2 = new WereableWeapon("", "", 10, 0, 0, null, itemTypeWeapon, null, null, null, 
-				0, 0, true);
+				0, 0, true, 0);
 		c3.equipWeapon(weapon2);
 		assertEquals(c3.getWeaponsEquipped().size(), 2);
 		
@@ -157,7 +157,7 @@ public class ActiveCharacterTest {
 				10, 100, 50, 100, 100, new ArrayList<WereableWeapon>(), new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0);
 		WereableWeapon weapon3 = new WereableWeapon("", "", 10, 0, 0, null, new ArrayList<WeaponType>(), 
-				null, null, null, 0, 0, true);
+				null, null, null, 0, 0, true, 0);
 		c4.equipWeapon(weapon3);
 		assertEquals(weapon3.getCharacter(), c4);
 		assertEquals(c4.getFreeWeaponSlots().size(), 1);
