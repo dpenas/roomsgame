@@ -19,9 +19,9 @@ public class WereableWeapon extends Wereable {
 			int space, int durability, Character character,
 			ArrayList<ItemEnumerate.WeaponType> weaponType, Map map, Room room,
 			Tuple<Integer, Integer> position, int attack, int erosion, boolean isSingleHand,
-			int defense) {
+			int defense, int level) {
 		super(description, gender, weight, space, durability, character, map,
-				room, position, erosion);
+				room, position, erosion, level);
 		this.attack = attack;
 		this.defense = defense;
 		this.weaponType = weaponType;

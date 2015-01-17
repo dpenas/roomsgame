@@ -18,9 +18,9 @@ public class WereableArmor extends Wereable {
 			int space, ArrayList<ItemEnumerate.ArmorType> armorType,
 			int durability, Character character, int defense, Map map,
 			Room room, Tuple<Integer, Integer> position,
-			int erosion) {
+			int erosion, int level) {
 		super(description, gender, weight, space, durability, character, map,
-				room, position, erosion);
+				room, position, erosion, level);
 		this.armorType = armorType;
 		this.defense = defense;
 	}
