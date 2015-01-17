@@ -7,6 +7,7 @@ import characters.Character;
 
 public abstract class Item {
 
+	private String name;
 	private String description;
 	private String gender;
 	private int weight;
@@ -16,10 +17,11 @@ public abstract class Item {
 	private Room room;
 	private Tuple<Integer, Integer> position;
 
-	public Item(String description, String gender, int weight, int space,
+	public Item(String name, String description, String gender, int weight, int space,
 			Character character, Map map, Room room,
 			Tuple<Integer, Integer> position) {
 		super();
+		this.name = name;
 		this.description = description;
 		this.gender = gender;
 		this.weight = weight;
@@ -92,6 +94,14 @@ public abstract class Item {
 
 	public void setSpace(int space) {
 		this.space = space;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

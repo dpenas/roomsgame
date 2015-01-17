@@ -74,19 +74,19 @@ public class ActiveCharacterTest {
 		itemTypeWeapon.add(WeaponType.LEFTHAND);
 		itemTypeWeapon2 = new ArrayList<ItemEnumerate.WeaponType>();
 		itemTypeWeapon.add(WeaponType.LEFTHAND);
-		armor1 = new WereableArmor("", "", 10, 0, itemTypeArmor1, 10, null, 10, null, null, null, 1, 1);
-		armor2 = new WereableArmor("", "", 10, 0, itemTypeArmor2, 10, null, 10, null, null, null, 1, 1);
-		armor3 = new WereableArmor("", "", 10, 0, itemTypeArmor, 0, null, 10, null, null, null, 0, 1);
-		armor4 = new WereableArmor("", "", 10, 20, itemTypeArmor, 0, null, 10, null, null, null, 0, 1);
-		weapon1 = new WereableWeapon("", "", 10, 0, 0, null, itemTypeWeapon2, null, null, null, 
+		armor1 = new WereableArmor("", "", "", 10, 0, itemTypeArmor1, 10, null, 10, null, null, null, 1, 1);
+		armor2 = new WereableArmor("", "", "", 10, 0, itemTypeArmor2, 10, null, 10, null, null, null, 1, 1);
+		armor3 = new WereableArmor("", "", "", 10, 0, itemTypeArmor, 0, null, 10, null, null, null, 0, 1);
+		armor4 = new WereableArmor("", "", "", 10, 20, itemTypeArmor, 0, null, 10, null, null, null, 0, 1);
+		weapon1 = new WereableWeapon("", "", "", 10, 0, 0, null, itemTypeWeapon2, null, null, null, 
 				0, 0, true, 0, 1);
-		weapon2 = new WereableWeapon("", "", 10, 0, 0, null, itemTypeWeapon2, null, null, null, 
+		weapon2 = new WereableWeapon("", "", "", 10, 0, 0, null, itemTypeWeapon2, null, null, null, 
 				0, 0, true, 0, 1);
-		weapon3 = new WereableWeapon("", "", 10, 0, 0, null, new ArrayList<WeaponType>(), 
+		weapon3 = new WereableWeapon("", "", "", 10, 0, 0, null, new ArrayList<WeaponType>(), 
 				null, null, null, 0, 0, true, 0, 1);
-		weapon5 = new WereableWeapon("", "", 10, 10, 10, null, itemTypeWeapon, null, null, null, 
+		weapon5 = new WereableWeapon("", "", "", 10, 10, 10, null, itemTypeWeapon, null, null, null, 
 				30, 1, true, 0, 1);
-		weapon6 = new WereableWeapon("", "", 10, 95, 0, null, itemTypeWeapon2, null, null, null, 
+		weapon6 = new WereableWeapon("", "", "", 10, 95, 0, null, itemTypeWeapon2, null, null, null, 
 				0, 0, true, 0, 1);
 	}
 

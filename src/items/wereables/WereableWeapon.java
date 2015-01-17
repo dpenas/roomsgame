@@ -15,12 +15,12 @@ public class WereableWeapon extends Wereable {
 	private int defense;
 	private boolean isSingleHand; // If it needs one or two hands to be used
 
-	public WereableWeapon(String description, String gender, int weight,
+	public WereableWeapon(String name, String description, String gender, int weight,
 			int space, int durability, Character character,
 			ArrayList<ItemEnumerate.WeaponType> weaponType, Map map, Room room,
 			Tuple<Integer, Integer> position, int attack, int erosion, boolean isSingleHand,
 			int defense, int level) {
-		super(description, gender, weight, space, durability, character, map,
+		super(name, description, gender, weight, space, durability, character, map,
 				room, position, erosion, level);
 		this.attack = attack;
 		this.defense = defense;

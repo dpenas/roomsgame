@@ -13,9 +13,10 @@ public abstract class Wereable extends Item {
 	private int erosion; // Durability points that the weapon loses every time
 	private int level; // Level of the wereable, which will determine its stats
 	
-	public Wereable(String description, String gender, int weight, int space, int durability, Character character,
-			Map map, Room room, Tuple<Integer, Integer> position, int erosion, int level) {
-		super(description, gender, weight, space, character, map, room, position);
+	public Wereable(String name, String description, String gender, int weight, int space, 
+			int durability, Character character, Map map, Room room, 
+			Tuple<Integer, Integer> position, int erosion, int level) {
+		super(name, description, gender, weight, space, character, map, room, position);
 		this.durability = durability;
 		this.erosion = erosion;
 		this.isWereable = (this.durability > 0) ? true : false;
