@@ -15,19 +15,25 @@ public class WereableWeapon extends Wereable {
 	private int defense;
 	private boolean isSingleHand; // If it needs one or two hands to be used
 
-	public WereableWeapon(String name, String description, String gender, int weight,
+	public WereableWeapon(String name, ArrayList<String> nameAttributes, 
+			String description, String gender, int weight,
 			int space, int durability, Character character,
 			ArrayList<ItemEnumerate.WeaponType> weaponType, Map map, Room room,
 			Tuple<Integer, Integer> position, int attack, int erosion, boolean isSingleHand,
-			int defense, int level) {
-		super(name, description, gender, weight, space, durability, character, map,
-				room, position, erosion, level);
+			int defense, int level, boolean isMagic) {
+		super(name, nameAttributes, description, gender, weight, space, durability, character, map,
+				room, position, erosion, level, isMagic);
 		this.attack = attack;
 		this.defense = defense;
 		this.weaponType = weaponType;
 		this.isSingleHand = isSingleHand;
 	}
-
+	
+	public void setAttributes(){
+		
+		
+	}
+	
 	public ArrayList<ItemEnumerate.WeaponType> getWeaponType() {
 		return weaponType;
 	}

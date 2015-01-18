@@ -14,13 +14,14 @@ public class WereableArmor extends Wereable {
 	private ArrayList<ItemEnumerate.ArmorType> armorType;
 	private int defense;
 
-	public WereableArmor(String name, String description, String gender, int weight,
+	public WereableArmor(String name, ArrayList<String> nameAttributes, 
+			String description, String gender, int weight,
 			int space, ArrayList<ItemEnumerate.ArmorType> armorType,
 			int durability, Character character, int defense, Map map,
 			Room room, Tuple<Integer, Integer> position,
-			int erosion, int level) {
-		super(name, description, gender, weight, space, durability, character, map,
-				room, position, erosion, level);
+			int erosion, int level, boolean isMagic) {
+		super(name, nameAttributes, description, gender, weight, space, durability, character, map,
+				room, position, erosion, level, isMagic);
 		this.armorType = armorType;
 		this.defense = defense;
 	}

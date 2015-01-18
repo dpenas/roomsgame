@@ -1,5 +1,7 @@
 package items.wereables;
 
+import java.util.ArrayList;
+
 import map.Map;
 import map.Room;
 import util.Tuple;
@@ -10,16 +12,19 @@ public abstract class Wereable extends Item {
 	
 	private int durability;
 	private boolean isWereable;
+	private boolean isMagic;
 	private int erosion; // Durability points that the weapon loses every time
 	private int level; // Level of the wereable, which will determine its stats
 	
-	public Wereable(String name, String description, String gender, int weight, int space, 
-			int durability, Character character, Map map, Room room, 
-			Tuple<Integer, Integer> position, int erosion, int level) {
-		super(name, description, gender, weight, space, character, map, room, position);
+	public Wereable(String name, ArrayList<String> nameAttributes, String description, 
+			String gender, int weight, int space, int durability, Character character, 
+			Map map, Room room, Tuple<Integer, Integer> position, 
+			int erosion, int level, boolean isMagic) {
+		super(name, nameAttributes, description, gender, weight, space, character, map, room, position);
 		this.durability = durability;
 		this.erosion = erosion;
 		this.isWereable = (this.durability > 0) ? true : false;
+		this.isMagic = isMagic;
 	}
 	
 	public boolean getIsWereable(){
@@ -52,6 +57,14 @@ public abstract class Wereable extends Item {
 
 	public void setWereable(boolean isWereable) {
 		this.isWereable = isWereable;
+	}
+
+	public boolean isMagic() {
+		return isMagic;
+	}
+
+	public void setMagic(boolean isMagic) {
+		this.isMagic = isMagic;
 	}
 
 }

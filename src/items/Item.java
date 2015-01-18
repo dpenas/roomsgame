@@ -1,5 +1,7 @@
 package items;
 
+import java.util.ArrayList;
+
 import util.Tuple;
 import map.Map;
 import map.Room;
@@ -15,12 +17,14 @@ public abstract class Item {
 	private Character character;
 	private Map map;
 	private Room room;
+	private ArrayList<String> nameAttributes;
 	private Tuple<Integer, Integer> position;
 
-	public Item(String name, String description, String gender, int weight, int space,
-			Character character, Map map, Room room,
-			Tuple<Integer, Integer> position) {
+	public Item(String name, ArrayList<String> nameAttributes, String description, 
+			String gender, int weight, int space, Character character, 
+			Map map, Room room, Tuple<Integer, Integer> position) {
 		super();
+		this.nameAttributes = nameAttributes;
 		this.name = name;
 		this.description = description;
 		this.gender = gender;
@@ -102,6 +106,14 @@ public abstract class Item {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public ArrayList<String> getNameAttributes() {
+		return nameAttributes;
+	}
+
+	public void setNameAttributes(ArrayList<String> nameAttributes) {
+		this.nameAttributes = nameAttributes;
 	}
 
 }

@@ -6,21 +6,36 @@ import java.util.ArrayList;
 
 import map.Map;
 import map.Room;
+import translations.Translations;
 import util.Tuple;
 import characters.Character;
-import main.Main;
 
 public class OneHandSword extends WereableWeapon {
 
-	public OneHandSword(String name, String description, String gender, int weight,
-			int space, int durability, Character character,
-			ArrayList<WeaponType> weaponType, Map map, Room room,
-			Tuple<Integer, Integer> position, int attack, int erosion,
-			boolean isSingleHand, int defense, int level) {
-		super(name, description, gender, 
-				weight, space, durability, character, weaponType,
-				map, room, position, attack, erosion, isSingleHand, defense, level);
+	public OneHandSword(String description, int weight,
+			int space, int durability, Character character, Map map, Room room,
+			Tuple<Integer, Integer> position, int erosion,
+			int level, boolean isMagic) {
+		//TODO: Change the 10 (which is the attack of the weapon) to the algorithm based on level
+		super("sword", null, description, "m", 
+				weight, space, durability, character, new ArrayList<WeaponType>(),
+				map, room, position, 10, erosion, true, 0, level, isMagic);
+		this.setNameAttributes(this.getOneHandSwordAttributes());
+		if (isMagic){
+			ArrayList<String> attributes = new ArrayList<String>();
+			attributes = this.getNameAttributes();
+			attributes.add("magic");
+			this.setNameAttributes(attributes);
+		}
+		this.setName(Translations.getNameItem("sword", this.getNameAttributes()));
 		
+	}
+	
+	public ArrayList<String> getOneHandSwordAttributes(){
+		ArrayList<String> attributes = new ArrayList<String>();
+		attributes.add("one");
+		attributes.add("hand");
+		return attributes;
 	}
 	
 
