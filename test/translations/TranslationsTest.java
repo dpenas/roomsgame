@@ -2,6 +2,8 @@ package translations;
 
 import static org.junit.Assert.*;
 import items.wereables.OneHandSword;
+
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -15,7 +17,7 @@ public class TranslationsTest {
 	public static ResourceBundle messagesWereables;
 	
 	@Before
-	public void setUp(){
+	public void setUp() throws IOException{
 		language = new String("en");
 		country = new String("US");
 		currentLocale = new Locale(language, country);
