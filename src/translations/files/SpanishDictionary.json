@@ -1,35 +1,36 @@
 {
-	'espada': {
+	'Espada': {
 	    'type': 'name',
 	    'gender': 'f',
-	    'plural': 'espadas'
+	    'plural': 'Espadas'
 	},
-	'uno': {
+	'Uno': {
 	    'type': 'article',
 	    'gender': 'm',
-	    'feminine': 'una',
-	    'plural': 'unos',
-	    'pluralfeminine': 'unas'
+	    'feminine': 'Una',
+	    'plural': 'Unos',
+	    'pluralfeminine': 'Unas'
 	},
-	'normal': {
+	'Normal': {
 	    'type': 'adjective',
-	    'plural': 'normales'
+	    'plural': 'Normales'
 	},
-	'mágico': {
+	'Magico': {
+		'original': 'MÃ¡gico',
 	    'type': 'adjective',
 	    'gender': 'm',
-	    'feminine': 'mágica',
-	    'plural': 'mágicos',
-	    'pluralfeminine': 'mágicas'
+	    'feminine': 'MÃ¡gica',
+	    'plural': 'MÃ¡gicos',
+	    'pluralfeminine': 'MÃ¡gicas'
 	},
-	'mano': {
+	'Mano': {
 	    'type': 'name',
 	    'gender': 'm',
-	    'plural': 'manos'
+	    'plural': 'Manos'
 	},
-	'arma': {
+	'Arma': {
 	    'type': 'name',
 	    'gender': 'f',
-	    'plural': 'armas'
+	    'plural': 'Armas'
 	}
 }

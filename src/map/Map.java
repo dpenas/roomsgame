@@ -2,7 +2,6 @@ package map;
 
 import java.util.ArrayList;
 
-import util.GenericMatrixFunctions;
 import util.RandUtil;
 import util.Tuple;
 
@@ -241,7 +240,7 @@ public class Map {
 		int free_room_space_x = freeRoomSpace.x;
 		int free_room_space_y = freeRoomSpace.y;
 		if (remainingRooms == 1){
-			System.out.println("Entro aquí y la x es: " + free_room_space_x + " y la y: " + free_room_space_y + "\n");
+			System.out.println("Entro aquï¿½ y la x es: " + free_room_space_x + " y la y: " + free_room_space_y + "\n");
 			// If there's only one room left, then we cover all the space
 			Tuple<Integer, Integer> nextRoom = new Tuple<Integer, Integer>(free_room_space_x, free_room_space_y);
 			return nextRoom;
