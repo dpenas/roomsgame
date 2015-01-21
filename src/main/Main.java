@@ -10,6 +10,7 @@ public class Main {
 	public static String country = new String("ES");
 	public static Locale currentLocale = new Locale(language, country);
 	public static ResourceBundle messagesWereables;
+	public static boolean debug = true;
 
 	public static void main(String[] args) throws IOException {
 		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);

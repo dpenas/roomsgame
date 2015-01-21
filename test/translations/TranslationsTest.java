@@ -6,7 +6,6 @@ import translations.exceptions.WordNotFoundException;
 import items.wereables.OneHandSword;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -29,7 +28,7 @@ public class TranslationsTest {
 	}
 	
 	@Test
-	public void testNames() throws UnsupportedEncodingException{
+	public void testNames() {
 		if (main.Main.currentLocale.toString().equals("en_US")){
 			OneHandSword weaponEnglish = new OneHandSword("", 10, 0, 0, null, null, null, 
 					null, 0, 1, true);
@@ -45,7 +44,7 @@ public class TranslationsTest {
 	}
 	
 	@Test
-	public void attributeFromJSON() throws UnsupportedEncodingException{
+	public void attributeFromJSON() {
 		String attribute = "";
 		try {
 			attribute = Translations.getAttributeWordFromJSON("Espada", "gender", "Spanish");

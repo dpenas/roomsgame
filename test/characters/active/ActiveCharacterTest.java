@@ -2,12 +2,17 @@ package characters.active;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import items.Item;
 import items.ItemEnumerate;
 import items.ItemEnumerate.ArmorType;
 import items.ItemEnumerate.WeaponType;
+import items.wereables.OneHandSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 
@@ -39,10 +44,22 @@ public class ActiveCharacterTest {
 	WereableWeapon weapon3;
 	WereableWeapon weapon5;
 	WereableWeapon weapon6;
+	OneHandSword oneHandSword;
 	Tuple<Integer, Integer> position = new Tuple<Integer, Integer>(10, 2);
 	
+	public static String language;
+	public static String country;
+	public static Locale currentLocale;
+	public static ResourceBundle messagesWereables;
+	
 	@Before
-	public void setUp(){
+	public void setUp() throws IOException{
+		language = new String("en");
+		country = new String("US");
+		currentLocale = new Locale(language, country);
+		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);
+		main.Main.main(null);
+		
 		attacker = new ActiveCharacter("", "", "", null, null, null, 40, 
 				10, 100, 100, 100, 100, new ArrayList<WereableWeapon>(), new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0);
@@ -88,6 +105,7 @@ public class ActiveCharacterTest {
 				30, 1, true, 0, 1, false);
 		weapon6 = new WereableWeapon("", null, "", "", 10, 95, 0, null, itemTypeWeapon2, null, null, null, 
 				0, 0, true, 0, 1, false);
+		oneHandSword = new OneHandSword("", 0, 0, 0, attacker, null, null, position, 0, 0, false);
 	}
 
 	@Test
@@ -184,6 +202,13 @@ public class ActiveCharacterTest {
 		c4.equipWeapon(weapon3);
 		c4.throwWeapon(weapon3);
 		assertEquals(weapon3.getWeaponType().size(), 0);
+	}
+	
+	@Test
+	public void oneHandSword() throws UnsupportedEncodingException {
+	
+		c4.equipWeapon(oneHandSword);
+		assertEquals(oneHandSword.getCharacter(), c4);
 	}
 	
 }

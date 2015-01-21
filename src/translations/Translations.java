@@ -3,8 +3,6 @@ package translations;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -22,7 +20,7 @@ public final class Translations {
 	public static String translationsURL = "/translations/files/";
 	
 	public static String getAttributeWordFromJSON(String word, String attribute, String language) 
-			throws WordNotFoundException, UnsupportedEncodingException{
+			throws WordNotFoundException {
 		Locale locale = Main.currentLocale;
 		String localeString = getStringLocale(locale);
 		if (localeString.length() > 0){
@@ -34,7 +32,11 @@ public final class Translations {
 				JsonObject rootObj = parser.parse(reader).getAsJsonObject();
 				JsonObject object = rootObj.getAsJsonObject(word);
 				if (object == null){
-					throw new WordNotFoundException("");
+					if (Main.debug){
+						System.out.println("There is a word missing in the translation file");
+						throw new WordNotFoundException("The word is not in the file");
+					}
+					return word;
 				}
 				JsonElement finalAttribute = object.get(attribute);
 
@@ -44,13 +46,12 @@ public final class Translations {
 						return originalNameAttribute.getAsString();
 					}
 					else {
+						System.out.println("The attribute of " + attribute + "is missing");
 						return word;
 					}
 				}
 				return finalAttribute.getAsString();
 				
-			} catch (UnsupportedEncodingException e) {
-				return "";
 			} catch (IOException e) {
 				return "";
 			}
@@ -83,7 +84,7 @@ public final class Translations {
 		return finalName;
 	}
 	
-	public static String spanishNameItem(String name, ArrayList<String> nameAttributes, Locale locale) throws UnsupportedEncodingException{
+	public static String spanishNameItem(String name, ArrayList<String> nameAttributes, Locale locale) {
 		String finalName = "";
 		finalName = finalName + main.Main.messagesWereables.getString(name);
 		String adjectives = "";
@@ -106,7 +107,7 @@ public final class Translations {
 		return finalName;
 	}
 	
-	public static String getNameItem(String name, ArrayList<String> nameAttributes) throws UnsupportedEncodingException{
+	public static String getNameItem(String name, ArrayList<String> nameAttributes) {
 		Locale locale = Main.currentLocale;
 		String localeString = getStringLocale(locale);
 		String finalName = "";
