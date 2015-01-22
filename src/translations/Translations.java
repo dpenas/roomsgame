@@ -88,19 +88,31 @@ public final class Translations {
 		String finalName = "";
 		finalName = finalName + main.Main.messagesWereables.getString(name);
 		String adjectives = "";
+		boolean isPlural = false;
 		if (finalName.length() == 0){
 			finalName = name;
 		}
 		
 		for(String adjective: nameAttributes){
 			try {
+				
 				adjective = main.Main.messagesWereables.getString(adjective);
+				if (getAttributeWordFromJSON(adjective, "type", "Spanish").equals("adjective")){
+					if (getAttributeWordFromJSON(adjective, "isPlural", "Spanish").equals("y")){
+						isPlural = true;
+					}
+				}
 				if (getAttributeWordFromJSON(finalName, "gender", "Spanish").equals("f")){
 					adjective = getAttributeWordFromJSON(adjective, "feminine", "Spanish");
+				}
+				if (isPlural && getAttributeWordFromJSON(adjective, "type", "Spanish").equals("name")){
+					adjective = getAttributeWordFromJSON(adjective, "plural", "Spanish");
+					isPlural = false;
 				}
 			} catch (WordNotFoundException e) {
 				
 			}
+			
 			adjectives = adjectives + " " + adjective;
 		}
 		finalName = finalName + adjectives;

@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import translations.Translations;
 import translations.exceptions.WordNotFoundException;
 import items.wereables.OneHandSword;
+import items.wereables.TwoHandSword;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -39,7 +40,10 @@ public class TranslationsTest {
 			
 			OneHandSword weaponSpanish = new OneHandSword("", 10, 0, 0, null, null, null, 
 					null, 0, 1, true);
+			TwoHandSword twoWeaponEnglish = new TwoHandSword("", 10, 0, 0, null, null, null, 
+					null, 0, 1, true);
 			assertEquals(weaponSpanish.getName(), "Espada Una Mano Mágica");
+			assertEquals(twoWeaponEnglish.getName(), "Espada Dos Manos Mágica");
 		}
 	}
 	

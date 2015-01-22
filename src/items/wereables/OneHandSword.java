@@ -11,6 +11,8 @@ import util.Tuple;
 import characters.Character;
 
 public class OneHandSword extends WereableWeapon {
+	
+	ArrayList<String> attributes = new ArrayList<String>();
 
 	public OneHandSword(String description, int weight,
 			int space, int durability, Character character, Map map, Room room,
@@ -22,17 +24,15 @@ public class OneHandSword extends WereableWeapon {
 				map, room, position, 10, erosion, true, 0, level, isMagic);
 		this.setNameAttributes(this.getOneHandSwordAttributes());
 		if (isMagic){
-			ArrayList<String> attributes = new ArrayList<String>();
 			attributes = this.getNameAttributes();
 			attributes.add("magic");
 			this.setNameAttributes(attributes);
 		}
-		this.setName(Translations.getNameItem("sword", this.getOneHandSwordAttributes()));
+		this.setName(Translations.getNameItem("sword", this.getNameAttributes()));
 		
 	}
 	
 	public ArrayList<String> getOneHandSwordAttributes(){
-		ArrayList<String> attributes = new ArrayList<String>();
 		attributes.add("one");
 		attributes.add("hand");
 		return attributes;

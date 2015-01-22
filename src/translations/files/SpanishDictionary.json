@@ -13,7 +13,9 @@
 	},
 	'Normal': {
 	    'type': 'adjective',
-	    'plural': 'Normales'
+	    'isPlural': 'n',
+	    'plural': 'Normales',
+	    'pluralfeminine': 'Normales'
 	},
 	'Magico': {
 		'original': 'Mágico',
@@ -32,5 +34,9 @@
 	    'type': 'name',
 	    'gender': 'f',
 	    'plural': 'Armas'
+	},
+	'Dos': {
+	    'type': 'adjective',
+	    'isPlural': 'y'
 	}
 }
