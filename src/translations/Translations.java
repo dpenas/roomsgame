@@ -88,14 +88,15 @@ public final class Translations {
 		String finalName = "";
 		finalName = finalName + main.Main.messagesWereables.getString(name);
 		String adjectives = "";
+		boolean isChanged = false;
 		boolean isPlural = false;
 		if (finalName.length() == 0){
 			finalName = name;
 		}
 		
 		for(String adjective: nameAttributes){
+			isChanged = false;
 			try {
-				
 				adjective = main.Main.messagesWereables.getString(adjective);
 				if (getAttributeWordFromJSON(adjective, "type", "Spanish").equals("adjective")){
 					if (getAttributeWordFromJSON(adjective, "isPlural", "Spanish").equals("y")){
@@ -103,11 +104,22 @@ public final class Translations {
 					}
 				}
 				if (getAttributeWordFromJSON(finalName, "gender", "Spanish").equals("f")){
+					if (getAttributeWordFromJSON(finalName, "isPlural", "Spanish").equals("y")){
+						adjective = getAttributeWordFromJSON(adjective, "pluralfeminine", "Spanish");
+					}
 					adjective = getAttributeWordFromJSON(adjective, "feminine", "Spanish");
+					isChanged = true;
 				}
 				if (isPlural && getAttributeWordFromJSON(adjective, "type", "Spanish").equals("name")){
 					adjective = getAttributeWordFromJSON(adjective, "plural", "Spanish");
 					isPlural = false;
+					isChanged = true;
+				}
+				if (getAttributeWordFromJSON(finalName, "isPlural", "Spanish").equals("y")){
+					adjective = getAttributeWordFromJSON(adjective, "plural", "Spanish");
+				}
+				if (!isChanged){
+					adjective = getAttributeWordFromJSON(adjective, "original", "Spanish");
 				}
 			} catch (WordNotFoundException e) {
 				

@@ -29,6 +29,10 @@ public class WereableArmor extends Wereable {
 	public ArrayList<ArmorType> getArmorType() {
 		return armorType;
 	}
+	
+	public void setArmorType(ArrayList<ArmorType> armorType) {
+		this.armorType = armorType;
+	}
 
 	public int getDefense() {
 		return defense;

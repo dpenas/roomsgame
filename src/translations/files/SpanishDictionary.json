@@ -1,17 +1,22 @@
 {
 	'Espada': {
+		'original': 'Espada',
 	    'type': 'name',
 	    'gender': 'f',
-	    'plural': 'Espadas'
+	    'plural': 'Espadas',
+	    'isPlural': 'n'
 	},
 	'Uno': {
+		'original': 'Uno',
 	    'type': 'article',
 	    'gender': 'm',
 	    'feminine': 'Una',
 	    'plural': 'Unos',
-	    'pluralfeminine': 'Unas'
+	    'pluralfeminine': 'Unas',
+	    'isPlural': 'n'
 	},
 	'Normal': {
+		'original': 'Normal',
 	    'type': 'adjective',
 	    'isPlural': 'n',
 	    'plural': 'Normales',
@@ -23,20 +28,75 @@
 	    'gender': 'm',
 	    'feminine': 'Mágica',
 	    'plural': 'Mágicos',
-	    'pluralfeminine': 'Mágicas'
+	    'pluralfeminine': 'Mágicas',
+	    'isPlural': 'n'
 	},
 	'Mano': {
+		'original': 'Mano',
 	    'type': 'name',
 	    'gender': 'm',
+	    'isPlural': 'n',
 	    'plural': 'Manos'
 	},
 	'Arma': {
+		'original': 'Arma',
 	    'type': 'name',
 	    'gender': 'f',
+	    'isPlural': 'n',
 	    'plural': 'Armas'
 	},
 	'Dos': {
+		'original': 'Dos',
+		'isPlural': 'n',
 	    'type': 'adjective',
 	    'isPlural': 'y'
+	},
+	'Pequeno': {
+		'original': 'Pequeño',
+		'type': 'adjective',
+		'isPlural': 'n',
+		'gender': 'm',
+		'feminine': 'Pequeña',
+	    'plural': 'Pequeños',
+	    'pluralfeminine': 'Pequeñas'
+	},
+	'Escudo': {
+		'original': 'Escudo',
+		'type': 'n',
+		'isPlural': 'n',
+		'gender': 'm',
+	    'plural': 'Escudos'
+	},
+	'Casco': {
+		'original': 'Casco',
+		'type': 'name',
+		'isPlural': 'n',
+		'gender': 'm',
+	    'plural': 'Cascos'
+	},
+	'Pecho': {
+		'original': 'Pecho',
+		'type': 'name',
+		'isPlural': 'n',
+		'gender': 'm',
+	    'plural': 'Pechos',
+	    'pluralfeminine': 'Pechos'
+	},
+	'Guantes': {
+		'original': 'Guantes',
+		'type': 'name',
+		'isPlural': 'y',
+		'gender': 'm',
+	    'plural': 'Guantes',
+	    'pluralfeminine': 'Guantes'
+	},
+	'Pantalones': {
+		'original': 'Pantalones',
+		'type': 'name',
+		'isPlural': 'y',
+		'gender': 'm',
+	    'plural': 'Pantalones',
+	    'pluralfeminine': 'Pantalones'
 	}
+
 }

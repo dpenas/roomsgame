@@ -3,7 +3,12 @@ package translations;
 import static org.junit.Assert.*;
 import translations.Translations;
 import translations.exceptions.WordNotFoundException;
+import items.wereables.NormalChest;
+import items.wereables.NormalGloves;
+import items.wereables.NormalHelmet;
+import items.wereables.NormalPants;
 import items.wereables.OneHandSword;
+import items.wereables.SmallShield;
 import items.wereables.TwoHandSword;
 
 import java.io.IOException;
@@ -42,8 +47,23 @@ public class TranslationsTest {
 					null, 0, 1, true);
 			TwoHandSword twoWeaponEnglish = new TwoHandSword("", 10, 0, 0, null, null, null, 
 					null, 0, 1, true);
+			SmallShield smallShieldSpanish = new SmallShield("", 10, 0, 0, null, null, null, 
+					null, 0, 1, true);
+			NormalHelmet normalHelmetShieldSpanish = new NormalHelmet("", 10, 0, 0, null, null, null, 
+					null, 0, 1, true);
+			NormalGloves normalGlovesSpanish = new NormalGloves("", 10, 0, 0, null, null, null, 
+					null, 0, 1, true);
+			NormalChest normalChestSpanish = new NormalChest("", 10, 0, 0, null, null, null, 
+					null, 0, 1, true);
+			NormalPants normalPantsSpanish = new NormalPants("", 10, 0, 0, null, null, null, 
+					null, 0, 1, true);
 			assertEquals(weaponSpanish.getName(), "Espada Una Mano Mágica");
 			assertEquals(twoWeaponEnglish.getName(), "Espada Dos Manos Mágica");
+			assertEquals(smallShieldSpanish.getName(), "Escudo Pequeño Mágico");
+			assertEquals(normalHelmetShieldSpanish.getName(), "Casco Normal Mágico");
+			assertEquals(normalChestSpanish.getName(), "Pecho Normal Mágico");
+			assertEquals(normalGlovesSpanish.getName(), "Guantes Normales Mágicos");
+			assertEquals(normalPantsSpanish.getName(), "Pantalones Normales Mágicos");
 		}
 	}
 	
