@@ -25,6 +25,35 @@ public class WereableArmor extends Wereable {
 		this.armorType = armorType;
 		this.defense = defense;
 	}
+	
+	public void setAttributes(int level){
+		int attribute = 0;
+		int basic = 2;
+		if (this.isMagic()){
+			attribute = level + 2;
+		}		
+		if (this.getArmorType().size() == 0){
+			this.setDefense(attribute + basic);
+		} else{
+			switch (this.getArmorType().get(0)) {
+			case HANDS:
+				attribute = 3; 
+				break;
+			case CHEST:
+				attribute = 5;
+				break;
+			case PANTS:
+				attribute = 4;
+				break;
+			case HEAD:
+				attribute = 3;
+				break;
+			default : attribute = 2;
+			}
+		}
+		
+		this.setDefense(attribute + level * 2);
+	}
 
 	public ArrayList<ArmorType> getArmorType() {
 		return armorType;
@@ -36,6 +65,10 @@ public class WereableArmor extends Wereable {
 
 	public int getDefense() {
 		return defense;
+	}
+	
+	public void setDefense(int defense) {
+		this.defense = defense;
 	}
 
 }

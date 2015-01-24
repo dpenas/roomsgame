@@ -29,9 +29,23 @@ public class WereableWeapon extends Wereable {
 		this.isSingleHand = isSingleHand;
 	}
 	
-	public void setAttributes(){
-		
-		
+	public void setAttributes(int level, boolean isShield){
+		int attribute = 0;
+		if (this.isMagic()){
+			attribute = level + 2;
+		}
+		if (isShield){
+			this.setAttack(0);
+			this.setDefense(attribute + 8 + level * 2);
+		} else {
+			if (this.getWeaponType().size() == 2){
+				this.setAttack(attribute + 15 + level * 2);
+				this.setDefense(0);
+			} else {
+				this.setAttack(attribute + 5 + level * 2);
+				this.setDefense(0);
+			}
+		}	
 	}
 	
 	public ArrayList<ItemEnumerate.WeaponType> getWeaponType() {

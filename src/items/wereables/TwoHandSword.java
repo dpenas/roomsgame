@@ -35,6 +35,7 @@ public class TwoHandSword extends WereableWeapon {
 			this.setNameAttributes(attributes);
 		}
 		this.setName(Translations.getNameItem("sword", this.getNameAttributes()));
+		this.setAttributes(this.getLevel(), false);
 		
 	}
 	

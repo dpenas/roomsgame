@@ -33,6 +33,7 @@ ArrayList<String> attributes = new ArrayList<String>();
 			this.setNameAttributes(attributes);
 		}
 		this.setName(Translations.getNameItem("helmet", this.getNameAttributes()));
+		this.setAttributes(level);
 		
 	}
 	

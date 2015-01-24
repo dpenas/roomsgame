@@ -31,6 +31,7 @@ ArrayList<String> attributes = new ArrayList<String>();
 			this.setNameAttributes(attributes);
 		}
 		this.setName(Translations.getNameItem("shield", this.getNameAttributes()));
+		this.setAttributes(this.getLevel(), true);
 		
 	}
 	
