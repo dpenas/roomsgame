@@ -98,6 +98,10 @@ public final class Translations {
 			isChanged = false;
 			try {
 				adjective = main.Main.messagesWereables.getString(adjective);
+				//System.out.println(adjective);
+				if (adjective.equals("Pocion")){
+					System.out.println("HOLA");
+				}
 				if (getAttributeWordFromJSON(adjective, "type", "Spanish").equals("adjective")){
 					if (getAttributeWordFromJSON(adjective, "isPlural", "Spanish").equals("y")){
 						isPlural = true;
@@ -117,6 +121,7 @@ public final class Translations {
 				}
 				if (getAttributeWordFromJSON(finalName, "isPlural", "Spanish").equals("y")){
 					adjective = getAttributeWordFromJSON(adjective, "plural", "Spanish");
+					isChanged = true;
 				}
 				if (!isChanged){
 					adjective = getAttributeWordFromJSON(adjective, "original", "Spanish");
@@ -126,6 +131,17 @@ public final class Translations {
 			}
 			
 			adjectives = adjectives + " " + adjective;
+		}
+		try {
+			System.out.println(finalName);
+			if (finalName.equals(main.Main.messagesWereables.getString(name))){
+				System.out.println(finalName);
+				finalName = getAttributeWordFromJSON(finalName, "original", "Spanish");
+			}
+		} catch (WordNotFoundException e) {
+			if (Main.debug){
+				System.out.println("Word not Found!!");
+			}
 		}
 		finalName = finalName + adjectives;
 		return finalName;

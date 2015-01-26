@@ -27,7 +27,10 @@ import items.ItemEnumerate.WeaponType;
 public class ActiveCharacter extends Character {
 	private int damage;
 	private int defense;
+	private int totalLife; // TotalLife
 	private int life;
+	private int magic;
+	private int totalMagic;
 	private int luck;
 	private int inventorySpace;
 	private int actualInventorySpace;
@@ -37,11 +40,15 @@ public class ActiveCharacter extends Character {
 
 	public ActiveCharacter(String name, String description, String gender,
 			Map map, Room room, Tuple<Integer, Integer> position, int damage,
-			int defense, int life, int luck, int weight, int length, ArrayList<WereableWeapon> weaponsEquipped,
+			int defense, int life, int luck, int weight, int length, 
+			ArrayList<WereableWeapon> weaponsEquipped,
 			ArrayList<WereableArmor> armorsEquipped, int inventorySpace, int carryWeight,
-			int actualCarryWeight, ArrayList<Item> inventory, int actualInventorySpace, int evasion) {
+			int actualCarryWeight, ArrayList<Item> inventory, int actualInventorySpace, int evasion,
+			int totalLife, int magic, int totalMagic) {
 		super(name, description, gender, map, room, position, weight, length, carryWeight, actualCarryWeight, inventory);
 		this.damage = damage;
+		this.totalMagic = totalMagic;
+		this.magic = magic;
 		this.defense = defense;
 		this.life = life;
 		this.luck = luck; // number between 0 and 100
@@ -50,6 +57,7 @@ public class ActiveCharacter extends Character {
 		this.inventorySpace = inventorySpace;
 		this.actualInventorySpace = actualInventorySpace;
 		this.evasion = evasion; // number between 0 and 100
+		this.totalLife = totalLife;
 	}
 
 	public int getAttackFromWeapons(ActiveCharacter character){
@@ -322,6 +330,30 @@ public class ActiveCharacter extends Character {
 
 	public void setEvasion(int evasion){
 		this.evasion = evasion;
+	}
+
+	public int getTotalLife() {
+		return totalLife;
+	}
+
+	public void setTotalLife(int totalLife) {
+		this.totalLife = totalLife;
+	}
+	
+	public int getTotalMagic() {
+		return totalMagic;
+	}
+
+	public void setTotalMagic(int totalMagic) {
+		this.totalMagic = totalMagic;
+	}
+	
+	public int getMagic() {
+		return magic;
+	}
+
+	public void setMagic(int magic) {
+		this.magic = magic;
 	}
 
 }

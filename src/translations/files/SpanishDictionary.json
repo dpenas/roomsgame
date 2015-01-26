@@ -60,6 +60,15 @@
 	    'plural': 'Pequeños',
 	    'pluralfeminine': 'Pequeñas'
 	},
+	'Extendido': {
+		'original': 'Extendido',
+		'type': 'adjective',
+		'isPlural': 'n',
+		'gender': 'f',
+		'feminine': 'Extendida',
+	    'plural': 'Extendidos',
+	    'pluralfeminine': 'Extendidas'
+	},
 	'Escudo': {
 		'original': 'Escudo',
 		'type': 'n',
@@ -97,6 +106,23 @@
 		'gender': 'm',
 	    'plural': 'Pantalones',
 	    'pluralfeminine': 'Pantalones'
+	},
+	'Pocion': {
+		'original': 'Poción',
+		'feminine': 'Poción',
+		'type': 'name',
+		'isPlural': 'n',
+		'gender': 'f',
+	    'plural': 'Pociones',
+	    'pluralfeminine': 'Pociones'
+	},
+	'Vida': {
+		'original': 'Vida',
+		'feminine': 'Vida',
+		'type': 'name',
+		'isPlural': 'n',
+		'gender': 'f',
+	    'plural': 'Vidas',
+	    'pluralfeminine': 'Vidas'
 	}
-
 }

@@ -3,6 +3,10 @@ package translations;
 import static org.junit.Assert.*;
 import translations.Translations;
 import translations.exceptions.WordNotFoundException;
+import util.Tuple;
+import items.consumables.LifeExtendedPotion;
+import items.consumables.LifePotion;
+import items.consumables.MagicPotion;
 import items.wereables.NormalChest;
 import items.wereables.NormalGloves;
 import items.wereables.NormalHelmet;
@@ -15,8 +19,13 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import map.Map;
+import map.Room;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import characters.Character;
 
 public class TranslationsTest {
 	public static String language;
@@ -39,6 +48,9 @@ public class TranslationsTest {
 			OneHandSword weaponEnglish = new OneHandSword("", 10, 0, 0, null, null, null, 
 					null, 0, 1, true);
 			assertEquals(weaponEnglish.getName(), "One Hand Magic Sword");
+			LifeExtendedPotion lifePotionExtended = new LifeExtendedPotion(0, 10, "", null, null, null, 
+					null, 10);
+			assertEquals(lifePotionExtended.getName(), "Extended Life Potion");
 		}
 		
 		if (main.Main.currentLocale.toString().equals("es_ES")){
@@ -57,6 +69,12 @@ public class TranslationsTest {
 					null, 0, 1, true);
 			NormalPants normalPantsSpanish = new NormalPants("", 10, 0, 0, null, null, null, 
 					null, 0, 1, true);
+			LifePotion lifePotion = new LifePotion(0, 10, "", null, null, null, 
+					null, 10);
+			LifeExtendedPotion lifePotionExtended = new LifeExtendedPotion(0, 10, "", null, null, null, 
+					null, 10);
+			MagicPotion magicPotion = new MagicPotion(0, 10, "", null, null, null, 
+					null, 10);
 			assertEquals(weaponSpanish.getName(), "Espada Una Mano Mágica");
 			assertEquals(twoWeaponEnglish.getName(), "Espada Dos Manos Mágica");
 			assertEquals(smallShieldSpanish.getName(), "Escudo Pequeño Mágico");
@@ -64,6 +82,9 @@ public class TranslationsTest {
 			assertEquals(normalChestSpanish.getName(), "Pecho Normal Mágico");
 			assertEquals(normalGlovesSpanish.getName(), "Guantes Normales Mágicos");
 			assertEquals(normalPantsSpanish.getName(), "Pantalones Normales Mágicos");
+			assertEquals(lifePotion.getName(), "Poción Vida");
+			assertEquals(lifePotionExtended.getName(), "Poción Vida Extendida");
+			assertEquals(magicPotion.getName(), "Poción Mágica");
 		}
 	}
 	

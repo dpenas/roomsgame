@@ -23,7 +23,7 @@ ArrayList<String> attributes = new ArrayList<String>();
 				weight, space, new ArrayList<ArmorType>(), durability, character,
 				10, map, room, position, erosion, level, isMagic);
 		ArrayList<ArmorType> armorType = new ArrayList<ArmorType>();
-		armorType.add(ArmorType.HEAD);
+		armorType.add(ArmorType.PANTS);
 		this.setArmorType(armorType);
 		this.setNameAttributes(this.getNormalPantsAttributes());
 		//TODO: Change this to be a function
