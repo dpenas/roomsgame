@@ -37,6 +37,7 @@ public class LifeExtendedPotion extends Consumable {
 	@Override
 	public void consume(ActiveCharacter character) {
 		character.setTotalLife(character.getTotalLife() + this.getLifeExtendedEffect());
+		character.setLife(character.getLife() + this.getLifeExtendedEffect());
 	}
 
 }

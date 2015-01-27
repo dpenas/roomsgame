@@ -7,12 +7,15 @@ import map.Room;
 import characters.Character;
 import util.RandUtil;
 import util.Tuple;
+import items.consumables.Consumable;
 import items.wereables.WereableWeapon;
 import items.wereables.WereableArmor;
 import items.Item;
 import items.ItemEnumerate;
 import items.ItemEnumerate.ArmorType;
 import items.ItemEnumerate.WeaponType;
+
+import main.Main;
 
 /**
  * TODO RELEVANT:
@@ -258,6 +261,25 @@ public class ActiveCharacter extends Character {
 		}
 		return this.throwItem(weapon);
 		
+	}
+	
+	public boolean useConsumable(Consumable consumable){
+		if (this.getInventory().contains(consumable)){
+			if (consumable.getCharacter().equals(this)){
+				consumable.consume(this);
+				this.getInventory().remove(consumable);
+				consumable.setCharacter(null);
+				return true;
+			} else {
+				if (Main.debug){
+					System.out.println("The item is not associated to the Character");
+				}
+			}
+		}
+		if (Main.debug){
+			System.out.println("The item is not in the inventory");
+		}
+		return false;
 	}
 	
 	public int getDamage() {

@@ -133,9 +133,7 @@ public final class Translations {
 			adjectives = adjectives + " " + adjective;
 		}
 		try {
-			System.out.println(finalName);
 			if (finalName.equals(main.Main.messagesWereables.getString(name))){
-				System.out.println(finalName);
 				finalName = getAttributeWordFromJSON(finalName, "original", "Spanish");
 			}
 		} catch (WordNotFoundException e) {

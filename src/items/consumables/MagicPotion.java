@@ -32,10 +32,10 @@ public class MagicPotion extends Consumable{
 	@Override
 	public void consume(ActiveCharacter character) {
 		if (character.getMagic() < character.getTotalMagic()){
-			if ((character.getLife() + this.magicEffect) > character.getTotalLife()){
-				character.setLife(character.getTotalLife());
+			if ((character.getMagic() + this.magicEffect) > character.getTotalMagic()){
+				character.setMagic(character.getTotalMagic());
 			} else {
-				character.setLife(character.getLife() + magicEffect);
+				character.setMagic(character.getMagic() + magicEffect);
 			}
 		}
 	}
