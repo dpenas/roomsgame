@@ -67,8 +67,52 @@ public class Room {
 		return finalRooms;
 	}
 
-	public static void main(String[] args) {
+	public Tuple<Integer, Integer> getIndividual_initial() {
+		return individual_initial;
+	}
 
+	public void setIndividual_initial(Tuple<Integer, Integer> individual_initial) {
+		this.individual_initial = individual_initial;
+	}
+
+	public Tuple<Integer, Integer> getIndividual_final() {
+		return individual_final;
+	}
+
+	public void setIndividual_final(Tuple<Integer, Integer> individual_final) {
+		this.individual_final = individual_final;
+	}
+
+	public Tuple<Integer, Integer> getGlobal_initial() {
+		return global_initial;
+	}
+
+	public void setGlobal_initial(Tuple<Integer, Integer> global_initial) {
+		this.global_initial = global_initial;
+	}
+
+	public Tuple<Integer, Integer> getGlobal_final() {
+		return global_final;
+	}
+
+	public void setGlobal_final(Tuple<Integer, Integer> global_final) {
+		this.global_final = global_final;
+	}
+
+	public ArrayList<int[][]> getDoors() {
+		return doors;
+	}
+
+	public void setDoors(ArrayList<int[][]> doors) {
+		this.doors = doors;
+	}
+
+	public ArrayList<Room> getConnected_rooms() {
+		return connected_rooms;
+	}
+
+	public void setConnected_rooms(ArrayList<Room> connected_rooms) {
+		this.connected_rooms = connected_rooms;
 	}
 
 }

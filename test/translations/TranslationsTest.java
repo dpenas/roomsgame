@@ -1,9 +1,9 @@
 package translations;
 
 import static org.junit.Assert.*;
+
 import translations.Translations;
 import translations.exceptions.WordNotFoundException;
-import util.Tuple;
 import items.consumables.LifeExtendedPotion;
 import items.consumables.LifePotion;
 import items.consumables.MagicPotion;
@@ -19,13 +19,8 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import map.Map;
-import map.Room;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import characters.Character;
 
 public class TranslationsTest {
 	public static String language;
