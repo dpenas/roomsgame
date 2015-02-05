@@ -22,7 +22,7 @@ public class Room {
 	private Tuple<Integer, Integer> individual_final;
 	private Tuple<Integer, Integer> global_initial;
 	private Tuple<Integer, Integer> global_final;
-	private ArrayList<int[][]> doors;
+	private ArrayList<Door> doors;
 	private ArrayList<Room> connected_rooms;
 	
 	public Room(Tuple<Integer, Integer> global_initial, Tuple<Integer, Integer> global_final){
@@ -66,6 +66,17 @@ public class Room {
 		
 		return finalRooms;
 	}
+	
+	public boolean isMapPositionHere(Tuple<Integer, Integer> position){
+		Tuple<Integer, Integer> initialPoint = this.getGlobal_initial();
+		Tuple<Integer, Integer> finalPoint = this.getGlobal_final();
+		if (position.x >= initialPoint.x && position.y >= initialPoint.y){
+			if (position.x <= finalPoint.x && position.y <= finalPoint.y){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public Tuple<Integer, Integer> getIndividual_initial() {
 		return individual_initial;
@@ -99,11 +110,11 @@ public class Room {
 		this.global_final = global_final;
 	}
 
-	public ArrayList<int[][]> getDoors() {
+	public ArrayList<Door> getDoors() {
 		return doors;
 	}
 
-	public void setDoors(ArrayList<int[][]> doors) {
+	public void setDoors(ArrayList<Door> doors) {
 		this.doors = doors;
 	}
 
