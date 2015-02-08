@@ -22,8 +22,8 @@ public class Room {
 	private Tuple<Integer, Integer> individual_final;
 	private Tuple<Integer, Integer> global_initial;
 	private Tuple<Integer, Integer> global_final;
-	private ArrayList<Door> doors;
-	private ArrayList<Room> connected_rooms;
+	private ArrayList<Door> doors = new ArrayList<Door>();
+	private ArrayList<Room> connected_rooms = new ArrayList<Room>();
 	
 	public Room(Tuple<Integer, Integer> global_initial, Tuple<Integer, Integer> global_final){
 		int individual_final_x = global_final.x - global_initial.x;
