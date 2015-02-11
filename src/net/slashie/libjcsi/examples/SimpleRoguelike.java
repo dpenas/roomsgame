@@ -1,20 +1,20 @@
 package net.slashie.libjcsi.examples;
- 
+
 import net.slashie.libjcsi.CSIColor;
 import net.slashie.libjcsi.CharKey;
 import net.slashie.libjcsi.ConsoleSystemInterface;
 import net.slashie.libjcsi.jcurses.JCursesConsoleInterface;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
- 
-public class SimpleRogueLike {
+
+public class SimpleRoguelike {
     //private ConsoleSystemInterface csi = new JCursesConsoleInterface();
     private ConsoleSystemInterface csi = new WSwingConsoleInterface("Simple Roguelike - libjcsi Testing Grounds");
     private int a, b;
- 
+
     public static void main(String[] p) {
-        new SimpleRogueLike().run();
+        new SimpleRoguelike().run();
     }
- 
+    
     public void run () {
     	csi.cls();
         csi.print(5, 5, "Welcome to TEH game!", CSIColor.BABY_BLUE);

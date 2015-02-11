@@ -6,18 +6,12 @@ import java.util.Random;
 import net.slashie.libjcsi.CSIColor;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 
-/**
- * This will display in a repeating pattern all of the custom named colors
- * available in CSIColor.  The test include displaying the colors onto a
- * black, grey, and white background.
- * @author Eben Howard
- */
-public class FullPalletTest {
+public class FullPalletTestJC {
 
     WSwingConsoleInterface mainInterface;
     Random rng = new Random();
 
-    public FullPalletTest() {
+    public FullPalletTestJC() {
         ArrayList<CSIColor> list = new ArrayList<CSIColor>();
         for (int i = 0; i < CSIColor.FULL_PALLET.length; i++) {
             list.add(CSIColor.FULL_PALLET[i]);
@@ -62,9 +56,11 @@ public class FullPalletTest {
                 mainInterface.print(i, k, 'Q', new CSIColor(tempColor), new CSIColor(backColor));
             }
         }
+
+
     }
 
     public static void main(String[] args) {
-        new FullPalletTest();
+        new FullPalletTestJC();
     }
 }

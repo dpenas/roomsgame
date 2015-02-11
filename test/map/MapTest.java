@@ -1,6 +1,7 @@
 package map;
 
 import static org.junit.Assert.*;
+import main.Main;
 
 import org.junit.Test;
 
@@ -16,11 +17,15 @@ public class MapTest {
 	
 	@Test
 	public void testMap(){
-		GenericMatrixFunctions.printMatrix(map.getFreeRoom());
-		for (Room r: map.getRooms()){
-			System.out.println("initial: (" + r.getGlobal_initial().x + "," + r.getGlobal_initial().y + ")");
-			System.out.println("final: (" + r.getGlobal_final().x + "," + r.getGlobal_final().y + ")");
+		if (Main.debug){
+			GenericMatrixFunctions.printMatrix(map.getFreeRoom());
+			for (Room r: map.getRooms()){
+				System.out.println("initial: (" + r.getGlobal_initial().x + "," + r.getGlobal_initial().y + ")");
+				System.out.println("final: (" + r.getGlobal_final().x + "," + r.getGlobal_final().y + ")");
+			}
 		}
+		map.asd();
+		
 		assertTrue(true);
 	}
 

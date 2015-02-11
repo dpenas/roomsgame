@@ -3,6 +3,7 @@ package map;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import main.Main;
 import util.GenericMatrixFunctions;
 import util.RandUtil;
@@ -433,107 +434,203 @@ public class Map {
 		assignDoors();
 	}
 	
+	public void assignIndividualDoor(Room room){
+		
+		int ini_x = room.getGlobal_initial().x;
+		int ini_y = room.getGlobal_initial().y;
+		int fin_x = room.getGlobal_final().x;
+		int fin_y = room.getGlobal_final().y;
+		ArrayList<Tuple<Integer, Integer>> doorPoints = new ArrayList<Tuple<Integer, Integer>>();
+		Tuple<Integer, Integer> doorFirstPosition = new Tuple<Integer, Integer>(0, 0);
+		ArrayList<Tuple<Integer, Integer>> otherRoomDoorPositions = new ArrayList<Tuple<Integer, Integer>>();
+		
+		for (int i = ini_y; i < fin_y; i++){
+			doorPoints.add(new Tuple<Integer, Integer>(ini_x, i));
+		}
+		
+		for (int i = ini_y; i < fin_y; i++){
+			doorPoints.add(new Tuple<Integer, Integer>(fin_x, i));
+		}
+		
+		for (int i = ini_x; i < fin_x; i++){
+			doorPoints.add(new Tuple<Integer, Integer>(i, ini_y));
+		}
+		
+		for (int i = ini_x; i < fin_x; i++){
+			doorPoints.add(new Tuple<Integer, Integer>(i, fin_y));
+		}
+		
+		Iterator<Tuple<Integer, Integer>> iter = doorPoints.iterator();
+
+		while (iter.hasNext()) {
+		    Tuple<Integer, Integer> pointDoor = iter.next();
+
+		    if (pointDoor.x == 0 || pointDoor.y == 0 || pointDoor.x == real_x - 1 || pointDoor.y == real_y - 1){
+		        iter.remove();
+		    }
+		}
+		
+		int randNumber = RandUtil.RandomNumber(0, doorPoints.size());
+		
+		doorFirstPosition = doorPoints.get(randNumber);
+		otherRoomDoorPositions.add(new Tuple<Integer, Integer>(doorFirstPosition.x - 1, doorFirstPosition.y));
+		otherRoomDoorPositions.add(new Tuple<Integer, Integer>(doorFirstPosition.x, doorFirstPosition.y - 1));
+		otherRoomDoorPositions.add(new Tuple<Integer, Integer>(doorFirstPosition.x + 1, doorFirstPosition.y));
+		otherRoomDoorPositions.add(new Tuple<Integer, Integer>(doorFirstPosition.x, doorFirstPosition.y + 1));
+		
+		iter = otherRoomDoorPositions.iterator();
+
+		while (iter.hasNext()) {
+		    Tuple<Integer, Integer> pointDoor2 = iter.next();
+
+		    if (pointDoor2.x == 0 || pointDoor2.y == 0 || pointDoor2.x == real_x - 1 || pointDoor2.y == real_y - 1){
+		        iter.remove();
+		    }
+		}
+		
+		randNumber = RandUtil.RandomNumber(0, otherRoomDoorPositions.size());
+		Tuple <Integer, Integer> finalPositionOtherRoom = otherRoomDoorPositions.get(randNumber); 
+		
+		for (Room roomDoor: this.getRooms()){
+			if (roomDoor.isMapPositionHere(finalPositionOtherRoom) && !roomDoor.equals(room) && 
+					!room.getConnected_rooms().contains(roomDoor)) {
+				Door door = new Door(doorFirstPosition, finalPositionOtherRoom, room, roomDoor);
+				System.out.println("LOLOLO");
+				if (!room.isInCorner(door.getPositionRoom1()) &&
+						!room.isInCorner(door.getPositionRoom2()) &&
+						!roomDoor.isInCorner(door.getPositionRoom1()) &&
+						!roomDoor.isInCorner(door.getPositionRoom2())){
+					System.out.println(door.getPositionRoom1().x + "," + door.getPositionRoom1().y);
+					System.out.println(door.getPositionRoom2().x + "," + door.getPositionRoom2().y);
+					System.out.println("ROOM CORNERS: ");
+					for (Tuple<Integer, Integer> tuple: room.getCorners()){
+						System.out.println(tuple.x + "," + tuple.y);
+					}
+					System.out.println("THE OTHER ONE: ");
+					for (Tuple<Integer, Integer> tuple: roomDoor.getCorners()){
+						System.out.println(tuple.x + "," + tuple.y);
+					}
+					room.getDoors().add(door);
+					roomDoor.getDoors().add(door);
+					room.getConnected_rooms().add(roomDoor);
+					roomDoor.getConnected_rooms().add(room);
+					break;
+				}
+			}
+		}
+	}
+	
 	public void assignDoors(){
 		for(Room room : this.rooms){
-			int ini_x = room.getGlobal_initial().x;
-			int ini_y = room.getGlobal_initial().y;
-			int fin_x = room.getGlobal_final().x;
-			int fin_y = room.getGlobal_final().y;
-			ArrayList<Tuple<Integer, Integer>> doorPoints = new ArrayList<Tuple<Integer, Integer>>();
-			Tuple<Integer, Integer> doorFirstPosition = new Tuple<Integer, Integer>(0, 0);
-			ArrayList<Tuple<Integer, Integer>> otherRoomDoorPositions = new ArrayList<Tuple<Integer, Integer>>();
 			if (room.getDoors().size() == 0){
-				
-				for (int i = ini_y; i < fin_y; i++){
-					doorPoints.add(new Tuple<Integer, Integer>(ini_x, i));
-				}
-				
-				for (int i = ini_y; i < fin_y; i++){
-					doorPoints.add(new Tuple<Integer, Integer>(fin_x, i));
-				}
-				
-				for (int i = ini_x; i < fin_x; i++){
-					doorPoints.add(new Tuple<Integer, Integer>(i, ini_y));
-				}
-				
-				for (int i = ini_x; i < fin_x; i++){
-					doorPoints.add(new Tuple<Integer, Integer>(i, fin_y));
-				}
-				
-				// IS IT real_x - 1???
-				Iterator<Tuple<Integer, Integer>> iter = doorPoints.iterator();
-
-				while (iter.hasNext()) {
-				    Tuple<Integer, Integer> pointDoor = iter.next();
-
-				    if (pointDoor.x == 0 || pointDoor.y == 0 || pointDoor.x == real_x - 1 || pointDoor.y == real_y - 1){
-				        iter.remove();
-				    }
-				}
-				
-				if (fin_x == 2 && fin_y == 2){
-					System.out.println("HOLAAAAAAA");
-					System.out.println(doorPoints.get(0).x + "," + doorPoints.get(0).y);
-					System.out.println(doorPoints.get(1).x + "," + doorPoints.get(1).y);
-				}
-				
-				int randNumber = RandUtil.RandomNumber(0, doorPoints.size());
-				
-				doorFirstPosition = doorPoints.get(randNumber);
-				//otherRoomDoorPositions.add(new Tuple<Integer, Integer>(doorFirstPosition.x - 1, doorFirstPosition.y - 1));
-				otherRoomDoorPositions.add(new Tuple<Integer, Integer>(doorFirstPosition.x - 1, doorFirstPosition.y));
-				otherRoomDoorPositions.add(new Tuple<Integer, Integer>(doorFirstPosition.x, doorFirstPosition.y - 1));
-				otherRoomDoorPositions.add(new Tuple<Integer, Integer>(doorFirstPosition.x + 1, doorFirstPosition.y));
-				otherRoomDoorPositions.add(new Tuple<Integer, Integer>(doorFirstPosition.x, doorFirstPosition.y + 1));
-				//otherRoomDoorPositions.add(new Tuple<Integer, Integer>(doorFirstPosition.x + 1, doorFirstPosition.y + 1));
-				
-				iter = otherRoomDoorPositions.iterator();
-
-				while (iter.hasNext()) {
-				    Tuple<Integer, Integer> pointDoor2 = iter.next();
-
-				    if (pointDoor2.x == 0 || pointDoor2.y == 0 || pointDoor2.x == real_x - 1 || pointDoor2.y == real_y - 1 ||
-				    		room.isMapPositionHere(pointDoor2)){
-				        iter.remove();
-				    }
-				}
-				
-				if (fin_x == 2 && fin_y == 2){
-//					System.out.println("HOLAAAAAAA2");
-//					System.out.println(otherRoomDoorPositions.size());
-//					System.out.println(otherRoomDoorPositions.get(0).x + "," + otherRoomDoorPositions.get(0).y);
-//					System.out.println(otherRoomDoorPositions.get(1).x + "," + otherRoomDoorPositions.get(1).y);
-//					System.out.println(otherRoomDoorPositions.get(2).x + "," + otherRoomDoorPositions.get(2).y);
-//					System.out.println(otherRoomDoorPositions.get(3).x + "," + otherRoomDoorPositions.get(3).y);
-				}
-				
-				randNumber = RandUtil.RandomNumber(0, otherRoomDoorPositions.size());
-				Tuple <Integer, Integer> finalPositionOtherRoom = otherRoomDoorPositions.get(randNumber); 
-				
-				for (Room roomDoor: this.getRooms()){
-					if (roomDoor.isMapPositionHere(finalPositionOtherRoom) && !roomDoor.equals(room)){
-						Door door = new Door(doorFirstPosition, finalPositionOtherRoom, room, roomDoor);
-						room.getDoors().add(door);
-						roomDoor.getDoors().add(door);
-						room.getConnected_rooms().add(roomDoor);
-						roomDoor.getConnected_rooms().add(room);
-						break;
-					}
-				}
+				this.assignIndividualDoor(room);
 			}
 		}
 		
-		System.out.println("Doors: ");
-		
-		for (Room r : this.getRooms()){
-			System.out.println("Room Initial Point: (" + r.getGlobal_initial().x + "," + r.getGlobal_initial().y + ")");
-			System.out.println("Final Point: (" + r.getGlobal_final().x + "," + r.getGlobal_final().y + ")");
-			for (Door d : r.getDoors()){
-				System.out.println("Door POS 1: (" + d.getPositionRoom1().x + "," + d.getPositionRoom1().y + ")");
-				System.out.println("Door POS 2: (" + d.getPositionRoom2().x + "," + d.getPositionRoom2().y + ")");
-			}
+		if (Main.debug){
+			System.out.println("Doors: ");
+			
+			for (Room r : this.getRooms()){
+				System.out.println("Room Initial Point: (" + r.getGlobal_initial().x + "," + r.getGlobal_initial().y + ")");
+				System.out.println("Final Point: (" + r.getGlobal_final().x + "," + r.getGlobal_final().y + ")");
+				for (Door d : r.getDoors()){
+					System.out.println("Door POS 1: (" + d.getPositionRoom1().x + "," + d.getPositionRoom1().y + ")");
+					System.out.println("Door POS 2: (" + d.getPositionRoom2().x + "," + d.getPositionRoom2().y + ")");
+				}
+			}	
 		}
 		
+		fixUnreachableRooms();
+	}
+	
+	public ArrayList<Room> getUnreachableRooms(){
+		ArrayList<Room> unreachable = new ArrayList<Room>(this.getRooms());
+		ArrayList<Room> visitedRooms = new ArrayList<Room>();
+		ArrayList<Room> nextRooms = new ArrayList<Room>();
+		nextRooms.add(this.getRooms().get(0));
+		
+		while (nextRooms.size() != 0){
+			Room room = nextRooms.get(0);
+			for (Room r: room.getConnected_rooms()){
+				if (!visitedRooms.contains(r)){
+					nextRooms.add(r);
+				}
+			}
+			nextRooms.remove(room);
+			unreachable.remove(room);
+			visitedRooms.add(room);
+		}
+		
+		for (Room r: unreachable){
+			System.out.println("Unreachable INI: (" + r.getGlobal_initial().x + "," + r.getGlobal_initial().y + ")");
+			System.out.println("Unreachable FIN: (" + r.getGlobal_final().x + "," + r.getGlobal_final().y + ")");
+		}
+		
+		return unreachable;
+	}
+	
+	public void fixUnreachableRooms(){
+		ArrayList<Room> unreachable = this.getUnreachableRooms();
+		while (unreachable.size() != 0){
+			System.out.println(this.getRooms().size());
+			for (Room r : unreachable){
+				this.assignIndividualDoor(r);
+			}
+			unreachable = this.getUnreachableRooms();
+		}
+	}
+	
+	public void asd(){
+		
+		WSwingConsoleInterface j = new WSwingConsoleInterface("LUCK - libjcsi Testing Grounds"	);
+		j.cls();
+		
+		for(Room room : this.getRooms()){
+//			int ini_x = room.getGlobal_initial().x;
+//			int ini_y = room.getGlobal_initial().y;
+//			int fin_x = room.getGlobal_final().x;
+//			int fin_y = room.getGlobal_final().y;
+			
+			//System.out.println("NEW ROOM");
+			
+			for (Tuple<Integer, Integer> pos: room.getBordersMap()){
+				j.print(pos.x, pos.y, '#', 12);
+			}
+			
+//			for (int i = ini_y; i <= fin_y; i++){
+//				System.out.println("Printing: (" + ini_x + "," + i + ")");
+//				j.print(i, ini_x, '#', 12);
+//			}
+//			
+//			for (int i = ini_y; i <= fin_y; i++){
+//				System.out.println("Printing: (" + fin_x + "," + i + ")");
+//				j.print(i, fin_x, '#', 12);
+//			}
+//			
+//			for (int i = ini_x; i <= fin_x; i++){
+//				System.out.println("Printing: (" + i + "," + ini_y + ")");
+//				j.print(ini_y, i, '#', 12);
+//			}
+//			
+//			for (int i = ini_x; i <= fin_x; i++){
+//				System.out.println("Printing: (" + i + "," + fin_y + ")");
+//				j.print(fin_y, i, '#', 12);
+//			}
+			
+			for (Door d : room.getDoors()){
+				j.print(d.getPositionRoom1().y, d.getPositionRoom1().x, 'O', 12);
+				j.print(d.getPositionRoom2().y, d.getPositionRoom2().x, 'O', 12);
+			}
+			
+			System.out.println("Corners: ");
+			for (Tuple<Integer, Integer> tuple : room.getCorners()){
+				System.out.println("Corner: (" + tuple.x + "," + tuple.y + ")");
+			}
+		}
+		j.print(0, 0, "@", 12);
+		j.print(10, 10, "@", 12);
+		j.refresh();
+		j.waitKey(40);
 	}
 	
 	public Tuple<Integer, Integer> global_init() {
