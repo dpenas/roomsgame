@@ -580,42 +580,13 @@ public class Map {
 		}
 	}
 	
-	public void asd(){
-		
-		WSwingConsoleInterface j = new WSwingConsoleInterface("LUCK - libjcsi Testing Grounds"	);
-		j.cls();
+	public void printBorders(WSwingConsoleInterface j){
 		
 		for(Room room : this.getRooms()){
-//			int ini_x = room.getGlobal_initial().x;
-//			int ini_y = room.getGlobal_initial().y;
-//			int fin_x = room.getGlobal_final().x;
-//			int fin_y = room.getGlobal_final().y;
-			
-			//System.out.println("NEW ROOM");
 			
 			for (Tuple<Integer, Integer> pos: room.getBordersMap()){
 				j.print(pos.x, pos.y, '#', 12);
 			}
-			
-//			for (int i = ini_y; i <= fin_y; i++){
-//				System.out.println("Printing: (" + ini_x + "," + i + ")");
-//				j.print(i, ini_x, '#', 12);
-//			}
-//			
-//			for (int i = ini_y; i <= fin_y; i++){
-//				System.out.println("Printing: (" + fin_x + "," + i + ")");
-//				j.print(i, fin_x, '#', 12);
-//			}
-//			
-//			for (int i = ini_x; i <= fin_x; i++){
-//				System.out.println("Printing: (" + i + "," + ini_y + ")");
-//				j.print(ini_y, i, '#', 12);
-//			}
-//			
-//			for (int i = ini_x; i <= fin_x; i++){
-//				System.out.println("Printing: (" + i + "," + fin_y + ")");
-//				j.print(fin_y, i, '#', 12);
-//			}
 			
 			for (Door d : room.getDoors()){
 				j.print(d.getPositionRoom1().y, d.getPositionRoom1().x, 'O', 12);
@@ -627,10 +598,6 @@ public class Map {
 				System.out.println("Corner: (" + tuple.x + "," + tuple.y + ")");
 			}
 		}
-		j.print(0, 0, "@", 12);
-		j.print(10, 10, "@", 12);
-		j.refresh();
-		j.waitKey(40);
 	}
 	
 	public Tuple<Integer, Integer> global_init() {
