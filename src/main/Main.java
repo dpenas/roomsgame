@@ -38,6 +38,9 @@ public class Main {
 		if (!testMode){
 			Map map = new Map(initial_point, final_point);
 			Room roomCharacter = getRandomRoom(map);
+			char previousPositionChar = '.';
+			char previousPositionChar2 = '.';
+			boolean firstTime = true;
 			ActiveCharacter user = new ActiveCharacter("", "", "", map, roomCharacter, roomCharacter.getRandomInsidePosition(), 
 					40, 10, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 					new ArrayList<WereableArmor>(), 100, 100, 0,
@@ -46,6 +49,7 @@ public class Main {
 			WSwingConsoleInterface j = new WSwingConsoleInterface("asdasd");
 			j.cls();
 			map.printBorders(j);
+			map.printInside(j);
 			j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 
 			for (;;) {
@@ -53,9 +57,28 @@ public class Main {
 	            System.out.println(i);
 	            Tuple<Integer, Integer> previousPosition = user.getPosition();
 	            Tuple<Integer, Integer> newPosition = RandUtil.inputInterpretation(i, user);
+	            
 	            if (user.move(newPosition)){
-	            	j.print(previousPosition.y, previousPosition.x, " ", 12);
-	            	j.print(newPosition.y, newPosition.x, user.getSymbolRepresentation(), 12);
+	            	previousPositionChar = previousPositionChar2;
+	            	previousPositionChar2 = j.peekChar(newPosition.y, newPosition.x);
+	            	System.out.println(previousPositionChar);
+	            	System.out.println(previousPositionChar2);
+	            	
+	            	if (j.peekChar(newPosition.y, newPosition.x) == '.'){
+	            		j.print(newPosition.y, newPosition.x, user.getSymbolRepresentation(), 12);
+		            	j.print(previousPosition.y, previousPosition.x, previousPositionChar, 12);
+		            	
+	            	} else{
+	            		if (firstTime) {
+	            			j.print(newPosition.y, newPosition.x, user.getSymbolRepresentation(), 12);
+			            	j.print(previousPosition.y, previousPosition.x, previousPositionChar, 12);
+	            			firstTime = false;
+	            		} else {
+	            			j.print(newPosition.y, newPosition.x, user.getSymbolRepresentation(), 12);
+			            	j.print(previousPosition.y, previousPosition.x, previousPositionChar2, 12);
+	            			firstTime = true;
+	            		}
+	            	}
 	            }
 				j.refresh();
 			}

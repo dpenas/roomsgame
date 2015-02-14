@@ -601,6 +601,14 @@ public class Map {
 		}
 	}
 	
+	public void printInside(WSwingConsoleInterface j){
+		for(Room room : this.getRooms()){
+			for (Tuple<Integer, Integer> pos: room.getInsidePositions()){
+				j.print(pos.y, pos.x, '.', 12);
+			}
+		}
+	}
+	
 	public Room obtainRoomByPosition(Tuple<Integer, Integer> position){
 		for (Room room : this.getRooms()){
 			if (room.isMapPositionHere(position)){
