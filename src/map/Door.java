@@ -17,6 +17,17 @@ public class Door {
 		this.room1 = room1;
 		this.room2 = room2;
 	}
+	
+	public Tuple<Integer, Integer> getPositionRoom (Tuple<Integer, Integer> tuple){
+		if (room1.isMapPositionHere(tuple)){
+			return positionRoom1;
+		}
+		if (room2.isMapPositionHere(tuple)){
+			return positionRoom2;
+		}
+		return null;
+	}
+	
 	public Tuple<Integer, Integer> getPositionRoom1() {
 		return positionRoom1;
 	}
@@ -41,7 +52,4 @@ public class Door {
 	public void setRoom2(Room room2) {
 		this.room2 = room2;
 	}
-	
-	
-
 }

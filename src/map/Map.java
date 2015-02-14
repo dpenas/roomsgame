@@ -3,6 +3,7 @@ package map;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import characters.active.ActiveCharacter;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import main.Main;
 import util.GenericMatrixFunctions;
@@ -598,6 +599,15 @@ public class Map {
 				System.out.println("Corner: (" + tuple.x + "," + tuple.y + ")");
 			}
 		}
+	}
+	
+	public Room obtainRoomByPosition(Tuple<Integer, Integer> position){
+		for (Room room : this.getRooms()){
+			if (room.isMapPositionHere(position)){
+				return room;
+			}
+		}
+		return null;
 	}
 	
 	public Tuple<Integer, Integer> global_init() {

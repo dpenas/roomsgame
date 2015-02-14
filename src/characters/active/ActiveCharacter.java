@@ -14,7 +14,6 @@ import items.Item;
 import items.ItemEnumerate;
 import items.ItemEnumerate.ArmorType;
 import items.ItemEnumerate.WeaponType;
-
 import main.Main;
 
 /**
@@ -47,8 +46,9 @@ public class ActiveCharacter extends Character {
 			ArrayList<WereableWeapon> weaponsEquipped,
 			ArrayList<WereableArmor> armorsEquipped, int inventorySpace, int carryWeight,
 			int actualCarryWeight, ArrayList<Item> inventory, int actualInventorySpace, int evasion,
-			int totalLife, int magic, int totalMagic) {
-		super(name, description, gender, map, room, position, weight, length, carryWeight, actualCarryWeight, inventory);
+			int totalLife, int magic, int totalMagic, String symbolRepresentation) {
+		super(name, description, gender, map, room, position, weight, length, carryWeight, actualCarryWeight, 
+				inventory, symbolRepresentation);
 		this.damage = damage;
 		this.totalMagic = totalMagic;
 		this.magic = magic;
@@ -278,6 +278,16 @@ public class ActiveCharacter extends Character {
 		}
 		if (Main.debug){
 			System.out.println("The item is not in the inventory");
+		}
+		return false;
+	}
+	
+	public boolean move(Tuple<Integer, Integer> position){
+		Room room = this.getMap().obtainRoomByPosition(position); 
+		if (room != null && (room.isInside(position) || room.isADoor(position))){
+			this.setPosition(position);
+			this.setRoom(room);
+			return true;
 		}
 		return false;
 	}

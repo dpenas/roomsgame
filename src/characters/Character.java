@@ -1,8 +1,8 @@
 package characters;
 
 import java.util.ArrayList;
-import items.Item;
 
+import items.Item;
 import map.Map;
 import map.Room;
 import util.Tuple;
@@ -17,12 +17,13 @@ public abstract class Character {
 	private int length;
 	private Map map;
 	private Room room;
+	private String symbolRepresentation;
 	private Tuple<Integer, Integer> position;
 	private ArrayList<Item> inventory;
 	
 	public Character(String name, String description, String gender, Map map,
 			Room room, Tuple<Integer, Integer> position, int weight, int length, int carryWeight,
-			int actualCarryWeight, ArrayList<Item> inventory) {
+			int actualCarryWeight, ArrayList<Item> inventory, String symbolRepresentation) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -35,6 +36,7 @@ public abstract class Character {
 		this.carryWeight = carryWeight;
 		this.actualCarryWeight = actualCarryWeight;
 		this.inventory = inventory;
+		this.symbolRepresentation = symbolRepresentation;
 	}
 
 	public String getName() {
@@ -127,6 +129,14 @@ public abstract class Character {
 
 	public void setInventory(ArrayList<Item> inventory) {
 		this.inventory = inventory;
+	}
+
+	public String getSymbolRepresentation() {
+		return symbolRepresentation;
+	}
+
+	public void setSymbolRepresentation(String symbolRepresentation) {
+		this.symbolRepresentation = symbolRepresentation;
 	}
 
 }
