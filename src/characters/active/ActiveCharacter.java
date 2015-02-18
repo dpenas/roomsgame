@@ -37,8 +37,10 @@ public class ActiveCharacter extends Character {
 	private int inventorySpace;
 	private int actualInventorySpace;
 	private int evasion;
+	private int vision;
 	private ArrayList<WereableWeapon> weaponsEquipped;
 	private ArrayList<WereableArmor> armorsEquipped;
+	private ArrayList<Tuple<Integer, Integer>> visiblePositions = new ArrayList<Tuple<Integer, Integer>>();
 
 	public ActiveCharacter(String name, String description, String gender,
 			Map map, Room room, Tuple<Integer, Integer> position, int damage,
@@ -46,7 +48,7 @@ public class ActiveCharacter extends Character {
 			ArrayList<WereableWeapon> weaponsEquipped,
 			ArrayList<WereableArmor> armorsEquipped, int inventorySpace, int carryWeight,
 			int actualCarryWeight, ArrayList<Item> inventory, int actualInventorySpace, int evasion,
-			int totalLife, int magic, int totalMagic, String symbolRepresentation) {
+			int totalLife, int magic, int totalMagic, String symbolRepresentation, int vision) {
 		super(name, description, gender, map, room, position, weight, length, carryWeight, actualCarryWeight, 
 				inventory, symbolRepresentation);
 		this.damage = damage;
@@ -61,6 +63,35 @@ public class ActiveCharacter extends Character {
 		this.actualInventorySpace = actualInventorySpace;
 		this.evasion = evasion; // number between 0 and 100
 		this.totalLife = totalLife;
+		this.vision = vision;
+		this.setVisiblePositions();
+	}
+	
+	public void setVisiblePositions(){
+		this.visiblePositions = new ArrayList<Tuple<Integer, Integer>>();
+		Tuple<Integer, Integer> position = this.getPosition();
+		int minMap_x = position.x - this.getVision(); 
+		if (minMap_x < this.getMap().global_init().x) minMap_x = this.getMap().global_init().x;
+		
+		int minMap_y = position.y - this.getVision(); 
+		if (minMap_y < this.getMap().global_init().y) minMap_y = this.getMap().global_init().y;
+		
+		int maxMap_x = position.x + this.getVision(); 
+		if (maxMap_x > this.getMap().global_fin().x) maxMap_x = this.getMap().global_fin().x;
+		
+		int maxMap_y = position.y + this.getVision(); 
+		if (maxMap_y > this.getMap().global_fin().y) maxMap_y = this.getMap().global_fin().y;
+
+		for (int i = minMap_x; i <= maxMap_x; i++){
+			for (int j = minMap_y; j <= maxMap_y; j++){
+				this.visiblePositions.add(new Tuple<Integer, Integer>(i, j));
+			}
+		}
+		System.out.println("POSITIONS: ");
+		for (Tuple<Integer, Integer> pos : this.visiblePositions){
+			System.out.println("Pos: (" + pos.x + "," + pos.y + ")");
+		}
+		
 	}
 
 	public int getAttackFromWeapons(ActiveCharacter character){
@@ -386,6 +417,18 @@ public class ActiveCharacter extends Character {
 
 	public void setMagic(int magic) {
 		this.magic = magic;
+	}
+	
+	public ArrayList<Tuple<Integer, Integer>> getVisiblePositions(){
+		return this.visiblePositions;
+	}
+
+	public int getVision() {
+		return vision;
+	}
+
+	public void setVision(int vision) {
+		this.vision = vision;
 	}
 
 }

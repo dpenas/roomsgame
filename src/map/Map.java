@@ -581,30 +581,45 @@ public class Map {
 		}
 	}
 	
-	public void printBorders(WSwingConsoleInterface j){
-		
+	public void printBorders(WSwingConsoleInterface j, ActiveCharacter user){
+		Tuple<Integer, Integer> tuple1 = new Tuple<Integer, Integer>(0, 0);
+		Tuple<Integer, Integer> tuple2 = new Tuple<Integer, Integer>(0, 0);
 		for(Room room : this.getRooms()){
-			
-			for (Tuple<Integer, Integer> pos: room.getBordersMap()){
-				j.print(pos.x, pos.y, '#', 12);
-			}
-			
-			for (Door d : room.getDoors()){
-				j.print(d.getPositionRoom1().y, d.getPositionRoom1().x, 'O', 12);
-				j.print(d.getPositionRoom2().y, d.getPositionRoom2().x, 'O', 12);
-			}
-			
-			System.out.println("Corners: ");
-			for (Tuple<Integer, Integer> tuple : room.getCorners()){
-				System.out.println("Corner: (" + tuple.x + "," + tuple.y + ")");
+			if (user.getRoom().equals(room)){
+				for (Tuple<Integer, Integer> pos: room.getBorders()){
+					System.out.println("Borders: (" + pos.x + "," + pos.y + ")");
+					if (RandUtil.containsTuple(pos, user.getVisiblePositions())){
+						j.print(pos.y, pos.x, '#', 12);
+					}
+				}
+				
+				for (Door d : room.getDoors()){
+					tuple1 = new Tuple<Integer, Integer>(d.getPositionRoom1().x, d.getPositionRoom1().y);
+					tuple2 = new Tuple<Integer, Integer>(d.getPositionRoom2().x, d.getPositionRoom2().y);
+					if (RandUtil.containsTuple(tuple1, user.getVisiblePositions())){
+						j.print(d.getPositionRoom1().y, d.getPositionRoom1().x, 'O', 12);
+					} 
+					if (RandUtil.containsTuple(tuple2, user.getVisiblePositions())){
+						j.print(d.getPositionRoom2().y, d.getPositionRoom2().x, 'O', 12);
+					}
+				}
+				
+				System.out.println("Corners: ");
+				for (Tuple<Integer, Integer> corner : room.getCorners()){
+					System.out.println("Corner: (" + corner.x + "," + corner.y + ")");
+				}
 			}
 		}
 	}
 	
-	public void printInside(WSwingConsoleInterface j){
+	public void printInside(WSwingConsoleInterface j, ActiveCharacter user){
 		for(Room room : this.getRooms()){
-			for (Tuple<Integer, Integer> pos: room.getInsidePositions()){
-				j.print(pos.y, pos.x, '.', 12);
+			if (user.getRoom().equals(room)){
+				for (Tuple<Integer, Integer> pos: room.getInsidePositions()){
+					if (RandUtil.containsTuple(pos, user.getVisiblePositions())){
+						j.print(pos.y, pos.x, '.', 12);
+					}
+				}
 			}
 		}
 	}

@@ -44,12 +44,12 @@ public class Main {
 			ActiveCharacter user = new ActiveCharacter("", "", "", map, roomCharacter, roomCharacter.getRandomInsidePosition(), 
 					40, 10, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 					new ArrayList<WereableArmor>(), 100, 100, 0,
-					new ArrayList<Item>(), 0, 0, 100, 100, 100, "@");
+					new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4);
 			
 			WSwingConsoleInterface j = new WSwingConsoleInterface("asdasd");
 			j.cls();
-			map.printBorders(j);
-			map.printInside(j);
+			map.printBorders(j, user);
+			map.printInside(j, user);
 			j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 
 			for (;;) {
@@ -59,6 +59,10 @@ public class Main {
 	            Tuple<Integer, Integer> newPosition = RandUtil.inputInterpretation(i, user);
 	            
 	            if (user.move(newPosition)){
+	            	j.cls();
+	            	user.setVisiblePositions();
+	            	map.printBorders(j, user);
+	    			map.printInside(j, user);
 	            	previousPositionChar = previousPositionChar2;
 	            	previousPositionChar2 = j.peekChar(newPosition.y, newPosition.x);
 	            	System.out.println(previousPositionChar);

@@ -142,7 +142,7 @@ public class Room {
 		
 		for (int i = ini_x; i <= fin_x; i++){
 			bordersMap.add(new Tuple<Integer, Integer>(fin_y, i));
-			borders.add(new Tuple<Integer, Integer>(fin_y, i));
+			borders.add(new Tuple<Integer, Integer>(i, fin_y));
 		}
 	}
 

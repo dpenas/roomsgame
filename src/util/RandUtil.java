@@ -1,5 +1,6 @@
 package util;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import characters.active.ActiveCharacter;
@@ -32,5 +33,12 @@ public class RandUtil {
 		default:
 			return null;
 		}
+	}
+	
+	public static boolean containsTuple(Tuple<Integer, Integer> tuple, ArrayList<Tuple<Integer, Integer>> array){
+		for (Tuple<Integer, Integer> tuple2 : array){
+			if (tuple.x == tuple2.x && tuple.y == tuple2.y) return true;
+		}
+		return false;
 	}
 }
