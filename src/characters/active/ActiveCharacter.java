@@ -2,6 +2,7 @@ package characters.active;
 
 import java.util.ArrayList;
 
+import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import map.Map;
 import map.Room;
 import characters.Character;
@@ -225,6 +226,13 @@ public class ActiveCharacter extends Character {
 			}
 		}
 		return false;
+	}
+	
+	public void printInventory(ArrayList<Item> inventory, WSwingConsoleInterface j, int initPos_i, int initPos_j){
+		for (int i = 0; i < inventory.size(); i++){
+			String name = i + 1 + " - " + inventory.get(i).getName();
+			j.print(initPos_j, initPos_i + i, name);
+		}
 	}
 	
 	/**

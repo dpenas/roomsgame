@@ -1,6 +1,7 @@
 package main;
 
 import items.Item;
+import items.consumables.LifePotion;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 
@@ -51,22 +52,32 @@ public class Main {
 			map.printBorders(j, user);
 			map.printInside(j, user);
 			j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
-
+			LifePotion lifePotion30 = new LifePotion(0, 10, "", null, null, null, null, 30);
+			LifePotion lifePotion40 = new LifePotion(0, 10, "", null, null, null, null, 30);
+			LifePotion lifePotion50 = new LifePotion(0, 10, "", null, null, null, null, 30);
+			LifePotion lifePotion60 = new LifePotion(0, 10, "", null, null, null, null, 30);
+			LifePotion lifePotion70 = new LifePotion(0, 10, "", null, null, null, null, 30);
+			LifePotion lifePotion80 = new LifePotion(0, 10, "", null, null, null, null, 30);
+			
+			ArrayList<Item> inventory = new ArrayList<Item>();
+			inventory.add(lifePotion30);
+			inventory.add(lifePotion40);
+			inventory.add(lifePotion50);
+			
+			user.setInventory(inventory);
 			for (;;) {
+				user.printInventory(user.getInventory(), j, 22, 0);
 				int i = j.inkey().code;
 	            System.out.println(i);
 	            Tuple<Integer, Integer> previousPosition = user.getPosition();
 	            Tuple<Integer, Integer> newPosition = RandUtil.inputInterpretation(i, user);
 	            
 	            if (user.move(newPosition)){
-	            	j.cls();
 	            	user.setVisiblePositions();
 	            	map.printBorders(j, user);
 	    			map.printInside(j, user);
 	            	previousPositionChar = previousPositionChar2;
 	            	previousPositionChar2 = j.peekChar(newPosition.y, newPosition.x);
-	            	System.out.println(previousPositionChar);
-	            	System.out.println(previousPositionChar2);
 	            	
 	            	if (j.peekChar(newPosition.y, newPosition.x) == '.'){
 	            		j.print(newPosition.y, newPosition.x, user.getSymbolRepresentation(), 12);
