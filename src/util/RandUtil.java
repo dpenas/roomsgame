@@ -19,7 +19,7 @@ public class RandUtil {
 		return randomIntValue;
 	}
 	
-	public static Tuple<Integer, Integer> inputInterpretation(int input, ActiveCharacter character){
+	public static Tuple<Integer, Integer> inputMoveInterpretation(int input, ActiveCharacter character){
 		
 		switch (input){
 		case 0:

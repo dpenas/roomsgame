@@ -301,7 +301,7 @@ public class ActiveCharacter extends Character {
 		return this.throwItem(weapon);
 		
 	}
-	
+	// TODO: Change this so we can use another inventory
 	public boolean useConsumable(Consumable consumable){
 		if (this.getInventory().contains(consumable)){
 			if (consumable.getCharacter().equals(this)){
@@ -329,6 +329,22 @@ public class ActiveCharacter extends Character {
 			return true;
 		}
 		return false;
+	}
+	
+	public void useItem(Item item){
+		if (item.isWereableItem()){
+			if (item.isWereableArmor()){
+				this.equipArmor((WereableArmor)item);
+			} else {
+				if (item.isWereableWeapon()){
+					this.equipWeapon((WereableWeapon)item);
+				}
+			}
+		} else {
+			if (item.isConsumableItem()){
+				this.useConsumable((Consumable)item);
+			}
+		}
 	}
 	
 	public int getDamage() {

@@ -1,11 +1,17 @@
 package items;
 
+import items.consumables.Consumable;
+import items.wereables.Wereable;
+import items.wereables.WereableArmor;
+import items.wereables.WereableWeapon;
+
 import java.util.ArrayList;
 
 import util.Tuple;
 import map.Map;
 import map.Room;
 import characters.Character;
+import characters.active.ActiveCharacter;
 
 public abstract class Item {
 
@@ -34,6 +40,22 @@ public abstract class Item {
 		this.map = map;
 		this.room = room;
 		this.position = position;
+	}
+	
+	public boolean isWereableItem(){
+		return Wereable.class.isInstance(this);
+	}
+	
+	public boolean isWereableArmor(){
+		return WereableArmor.class.isInstance(this);
+	}
+	
+	public boolean isWereableWeapon(){
+		return WereableWeapon.class.isInstance(this);
+	}
+	
+	public boolean isConsumableItem(){
+		return Consumable.class.isInstance(this);
 	}
 
 	public String getDescription() {
