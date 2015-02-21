@@ -18,6 +18,8 @@ import items.consumables.MagicPotion;
 import items.wereables.OneHandSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
+import map.Map;
+import map.Room;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -58,6 +60,10 @@ public class ActiveCharacterTest {
 	public static String country;
 	public static Locale currentLocale;
 	public static ResourceBundle messagesWereables;
+	Tuple<Integer, Integer> initial_point = new Tuple<Integer, Integer>(0, 0);
+	Tuple<Integer, Integer> final_point = new Tuple<Integer, Integer>(20, 20);
+	Map map = new Map(initial_point, final_point);
+	Room room = map.getRooms().get(0);
 
 	@Before
 	public void setUp() throws IOException {
@@ -68,35 +74,35 @@ public class ActiveCharacterTest {
 				"translations.files.MessagesWereable", currentLocale);
 		main.Main.main(null);
 
-		attacker = new ActiveCharacter("", "", "", null, null, null, 40, 10,
+		attacker = new ActiveCharacter("", "", "", map, room, position, 40, 10,
 				100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4);
-		defender = new ActiveCharacter("", "", "", null, null, null, 40, 10,
+		defender = new ActiveCharacter("", "", "", map, room, position, 40, 10,
 				100, 0, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4);
-		c1 = new ActiveCharacter("", "", "", null, null, position, 40, 10, 100,
+		c1 = new ActiveCharacter("", "", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4);
-		c2 = new ActiveCharacter("", "", "", null, null, null, 40, 10, 100, 50,
+		c2 = new ActiveCharacter("", "", "", map, room, position, 40, 10, 100, 50,
 				100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 95,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4);
-		c3 = new ActiveCharacter("", "", "", null, null, position, 40, 10, 100,
+		c3 = new ActiveCharacter("", "", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4);
-		c4 = new ActiveCharacter("", "", "", null, null, position, 40, 10, 100,
+		c4 = new ActiveCharacter("", "", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4);
-		c5 = new ActiveCharacter("", "", "", null, null, position, 40, 10, 100,
+		c5 = new ActiveCharacter("", "", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4);
-		c6 = new ActiveCharacter("", "", "", null, null, position, 40, 10, 100,
+		c6 = new ActiveCharacter("", "", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4);
@@ -212,10 +218,13 @@ public class ActiveCharacterTest {
 
 	@Test
 	public void testComplexAttact() {
+		attacker.putItemInventory(weapon5);		
 		attacker.equipWeapon(weapon5);
 		assertEquals(weapon5.getCharacter(), attacker);
+		defender.putItemInventory(armor1);
 		defender.equipArmor(armor1);
 		assertEquals(armor1.getCharacter(), defender);
+		defender.putItemInventory(armor2);
 		defender.equipArmor(armor2);
 		assertEquals(armor2.getCharacter(), defender);
 		attacker.attack(defender);
@@ -227,6 +236,7 @@ public class ActiveCharacterTest {
 	@Test
 	public void testEquipItems() {
 		// Equip character with an armor normally
+		c1.putItemInventory(armor1);
 		c1.equipArmor(armor1);
 		assertEquals(armor1.getCharacter(), c1);
 		assertEquals(c1.getActualCarryWeight(), 10);
@@ -235,26 +245,38 @@ public class ActiveCharacterTest {
 		assertEquals(armor3.getCharacter(), null);
 
 		// Checking space
+		c5.putItemInventory(armor4);
 		c5.equipArmor(armor4);
 		assertEquals(armor4.getCharacter(), c5);
 		c5.equipArmor(armor4);
+		c5.putItemInventory(weapon6);
 		c5.equipWeapon(weapon6);
 		assertEquals(weapon6.getCharacter(), null);
 		c5.throwItem(armor4);
+		c5.putItemInventory(weapon6);
 		c5.equipWeapon(weapon6);
+		System.out.println("Weight total character: " + c5.getWeight());
+		System.out.println("Weight actual carry weight: " + c5.getActualCarryWeight());
+		System.out.println("Weight weapon: " + weapon6.getWeight());
+		System.out.println("Space total character: " + c5.getInventorySpace());
+		System.out.println("Space actual carry weight: " + c5.getActualInventorySpace());
+		System.out.println("Space weapon: " + weapon6.getSpace());
 		assertEquals(weapon6.getCharacter(), c5);
 		assertEquals(armor4.getCharacter(), null);
 
 		// Equip character with an armor when there's not enough weight
 		// available
+		c2.putItemInventory(armor2);
 		c2.equipArmor(armor2);
 		assertEquals(armor2.getCharacter(), null);
 
 		// Equip character with a weapon normally
+		c3.putItemInventory(weapon1);
 		c3.equipWeapon(weapon1);
 		assertEquals(weapon1.getCharacter(), c3);
 		assertEquals(c3.getActualCarryWeight(), 10);
 		assertEquals(c3.getWeaponsEquipped().get(0), weapon1);
+		c3.putItemInventory(weapon2);
 		c3.equipWeapon(weapon2);
 		assertEquals(c3.getWeaponsEquipped().size(), 2);
 
@@ -270,6 +292,7 @@ public class ActiveCharacterTest {
 		assertEquals(c3.getWeaponsEquipped().contains(weapon1), false);
 
 		// Equip weapon again
+		c3.putItemInventory(weapon1);
 		c3.equipWeapon(weapon1);
 		assertEquals(c3.getWeaponsEquipped().get(0), weapon1);
 		c3.throwWeapon(weapon1);
@@ -277,7 +300,7 @@ public class ActiveCharacterTest {
 		assertEquals(weapon1.getPosition(), position);
 
 		// Equip armor again
-
+		c1.putItemInventory(armor3);
 		c1.equipArmor(armor3);
 		assertEquals(c1.getArmorsEquipped().get(0), armor3);
 		c1.throwItem(armor3);
@@ -285,6 +308,7 @@ public class ActiveCharacterTest {
 		assertEquals(armor3.getPosition(), c1.getPosition());
 
 		// Equip one hand weapon
+		c4.putItemInventory(weapon3);
 		c4.equipWeapon(weapon3);
 		assertEquals(weapon3.getCharacter(), c4);
 		assertEquals(c4.getFreeWeaponSlots().size(), 1);
@@ -298,6 +322,7 @@ public class ActiveCharacterTest {
 
 	@Test
 	public void oneHandSword() throws UnsupportedEncodingException {
+		c4.putItemInventory(oneHandSword);
 		c4.equipWeapon(oneHandSword);
 		assertEquals(oneHandSword.getCharacter(), c4);
 	}

@@ -2,6 +2,7 @@ package main;
 
 import items.Item;
 import items.consumables.LifePotion;
+import items.wereables.OneHandSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 
@@ -25,7 +26,7 @@ public class Main {
 	public static Locale currentLocale = new Locale(language, country);
 	public static ResourceBundle messagesWereables;
 	public static boolean debug = true;
-	public static boolean testMode = false;
+	public static boolean testMode = true;
 	static Tuple<Integer, Integer> initial_point = new Tuple<Integer, Integer>(0, 0);
 	static Tuple<Integer, Integer> final_point = new Tuple<Integer, Integer>(20, 20);
 	static Integer[] movementInput = new Integer[] {0, 1, 2, 3};
@@ -67,11 +68,14 @@ public class Main {
 			lifePotion40.setCharacter(user);
 			LifePotion lifePotion50 = new LifePotion(0, 10, "", null, null, null, null, 30);
 			lifePotion50.setCharacter(user);
+			WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 0, user, null, null,
+					null, 0, 0, false);
 			
 			ArrayList<Item> inventory = new ArrayList<Item>();
 			inventory.add(lifePotion30);
 			inventory.add(lifePotion40);
 			inventory.add(lifePotion50);
+			inventory.add(oneHandSword);
 			user.setInventory(inventory);
 			map.printBorders(j, user);
 			map.printInside(j, user);
@@ -116,16 +120,13 @@ public class Main {
 		            }
 	            }
 	            else if (isInventoryInput(i)){
-	            	System.out.println(user.getInventory().get(i%131).getName());
-	            	for(Item item : user.getInventory()){
-	            		System.out.println(item.getCharacter());
-	            	}
+	            	System.out.println(user.getWeaponsEquipped().size());
 	            	user.useItem(user.getInventory().get(i%131));
-	            	System.out.println(user.getLife());
 	            	j.cls();
 					map.printBorders(j, user);
 					map.printInside(j, user);
 					user.printInventory(user.getInventory(), j, 22, 0);
+					System.out.println(user.getWeaponsEquipped().size());
 					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	            }
 				j.refresh();
