@@ -11,7 +11,6 @@ import util.Tuple;
 import map.Map;
 import map.Room;
 import characters.Character;
-import characters.active.ActiveCharacter;
 
 public abstract class Item {
 
@@ -25,10 +24,11 @@ public abstract class Item {
 	private Room room;
 	private ArrayList<String> nameAttributes;
 	private Tuple<Integer, Integer> position;
+	private String symbolRepresentation;
 
 	public Item(String name, ArrayList<String> nameAttributes, String description, 
 			String gender, int weight, int space, Character character, 
-			Map map, Room room, Tuple<Integer, Integer> position) {
+			Map map, Room room, Tuple<Integer, Integer> position, String symbolRepresentation) {
 		super();
 		this.nameAttributes = nameAttributes;
 		this.name = name;
@@ -40,6 +40,7 @@ public abstract class Item {
 		this.map = map;
 		this.room = room;
 		this.position = position;
+		this.symbolRepresentation = symbolRepresentation;
 	}
 	
 	public boolean isWereableItem(){
@@ -136,6 +137,14 @@ public abstract class Item {
 
 	public void setNameAttributes(ArrayList<String> nameAttributes) {
 		this.nameAttributes = nameAttributes;
+	}
+
+	public String getSymbolRepresentation() {
+		return symbolRepresentation;
+	}
+
+	public void setSymbolRepresentation(String symbolRepresentation ) {
+		this.symbolRepresentation = symbolRepresentation ;
 	}
 
 }

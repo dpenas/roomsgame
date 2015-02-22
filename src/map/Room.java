@@ -1,7 +1,10 @@
 package map;
 
+import items.Item;
+
 import java.util.ArrayList;
 
+import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import main.Main;
 import util.RandUtil;
 import util.Tuple;
@@ -24,6 +27,7 @@ public class Room {
 	private Tuple<Integer, Integer> global_initial;
 	private Tuple<Integer, Integer> global_final;
 	private ArrayList<Door> doors = new ArrayList<Door>();
+	private ArrayList<Item> itemsRoom = new ArrayList<Item>();
 	private ArrayList<Room> connected_rooms = new ArrayList<Room>();
 	private ArrayList<Tuple<Integer, Integer>> bordersMap = new ArrayList<Tuple<Integer, Integer>>();
 	private ArrayList<Tuple<Integer, Integer>> borders = new ArrayList<Tuple<Integer, Integer>>();
@@ -48,6 +52,22 @@ public class Room {
 		this.initializeBorders();
 		this.initializeCorners();
 		this.initializeInsidePositions();
+	}
+	
+	public void printItems(WSwingConsoleInterface j, ArrayList<Tuple<Integer, Integer>> visiblePositions){
+		for (Item item : getItemsRoom()){
+			if (RandUtil.containsTuple(item.getPosition(), visiblePositions)){
+				j.print(item.getPosition().y, item.getPosition().x, item.getSymbolRepresentation(), 12);
+			}
+		}
+	}
+	
+	public boolean putItemRoom(Item item){
+		if (isMapPositionHere(item.getPosition())){
+			this.getItemsRoom().add(item);
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean isInCorner(Tuple<Integer, Integer> tuple){
@@ -224,5 +244,13 @@ public class Room {
 	
 	public void setInsidePositions(ArrayList<Tuple<Integer, Integer>> insidePositions){
 		this.insidePositions = insidePositions;
+	}
+
+	public ArrayList<Item> getItemsRoom() {
+		return itemsRoom;
+	}
+
+	public void setItemsRoom(ArrayList<Item> itemsRoom) {
+		this.itemsRoom = itemsRoom;
 	}
 }

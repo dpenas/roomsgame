@@ -305,6 +305,20 @@ public class ActiveCharacter extends Character {
 		return false;
 	}
 	
+	public boolean pickItem(Tuple<Integer, Integer> pos, Room room){
+		if (room.isMapPositionHere(pos)){
+			for (Item item : room.getItemsRoom()){
+				if (pos.x == item.getPosition().x && pos.y == item.getPosition().y){
+					if (this.putItemInventory(item)){
+						room.getItemsRoom().remove(item);
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
 	// TODO: Change this so we can use another inventory
 	public boolean useConsumable(Consumable consumable){
 		if (this.getInventory().contains(consumable)){
@@ -336,7 +350,6 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public void useItem(Item item){
-		System.out.println("HOLA");
 		if (item.isWereableItem()){
 			if (item.isWereableArmor()){
 				this.equipArmor((WereableArmor)item);

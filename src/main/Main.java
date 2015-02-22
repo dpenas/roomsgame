@@ -26,11 +26,12 @@ public class Main {
 	public static Locale currentLocale = new Locale(language, country);
 	public static ResourceBundle messagesWereables;
 	public static boolean debug = true;
-	public static boolean testMode = true;
+	public static boolean testMode = false;
 	static Tuple<Integer, Integer> initial_point = new Tuple<Integer, Integer>(0, 0);
 	static Tuple<Integer, Integer> final_point = new Tuple<Integer, Integer>(20, 20);
 	static Integer[] movementInput = new Integer[] {0, 1, 2, 3};
 	static Integer[] inventoryInput = new Integer[] {131, 132, 133, 134, 135, 136};
+	static Integer[] pickItemInput = new Integer[] {68};
 	
 	
 	public static Room getRandomRoom(Map map){
@@ -44,6 +45,10 @@ public class Main {
 	public static boolean isInventoryInput(int key){
 		return Arrays.asList(inventoryInput).contains(key);
 	}
+	
+	public static boolean isPickItemInput(int key){
+		return Arrays.asList(pickItemInput).contains(key);
+	}
 
 	public static void main(String[] args) throws IOException {
 
@@ -51,6 +56,7 @@ public class Main {
 		
 		if (!testMode){
 			Map map = new Map(initial_point, final_point);
+			Tuple<Integer, Integer> pos = new Tuple<Integer, Integer>(1,1);
 			Room roomCharacter = getRandomRoom(map);
 			char previousPositionChar = '.';
 			char previousPositionChar2 = '.';
@@ -68,6 +74,8 @@ public class Main {
 			lifePotion40.setCharacter(user);
 			LifePotion lifePotion50 = new LifePotion(0, 10, "", null, null, null, null, 30);
 			lifePotion50.setCharacter(user);
+			LifePotion lifePotion60 = new LifePotion(0, 10, "", null, null, null, pos, 30);
+			map.putItemRoom(lifePotion60);
 			WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 0, user, null, null,
 					null, 0, 0, false);
 			
@@ -79,6 +87,7 @@ public class Main {
 			user.setInventory(inventory);
 			map.printBorders(j, user);
 			map.printInside(j, user);
+			map.printItems(j, user);
 			user.printInventory(user.getInventory(), j, 22, 0);
 			j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 			user.printInventory(user.getInventory(), j, 22, 0);
@@ -88,6 +97,7 @@ public class Main {
 				j.cls();
 				map.printBorders(j, user);
 				map.printInside(j, user);
+				map.printItems(j, user);
 				user.printInventory(user.getInventory(), j, 22, 0);
 				j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	            System.out.println(i);
@@ -99,6 +109,7 @@ public class Main {
 		            	user.setVisiblePositions();
 		            	map.printBorders(j, user);
 		    			map.printInside(j, user);
+		    			map.printItems(j, user);
 		            	previousPositionChar = previousPositionChar2;
 		            	previousPositionChar2 = j.peekChar(newPosition.y, newPosition.x);
 		            	
@@ -125,10 +136,22 @@ public class Main {
 	            	j.cls();
 					map.printBorders(j, user);
 					map.printInside(j, user);
+					map.printItems(j, user);
 					user.printInventory(user.getInventory(), j, 22, 0);
 					System.out.println(user.getWeaponsEquipped().size());
 					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	            }
+	            else if (isPickItemInput(i)){
+	            	if (user.pickItem(user.getPosition(), user.getRoom())){
+	            		j.cls();
+						map.printBorders(j, user);
+						map.printInside(j, user);
+						map.printItems(j, user);
+						user.printInventory(user.getInventory(), j, 22, 0);
+						j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+	            	}
+	            }
+	            
 				j.refresh();
 			}
 		}

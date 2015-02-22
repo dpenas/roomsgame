@@ -1,5 +1,7 @@
 package map;
 
+import items.Item;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -622,6 +624,27 @@ public class Map {
 				}
 			}
 		}
+	}
+	
+	public void printItems(WSwingConsoleInterface j, ActiveCharacter user){
+		for (Room room : getRooms()){
+			if (user.getRoom().equals(room)){
+				for (Tuple<Integer, Integer> pos: room.getInsidePositions()){
+					if (RandUtil.containsTuple(pos, user.getVisiblePositions())){
+						room.printItems(j, user.getVisiblePositions());
+					}
+				}
+			}
+		}
+	}
+	
+	public boolean putItemRoom(Item item){
+		for (Room room : getRooms()){
+			if (room.putItemRoom(item)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public Room obtainRoomByPosition(Tuple<Integer, Integer> position){
