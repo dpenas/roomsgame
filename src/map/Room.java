@@ -4,6 +4,7 @@ import items.Item;
 
 import java.util.ArrayList;
 
+import characters.active.ActiveCharacter;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import main.Main;
 import util.RandUtil;
@@ -29,6 +30,7 @@ public class Room {
 	private ArrayList<Door> doors = new ArrayList<Door>();
 	private ArrayList<Item> itemsRoom = new ArrayList<Item>();
 	private ArrayList<Room> connected_rooms = new ArrayList<Room>();
+	private ArrayList<ActiveCharacter> monsters = new ArrayList<ActiveCharacter>();
 	private ArrayList<Tuple<Integer, Integer>> bordersMap = new ArrayList<Tuple<Integer, Integer>>();
 	private ArrayList<Tuple<Integer, Integer>> borders = new ArrayList<Tuple<Integer, Integer>>();
 	private ArrayList<Tuple<Integer, Integer>> corners = new ArrayList<Tuple<Integer, Integer>>();
@@ -58,6 +60,14 @@ public class Room {
 		for (Item item : getItemsRoom()){
 			if (RandUtil.containsTuple(item.getPosition(), visiblePositions)){
 				j.print(item.getPosition().y, item.getPosition().x, item.getSymbolRepresentation(), 12);
+			}
+		}
+	}
+	
+	public void printMonsters(WSwingConsoleInterface j, ArrayList<Tuple<Integer, Integer>> visiblePositions){
+		for (ActiveCharacter monster : getMonsters()){
+			if (RandUtil.containsTuple(monster.getPosition(), visiblePositions)){
+				j.print(monster.getPosition().y, monster.getPosition().x, monster.getSymbolRepresentation(), 12);
 			}
 		}
 	}
@@ -165,6 +175,11 @@ public class Room {
 			borders.add(new Tuple<Integer, Integer>(i, fin_y));
 		}
 	}
+	
+	public Tuple<Integer, Integer> getRandomPosition(){
+		int value = RandUtil.RandomNumber(0, this.getInsidePositions().size());
+		return this.getInsidePositions().get(value);
+	}
 
 	public Tuple<Integer, Integer> getIndividual_initial() {
 		return individual_initial;
@@ -214,6 +229,14 @@ public class Room {
 		this.connected_rooms = connected_rooms;
 	}
 	
+	public ArrayList<ActiveCharacter> getMonsters() {
+		return monsters;
+	}
+
+	public void setMonsters(ArrayList<ActiveCharacter> monsters) {
+		this.monsters = monsters;
+	}
+
 	public ArrayList<Tuple<Integer, Integer>> getBordersMap(){
 		return this.bordersMap;
 	}

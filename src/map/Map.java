@@ -638,6 +638,18 @@ public class Map {
 		}
 	}
 	
+	public void printMonsters(WSwingConsoleInterface j, ActiveCharacter user){
+		for (Room room : getRooms()){
+			if (user.getRoom().equals(room)){
+				for (ActiveCharacter enemy: room.getMonsters()){
+					if (RandUtil.containsTuple(enemy.getPosition(), user.getVisiblePositions())){
+						room.printMonsters(j, user.getVisiblePositions());
+					}
+				}
+			}
+		}
+	}
+	
 	public boolean putItemRoom(Item item){
 		for (Room room : getRooms()){
 			if (room.putItemRoom(item)){

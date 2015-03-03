@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import characters.active.ActiveCharacter;
+import characters.active.enemies.Goblin;
 import util.RandUtil;
 import util.Tuple;
 import map.Map;
@@ -58,6 +59,7 @@ public class Main {
 			Map map = new Map(initial_point, final_point);
 			Tuple<Integer, Integer> pos = new Tuple<Integer, Integer>(1,1);
 			Room roomCharacter = getRandomRoom(map);
+			Room roomEnemy = getRandomRoom(map);
 			char previousPositionChar = '.';
 			char previousPositionChar2 = '.';
 			boolean firstTime = true;
@@ -78,6 +80,10 @@ public class Main {
 			map.putItemRoom(lifePotion60);
 			WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 0, user, null, null,
 					null, 0, 0, false);
+			Goblin goblin = new Goblin(map, roomEnemy, roomEnemy.getRandomPosition(), 0, new ArrayList<Item>());
+			roomEnemy.getMonsters().add(goblin);
+			System.out.println("NEKROGOBLIKOOOOOON");
+			System.out.println("(" + goblin.getPosition().x + ", " + goblin.getPosition().y + ")");
 			
 			ArrayList<Item> inventory = new ArrayList<Item>();
 			inventory.add(lifePotion30);
@@ -88,6 +94,7 @@ public class Main {
 			map.printBorders(j, user);
 			map.printInside(j, user);
 			map.printItems(j, user);
+			map.printMonsters(j, user);
 			user.printInventory(user.getInventory(), j, 22, 0);
 			j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 			user.printInventory(user.getInventory(), j, 22, 0);
@@ -98,6 +105,7 @@ public class Main {
 				map.printBorders(j, user);
 				map.printInside(j, user);
 				map.printItems(j, user);
+				map.printMonsters(j, user);
 				user.printInventory(user.getInventory(), j, 22, 0);
 				j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	            System.out.println(i);
@@ -110,6 +118,7 @@ public class Main {
 		            	map.printBorders(j, user);
 		    			map.printInside(j, user);
 		    			map.printItems(j, user);
+		    			map.printMonsters(j, user);
 		            	previousPositionChar = previousPositionChar2;
 		            	previousPositionChar2 = j.peekChar(newPosition.y, newPosition.x);
 		            	
@@ -137,6 +146,7 @@ public class Main {
 					map.printBorders(j, user);
 					map.printInside(j, user);
 					map.printItems(j, user);
+					map.printMonsters(j, user);
 					user.printInventory(user.getInventory(), j, 22, 0);
 					System.out.println(user.getWeaponsEquipped().size());
 					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
@@ -147,6 +157,7 @@ public class Main {
 						map.printBorders(j, user);
 						map.printInside(j, user);
 						map.printItems(j, user);
+						map.printMonsters(j, user);
 						user.printInventory(user.getInventory(), j, 22, 0);
 						j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	            	}
