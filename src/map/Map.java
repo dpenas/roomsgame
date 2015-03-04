@@ -614,6 +614,17 @@ public class Map {
 		}
 	}
 	
+	public ArrayList<ActiveCharacter> getMonstersPosition(ActiveCharacter character){
+		ArrayList<ActiveCharacter> monsters = new ArrayList<ActiveCharacter>();
+		Room room = character.getRoom();
+		for (ActiveCharacter monster : room.getMonsters()){
+			if (RandUtil.sameTuple(character.getPosition(), monster.getPosition())){
+				monsters.add(monster);
+			}
+		}
+		return monsters;
+	}
+	
 	public void printInside(WSwingConsoleInterface j, ActiveCharacter user){
 		for(Room room : this.getRooms()){
 			if (user.getRoom().equals(room)){

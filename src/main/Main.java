@@ -33,6 +33,7 @@ public class Main {
 	static Integer[] movementInput = new Integer[] {0, 1, 2, 3};
 	static Integer[] inventoryInput = new Integer[] {131, 132, 133, 134, 135, 136};
 	static Integer[] pickItemInput = new Integer[] {68};
+	static Integer[] attackInput = new Integer[] {87};
 	
 	
 	public static Room getRandomRoom(Map map){
@@ -49,6 +50,10 @@ public class Main {
 	
 	public static boolean isPickItemInput(int key){
 		return Arrays.asList(pickItemInput).contains(key);
+	}
+	
+	public static boolean isAttachInput(int key){
+		return Arrays.asList(attackInput).contains(key);
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -78,12 +83,10 @@ public class Main {
 			lifePotion50.setCharacter(user);
 			LifePotion lifePotion60 = new LifePotion(0, 10, "", null, null, null, pos, 30);
 			map.putItemRoom(lifePotion60);
-			WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 0, user, null, null,
-					null, 0, 0, false);
+			WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, user, null, null,
+					null, 0, 0, true);
 			Goblin goblin = new Goblin(map, roomEnemy, roomEnemy.getRandomPosition(), 0, new ArrayList<Item>());
 			roomEnemy.getMonsters().add(goblin);
-			System.out.println("NEKROGOBLIKOOOOOON");
-			System.out.println("(" + goblin.getPosition().x + ", " + goblin.getPosition().y + ")");
 			
 			ArrayList<Item> inventory = new ArrayList<Item>();
 			inventory.add(lifePotion30);
@@ -160,6 +163,13 @@ public class Main {
 						map.printMonsters(j, user);
 						user.printInventory(user.getInventory(), j, 22, 0);
 						j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+	            	}
+	            }
+	            else if (isAttachInput(i)){
+	            	if (map.getMonstersPosition(user).size() > 0){
+	            		System.out.println("Vida: " + map.getMonstersPosition(user).get(0).getLife());
+	            		user.attack(map.getMonstersPosition(user).get(0));
+	            		System.out.println("Vida: " + map.getMonstersPosition(user).get(0).getLife());
 	            	}
 	            }
 	            

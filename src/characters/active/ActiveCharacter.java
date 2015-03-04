@@ -151,6 +151,7 @@ public class ActiveCharacter extends Character {
 
 	public boolean attack(ActiveCharacter defender){
 		int damageDone = this.getFullAttackNumbers(this, defender);
+		System.out.println(damageDone);
 		if (damageDone <= 0) return false;
 		int defenderLife = defender.getLife() - damageDone;
 		defenderLife = defenderLife < 0 ? 0 : defenderLife;
