@@ -43,6 +43,12 @@ public abstract class Item {
 		this.symbolRepresentation = symbolRepresentation;
 	}
 	
+	public void setAttributesFromCharacter(Character c){
+		this.setMap(c.getMap());
+		this.setRoom(c.getRoom());
+		this.setPosition(c.getPosition());
+	}
+	
 	public boolean isWereableItem(){
 		return Wereable.class.isInstance(this);
 	}

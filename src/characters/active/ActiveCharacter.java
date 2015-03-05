@@ -39,6 +39,7 @@ public class ActiveCharacter extends Character {
 	private int actualInventorySpace;
 	private int evasion;
 	private int vision;
+	private boolean isDead;
 	private ArrayList<WereableWeapon> weaponsEquipped;
 	private ArrayList<WereableArmor> armorsEquipped;
 	private ArrayList<Tuple<Integer, Integer>> visiblePositions = new ArrayList<Tuple<Integer, Integer>>();
@@ -65,6 +66,7 @@ public class ActiveCharacter extends Character {
 		this.evasion = evasion; // number between 0 and 100
 		this.totalLife = totalLife;
 		this.vision = vision;
+		this.isDead = false;
 		this.setVisiblePositions();
 	}
 	
@@ -148,14 +150,24 @@ public class ActiveCharacter extends Character {
 		}
 		return 0;
 	}
+	
+	public void dropAllItems(ActiveCharacter character){
+		for(Item item : character.getInventory()){
+			item.setAttributesFromCharacter(character);
+			character.getMap().putItemRoom(item);
+		}
+	}
 
 	public boolean attack(ActiveCharacter defender){
 		int damageDone = this.getFullAttackNumbers(this, defender);
-		System.out.println(damageDone);
 		if (damageDone <= 0) return false;
 		int defenderLife = defender.getLife() - damageDone;
 		defenderLife = defenderLife < 0 ? 0 : defenderLife;
 		defender.setLife(defenderLife);
+		if (defender.getLife() <= 0){
+			defender.setDead(true);
+			this.dropAllItems(defender);
+		}
 		return true;
 	}
 	
@@ -472,6 +484,14 @@ public class ActiveCharacter extends Character {
 
 	public void setVision(int vision) {
 		this.vision = vision;
+	}
+
+	public boolean isDead() {
+		return isDead;
+	}
+
+	public void setDead(boolean isDead) {
+		this.isDead = isDead;
 	}
 
 }

@@ -85,7 +85,10 @@ public class Main {
 			map.putItemRoom(lifePotion60);
 			WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, user, null, null,
 					null, 0, 0, true);
+			WereableWeapon oneHandSword2 = new OneHandSword("", 0, 0, 100, user, null, null,
+					null, 0, 0, true);
 			Goblin goblin = new Goblin(map, roomEnemy, roomEnemy.getRandomPosition(), 0, new ArrayList<Item>());
+			goblin.getInventory().add(oneHandSword2);
 			roomEnemy.getMonsters().add(goblin);
 			
 			ArrayList<Item> inventory = new ArrayList<Item>();
