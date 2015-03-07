@@ -80,6 +80,31 @@ public class Room {
 		return false;
 	}
 	
+	public String getSymbolPosition(Tuple<Integer, Integer> tuple){
+		for (ActiveCharacter monster: monsters){
+			if (!monster.isDead()){
+				if (RandUtil.sameTuple(monster.getPosition(), tuple)){
+					return monster.getSymbolRepresentation();
+				}
+			}
+		}
+		
+		for (Item item: itemsRoom){
+			System.out.println("Items Room:");
+			System.out.println(item.getPosition().x);
+			System.out.println(item.getPosition().y);
+			System.out.println("Tuple received:");
+			System.out.println(tuple.x);
+			System.out.println(tuple.y);
+			if (RandUtil.sameTuple(item.getPosition(), tuple)){
+				System.out.println("I return this: " + item.getSymbolRepresentation());
+				return item.getSymbolRepresentation();
+			}
+		}
+		
+		return ".";
+	}
+	
 	public boolean isInCorner(Tuple<Integer, Integer> tuple){
 		for (Tuple<Integer, Integer> tuple2 : this.getCorners()){
 			if (tuple.x == tuple2.x){

@@ -26,8 +26,9 @@ public class Main {
 	public static String country = new String("ES");
 	public static Locale currentLocale = new Locale(language, country);
 	public static ResourceBundle messagesWereables;
-	public static boolean debug = true;
+	public static boolean debug = false;
 	public static boolean testMode = false;
+	public static char[] usedSymbols = {'.', 'P', 'G', 'A'};
 	static Tuple<Integer, Integer> initial_point = new Tuple<Integer, Integer>(0, 0);
 	static Tuple<Integer, Integer> final_point = new Tuple<Integer, Integer>(20, 20);
 	static Integer[] movementInput = new Integer[] {0, 1, 2, 3};
@@ -52,7 +53,7 @@ public class Main {
 		return Arrays.asList(pickItemInput).contains(key);
 	}
 	
-	public static boolean isAttachInput(int key){
+	public static boolean isAttackInput(int key){
 		return Arrays.asList(attackInput).contains(key);
 	}
 
@@ -68,6 +69,7 @@ public class Main {
 			char previousPositionChar = '.';
 			char previousPositionChar2 = '.';
 			boolean firstTime = true;
+			boolean hasChanged = false;
 			ActiveCharacter user = new ActiveCharacter("", "", "", map, roomCharacter, roomCharacter.getRandomInsidePosition(), 
 					40, 10, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 					new ArrayList<WereableArmor>(), 100, 100, 0,
@@ -105,6 +107,7 @@ public class Main {
 			j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 			user.printInventory(user.getInventory(), j, 22, 0);
 			j.refresh();
+			user.setLife(80);
 			for (;;) {
 				int i = j.inkey().code;
 				j.cls();
@@ -117,9 +120,10 @@ public class Main {
 	            System.out.println(i);
 	            Tuple<Integer, Integer> previousPosition = user.getPosition();
 	            Tuple<Integer, Integer> newPosition = RandUtil.inputMoveInterpretation(i, user);
-	            user.setLife(80);
 	            if (isMovementInput(i)){
+	            	System.out.println("HOLA MOVE");
 		            if (user.move(newPosition)){
+		            	System.out.println("HOLA MOVE2");
 		            	user.setVisiblePositions();
 		            	map.printBorders(j, user);
 		    			map.printInside(j, user);
@@ -127,10 +131,18 @@ public class Main {
 		    			map.printMonsters(j, user);
 		            	previousPositionChar = previousPositionChar2;
 		            	previousPositionChar2 = j.peekChar(newPosition.y, newPosition.x);
-		            	
-		            	if (j.peekChar(newPosition.y, newPosition.x) == '.'){
+		            	System.out.println("Has Changed: " + hasChanged);
+		            	if (RandUtil.containsString(usedSymbols, j.peekChar(newPosition.y, newPosition.x))){
 		            		j.print(newPosition.y, newPosition.x, user.getSymbolRepresentation(), 12);
 			            	j.print(previousPosition.y, previousPosition.x, previousPositionChar, 12);
+			            	System.out.println("HOLA");
+			            	if (hasChanged){
+			            		Tuple<Integer, Integer> newPositionRoom = new Tuple<Integer, Integer>(newPosition.x, newPosition.y - 1);
+			            		j.print(newPosition.y, newPosition.x, user.getSymbolRepresentation(), 12);
+			            		System.out.println(map.getSymbolPosition(newPositionRoom));
+				            	j.print(previousPosition.y, previousPosition.x, map.getSymbolPosition(newPositionRoom), 12);
+				            	hasChanged = false;
+			            	}
 			            	
 		            	} else{
 		            		if (firstTime) {
@@ -166,12 +178,21 @@ public class Main {
 						map.printMonsters(j, user);
 						user.printInventory(user.getInventory(), j, 22, 0);
 						j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+						hasChanged = true;
 	            	}
 	            }
-	            else if (isAttachInput(i)){
+	            else if (isAttackInput(i)){
+	            	System.out.println("Has Changed attach" + hasChanged);
 	            	if (map.getMonstersPosition(user).size() > 0){
+	            		ActiveCharacter monster = map.getMonstersPosition(user).get(0);
 	            		System.out.println("Vida: " + map.getMonstersPosition(user).get(0).getLife());
-	            		user.attack(map.getMonstersPosition(user).get(0));
+	            		user.attack(monster);
+	            		if (monster.getLife() <= 0){
+	            			System.out.println("Item position: ");
+	            			System.out.println(monster.getInventory().get(0).getPosition().x);
+	            			System.out.println(monster.getInventory().get(0).getPosition().y);
+	            			hasChanged = true;
+	            		}
 	            		System.out.println("Vida: " + map.getMonstersPosition(user).get(0).getLife());
 	            	}
 	            }

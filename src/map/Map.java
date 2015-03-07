@@ -523,6 +523,16 @@ public class Map {
 		}
 	}
 	
+	public String getSymbolPosition(Tuple<Integer, Integer> tuple) {
+		for (Room room : this.getRooms()){
+			if (room.isInside(tuple)){
+				return room.getSymbolPosition(tuple);
+			}
+		}
+		return ".";
+		
+	}
+	
 	public void assignDoors(){
 		for(Room room : this.rooms){
 			if (room.getDoors().size() == 0){

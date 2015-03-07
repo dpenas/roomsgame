@@ -42,6 +42,15 @@ public class RandUtil {
 		return false;
 	}
 	
+	public static boolean containsString(char[] array, char givenChar){
+		for (char stringArray: array){
+			if (stringArray == givenChar){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static boolean sameTuple(Tuple<Integer, Integer> tuple1, Tuple<Integer, Integer> tuple2){
 		if (tuple1.x == tuple2.x && tuple1.y == tuple2.y){
 			return true;
