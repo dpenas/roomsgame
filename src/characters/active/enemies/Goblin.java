@@ -16,9 +16,9 @@ public class Goblin extends ActiveCharacter {
 	public Goblin(Map map, Room room, Tuple<Integer, Integer> position, int inventorySpace,
 			ArrayList<Item> inventory) {
 		super("goblin", "", "m", map, room, position, 2, 1, 30,
-				0, 100, 100, new ArrayList<WereableWeapon>(), new ArrayList<WereableArmor>(), 0,
+				50, 100, 100, new ArrayList<WereableWeapon>(), new ArrayList<WereableArmor>(), 0,
 				0, 0, inventory, 0,
-				0, 100, 0, 0, "G", 3);
+				0, 100, 0, 0, "G", 3, 2);
 	}
 	
 	

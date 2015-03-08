@@ -6,6 +6,7 @@ import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import map.Map;
 import map.Room;
 import characters.Character;
+import characters.active.enemies.Movement;
 import util.RandUtil;
 import util.Tuple;
 import items.consumables.Consumable;
@@ -39,6 +40,7 @@ public class ActiveCharacter extends Character {
 	private int actualInventorySpace;
 	private int evasion;
 	private int vision;
+	private int movementType;
 	private boolean isDead;
 	private ArrayList<WereableWeapon> weaponsEquipped;
 	private ArrayList<WereableArmor> armorsEquipped;
@@ -50,7 +52,7 @@ public class ActiveCharacter extends Character {
 			ArrayList<WereableWeapon> weaponsEquipped,
 			ArrayList<WereableArmor> armorsEquipped, int inventorySpace, int carryWeight,
 			int actualCarryWeight, ArrayList<Item> inventory, int actualInventorySpace, int evasion,
-			int totalLife, int magic, int totalMagic, String symbolRepresentation, int vision) {
+			int totalLife, int magic, int totalMagic, String symbolRepresentation, int vision, int movementType) {
 		super(name, description, gender, map, room, position, weight, length, carryWeight, actualCarryWeight, 
 				inventory, symbolRepresentation);
 		this.damage = damage;
@@ -67,6 +69,7 @@ public class ActiveCharacter extends Character {
 		this.totalLife = totalLife;
 		this.vision = vision;
 		this.isDead = false;
+		this.movementType = movementType;
 		this.setVisiblePositions();
 	}
 	
@@ -160,6 +163,7 @@ public class ActiveCharacter extends Character {
 
 	public boolean attack(ActiveCharacter defender){
 		int damageDone = this.getFullAttackNumbers(this, defender);
+		System.out.println("Attack Done: " + damageDone);
 		if (damageDone <= 0) return false;
 		int defenderLife = defender.getLife() - damageDone;
 		defenderLife = defenderLife < 0 ? 0 : defenderLife;
@@ -378,6 +382,17 @@ public class ActiveCharacter extends Character {
 		}
 	}
 	
+	public void doTurn(ActiveCharacter user){
+		if (this.getRoom().equals(user.getRoom()) && !this.isDead()){
+			if (RandUtil.sameTuple(this.getPosition(), user.getPosition())){
+				this.attack(user);
+			} else {
+				Movement.moveCharacter(this, user);
+			}
+		}
+		
+	}
+	
 	public int getDamage() {
 		return damage;
 	}
@@ -492,6 +507,14 @@ public class ActiveCharacter extends Character {
 
 	public void setDead(boolean isDead) {
 		this.isDead = isDead;
+	}
+
+	public int getMovementType() {
+		return movementType;
+	}
+
+	public void setMovementType(int movementType) {
+		this.movementType = movementType;
 	}
 
 }

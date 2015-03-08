@@ -80,6 +80,12 @@ public class Room {
 		return false;
 	}
 	
+	public void monsterTurn(ActiveCharacter user){
+		for (ActiveCharacter monster : this.getMonsters()){
+			monster.doTurn(user);
+		}
+	}
+	
 	public String getSymbolPosition(Tuple<Integer, Integer> tuple){
 		for (ActiveCharacter monster: monsters){
 			if (!monster.isDead()){
@@ -161,13 +167,30 @@ public class Room {
 		return this.getInsidePositions().get(RandUtil.RandomNumber(0, this.getInsidePositions().size()));
 	}
 	
-	public void initializeInsidePositions(){
-		
+	public void initializeInsidePositions(){	
 		for (int i = ini_x + 1; i < fin_x; i++){
 			for (int j = ini_y + 1; j < fin_y; j++){
 				insidePositions.add(new Tuple<Integer, Integer>(i, j));
 			}
 		}
+	}
+	
+	public ArrayList<Tuple<Integer, Integer>> getNextPositions(Tuple<Integer, Integer> position){
+		ArrayList<Tuple<Integer, Integer>> nextPositions = new ArrayList<Tuple<Integer, Integer>>();
+		ArrayList<Tuple<Integer, Integer>> finalNextPositions = new ArrayList<Tuple<Integer, Integer>>();
+		nextPositions.add(new Tuple<Integer, Integer>(position.x, position.y));
+		nextPositions.add(new Tuple<Integer, Integer>(position.x - 1, position.y));
+		nextPositions.add(new Tuple<Integer, Integer>(position.x + 1, position.y));
+		nextPositions.add(new Tuple<Integer, Integer>(position.x, position.y - 1));
+		nextPositions.add(new Tuple<Integer, Integer>(position.x, position.y + 1));
+		
+		for(Tuple<Integer, Integer> tuple : nextPositions){
+			if (RandUtil.containsTuple(tuple, this.getInsidePositions())){
+				finalNextPositions.add(tuple);
+			}
+		}
+		
+		return finalNextPositions;
 	}
 	
 	public void initializeCorners(){

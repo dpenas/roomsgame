@@ -71,9 +71,9 @@ public class Main {
 			boolean firstTime = true;
 			boolean hasChanged = false;
 			ActiveCharacter user = new ActiveCharacter("", "", "", map, roomCharacter, roomCharacter.getRandomInsidePosition(), 
-					40, 10, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
+					40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 					new ArrayList<WereableArmor>(), 100, 100, 0,
-					new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4);
+					new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
 			
 			WSwingConsoleInterface j = new WSwingConsoleInterface("asdasd");
 			j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
@@ -89,8 +89,16 @@ public class Main {
 					null, 0, 0, true);
 			WereableWeapon oneHandSword2 = new OneHandSword("", 0, 0, 100, user, null, null,
 					null, 0, 0, true);
+			WereableWeapon oneHandSword3 = new OneHandSword("", 0, 0, 100, null, null, null,
+					null, 0, 0, true);
+			WereableWeapon oneHandSword4 = new OneHandSword("", 0, 0, 100, null, null, null,
+					null, 0, 0, true);
 			Goblin goblin = new Goblin(map, roomEnemy, roomEnemy.getRandomPosition(), 0, new ArrayList<Item>());
-			goblin.getInventory().add(oneHandSword2);
+			goblin.putItemInventory(oneHandSword2);
+			goblin.putItemInventory(oneHandSword3);
+			goblin.putItemInventory(oneHandSword3);
+			goblin.equipWeapon(oneHandSword3);
+			goblin.equipWeapon(oneHandSword4);
 			roomEnemy.getMonsters().add(goblin);
 			
 			ArrayList<Item> inventory = new ArrayList<Item>();
@@ -109,6 +117,7 @@ public class Main {
 			j.refresh();
 			user.setLife(80);
 			for (;;) {
+				System.out.println("Vida user: " + user.getLife());
 				int i = j.inkey().code;
 				j.cls();
 				map.printBorders(j, user);
@@ -185,17 +194,20 @@ public class Main {
 	            	System.out.println("Has Changed attach" + hasChanged);
 	            	if (map.getMonstersPosition(user).size() > 0){
 	            		ActiveCharacter monster = map.getMonstersPosition(user).get(0);
-	            		System.out.println("Vida: " + map.getMonstersPosition(user).get(0).getLife());
+	            		System.out.println("Vida monster: " + map.getMonstersPosition(user).get(0).getLife());
 	            		user.attack(monster);
+	            		System.out.println(monster.getWeaponsEquipped().size());
 	            		if (monster.getLife() <= 0){
 	            			System.out.println("Item position: ");
 	            			System.out.println(monster.getInventory().get(0).getPosition().x);
 	            			System.out.println(monster.getInventory().get(0).getPosition().y);
 	            			hasChanged = true;
 	            		}
-	            		System.out.println("Vida: " + map.getMonstersPosition(user).get(0).getLife());
+	            		System.out.println("Vida monster: " + map.getMonstersPosition(user).get(0).getLife());
 	            	}
 	            }
+	            user.getRoom().monsterTurn(user);
+	            System.out.println("Vida user: " + user.getLife());
 	            
 				j.refresh();
 			}

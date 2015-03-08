@@ -42,6 +42,10 @@ public class RandUtil {
 		return false;
 	}
 	
+	public static int separationTuples(Tuple<Integer, Integer> tuple1, Tuple<Integer, Integer> tuple2){
+		return Math.abs(tuple1.x - tuple2.x) + Math.abs(tuple1.y - tuple2.y);
+	}
+	
 	public static boolean containsString(char[] array, char givenChar){
 		for (char stringArray: array){
 			if (stringArray == givenChar){
