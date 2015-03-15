@@ -163,7 +163,10 @@ public class ActiveCharacter extends Character {
 
 	public boolean attack(ActiveCharacter defender){
 		int damageDone = this.getFullAttackNumbers(this, defender);
-		System.out.println("Attack Done: " + damageDone);
+		if (Main.debug){
+			System.out.println("Attack Done: " + damageDone);
+		}
+		
 		if (damageDone <= 0) return false;
 		int defenderLife = defender.getLife() - damageDone;
 		defenderLife = defenderLife < 0 ? 0 : defenderLife;
@@ -390,7 +393,6 @@ public class ActiveCharacter extends Character {
 				Movement.moveCharacter(this, user);
 			}
 		}
-		
 	}
 	
 	public int getDamage() {
