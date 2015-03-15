@@ -93,10 +93,10 @@ public class ActiveCharacter extends Character {
 				this.visiblePositions.add(new Tuple<Integer, Integer>(i, j));
 			}
 		}
-		System.out.println("POSITIONS: ");
-		for (Tuple<Integer, Integer> pos : this.visiblePositions){
-			System.out.println("Pos: (" + pos.x + "," + pos.y + ")");
-		}
+		// System.out.println("POSITIONS: ");
+//		for (Tuple<Integer, Integer> pos : this.visiblePositions){
+//			System.out.println("Pos: (" + pos.x + "," + pos.y + ")");
+//		}
 		
 	}
 

@@ -164,9 +164,10 @@ public class Main {
 	
 	public static void _pickItemAction(){
 		for (Item item: user.getRoom().getItemsRoom()){
-			System.out.println("I'm the item: " + item.getName());
+			System.out.println("The items are: " + item.getName());
 		}
 		if (user.pickItem(user.getPosition(), user.getRoom())){
+			System.out.println("HOLA");
     		j.cls();
     		printEverything(map, j, user);
 			user.printInventory(user.getInventory(), j, 22, 0);
