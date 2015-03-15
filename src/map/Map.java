@@ -599,7 +599,7 @@ public class Map {
 		for(Room room : this.getRooms()){
 			if (user.getRoom().equals(room)){
 				for (Tuple<Integer, Integer> pos: room.getBorders()){
-//					System.out.println("Borders: (" + pos.x + "," + pos.y + ")");
+					// System.out.println("Borders: (" + pos.x + "," + pos.y + ")");
 					if (RandUtil.containsTuple(pos, user.getVisiblePositions())){
 						j.print(pos.y, pos.x, '#', 12);
 					}

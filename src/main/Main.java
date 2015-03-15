@@ -89,12 +89,10 @@ public class Main {
         		j.print(newPosition.y, newPosition.x, user.getSymbolRepresentation(), 12);
             	j.print(previousPosition.y, previousPosition.x, previousPositionChar, 12);
             	if (hasChanged){
-            		Tuple<Integer, Integer> newPositionRoom = new Tuple<Integer, Integer>(newPosition.x, newPosition.y - 1);
-            		j.print(newPosition.y, newPosition.x, user.getSymbolRepresentation(), 12);
             		if (debug) {
-            			System.out.println(map.getSymbolPosition(newPositionRoom));
+            			System.out.println(map.getSymbolPosition(previousPosition));
             		}
-	            	j.print(previousPosition.y, previousPosition.x, map.getSymbolPosition(newPositionRoom), 12);
+	            	j.print(previousPosition.y, previousPosition.x, map.getSymbolPosition(previousPosition), 12);
 	            	hasChanged = false;
             	}
             	
@@ -126,12 +124,9 @@ public class Main {
 				null, 0, 0, true);
 		WereableWeapon oneHandSword2 = new OneHandSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
-		WereableWeapon oneHandSword3 = new OneHandSword("", 0, 0, 100, null, null, null,
-				null, 0, 0, true);
 		
 		Goblin goblin = new Goblin(map, roomEnemy, roomEnemy.getRandomPosition(), 0, new ArrayList<Item>());
 		goblin.putItemInventory(oneHandSword2);
-		goblin.equipWeapon(oneHandSword3);
 		roomEnemy.getMonsters().add(goblin);
 		
 		ArrayList<Item> inventory = new ArrayList<Item>();

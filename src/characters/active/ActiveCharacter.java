@@ -156,9 +156,13 @@ public class ActiveCharacter extends Character {
 	
 	public void dropAllItems(ActiveCharacter character){
 		for(Item item : character.getInventory()){
+			if (Main.debug){
+				System.out.println("Im dropping: " + item.getName());
+			}
 			item.setAttributesFromCharacter(character);
 			character.getMap().putItemRoom(item);
 		}
+		character.setInventory(new ArrayList<Item>());
 	}
 
 	public boolean attack(ActiveCharacter defender){
