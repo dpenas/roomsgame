@@ -131,13 +131,13 @@ public class Main {
 			if (firstCall){
 				countElements += 1;
 				if (!monster.isDead() && count == 0){
-					j.print(map.global_fin().y, countElements, "Monsters: ");
+					j.print(map.global_fin().y + 1, countElements, "Monsters: ");
 					count++;
 				}
 				
 				if (!monster.isDead() || monster.isFirstTimeDead()){
 					countElements += 1;
-					monster.printMonstersInformation(j, map.global_fin().y, countElements);
+					monster.printMonstersInformation(j, map.global_fin().y + 1, countElements);
 					if (monster.isDead()){
 						monster.setFirstTimeDead(false);
 					}
@@ -146,7 +146,7 @@ public class Main {
 				if (!monster.isDead() || monster.isFirstTimeDead()){
 					//TODO: Change this to support more than 1 monster
 					System.out.println(user.getRoom().getMonstersPosition(user.getPosition()).size());
-					monster._printLife(j, countElements + 1, map.global_fin().y);
+					monster._printLife(j, countElements + 1, map.global_fin().y + 1);
 				}
 			}
 		}
@@ -159,7 +159,7 @@ public class Main {
 		}
 		for (Item item : user.getRoom().getItemsPosition(user.getPosition())) {
 			countElements += 1;
-			item.printItemsInformation(j, map.global_fin().y, countElements);
+			item.printItemsInformation(j, map.global_fin().y + 1, countElements);
 		}
 	}
 	
