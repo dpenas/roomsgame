@@ -75,6 +75,7 @@ public class Main {
 		map.printInside(j, user);
 		map.printItems(j, user);
 		map.printMonsters(j, user);
+		_printInventoryUser();
 	}
 	
 	public static void _moveCharacterAction(int i){
@@ -110,6 +111,10 @@ public class Main {
         }
 	}
 	
+	public static void _printInventoryUser(){
+		user.printInventory(user.getInventory(), j, map.global_fin().x + 1, 0);
+	}
+	
 	public static void _initialize(){
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 		LifePotion lifePotion30 = new LifePotion(0, 10, "", null, null, null, null, 30);
@@ -136,9 +141,7 @@ public class Main {
 		inventory.add(oneHandSword);
 		user.setInventory(inventory);
 		printEverything(map, j, user);
-		user.printInventory(user.getInventory(), j, 22, 0);
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
-		user.printInventory(user.getInventory(), j, 22, 0);
 		j.refresh();
 		user.setLife(80);
 	}
@@ -150,7 +153,6 @@ public class Main {
     	user.useItem(user.getInventory().get(i%131));
     	j.cls();
     	printEverything(map, j, user);
-		user.printInventory(user.getInventory(), j, 22, 0);
 		if (debug) {
 			System.out.println(user.getWeaponsEquipped().size());
 		}
@@ -162,10 +164,8 @@ public class Main {
 			System.out.println("The items are: " + item.getName());
 		}
 		if (user.pickItem(user.getPosition(), user.getRoom())){
-			System.out.println("HOLA");
     		j.cls();
     		printEverything(map, j, user);
-			user.printInventory(user.getInventory(), j, 22, 0);
 			j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 			hasChanged = true;
     	}
@@ -205,7 +205,6 @@ public class Main {
 				int i = j.inkey().code;
 				j.cls();
 				printEverything(map, j, user);
-				user.printInventory(user.getInventory(), j, 22, 0);
 				j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	            System.out.println(i);
 	            if (isMovementInput(i)){
