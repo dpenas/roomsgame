@@ -26,6 +26,7 @@ public class Main {
 	public static String country = new String("ES");
 	public static Locale currentLocale = new Locale(language, country);
 	public static ResourceBundle messagesWereables;
+	public static int countElements;
 	public static boolean debug = false;
 	public static boolean testMode = false;
 	public static char[] usedSymbols = {'.', 'P', 'G', 'A'};
@@ -76,6 +77,9 @@ public class Main {
 		map.printItems(j, user);
 		map.printMonsters(j, user);
 		_printInventoryUser();
+		_printLifeUser();
+		_printInformationMonsters(true);
+		_printGroundObjects();
 	}
 	
 	public static void _moveCharacterAction(int i){
@@ -115,6 +119,50 @@ public class Main {
 		user.printInventory(user.getInventory(), j, map.global_fin().x + 1, 0);
 	}
 	
+	public static void _printLifeUser(){
+		user._printLife(j, 0, map.global_fin().y + 1);
+	}
+	
+	public static void _printInformationMonsters(boolean firstCall) {
+		int count = 0;
+		int numMonsters = 0;
+		for (ActiveCharacter monster : user.getRoom().getMonstersPosition(user.getPosition())) {
+			// TODO: Change this to translation
+			if (firstCall){
+				countElements += 1;
+				if (!monster.isDead() && count == 0){
+					j.print(map.global_fin().y, countElements, "Monsters: ");
+					count++;
+				}
+				
+				if (!monster.isDead() || monster.isFirstTimeDead()){
+					countElements += 1;
+					monster.printMonstersInformation(j, map.global_fin().y, countElements);
+					if (monster.isDead()){
+						monster.setFirstTimeDead(false);
+					}
+				}
+			} else {
+				if (!monster.isDead() || monster.isFirstTimeDead()){
+					//TODO: Change this to support more than 1 monster
+					System.out.println(user.getRoom().getMonstersPosition(user.getPosition()).size());
+					monster._printLife(j, countElements + 1, map.global_fin().y);
+				}
+			}
+		}
+	}
+	
+	public static void _printGroundObjects(){
+		if (user.getRoom().getItemsPosition(user.getPosition()).size() > 0){
+			countElements += 1;
+			j.print(map.global_fin().y, countElements, "Items: ");
+		}
+		for (Item item : user.getRoom().getItemsPosition(user.getPosition())) {
+			countElements += 1;
+			item.printItemsInformation(j, map.global_fin().y, countElements);
+		}
+	}
+	
 	public static void _initialize(){
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 		LifePotion lifePotion30 = new LifePotion(0, 10, "", null, null, null, null, 30);
@@ -140,10 +188,10 @@ public class Main {
 		inventory.add(lifePotion50);
 		inventory.add(oneHandSword);
 		user.setInventory(inventory);
+		user.setLife(80);
 		printEverything(map, j, user);
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 		j.refresh();
-		user.setLife(80);
 	}
 	
 	public static void _inventoryAction(int i){
@@ -188,6 +236,8 @@ public class Main {
     			hasChanged = true;
     		}
     		System.out.println("Vida monster: " + map.getMonstersPosition(user).get(0).getLife());
+    		_printInformationMonsters(false);
+    		_printLifeUser();
     	}
 	}
 
@@ -199,6 +249,7 @@ public class Main {
 			
 			_initialize();
 			for (;;) {
+				countElements = 2;
 				if (debug) {
 					System.out.println("Vida user: " + user.getLife());
 				}

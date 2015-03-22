@@ -42,6 +42,7 @@ public class ActiveCharacter extends Character {
 	private int vision;
 	private int movementType;
 	private boolean isDead;
+	private boolean isFirstTimeDead;
 	private ArrayList<WereableWeapon> weaponsEquipped;
 	private ArrayList<WereableArmor> armorsEquipped;
 	private ArrayList<Tuple<Integer, Integer>> visiblePositions = new ArrayList<Tuple<Integer, Integer>>();
@@ -69,6 +70,7 @@ public class ActiveCharacter extends Character {
 		this.totalLife = totalLife;
 		this.vision = vision;
 		this.isDead = false;
+		this.isFirstTimeDead = true;
 		this.movementType = movementType;
 		this.setVisiblePositions();
 	}
@@ -93,11 +95,6 @@ public class ActiveCharacter extends Character {
 				this.visiblePositions.add(new Tuple<Integer, Integer>(i, j));
 			}
 		}
-		// System.out.println("POSITIONS: ");
-//		for (Tuple<Integer, Integer> pos : this.visiblePositions){
-//			System.out.println("Pos: (" + pos.x + "," + pos.y + ")");
-//		}
-		
 	}
 
 	public int getAttackFromWeapons(ActiveCharacter character){
@@ -175,6 +172,7 @@ public class ActiveCharacter extends Character {
 		int defenderLife = defender.getLife() - damageDone;
 		defenderLife = defenderLife < 0 ? 0 : defenderLife;
 		defender.setLife(defenderLife);
+		System.out.println("Defender Life: " + defenderLife);
 		if (defender.getLife() <= 0){
 			defender.setDead(true);
 			this.dropAllItems(defender);
@@ -251,6 +249,21 @@ public class ActiveCharacter extends Character {
 			String name = i + 1 + " - " + inventory.get(i).getName();
 			j.print(initPos_j, initPos_i + i, name);
 		}
+	}
+	
+	public void _printLife(WSwingConsoleInterface j, int initPos_i, int initPos_j){
+		String life = "Life: " + this.getLife() + "/" + this.getTotalLife();
+		j.print(initPos_j, initPos_i, life);
+	}
+	
+	public void _printName(WSwingConsoleInterface j, int initPos_i, int initPos_j){
+		String name = this.getName();
+		j.print(initPos_j, initPos_i, name);
+	}
+	
+	public void printMonstersInformation(WSwingConsoleInterface j, int initPos_i, int initPos_j){
+		_printName(j, initPos_j, initPos_i);
+		_printLife(j, initPos_j + 1, initPos_i);
 	}
 	
 	/**
@@ -521,6 +534,14 @@ public class ActiveCharacter extends Character {
 
 	public void setMovementType(int movementType) {
 		this.movementType = movementType;
+	}
+
+	public boolean isFirstTimeDead() {
+		return isFirstTimeDead;
+	}
+
+	public void setFirstTimeDead(boolean isFirstTimeDead) {
+		this.isFirstTimeDead = isFirstTimeDead;
 	}
 
 }

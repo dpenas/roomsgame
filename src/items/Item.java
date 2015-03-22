@@ -7,6 +7,7 @@ import items.wereables.WereableWeapon;
 
 import java.util.ArrayList;
 
+import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import util.Tuple;
 import map.Map;
 import map.Room;
@@ -47,6 +48,10 @@ public abstract class Item {
 		this.setMap(c.getMap());
 		this.setRoom(c.getRoom());
 		this.setPosition(c.getPosition());
+	}
+	
+	public void printItemsInformation(WSwingConsoleInterface j, int initPos_i, int initPos_j) {
+		j.print(initPos_i, initPos_j, this.getName());
 	}
 	
 	public boolean isWereableItem(){

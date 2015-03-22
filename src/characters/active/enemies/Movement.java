@@ -20,7 +20,6 @@ public final class Movement {
 				minimumSeparation = separationTuples;
 				minimumTuple = tuple;
 			}
-			
 		}
 		character.setPosition(minimumTuple);
 		

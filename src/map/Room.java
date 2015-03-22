@@ -72,6 +72,28 @@ public class Room {
 		}
 	}
 	
+	public ArrayList<ActiveCharacter> getMonstersPosition(Tuple<Integer, Integer> pos){
+		ArrayList<ActiveCharacter> monsters = new ArrayList<ActiveCharacter>();
+		for (ActiveCharacter monster : this.getMonsters()){
+			if (RandUtil.sameTuple(pos, monster.getPosition())){
+				monsters.add(monster);
+			}
+		}
+		
+		return monsters;
+	}
+	
+	public ArrayList<Item> getItemsPosition(Tuple<Integer, Integer> pos){
+		ArrayList<Item> items = new ArrayList<Item>();
+		for (Item item : this.getItemsRoom()){
+			if (RandUtil.sameTuple(pos, item.getPosition())){
+				items.add(item);
+			}
+		}
+		
+		return items;
+	}
+	
 	public boolean putItemRoom(Item item){
 		if (isMapPositionHere(item.getPosition())){
 			this.getItemsRoom().add(item);
