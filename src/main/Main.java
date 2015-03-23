@@ -200,6 +200,7 @@ public class Main {
     	}
     	user.useItem(user.getInventory().get(i%131));
     	j.cls();
+    	countElements = 2;
     	printEverything(map, j, user);
 		if (debug) {
 			System.out.println(user.getWeaponsEquipped().size());
