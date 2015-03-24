@@ -132,12 +132,11 @@ public class Main {
 	
 	public static void _printInformationMonsters(boolean firstCall) {
 		int count = 0;
-		int numMonsters = 0;
 		for (ActiveCharacter monster : user.getRoom().getMonstersPosition(user.getPosition())) {
 			// TODO: Change this to translation
 			if (firstCall) {
-				countElements += 1;
 				if (!monster.isDead() && count == 0){
+					countElements += 1;
 					j.print(map.global_fin().y + 1, countElements, "Monsters: ");
 					count++;
 				}
@@ -178,8 +177,10 @@ public class Main {
 				null, 0, 0, true);
 		
 		Goblin goblin = new Goblin(map, map.obtainRoomByPosition(pos), pos, 0, new ArrayList<Item>());
+		Goblin goblin2 = new Goblin(map, map.obtainRoomByPosition(pos), pos, 0, new ArrayList<Item>());
 		goblin.putItemInventory(oneHandSword2);
 		map.obtainRoomByPosition(pos).getMonsters().add(goblin);
+		map.obtainRoomByPosition(pos).getMonsters().add(goblin2);
 		
 		ArrayList<Item> inventory = new ArrayList<Item>();
 		inventory.add(lifePotion30);
@@ -221,24 +222,26 @@ public class Main {
 	
 	public static void _attackAction(){
 		if (map.getMonstersPosition(user).size() > 0) {
-    		ActiveCharacter monster = map.getMonstersPosition(user).get(0);
+			ActiveCharacter monster = map.getMonstersPosition(user).get(0);
+			for (int i = 0; i < map.getMonstersPosition(user).size(); i++) {
+				monster = map.getMonstersPosition(user).get(i);
+				if (!monster.isDead()) {
+					monster = map.getMonstersPosition(user).get(i);
+					break;
+				}
+			}
     		if (debug) {
     			System.out.println("Vida monster: " + map.getMonstersPosition(user).get(0).getLife());
     		}
     		user.attack(monster);
-    		if (monster.getLife() <= 0){
-    			if (debug) {
-    				System.out.println("Item position: ");
-        			System.out.println(monster.getInventory().get(0).getPosition().x);
-        			System.out.println(monster.getInventory().get(0).getPosition().y);
-    			}
+    		if (monster.getLife() <= 0) {
     			hasChanged = true;
     			printEverything(false);
-    		} else{
+    		} else {
     			printEverything(true);
     		}
     		System.out.println("Vida monster: " + map.getMonstersPosition(user).get(0).getLife());
-    	} else{
+    	} else {
     		printEverything(false);
     	}
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);

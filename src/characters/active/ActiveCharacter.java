@@ -263,6 +263,7 @@ public class ActiveCharacter extends Character {
 	
 	public void printMonstersInformation(WSwingConsoleInterface j, int initPos_i, int initPos_j){
 		_printName(j, initPos_j, initPos_i);
+		Main.countElements++;
 		_printLife(j, initPos_j + 1, initPos_i);
 	}
 	
