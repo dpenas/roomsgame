@@ -152,8 +152,8 @@ public class Main {
 		System.out.println("User Position " + "(" + user.getPosition().x + "," + user.getPosition().y + ")");
 		if (user.getRoom().getItemsPosition(user.getPosition()).size() > 0) {
 			System.out.println("HAY ELEMENTOS. User Position " + "(" + user.getPosition().x + "," + user.getPosition().y + ")");
-			countElements += 1;
-			j.print(map.global_fin().y, countElements, "Items: ");
+			countElements += 3;
+			j.print(map.global_fin().y + 1, countElements, "Items: ");
 		}
 		for (Item item : user.getRoom().getItemsPosition(user.getPosition())) {
 			countElements += 1;
@@ -176,9 +176,9 @@ public class Main {
 		WereableWeapon oneHandSword2 = new OneHandSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
 		
-		Goblin goblin = new Goblin(map, roomEnemy, roomEnemy.getRandomPosition(), 0, new ArrayList<Item>());
+		Goblin goblin = new Goblin(map, map.obtainRoomByPosition(pos), pos, 0, new ArrayList<Item>());
 		goblin.putItemInventory(oneHandSword2);
-		roomEnemy.getMonsters().add(goblin);
+		map.obtainRoomByPosition(pos).getMonsters().add(goblin);
 		
 		ArrayList<Item> inventory = new ArrayList<Item>();
 		inventory.add(lifePotion30);
