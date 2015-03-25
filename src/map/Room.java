@@ -66,7 +66,7 @@ public class Room {
 	
 	public void printMonsters(WSwingConsoleInterface j, ArrayList<Tuple<Integer, Integer>> visiblePositions){
 		for (ActiveCharacter monster : getMonsters()){
-			if (RandUtil.containsTuple(monster.getPosition(), visiblePositions)){
+			if (RandUtil.containsTuple(monster.getPosition(), visiblePositions) && !monster.isDead()){
 				j.print(monster.getPosition().y, monster.getPosition().x, monster.getSymbolRepresentation(), 12);
 			}
 		}

@@ -663,10 +663,8 @@ public class Map {
 		for (Room room : getRooms()){
 			if (user.getRoom().equals(room)){
 				for (ActiveCharacter enemy: room.getMonsters()){
-					if (!enemy.isDead()){
-						if (RandUtil.containsTuple(enemy.getPosition(), user.getVisiblePositions())){
-							room.printMonsters(j, user.getVisiblePositions());
-						}
+					if (RandUtil.containsTuple(enemy.getPosition(), user.getVisiblePositions())){
+						room.printMonsters(j, user.getVisiblePositions());
 					}
 				}
 			}

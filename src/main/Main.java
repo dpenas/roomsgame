@@ -72,7 +72,7 @@ public class Main {
 		return Arrays.asList(attackInput).contains(key);
 	}
 	
-	public static void printEverything(){
+	public static void printEverything(boolean needsToPrintGroundObjects){
 		countElements = 2;
 		map.printBorders(j, user);
 		map.printInside(j, user);
@@ -81,7 +81,9 @@ public class Main {
 		_printInventoryUser();
 		_printLifeUser();
 		_printInformationMonsters();
-		_printGroundObjects();
+		if (needsToPrintGroundObjects) {
+			_printGroundObjects();
+		}
 	}
 	
 	public static void _moveCharacterAction(int i){
@@ -90,7 +92,7 @@ public class Main {
 		if (user.move(newPosition)){
 			hasMoved = true;
         	user.setVisiblePositions();
-        	printEverything();
+        	printEverything(false);
         	previousPositionChar = previousPositionChar2;
         	previousPositionChar2 = j.peekChar(newPosition.y, newPosition.x);
         	if (RandUtil.containsString(usedSymbols, j.peekChar(newPosition.y, newPosition.x))){
@@ -116,7 +118,7 @@ public class Main {
         		} 
         	}
         } else {
-        	printEverything();
+        	printEverything(false);
         	j.print(previousPosition.y, previousPosition.x, user.getSymbolRepresentation(), 12);
         	hasMoved = false;
         }
@@ -134,13 +136,15 @@ public class Main {
 		int count = 0;
 		for (ActiveCharacter monster : user.getRoom().getMonstersPosition(user.getPosition())) {
 			// TODO: Change this to translation
-			if (!monster.isDead() && count == 0){
+			if (!monster.isDead() && count == 0) {
 				countElements += 1;
+				System.out.println("count elements is: " + countElements);
 				j.print(map.global_fin().y + 1, countElements, "Monsters: ");
 				count++;
 			}
-			if (!monster.isDead()){
+			if (!monster.isDead()) {
 				countElements += 1;
+				System.out.println("count elements is: " + countElements);
 				monster.printMonstersInformation(j, map.global_fin().y + 1, countElements);
 			}
 		}
@@ -151,10 +155,12 @@ public class Main {
 		if (user.getRoom().getItemsPosition(user.getPosition()).size() > 0) {
 			System.out.println("HAY ELEMENTOS. User Position " + "(" + user.getPosition().x + "," + user.getPosition().y + ")");
 			countElements += 2;
+			System.out.println("count elements item is: " + countElements);
 			j.print(map.global_fin().y + 1, countElements, "Items: ");
 		}
 		for (Item item : user.getRoom().getItemsPosition(user.getPosition())) {
 			countElements += 1;
+			System.out.println("count elements item is: " + countElements);
 			item.printItemsInformation(j, map.global_fin().y + 1, countElements);
 		}
 	}
@@ -187,7 +193,7 @@ public class Main {
 		inventory.add(oneHandSword);
 		user.setInventory(inventory);
 		user.setLife(80);
-		printEverything();
+		printEverything(true);
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 		j.refresh();
 	}
@@ -198,7 +204,7 @@ public class Main {
     	}
     	user.useItem(user.getInventory().get(i%131));
     	j.cls();
-    	printEverything();
+    	printEverything(true);
 		if (debug) {
 			System.out.println(user.getWeaponsEquipped().size());
 		}
@@ -211,7 +217,7 @@ public class Main {
 		}
 		if (user.pickItem(user.getPosition(), user.getRoom())){
     		j.cls();
-    		printEverything();
+    		printEverything(true);
 			j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 			hasChanged = true;
     	}
@@ -234,13 +240,13 @@ public class Main {
     		user.attack(monster);
     		if (monster.getLife() <= 0) {
     			hasChanged = true;
-    			printEverything();
+    			printEverything(true);
     		} else {
-    			printEverything();
+    			printEverything(true);
     		}
     		System.out.println("Vida monster: " + map.getMonstersPosition(user).get(0).getLife());
     	} else {
-    		printEverything();
+    		printEverything(true);
     	}
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	}
@@ -258,7 +264,7 @@ public class Main {
 				}
 				user.getRoom().monsterTurn(user);
 				if (hasMoved) {
-					printEverything();
+					printEverything(true);
 					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 		            hasMoved = false;
 				}
@@ -278,7 +284,7 @@ public class Main {
 	            else if (isAttackInput(i)) {
 	            	_attackAction();
 	            } else {
-	            	printEverything();
+	            	printEverything(true);
 					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	            }
 	            
