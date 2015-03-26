@@ -41,7 +41,7 @@ public class Main {
 	static Room roomEnemy = getRandomRoom(map);
 	static Room roomCharacter = getRandomRoom(map);
 	static WSwingConsoleInterface j = new WSwingConsoleInterface("asdasd");
-	static ActiveCharacter user = new ActiveCharacter("", "", "", map, roomCharacter, roomCharacter.getRandomInsidePosition(), 
+	static ActiveCharacter user = new ActiveCharacter("", "", "", map, map.obtainRoomByPosition(pos), pos, 
 			40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 			new ArrayList<WereableArmor>(), 100, 100, 0,
 			new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
@@ -82,6 +82,7 @@ public class Main {
 		_printLifeUser();
 		_printInformationMonsters();
 		if (needsToPrintGroundObjects) {
+			System.out.println("I need to paint ground objects");
 			_printGroundObjects();
 		}
 	}
@@ -118,7 +119,7 @@ public class Main {
         		} 
         	}
         } else {
-        	printEverything(false);
+        	printEverything(true);
         	j.print(previousPosition.y, previousPosition.x, user.getSymbolRepresentation(), 12);
         	hasMoved = false;
         }
@@ -265,6 +266,7 @@ public class Main {
 				user.getRoom().monsterTurn(user);
 				if (hasMoved) {
 					printEverything(true);
+					j.refresh();
 					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 		            hasMoved = false;
 				}
