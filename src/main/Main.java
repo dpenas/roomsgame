@@ -203,12 +203,15 @@ public class Main {
 		if (debug) {
     		System.out.println(user.getWeaponsEquipped().size());
     	}
-    	user.useItem(user.getInventory().get(i%131));
-    	j.cls();
-    	printEverything(true);
+		int itemNumber = i % 131;
+		if (itemNumber + 1 <= user.getInventory().size()) {
+			user.useItem(user.getInventory().get(itemNumber));
+	    	j.cls();
+		}
 		if (debug) {
 			System.out.println(user.getWeaponsEquipped().size());
 		}
+		printEverything(true);
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	}
 	
