@@ -1,6 +1,8 @@
 package util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import characters.active.ActiveCharacter;
@@ -19,20 +21,17 @@ public class RandUtil {
 		return randomIntValue;
 	}
 	
-	public static Tuple<Integer, Integer> inputMoveInterpretation(int input, ActiveCharacter character){
+	public static Tuple<Integer, Integer> inputMoveInterpretation(int input, List<Integer> movementInput, ActiveCharacter character){
+		int down = movementInput.get(0);
+		int up = movementInput.get(1);
+		int right = movementInput.get(2);
+		int left= movementInput.get(3);
 		
-		switch (input){
-		case 0:
-			return new Tuple<Integer, Integer>(character.getPosition().x - 1, character.getPosition().y);
-		case 1:
-			return new Tuple<Integer, Integer>(character.getPosition().x + 1, character.getPosition().y);
-		case 2:
-			return new Tuple<Integer, Integer>(character.getPosition().x, character.getPosition().y - 1);
-		case 3:
-			return new Tuple<Integer, Integer>(character.getPosition().x, character.getPosition().y + 1);
-		default:
-			return null;
-		}
+		if (input == left) return new Tuple<Integer, Integer>(character.getPosition().x - 1, character.getPosition().y);
+		if (input == right) return new Tuple<Integer, Integer>(character.getPosition().x + 1, character.getPosition().y);
+		if (input == down) return new Tuple<Integer, Integer>(character.getPosition().x, character.getPosition().y - 1);
+		if (input == up) return new Tuple<Integer, Integer>(character.getPosition().x, character.getPosition().y + 1);
+		return null;
 	}
 	
 	public static boolean containsTuple(Tuple<Integer, Integer> tuple, ArrayList<Tuple<Integer, Integer>> array){

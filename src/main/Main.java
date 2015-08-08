@@ -6,6 +6,7 @@ import items.wereables.OneHandSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,10 +15,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import config.ChangeKeyBinding;
 import characters.active.ActiveCharacter;
 import characters.active.enemies.Goblin;
-import translations.exceptions.WordNotFoundException;
-import util.JsonUtils;
 import util.RandUtil;
 import util.Tuple;
 import map.Map;
@@ -114,7 +114,7 @@ public class Main {
 	
 	public static void _moveCharacterAction(int i){
 		Tuple<Integer, Integer> previousPosition = user.getPosition();
-        Tuple<Integer, Integer> newPosition = RandUtil.inputMoveInterpretation(i, user);
+        Tuple<Integer, Integer> newPosition = RandUtil.inputMoveInterpretation(i, Arrays.asList(movementInput), user);
 		if (user.move(newPosition)){
 			hasMoved = true;
         	user.setVisiblePositions();
@@ -283,6 +283,8 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws IOException {
+		
+		ChangeKeyBinding.editPropertiesFile();
 
 		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);
 		
@@ -300,7 +302,7 @@ public class Main {
 					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 		            hasMoved = false;
 				}
-				int i = j.inkey().code;
+				int i = KeyEvent.getExtendedKeyCodeForChar(j.inkey().code) + 1;
 				j.cls();
 				
 				System.out.println(i);
