@@ -6,12 +6,16 @@ import items.wereables.OneHandSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import config.ChangeKeyBinding;
 import characters.active.ActiveCharacter;
 import characters.active.enemies.Goblin;
 import util.RandUtil;
@@ -25,17 +29,18 @@ public class Main {
 	public static String language = new String("es");
 	public static String country = new String("ES");
 	public static Locale currentLocale = new Locale(language, country);
-	public static ResourceBundle messagesWereables;
+	public static ResourceBundle messagesWereables, keyBinding;
 	public static int countElements;
+	public static HashMap<String, Integer> keysMap;
 	public static boolean debug = false;
 	public static boolean testMode = false;
 	public static char[] usedSymbols = {'.', 'P', 'G', 'A'};
 	static Tuple<Integer, Integer> initial_point = new Tuple<Integer, Integer>(0, 0);
 	static Tuple<Integer, Integer> final_point = new Tuple<Integer, Integer>(20, 20);
-	static Integer[] movementInput = new Integer[] {0, 1, 2, 3};
-	static Integer[] inventoryInput = new Integer[] {131, 132, 133, 134, 135, 136};
-	static Integer[] pickItemInput = new Integer[] {68};
-	static Integer[] attackInput = new Integer[] {87};
+	static Integer[] movementInput;
+	static Integer[] inventoryInput;
+	static Integer[] pickItemInput;
+	static Integer[] attackInput;
 	static Map map = new Map(initial_point, final_point);
 	static Tuple<Integer, Integer> pos = new Tuple<Integer, Integer>(1,1);
 	static Room roomEnemy = getRandomRoom(map);
@@ -72,6 +77,26 @@ public class Main {
 		return Arrays.asList(attackInput).contains(key);
 	}
 	
+	public static void _setKeyMap() {
+		keyBinding = ResourceBundle.getBundle("config.keys", currentLocale);
+		Enumeration <String> keys = keyBinding.getKeys();
+		keysMap = new HashMap<String, Integer>();
+		while (keys.hasMoreElements()) {
+			String key = keys.nextElement();
+			String value = keyBinding.getString(key);
+			keysMap.put(key, Integer.parseInt(value));
+		}
+		_bindKeys();
+	}
+	
+	public static void _bindKeys() {
+		movementInput = new Integer[] {keysMap.get("left"), keysMap.get("right"), keysMap.get("down"), keysMap.get("up")};
+		inventoryInput = new Integer[] {keysMap.get("item1"), keysMap.get("item2"), keysMap.get("item3"), keysMap.get("item4"),
+				keysMap.get("item5"), keysMap.get("item6")};
+		pickItemInput = new Integer[] {keysMap.get("pickItem")};
+		attackInput = new Integer[] {keysMap.get("attack")};
+	}
+	
 	public static void printEverything(boolean needsToPrintGroundObjects){
 		countElements = 2;
 		map.printBorders(j, user);
@@ -89,7 +114,7 @@ public class Main {
 	
 	public static void _moveCharacterAction(int i){
 		Tuple<Integer, Integer> previousPosition = user.getPosition();
-        Tuple<Integer, Integer> newPosition = RandUtil.inputMoveInterpretation(i, user);
+        Tuple<Integer, Integer> newPosition = RandUtil.inputMoveInterpretation(i, Arrays.asList(movementInput), user);
 		if (user.move(newPosition)){
 			hasMoved = true;
         	user.setVisiblePositions();
@@ -167,6 +192,7 @@ public class Main {
 	}
 	
 	public static void _initialize(){
+		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 		LifePotion lifePotion30 = new LifePotion(0, 10, "", null, null, null, null, 30);
 		lifePotion30.setCharacter(user);
@@ -203,7 +229,8 @@ public class Main {
 		if (debug) {
     		System.out.println(user.getWeaponsEquipped().size());
     	}
-		int itemNumber = i % 131;
+		
+		int itemNumber = i % keysMap.get("item1");
 		if (itemNumber + 1 <= user.getInventory().size()) {
 			user.useItem(user.getInventory().get(itemNumber));
 	    	j.cls();
@@ -256,6 +283,8 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws IOException {
+		
+		ChangeKeyBinding.editPropertiesFile();
 
 		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);
 		
@@ -273,7 +302,7 @@ public class Main {
 					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 		            hasMoved = false;
 				}
-				int i = j.inkey().code;
+				int i = KeyEvent.getExtendedKeyCodeForChar(j.inkey().code) + 1;
 				j.cls();
 				
 				System.out.println(i);
