@@ -284,7 +284,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		
-		ChangeKeyBinding.editPropertiesFile();
+		ChangeKeyBinding.editPropertiesFile(j);
 
 		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);
 		
@@ -302,7 +302,8 @@ public class Main {
 					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 		            hasMoved = false;
 				}
-				int i = KeyEvent.getExtendedKeyCodeForChar(j.inkey().code) + 1;
+				int i = j.inkey().code;
+				System.out.println("Code" + i);
 				j.cls();
 				
 				System.out.println(i);
