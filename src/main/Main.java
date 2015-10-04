@@ -6,6 +6,7 @@ import items.wereables.OneHandSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 
+import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,6 +15,14 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import config.ChangeKeyBinding;
 import characters.active.ActiveCharacter;
@@ -46,7 +55,7 @@ public class Main {
 	static Room roomEnemy = getRandomRoom(map);
 	static Room roomCharacter = getRandomRoom(map);
 	static WSwingConsoleInterface j = new WSwingConsoleInterface("asdasd");
-	static ActiveCharacter user = new ActiveCharacter("", "", "", map, map.obtainRoomByPosition(pos), pos, 
+	static ActiveCharacter user = new ActiveCharacter("", "", map, map.obtainRoomByPosition(pos), pos, 
 			40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 			new ArrayList<WereableArmor>(), 100, 100, 0,
 			new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
@@ -210,6 +219,7 @@ public class Main {
 		Goblin goblin = new Goblin(map, map.obtainRoomByPosition(pos), pos, 0, new ArrayList<Item>());
 		Goblin goblin2 = new Goblin(map, map.obtainRoomByPosition(pos), pos, 0, new ArrayList<Item>());
 		goblin.putItemInventory(oneHandSword2);
+		goblin.equipWeapon(oneHandSword2);
 		map.obtainRoomByPosition(pos).getMonsters().add(goblin);
 		map.obtainRoomByPosition(pos).getMonsters().add(goblin2);
 		
@@ -252,7 +262,6 @@ public class Main {
 			j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 			hasChanged = true;
     	}
-		
 	}
 	
 	public static void _attackAction(){
@@ -284,10 +293,13 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		
-		ChangeKeyBinding.editPropertiesFile(j);
-
+//		JLabel message = new JLabel();
+//		message.setText("Hola");
+//		message.requestFocusInWindow();
+//		JOptionPane.showMessageDialog(null, message, "", JOptionPane.PLAIN_MESSAGE);
+//		
 		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);
-		
+		testMode = true;
 		if (!testMode){
 			
 			_initialize();

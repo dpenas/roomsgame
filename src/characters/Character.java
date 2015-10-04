@@ -10,7 +10,6 @@ import util.Tuple;
 public abstract class Character {
 	private String name;
 	private String description;
-	private String gender;
 	private int weight; // Character's weight
 	private int carryWeight; // Max weight we can carry
 	private int actualCarryWeight;
@@ -21,13 +20,12 @@ public abstract class Character {
 	private Tuple<Integer, Integer> position;
 	private ArrayList<Item> inventory;
 	
-	public Character(String name, String description, String gender, Map map,
+	public Character(String name, String description, Map map,
 			Room room, Tuple<Integer, Integer> position, int weight, int length, int carryWeight,
 			int actualCarryWeight, ArrayList<Item> inventory, String symbolRepresentation) {
 		super();
 		this.name = name;
 		this.description = description;
-		this.gender = gender;
 		this.map = map;
 		this.room = room;
 		this.position = position;
@@ -45,10 +43,6 @@ public abstract class Character {
 	
 	public String getDescription() {
 		return description;
-	}
-	
-	public String gender() {
-		return gender;
 	}
 	
 	public Map getMap(){
@@ -85,14 +79,6 @@ public abstract class Character {
 	
 	public int getCarryWeight(){
 		return carryWeight;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
 	}
 
 	public int getActualCarryWeight() {

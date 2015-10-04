@@ -74,35 +74,35 @@ public class ActiveCharacterTest {
 				"translations.files.MessagesWereable", currentLocale);
 		main.Main.main(null);
 
-		attacker = new ActiveCharacter("", "", "", map, room, position, 40, 10,
+		attacker = new ActiveCharacter("", "", map, room, position, 40, 10,
 				100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
-		defender = new ActiveCharacter("", "", "", map, room, position, 40, 10,
+		defender = new ActiveCharacter("", "", map, room, position, 40, 10,
 				100, 0, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
-		c1 = new ActiveCharacter("", "", "", map, room, position, 40, 10, 100,
+		c1 = new ActiveCharacter("", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
-		c2 = new ActiveCharacter("", "", "", map, room, position, 40, 10, 100, 50,
+		c2 = new ActiveCharacter("", "", map, room, position, 40, 10, 100, 50,
 				100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 95,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
-		c3 = new ActiveCharacter("", "", "", map, room, position, 40, 10, 100,
+		c3 = new ActiveCharacter("", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
-		c4 = new ActiveCharacter("", "", "", map, room, position, 40, 10, 100,
+		c4 = new ActiveCharacter("", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
-		c5 = new ActiveCharacter("", "", "", map, room, position, 40, 10, 100,
+		c5 = new ActiveCharacter("", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
-		c6 = new ActiveCharacter("", "", "", map, room, position, 40, 10, 100,
+		c6 = new ActiveCharacter("", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);

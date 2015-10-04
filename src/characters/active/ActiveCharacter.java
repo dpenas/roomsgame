@@ -47,14 +47,14 @@ public class ActiveCharacter extends Character {
 	private ArrayList<WereableArmor> armorsEquipped;
 	private ArrayList<Tuple<Integer, Integer>> visiblePositions = new ArrayList<Tuple<Integer, Integer>>();
 
-	public ActiveCharacter(String name, String description, String gender,
+	public ActiveCharacter(String name, String description,
 			Map map, Room room, Tuple<Integer, Integer> position, int damage,
 			int defense, int life, int luck, int weight, int length, 
 			ArrayList<WereableWeapon> weaponsEquipped,
 			ArrayList<WereableArmor> armorsEquipped, int inventorySpace, int carryWeight,
 			int actualCarryWeight, ArrayList<Item> inventory, int actualInventorySpace, int evasion,
 			int totalLife, int magic, int totalMagic, String symbolRepresentation, int vision, int movementType) {
-		super(name, description, gender, map, room, position, weight, length, carryWeight, actualCarryWeight, 
+		super(name, description, map, room, position, weight, length, carryWeight, actualCarryWeight, 
 				inventory, symbolRepresentation);
 		this.damage = damage;
 		this.totalMagic = totalMagic;
