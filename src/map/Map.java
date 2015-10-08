@@ -637,9 +637,15 @@ public class Map {
 	
 	public void printInside(WSwingConsoleInterface j, ActiveCharacter user){
 		for(Room room : this.getRooms()){
+			System.out.println("Turur " + room.getInsidecolumns().size());
+			for (Tuple<Integer, Integer> pos: room.getInsidecolumns()) {
+				System.out.println("HOLA!");
+				j.print(pos.y, pos.x, '#', 12);
+			}
 			if (user.getRoom().equals(room)){
 				for (Tuple<Integer, Integer> pos: room.getInsidePositions()){
-					if (RandUtil.containsTuple(pos, user.getVisiblePositions())){
+					if (RandUtil.containsTuple(pos, user.getVisiblePositions()) && 
+							!RandUtil.containsTuple(pos, room.getInsidecolumns())){
 						j.print(pos.y, pos.x, '.', 12);
 					}
 				}

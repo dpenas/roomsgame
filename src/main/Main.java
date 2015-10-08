@@ -299,7 +299,6 @@ public class Main {
 //		JOptionPane.showMessageDialog(null, message, "", JOptionPane.PLAIN_MESSAGE);
 //		
 		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);
-		testMode = true;
 		if (!testMode){
 			
 			_initialize();

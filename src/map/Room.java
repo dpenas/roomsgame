@@ -35,6 +35,7 @@ public class Room {
 	private ArrayList<Tuple<Integer, Integer>> borders = new ArrayList<Tuple<Integer, Integer>>();
 	private ArrayList<Tuple<Integer, Integer>> corners = new ArrayList<Tuple<Integer, Integer>>();
 	private ArrayList<Tuple<Integer, Integer>> insidePositions = new ArrayList<Tuple<Integer, Integer>>();
+	private ArrayList<Tuple<Integer, Integer>> insidecolumns = new ArrayList<Tuple<Integer, Integer>>();
 	int ini_x;
 	int ini_y;
 	int fin_x;
@@ -54,6 +55,7 @@ public class Room {
 		this.initializeBorders();
 		this.initializeCorners();
 		this.initializeInsidePositions();
+		this.initializeColumns();
 	}
 	
 	public void printItems(WSwingConsoleInterface j, ArrayList<Tuple<Integer, Integer>> visiblePositions){
@@ -246,9 +248,31 @@ public class Room {
 		}
 	}
 	
+	public void initializeColumns() {
+		int numberColumns = Math.round(this.getInsidePositions().size() / 10);
+		int tries = 0;
+		while (this.getInsidecolumns().size() <= numberColumns && this.getInsidePositions().size() > 0 && tries <= 10) {
+			int randomNumber = RandUtil.RandomNumber(0, this.getInsidePositions().size());
+			System.out.println("HOLA2!!!!!");
+			if (!RandUtil.containsTuple(this.getInsidePositions().get(randomNumber), this.getInsidecolumns())){
+				System.out.println("HOLA!!!!!");
+				this.getInsidecolumns().add(this.getInsidePositions().get(randomNumber));
+			}
+			tries++;
+		}
+	}
+	
 	public Tuple<Integer, Integer> getRandomPosition(){
 		int value = RandUtil.RandomNumber(0, this.getInsidePositions().size());
 		return this.getInsidePositions().get(value);
+	}
+
+	public ArrayList<Tuple<Integer, Integer>> getInsidecolumns() {
+		return insidecolumns;
+	}
+
+	public void setInsidecolumns(ArrayList<Tuple<Integer, Integer>> insidecolumns) {
+		this.insidecolumns = insidecolumns;
 	}
 
 	public Tuple<Integer, Integer> getIndividual_initial() {
