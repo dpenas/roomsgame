@@ -554,6 +554,9 @@ public class Map {
 		}
 		
 		fixUnreachableRooms();
+		for(Room room : this.rooms){
+			room.initializeColumns();
+		}
 	}
 	
 	public ArrayList<Room> getUnreachableRooms(){

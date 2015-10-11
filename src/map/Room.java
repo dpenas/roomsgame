@@ -55,7 +55,6 @@ public class Room {
 		this.initializeBorders();
 		this.initializeCorners();
 		this.initializeInsidePositions();
-		this.initializeColumns();
 	}
 	
 	public void printItems(WSwingConsoleInterface j, ArrayList<Tuple<Integer, Integer>> visiblePositions){
@@ -251,10 +250,31 @@ public class Room {
 	public void initializeColumns() {
 		int numberColumns = Math.round(this.getInsidePositions().size() / 10);
 		int tries = 0;
+		ArrayList<Tuple<Integer, Integer>> doorPositions = new ArrayList<>();
+		Tuple<Integer, Integer> doorPosition;
+		
+		for (Door d: this.getDoors()) {
+			if (d.getRoom1() == this) {
+				doorPosition = d.getPositionRoom1(); 
+			} else {
+				doorPosition = d.getPositionRoom2();
+			}
+			
+			Tuple<Integer,Integer> pos1 = new Tuple<Integer, Integer>(doorPosition.x - 1, doorPosition.y);
+			Tuple<Integer,Integer> pos2 = new Tuple<Integer, Integer>(doorPosition.x + 1, doorPosition.y);
+			Tuple<Integer,Integer> pos3 = new Tuple<Integer, Integer>(doorPosition.x, doorPosition.y - 1);
+			Tuple<Integer,Integer> pos4 = new Tuple<Integer, Integer>(doorPosition.x, doorPosition.y + 1);
+			doorPositions.add(pos1);
+			doorPositions.add(pos2);
+			doorPositions.add(pos3);
+			doorPositions.add(pos4);
+		}
+		 
 		while (this.getInsidecolumns().size() <= numberColumns && this.getInsidePositions().size() > 0 && tries <= 10) {
 			int randomNumber = RandUtil.RandomNumber(0, this.getInsidePositions().size());
-			if (!RandUtil.containsTuple(this.getInsidePositions().get(randomNumber), this.getInsidecolumns())){
-				this.getInsidecolumns().add(this.getInsidePositions().get(randomNumber));
+			Tuple<Integer, Integer> columnPosition = this.getInsidePositions().get(randomNumber);
+			if (!RandUtil.containsTuple(columnPosition, this.getInsidecolumns()) && !RandUtil.containsTuple(columnPosition, doorPositions)){
+				this.getInsidecolumns().add(columnPosition);
 			}
 			tries++;
 		}
