@@ -257,11 +257,11 @@ public class Main {
 			System.out.println("The items are: " + item.getName());
 		}
 		if (user.pickItem(user.getPosition(), user.getRoom())){
-    		j.cls();
-    		printEverything(true);
-			j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 			hasChanged = true;
     	}
+		j.cls();
+		printEverything(true);
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	}
 	
 	public static void _attackAction(){

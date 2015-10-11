@@ -253,9 +253,7 @@ public class Room {
 		int tries = 0;
 		while (this.getInsidecolumns().size() <= numberColumns && this.getInsidePositions().size() > 0 && tries <= 10) {
 			int randomNumber = RandUtil.RandomNumber(0, this.getInsidePositions().size());
-			System.out.println("HOLA2!!!!!");
 			if (!RandUtil.containsTuple(this.getInsidePositions().get(randomNumber), this.getInsidecolumns())){
-				System.out.println("HOLA!!!!!");
 				this.getInsidecolumns().add(this.getInsidePositions().get(randomNumber));
 			}
 			tries++;

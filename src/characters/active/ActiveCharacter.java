@@ -87,7 +87,7 @@ public class ActiveCharacter extends Character {
 		int maxMap_x = position.x + this.getVision(); 
 		if (maxMap_x > this.getMap().global_fin().x) maxMap_x = this.getMap().global_fin().x;
 		
-		int maxMap_y = position.y + this.getVision(); 
+		int maxMap_y = position.y + this.getVision();
 		if (maxMap_y > this.getMap().global_fin().y) maxMap_y = this.getMap().global_fin().y;
 
 		for (int i = minMap_x; i <= maxMap_x; i++){
@@ -379,7 +379,8 @@ public class ActiveCharacter extends Character {
 	
 	public boolean move(Tuple<Integer, Integer> position){
 		Room room = this.getMap().obtainRoomByPosition(position); 
-		if (room != null && (room.isInside(position) || room.isADoor(position))){
+		if (room != null && !RandUtil.containsTuple(position, room.getInsidecolumns()) 
+				&& (room.isInside(position) || room.isADoor(position))){
 			this.setPosition(position);
 			this.setRoom(room);
 			return true;

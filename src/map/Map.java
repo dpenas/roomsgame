@@ -604,7 +604,6 @@ public class Map {
 						j.print(pos.y, pos.x, '#', 12);
 					}
 				}
-				
 				for (Door d : room.getDoors()){
 					tuple1 = new Tuple<Integer, Integer>(d.getPositionRoom1().x, d.getPositionRoom1().y);
 					tuple2 = new Tuple<Integer, Integer>(d.getPositionRoom2().x, d.getPositionRoom2().y);
@@ -615,11 +614,6 @@ public class Map {
 						j.print(d.getPositionRoom2().y, d.getPositionRoom2().x, 'O', 12);
 					}
 				}
-				
-//				System.out.println("Corners: ");
-//				for (Tuple<Integer, Integer> corner : room.getCorners()){
-//					System.out.println("Corner: (" + corner.x + "," + corner.y + ")");
-//				}
 			}
 		}
 	}
@@ -637,16 +631,14 @@ public class Map {
 	
 	public void printInside(WSwingConsoleInterface j, ActiveCharacter user){
 		for(Room room : this.getRooms()){
-			System.out.println("Turur " + room.getInsidecolumns().size());
-			for (Tuple<Integer, Integer> pos: room.getInsidecolumns()) {
-				System.out.println("HOLA!");
-				j.print(pos.y, pos.x, '#', 12);
-			}
 			if (user.getRoom().equals(room)){
 				for (Tuple<Integer, Integer> pos: room.getInsidePositions()){
-					if (RandUtil.containsTuple(pos, user.getVisiblePositions()) && 
-							!RandUtil.containsTuple(pos, room.getInsidecolumns())){
-						j.print(pos.y, pos.x, '.', 12);
+					if (RandUtil.containsTuple(pos, user.getVisiblePositions())){
+						if (RandUtil.containsTuple(pos, room.getInsidecolumns())) {
+							j.print(pos.y, pos.x, '#', 12);
+						} else {
+							j.print(pos.y, pos.x, '.', 12);
+						}
 					}
 				}
 			}
