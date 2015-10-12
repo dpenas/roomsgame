@@ -50,15 +50,12 @@ public class Main {
 	static Integer[] inventoryInput;
 	static Integer[] pickItemInput;
 	static Integer[] attackInput;
-	static Map map = new Map(initial_point, final_point);
+	static Map map;
 	static Tuple<Integer, Integer> pos = new Tuple<Integer, Integer>(1,1);
-	static Room roomEnemy = getRandomRoom(map);
-	static Room roomCharacter = getRandomRoom(map);
+	static Room roomEnemy;
+	static Room roomCharacter;
 	static WSwingConsoleInterface j = new WSwingConsoleInterface("asdasd");
-	static ActiveCharacter user = new ActiveCharacter("", "", map, map.obtainRoomByPosition(pos), pos, 
-			40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
-			new ArrayList<WereableArmor>(), 100, 100, 0,
-			new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
+	static ActiveCharacter user;
 	static boolean firstTime = true;
 	static boolean hasChanged = false;
 	static boolean hasMoved = false;
@@ -201,6 +198,13 @@ public class Main {
 	}
 	
 	public static void _initialize(){
+		map = new Map(initial_point, final_point);
+		roomEnemy = getRandomRoom(map);
+		roomCharacter = getRandomRoom(map);
+		user = new ActiveCharacter("", "", map, map.obtainRoomByPosition(pos), pos, 
+				40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
+				new ArrayList<WereableArmor>(), 100, 100, 0,
+				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
 		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 		LifePotion lifePotion30 = new LifePotion(0, 10, "", null, null, null, null, 30);
@@ -290,19 +294,13 @@ public class Main {
     	}
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	}
-
-	public static void main(String[] args) throws IOException {
-		
-//		JLabel message = new JLabel();
-//		message.setText("Hola");
-//		message.requestFocusInWindow();
-//		JOptionPane.showMessageDialog(null, message, "", JOptionPane.PLAIN_MESSAGE);
-//		
+	
+	public static void gameFlow() {
 		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);
-		if (!testMode){
-			
-			_initialize();
-			for (;;) {
+		_initialize();
+		j.refresh();
+		for (;;) {
+			if (user.getLife() > 0) {
 				if (debug) {
 					System.out.println("Vida user: " + user.getLife());
 				}
@@ -340,6 +338,29 @@ public class Main {
 	            
 				j.refresh();
 			}
+			else {
+				JLabel message = new JLabel();
+				message.setText("You are dead");
+				message.requestFocusInWindow();
+				JOptionPane.showMessageDialog(null, message, "", JOptionPane.PLAIN_MESSAGE);
+				try {
+					main(null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
+	}
+
+	public static void main(String[] args) throws IOException {
+		
+//		JLabel message = new JLabel();
+//		message.setText("Hola");
+//		message.requestFocusInWindow();
+//		JOptionPane.showMessageDialog(null, message, "", JOptionPane.PLAIN_MESSAGE);
+		if (!testMode){
+			gameFlow();
+		}
+		
 	}
 }
