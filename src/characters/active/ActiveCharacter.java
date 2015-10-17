@@ -72,7 +72,6 @@ public class ActiveCharacter extends Character {
 		this.isDead = false;
 		this.isFirstTimeDead = true;
 		this.movementType = movementType;
-		this.setVisiblePositions();
 	}
 	
 	public void setVisiblePositions(){

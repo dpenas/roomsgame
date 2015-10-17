@@ -64,22 +64,21 @@ public class TranslationsTest {
 					null, 0, 1, true);
 			NormalPants normalPantsSpanish = new NormalPants("", 10, 0, 0, null, null, null, 
 					null, 0, 1, true);
-			LifePotion lifePotion = new LifePotion(0, 10, "", null, null, null, 
-					null, 10);
+			LifePotion lifePotion = new LifePotion(null, null, null, null);
 			LifeExtendedPotion lifePotionExtended = new LifeExtendedPotion(0, 10, "", null, null, null, 
 					null, 10);
 			MagicPotion magicPotion = new MagicPotion(0, 10, "", null, null, null, 
 					null, 10);
-			assertEquals(weaponSpanish.getName(), "Espada Una Mano Mágica");
-			assertEquals(twoWeaponEnglish.getName(), "Espada Dos Manos Mágica");
-			assertEquals(smallShieldSpanish.getName(), "Escudo Pequeño Mágico");
-			assertEquals(normalHelmetShieldSpanish.getName(), "Casco Normal Mágico");
-			assertEquals(normalChestSpanish.getName(), "Pecho Normal Mágico");
-			assertEquals(normalGlovesSpanish.getName(), "Guantes Normales Mágicos");
-			assertEquals(normalPantsSpanish.getName(), "Pantalones Normales Mágicos");
-			assertEquals(lifePotion.getName(), "Poción Vida");
-			assertEquals(lifePotionExtended.getName(), "Poción Vida Extendida");
-			assertEquals(magicPotion.getName(), "Poción Mágica");
+			assertEquals(weaponSpanish.getName(), "Espada Una Mano Mï¿½gica");
+			assertEquals(twoWeaponEnglish.getName(), "Espada Dos Manos Mï¿½gica");
+			assertEquals(smallShieldSpanish.getName(), "Escudo Pequeï¿½o Mï¿½gico");
+			assertEquals(normalHelmetShieldSpanish.getName(), "Casco Normal Mï¿½gico");
+			assertEquals(normalChestSpanish.getName(), "Pecho Normal Mï¿½gico");
+			assertEquals(normalGlovesSpanish.getName(), "Guantes Normales Mï¿½gicos");
+			assertEquals(normalPantsSpanish.getName(), "Pantalones Normales Mï¿½gicos");
+			assertEquals(lifePotion.getName(), "Pociï¿½n Vida");
+			assertEquals(lifePotionExtended.getName(), "Pociï¿½n Vida Extendida");
+			assertEquals(magicPotion.getName(), "Pociï¿½n Mï¿½gica");
 		}
 	}
 	

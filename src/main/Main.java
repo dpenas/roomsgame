@@ -46,6 +46,7 @@ public class Main {
 	public static char[] usedSymbols = {'.', 'P', 'G', 'A'};
 	static Tuple<Integer, Integer> initial_point = new Tuple<Integer, Integer>(0, 0);
 	static Tuple<Integer, Integer> final_point = new Tuple<Integer, Integer>(20, 20);
+	static ArrayList<Tuple<Integer, Integer>> portals = new ArrayList<Tuple<Integer, Integer>>(); 
 	static Integer[] movementInput;
 	static Integer[] inventoryInput;
 	static Integer[] pickItemInput;
@@ -61,11 +62,7 @@ public class Main {
 	static boolean hasMoved = false;
 	static char previousPositionChar = '.';
 	static char previousPositionChar2 = '.';
-	
-	
-	public static Room getRandomRoom(Map map){
-		return map.getRooms().get(RandUtil.RandomNumber(0, map.getRooms().size()));
-	}
+	static char deepnessScore = 0;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -154,6 +151,9 @@ public class Main {
         	j.print(previousPosition.y, previousPosition.x, user.getSymbolRepresentation(), 12);
         	hasMoved = false;
         }
+		if (user.getRoom().isPortal(user.getPosition())) {
+			gameFlow();
+		}
 	}
 	
 	public static void _printInventoryUser(){
@@ -198,39 +198,57 @@ public class Main {
 	}
 	
 	public static void _initialize(){
+		user = new ActiveCharacter("", "", null, null, null, 
+				40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
+				new ArrayList<WereableArmor>(), 100, 100, 0,
+				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
+		_initializeMap();
+		_setKeyMap();
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+	}
+	
+	public static void _initializeMap() {
 		map = new Map(initial_point, final_point);
-		roomEnemy = getRandomRoom(map);
-		roomCharacter = getRandomRoom(map);
+		roomCharacter = map.getRandomRoom();
+		int number = RandUtil.RandomNumber(0, roomCharacter.getFreePositions().size());
+		//TODO: Change this to a function in user
+		user.setMap(map);
+		user.setRoom(roomCharacter);
+		user.setPosition(roomCharacter.getFreePositions().get(number));
+		user.setVisiblePositions();
+		roomCharacter.getFreePositions().remove(number);
+		for (Room room: map.getRooms()) {
+			room.putRandomPotions();
+			room.putRandomGoblins();
+		}
+		printEverything(true);
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+		j.refresh();
+	}
+	
+	public static void _initializeTest(){
+		map = new Map(initial_point, final_point);
+		roomEnemy = map.getRandomRoom();
+		roomCharacter = map.getRandomRoom();
 		user = new ActiveCharacter("", "", map, map.obtainRoomByPosition(pos), pos, 
 				40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
 		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
-		LifePotion lifePotion30 = new LifePotion(0, 10, "", null, null, null, null, 30);
-		lifePotion30.setCharacter(user);
-		LifePotion lifePotion40 = new LifePotion(0, 10, "", null, null, null, null, 30);
-		lifePotion40.setCharacter(user);
-		LifePotion lifePotion50 = new LifePotion(0, 10, "", null, null, null, null, 30);
-		lifePotion50.setCharacter(user);
-		LifePotion lifePotion60 = new LifePotion(0, 10, "", null, null, null, pos, 30);
-		map.putItemRoom(lifePotion60);
 		WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
 		WereableWeapon oneHandSword2 = new OneHandSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
 		
-		Goblin goblin = new Goblin(map, map.obtainRoomByPosition(pos), pos, 0, new ArrayList<Item>());
-		Goblin goblin2 = new Goblin(map, map.obtainRoomByPosition(pos), pos, 0, new ArrayList<Item>());
+		Goblin goblin = new Goblin(map, map.obtainRoomByPosition(pos), pos);
+		Goblin goblin2 = new Goblin(map, map.obtainRoomByPosition(pos), pos);
 		goblin.putItemInventory(oneHandSword2);
 		goblin.equipWeapon(oneHandSword2);
 		map.obtainRoomByPosition(pos).getMonsters().add(goblin);
 		map.obtainRoomByPosition(pos).getMonsters().add(goblin2);
 		
 		ArrayList<Item> inventory = new ArrayList<Item>();
-		inventory.add(lifePotion30);
-		inventory.add(lifePotion40);
-		inventory.add(lifePotion50);
 		inventory.add(oneHandSword);
 		user.setInventory(inventory);
 		user.setLife(80);
@@ -297,6 +315,7 @@ public class Main {
 	
 	public static void gameFlow() {
 		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);
+		j.cls();
 		_initialize();
 		j.refresh();
 		for (;;) {

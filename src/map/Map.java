@@ -424,17 +424,22 @@ public class Map {
 			int final_y = finalPoint.y - 1;
 			Tuple<Integer, Integer> finalPointRoom = new Tuple<Integer, Integer>(final_x, final_y);
 			Room r = new Room(initialPoint, finalPointRoom);
+			r.setMap(this);
 			createRoomMatrix(initialPoint, finalPoint);
 			this.rooms.add(r);
 			number_rooms++;
 			System.out.println("Initial Point: (" + initialPoint.x + "," + initialPoint.y + ")");
 			System.out.println("Final Point: (" + finalPoint.x + "," + finalPoint.y + ")");
 			GenericMatrixFunctions.printMatrix(this.getFreeRoom());
-			
 		}
 		complete_map();
 		
 		assignDoors();
+		int randomNumber = RandUtil.RandomNumber(0, this.getRooms().size());
+		boolean havePortals = false;
+		while (!havePortals) {
+			havePortals = this.getRooms().get(randomNumber).initializePortals();
+		}
 	}
 	
 	public void assignIndividualDoor(Room room){
@@ -633,13 +638,17 @@ public class Map {
 	}
 	
 	public void printInside(WSwingConsoleInterface j, ActiveCharacter user){
-		for(Room room : this.getRooms()){
-			if (user.getRoom().equals(room)){
-				for (Tuple<Integer, Integer> pos: room.getInsidePositions()){
-					if (RandUtil.containsTuple(pos, user.getVisiblePositions())){
+		for(Room room : this.getRooms()) {
+			if (user.getRoom().equals(room)) {
+				for (Tuple<Integer, Integer> pos: room.getInsidePositions()) {
+					if (RandUtil.containsTuple(pos, user.getVisiblePositions())) {
 						if (RandUtil.containsTuple(pos, room.getInsidecolumns())) {
 							j.print(pos.y, pos.x, '#', 12);
-						} else {
+						} 
+						else if (RandUtil.containsTuple(pos, room.getPortals())) {
+							j.print(pos.y, pos.x, 'T', 12);
+						}
+						else {
 							j.print(pos.y, pos.x, '.', 12);
 						}
 					}
@@ -688,6 +697,11 @@ public class Map {
 			}
 		}
 		return null;
+	}
+	
+	public Room getRandomRoom() {
+		int number = RandUtil.RandomNumber(0, this.getRooms().size());
+		return this.getRooms().get(number);
 	}
 	
 	public Tuple<Integer, Integer> global_init() {
