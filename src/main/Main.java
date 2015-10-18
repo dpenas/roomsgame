@@ -108,6 +108,7 @@ public class Main {
 		map.printMonsters(j, user);
 		_printInventoryUser();
 		_printLifeUser();
+		_printScore();
 		_printInformationMonsters();
 		if (needsToPrintGroundObjects) {
 			System.out.println("I need to paint ground objects");
@@ -152,6 +153,7 @@ public class Main {
         	hasMoved = false;
         }
 		if (user.getRoom().isPortal(user.getPosition())) {
+			deepnessScore++;
 			gameFlow();
 		}
 	}
@@ -162,6 +164,10 @@ public class Main {
 	
 	public static void _printLifeUser(){
 		user._printLife(j, 0, map.global_fin().y + 1);
+	}
+	
+	public static void _printScore(){
+		j.print(map.global_fin().y + 1, 1, "Score: " + Integer.toString(deepnessScore));
 	}
 	
 	public static void _printInformationMonsters() {
@@ -211,7 +217,6 @@ public class Main {
 		map = new Map(initial_point, final_point);
 		roomCharacter = map.getRandomRoom();
 		int number = RandUtil.RandomNumber(0, roomCharacter.getFreePositions().size());
-		//TODO: Change this to a function in user
 		user.setMap(map);
 		user.setRoom(roomCharacter);
 		user.setPosition(roomCharacter.getFreePositions().get(number));
@@ -316,7 +321,11 @@ public class Main {
 	public static void gameFlow() {
 		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);
 		j.cls();
-		_initialize();
+		if (deepnessScore == 0){
+			_initialize();
+		} else {
+			_initializeMap();
+		}
 		j.refresh();
 		for (;;) {
 			if (user.getLife() > 0) {

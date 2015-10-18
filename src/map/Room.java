@@ -323,17 +323,19 @@ public class Room {
 			int number = RandUtil.RandomNumber(0, this.getFreePositions().size());
 			Tuple<Integer, Integer> position = this.getFreePositions().get(number);
 			this.getFreePositions().remove(number);
-			new LifePotion(null, map, this, position);
+			LifePotion potion = new LifePotion(null, map, this, position);
+			this.getItemsRoom().add(potion);
 		}
 	}
 	
 	public void putRandomGoblins() {
-		if (RandUtil.RandomNumber(0, 1) == 1) {
+		if (RandUtil.RandomNumber(0, 2) == 1) {
 			if (this.getFreePositions().size() > 0) {
 				int number = RandUtil.RandomNumber(0, this.getFreePositions().size());
 				Tuple<Integer, Integer> position = this.getFreePositions().get(number);
 				this.getFreePositions().remove(number);
-				new Goblin(this.getMap(), this, position);
+				Goblin goblin = new Goblin(this.getMap(), this, position);
+				this.getMonsters().add(goblin);
 			}
 		}
 	}
