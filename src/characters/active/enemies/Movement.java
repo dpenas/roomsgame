@@ -6,12 +6,12 @@ import characters.active.ActiveCharacter;
 
 public final class Movement {
 	
-	public static void _randomMove(ActiveCharacter character){
+	public static Tuple<Integer, Integer> _randomMove(ActiveCharacter character){
 		int newPosition = RandUtil.RandomNumber(0, character.getRoom().getNextPositions(character.getPosition()).size());
-		character.setPosition(character.getRoom().getNextPositions(character.getPosition()).get(newPosition));
+		return character.getRoom().getNextPositions(character.getPosition()).get(newPosition);
 	}
 	
-	public static void _followingMove(ActiveCharacter character, ActiveCharacter user){
+	public static Tuple<Integer, Integer> _followingMove(ActiveCharacter character, ActiveCharacter user){
 		int minimumSeparation = Integer.MAX_VALUE;
 		Tuple<Integer, Integer> minimumTuple = character.getPosition();
 		for (Tuple<Integer, Integer> tuple : character.getRoom().getNextPositions(character.getPosition())){
@@ -21,17 +21,16 @@ public final class Movement {
 				minimumTuple = tuple;
 			}
 		}
-		character.setPosition(minimumTuple);
+		return minimumTuple;
 		
 	}
 
-	public static void moveCharacter(ActiveCharacter character, ActiveCharacter user) {
+	public static Tuple<Integer, Integer> moveCharacter(ActiveCharacter character, ActiveCharacter user) {
 		switch (character.getMovementType()){
-			case 1: _randomMove(character);	
-				break;
-			case 2: _followingMove(character, user);
-				break;
+			case 1: return _randomMove(character);	
+			case 2: return _followingMove(character, user);
 		}
+		return null;
 	}
 	
 }

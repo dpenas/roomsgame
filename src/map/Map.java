@@ -398,7 +398,7 @@ public class Map {
 			int final_x_room = finalPoint.x - 1;
 			int final_y_room = finalPoint.y - 1;
 			Tuple<Integer, Integer> finalPointRoom = new Tuple<Integer, Integer>(final_x_room, final_y_room);
-			Room r = new Room(initialPoint, finalPointRoom);
+			Room r = new Room(this, initialPoint, finalPointRoom);
 			this.rooms.add(r);
 			check_free_space();
 		}
@@ -423,7 +423,7 @@ public class Map {
 			int final_x = finalPoint.x - 1;
 			int final_y = finalPoint.y - 1;
 			Tuple<Integer, Integer> finalPointRoom = new Tuple<Integer, Integer>(final_x, final_y);
-			Room r = new Room(initialPoint, finalPointRoom);
+			Room r = new Room(this, initialPoint, finalPointRoom);
 			r.setMap(this);
 			createRoomMatrix(initialPoint, finalPoint);
 			this.rooms.add(r);

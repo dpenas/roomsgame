@@ -46,7 +46,8 @@ public class Room {
 	int fin_x;
 	int fin_y;
 	
-	public Room(Tuple<Integer, Integer> global_initial, Tuple<Integer, Integer> global_final){
+	public Room(Map map, Tuple<Integer, Integer> global_initial, Tuple<Integer, Integer> global_final){
+		this.map = map;
 		int individual_final_x = global_final.x - global_initial.x;
 		int individual_final_y = global_final.y - global_initial.y;
 		this.individual_initial = new Tuple<Integer, Integer>(0, 0);

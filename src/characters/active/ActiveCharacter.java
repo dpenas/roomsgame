@@ -408,7 +408,10 @@ public class ActiveCharacter extends Character {
 			if (RandUtil.sameTuple(this.getPosition(), user.getPosition())){
 				this.attack(user);
 			} else {
-				Movement.moveCharacter(this, user);
+				Tuple<Integer, Integer> pos = Movement.moveCharacter(this, user);
+				if (pos != null) {
+					this.move(pos);
+				}
 			}
 		}
 	}
