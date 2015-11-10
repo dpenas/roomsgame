@@ -146,11 +146,8 @@ public class ActiveCharacterTest {
 
 	@Test
 	public void testSimpleAttack() {
-		if (attacker.attack(defender)) {
-			assertEquals(defender.getLife(), 100);
-		} else {
-			assertEquals(defender.getLife(), 100);
-		}
+		attacker.weaponAttack();
+		assertEquals(defender.getLife(), 100);
 	}
 
 	@Test
@@ -228,7 +225,7 @@ public class ActiveCharacterTest {
 		defender.putItemInventory(armor2);
 		defender.equipArmor(armor2);
 		assertEquals(armor2.getCharacter(), defender);
-		attacker.attack(defender);
+		attacker.weaponAttack();
 		assertEquals(defender.getLife(), 90);
 		assertEquals(attacker.getWeaponsEquipped().get(0).getDurability(), 10);
 		assertEquals(defender.getArmorsEquipped().get(0).getDurability(), 9);

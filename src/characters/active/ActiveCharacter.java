@@ -172,7 +172,7 @@ public class ActiveCharacter extends Character {
 		}
 	}
 
-	public boolean attack(ActiveCharacter defender){
+	private boolean attack(ActiveCharacter defender){
 		int damageDone = this.getFullAttackNumbers(this, defender);
 		if (Main.debug){
 			System.out.println("Attack Done: " + damageDone);
@@ -187,7 +187,23 @@ public class ActiveCharacter extends Character {
 		return true;
 	}
 	
-	public boolean attackSpell(ActiveCharacter defender, Spell spell) {
+	public ActiveCharacter weaponAttack() {
+		Map map = this.getMap();
+		ActiveCharacter monster = map.getMonstersPosition(this).get(0);
+		for (int i = 0; i < map.getMonstersPosition(this).size(); i++) {
+			monster = map.getMonstersPosition(this).get(i);
+			if (!monster.isDead()) {
+				monster = map.getMonstersPosition(this).get(i);
+				break;
+			}
+		}
+
+		this.attack(monster);
+		System.out.println("Vida monster: " + map.getMonstersPosition(this).get(0).getLife());
+		return monster;
+	}
+	
+	private void attackWithSpell(ActiveCharacter defender, Spell spell) {
 		if (Main.debug){
 			System.out.println("Spell attack Done: " + spell.getDamage());
 		}
@@ -196,10 +212,33 @@ public class ActiveCharacter extends Character {
 		defender.setLife(defenderLife);
 		System.out.println("Defender Life: " + defenderLife);
 		this.setCharacterDead(defender);
-		return true;
 	}
 	
-	public boolean generateSpell(Spell spell) {
+	public boolean attackSpell(int itemNumber) {
+		if (this.getSpells().size() > itemNumber) {
+			Spell spell = this.getSpells().get(itemNumber);
+			Room room = this.getRoom();
+			if (this.generateSpell(spell)) {
+				ArrayList<Tuple<Integer, Integer>> spellDamagedPositions = spell.getDamagedPositions(this);
+				ArrayList<Tuple<Integer, Integer>> monstersPositions = room.getPositionsOfMonsters();
+				if (spellDamagedPositions.size() > 0) {
+					for (Tuple<Integer, Integer> pos : spellDamagedPositions) {
+						if (RandUtil.containsTuple(pos, monstersPositions)) {
+							for (ActiveCharacter monsterDamaged : room.getMonstersPosition(pos)) {
+								this.attackWithSpell(monsterDamaged, spell);
+							}
+						}
+					}
+					return true;
+				}
+			}
+		} else {
+			System.out.println("No spells");
+		}
+		return false;
+	}
+	
+	private boolean generateSpell(Spell spell) {
 		if (this.getMagic() < spell.getManaCost()) {
 			if (Main.debug){
 				System.out.println("Not enough mana: " + this.getMagic() + " for the spell: " + spell.getManaCost());

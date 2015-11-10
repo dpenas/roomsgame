@@ -1,16 +1,12 @@
 package main;
 
 import items.Item;
-import items.consumables.LifePotion;
 import items.wereables.OneHandSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 import magic.FireRing;
-import magic.Fireball;
 import magic.Spell;
 
-import java.awt.BorderLayout;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,15 +15,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
-import config.ChangeKeyBinding;
 import characters.active.ActiveCharacter;
 import characters.active.enemies.Goblin;
 import util.RandUtil;
@@ -311,52 +300,18 @@ public class Main {
 	
 	public static void _attackAction(){
 		if (map.getMonstersPosition(user).size() > 0) {
-			ActiveCharacter monster = map.getMonstersPosition(user).get(0);
-			for (int i = 0; i < map.getMonstersPosition(user).size(); i++) {
-				monster = map.getMonstersPosition(user).get(i);
-				if (!monster.isDead()) {
-					monster = map.getMonstersPosition(user).get(i);
-					break;
-				}
+			ActiveCharacter monster = user.weaponAttack();
+			if (monster.getLife() <= 0) {
+				hasChanged = true;
 			}
-    		if (debug) {
-    			System.out.println("Vida monster: " + map.getMonstersPosition(user).get(0).getLife());
-    		}
-    		user.attack(monster);
-    		if (monster.getLife() <= 0) {
-    			hasChanged = true;
-    			printEverything(true);
-    		} else {
-    			printEverything(true);
-    		}
-    		System.out.println("Vida monster: " + map.getMonstersPosition(user).get(0).getLife());
-    	} else {
-    		printEverything(true);
     	}
+		printEverything(true);
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	}
 	
 	public static void _spellAction(int keyPressed){
 		int itemNumber = keyPressed % keysMap.get("spell1");
-		if (user.getSpells().size() > itemNumber) {
-			Spell spell = user.getSpells().get(itemNumber);
-			Room room = user.getRoom();
-			if (user.generateSpell(spell)) {
-				ArrayList<Tuple<Integer, Integer>> spellDamagedPositions = spell.getDamagedPositions(user);
-				ArrayList<Tuple<Integer, Integer>> monstersPositions = room.getPositionsOfMonsters();
-				if (spellDamagedPositions.size() > 0) {
-					for (Tuple<Integer, Integer> pos : spellDamagedPositions) {
-						if (RandUtil.containsTuple(pos, monstersPositions)) {
-							for (ActiveCharacter monsterDamaged : room.getMonstersPosition(pos)) {
-								user.attackSpell(monsterDamaged, spell);
-							}
-						}
-					}
-				}
-			}
-		} else {
-			System.out.println("No spells");
-		}
+		user.attackSpell(itemNumber);
 		printEverything(true);	
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	}
