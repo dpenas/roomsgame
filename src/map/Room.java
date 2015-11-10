@@ -99,6 +99,16 @@ public class Room {
 		return monsters;
 	}
 	
+	public ArrayList<Tuple<Integer, Integer>> getPositionsOfMonsters() {
+		ArrayList<Tuple<Integer, Integer>> monsterPositions = new ArrayList<Tuple<Integer, Integer>>();
+		for (ActiveCharacter monster: this.getMonsters()) {
+			if (!monster.isDead()) {
+				monsterPositions.add(monster.getPosition());
+			}
+		}
+		return monsterPositions;
+	}
+	
 	public ArrayList<Item> getItemsPosition(Tuple<Integer, Integer> pos){
 		ArrayList<Item> items = new ArrayList<Item>();
 		for (Item item : this.getItemsRoom()){

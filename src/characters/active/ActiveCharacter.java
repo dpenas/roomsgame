@@ -9,6 +9,7 @@ import characters.Character;
 import characters.active.enemies.Movement;
 import util.RandUtil;
 import util.Tuple;
+import magic.Spell;
 import items.consumables.Consumable;
 import items.wereables.WereableWeapon;
 import items.wereables.WereableArmor;
@@ -29,6 +30,7 @@ import main.Main;
  */
 
 public class ActiveCharacter extends Character {
+	private int maxNumberSpells = 2;
 	private int damage;
 	private int defense;
 	private int totalLife; // TotalLife
@@ -46,6 +48,7 @@ public class ActiveCharacter extends Character {
 	private ArrayList<WereableWeapon> weaponsEquipped;
 	private ArrayList<WereableArmor> armorsEquipped;
 	private ArrayList<Tuple<Integer, Integer>> visiblePositions = new ArrayList<Tuple<Integer, Integer>>();
+	private ArrayList<Spell> spells = new ArrayList<Spell>();
 
 	public ActiveCharacter(String name, String description,
 			Map map, Room room, Tuple<Integer, Integer> position, int damage,
@@ -72,6 +75,7 @@ public class ActiveCharacter extends Character {
 		this.isDead = false;
 		this.isFirstTimeDead = true;
 		this.movementType = movementType;
+		this.spells = new ArrayList<Spell>();
 	}
 	
 	public void setVisiblePositions(){
@@ -160,6 +164,13 @@ public class ActiveCharacter extends Character {
 		}
 		character.setInventory(new ArrayList<Item>());
 	}
+	
+	private void setCharacterDead(ActiveCharacter character) {
+		if (character.getLife() <= 0){
+			character.setDead(true);
+			this.dropAllItems(character);
+		}
+	}
 
 	public boolean attack(ActiveCharacter defender){
 		int damageDone = this.getFullAttackNumbers(this, defender);
@@ -172,10 +183,19 @@ public class ActiveCharacter extends Character {
 		defenderLife = defenderLife < 0 ? 0 : defenderLife;
 		defender.setLife(defenderLife);
 		System.out.println("Defender Life: " + defenderLife);
-		if (defender.getLife() <= 0){
-			defender.setDead(true);
-			this.dropAllItems(defender);
+		this.setCharacterDead(defender);
+		return true;
+	}
+	
+	public boolean attackSpell(ActiveCharacter defender, Spell spell) {
+		if (Main.debug){
+			System.out.println("Spell attack Done: " + spell.getDamage());
 		}
+		int defenderLife = defender.getLife() - spell.getDamage();
+		defenderLife = defenderLife < 0 ? 0 : defenderLife;
+		defender.setLife(defenderLife);
+		System.out.println("Defender Life: " + defenderLife);
+		this.setCharacterDead(defender);
 		return true;
 	}
 	
@@ -546,6 +566,36 @@ public class ActiveCharacter extends Character {
 
 	public void setFirstTimeDead(boolean isFirstTimeDead) {
 		this.isFirstTimeDead = isFirstTimeDead;
+	}
+	
+	public int getMaxNumberSpells() {
+		return maxNumberSpells;
+	}
+
+	public void setMaxNumberSpells(int maxNumberSpells) {
+		this.maxNumberSpells = maxNumberSpells;
+	}
+
+	public boolean addSpell(Spell spell) {
+		if (this.getSpells().size() <= this.getMaxNumberSpells()) {
+			ArrayList<Spell> newSpells = new ArrayList<Spell>();
+			for (Spell oldSpell: this.getSpells()) {
+				newSpells.add(oldSpell);
+			}
+			newSpells.add(spell);
+			this.setSpells(newSpells);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public ArrayList<Spell> getSpells() {
+		return spells;
+	}
+
+	public void setSpells(ArrayList<Spell> spells) {
+		this.spells = spells;
 	}
 
 }

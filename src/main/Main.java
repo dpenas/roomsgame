@@ -5,6 +5,9 @@ import items.consumables.LifePotion;
 import items.wereables.OneHandSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
+import magic.FireRing;
+import magic.Fireball;
+import magic.Spell;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
@@ -51,6 +54,7 @@ public class Main {
 	static Integer[] inventoryInput;
 	static Integer[] pickItemInput;
 	static Integer[] attackInput;
+	static Integer[] spellInput;
 	static Map map;
 	static Tuple<Integer, Integer> pos = new Tuple<Integer, Integer>(1,1);
 	static Room roomEnemy;
@@ -80,6 +84,10 @@ public class Main {
 		return Arrays.asList(attackInput).contains(key);
 	}
 	
+	public static boolean isSpellInput(int key){
+		return Arrays.asList(spellInput).contains(key);
+	}
+	
 	public static void _setKeyMap() {
 		keyBinding = ResourceBundle.getBundle("config.keys", currentLocale);
 		Enumeration <String> keys = keyBinding.getKeys();
@@ -98,6 +106,7 @@ public class Main {
 				keysMap.get("item5"), keysMap.get("item6")};
 		pickItemInput = new Integer[] {keysMap.get("pickItem")};
 		attackInput = new Integer[] {keysMap.get("attack")};
+		spellInput = new Integer[] {keysMap.get("spell1"), keysMap.get("spell2")};
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
@@ -208,6 +217,11 @@ public class Main {
 				40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
+		WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, user, null, null,
+				null, 0, 0, true);
+		user.putItemInventory(oneHandSword);
+		FireRing fireball = new FireRing();
+		user.addSpell(fireball);
 		_initializeMap();
 		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
@@ -318,6 +332,29 @@ public class Main {
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	}
 	
+	public static void _spellAction(int keyPressed){
+		int itemNumber = keyPressed % keysMap.get("spell1");
+		if (user.getSpells().size() > itemNumber) {
+			Spell spell = user.getSpells().get(itemNumber);
+			Room room = user.getRoom();
+			ArrayList<Tuple<Integer, Integer>> spellDamagedPositions = spell.getDamagedPositions(user);
+			ArrayList<Tuple<Integer, Integer>> monstersPositions = room.getPositionsOfMonsters();
+			if (spellDamagedPositions.size() > 0) {
+				for (Tuple<Integer, Integer> pos : spellDamagedPositions) {
+					if (RandUtil.containsTuple(pos, monstersPositions)) {
+						for (ActiveCharacter monsterDamaged : room.getMonstersPosition(pos)) {
+							user.attackSpell(monsterDamaged, spell);
+						}
+					}
+				}
+			}
+		} else {
+			System.out.println("No spells");
+		}
+		printEverything(true);	
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+	}
+	
 	public static void gameFlow() {
 		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);
 		j.cls();
@@ -355,6 +392,9 @@ public class Main {
 	            }
 	            else if (isAttackInput(i)) {
 	            	_attackAction();
+	            } 
+	            else if (isSpellInput(i)) {
+	            	_spellAction(i);
 	            } else {
 	            	printEverything(true);
 					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
@@ -381,7 +421,7 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws IOException {
-		
+//		ChangeKeyBinding.editPropertiesFile(j);
 //		JLabel message = new JLabel();
 //		message.setText("Hola");
 //		message.requestFocusInWindow();
