@@ -199,6 +199,17 @@ public class ActiveCharacter extends Character {
 		return true;
 	}
 	
+	public boolean generateSpell(Spell spell) {
+		if (this.getMagic() < spell.getManaCost()) {
+			if (Main.debug){
+				System.out.println("Not enough mana: " + this.getMagic() + " for the spell: " + spell.getManaCost());
+			}
+			return false;
+		}
+		this.setMagic(this.getMagic() - spell.getManaCost());
+		return true;
+	}
+	
 	public ArrayList<ItemEnumerate.WeaponType> getFreeWeaponSlots(){
 		
 		ArrayList<ItemEnumerate.WeaponType> availableSlots = new ArrayList<ItemEnumerate.WeaponType>();
@@ -273,6 +284,11 @@ public class ActiveCharacter extends Character {
 	public void _printLife(WSwingConsoleInterface j, int initPos_i, int initPos_j){
 		String life = "Life: " + this.getLife() + "/" + this.getTotalLife();
 		j.print(initPos_j, initPos_i, life);
+	}
+	
+	public void _printMana(WSwingConsoleInterface j, int initPos_i, int initPos_j){
+		String magic = "Mana: " + this.getMagic() + "/" + this.getTotalMagic();
+		j.print(initPos_j, initPos_i, magic);
 	}
 	
 	public void _printName(WSwingConsoleInterface j, int initPos_i, int initPos_j){

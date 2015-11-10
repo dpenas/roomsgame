@@ -11,20 +11,17 @@ import characters.active.ActiveCharacter;
 
 public class MagicPotion extends Consumable{
 	
-	int magicEffect;
+	int magicEffect = 10;
 	ArrayList<String> attributes = new ArrayList<String>();
 
-	public MagicPotion(int weight, int space, String effectDescription,
-			Character character, Map map, Room room,
-			Tuple<Integer, Integer> position, int magicEffect) {
-		super("potion", null, null, weight, space, effectDescription,
-				character, map, room, position);
-		this.magicEffect = magicEffect;
-		this.setNameAttributes(this.getLifePotionAttributes());
+	public MagicPotion(Character character, Map map, Room room,
+			Tuple<Integer, Integer> position) {
+		super("potion", null, null, 2, 1, "", character, map, room, position);
+		this.setNameAttributes(this.getMagicPotionAttributes());
 		this.setName(Translations.getNameItem("potion", this.getNameAttributes()));
 	}
 	
-	public ArrayList<String> getLifePotionAttributes(){
+	public ArrayList<String> getMagicPotionAttributes(){
 		attributes.add("magic");
 		return attributes;
 	}

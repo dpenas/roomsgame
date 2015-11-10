@@ -2,6 +2,7 @@ package map;
 
 import items.Item;
 import items.consumables.LifePotion;
+import items.consumables.MagicPotion;
 
 import java.util.ArrayList;
 
@@ -334,20 +335,22 @@ public class Room {
 	
 	public void putRandomPotions() {
 		if (this.checkFreePositions().size() > 0) {
-			int number = RandUtil.RandomNumber(0, this.getFreePositions().size());
-			Tuple<Integer, Integer> position = this.getFreePositions().get(number);
-			this.getFreePositions().remove(number);
-			LifePotion potion = new LifePotion(null, map, this, position);
-			this.getItemsRoom().add(potion);
+			int numberLife = RandUtil.RandomNumber(0, this.checkFreePositions().size());
+			Tuple<Integer, Integer> positionLife = this.getFreePositions().get(numberLife);
+			LifePotion lifePotion = new LifePotion(null, map, this, positionLife);
+			this.getItemsRoom().add(lifePotion);
+			int numberMagic = RandUtil.RandomNumber(0, this.checkFreePositions().size());
+			Tuple<Integer, Integer> positionMagic = this.getFreePositions().get(numberMagic);
+			MagicPotion magicPotion = new MagicPotion(null, map, this, positionMagic);
+			this.getItemsRoom().add(magicPotion);
 		}
 	}
 	
 	public void putRandomGoblins() {
 		if (RandUtil.RandomNumber(0, 2) == 1) {
 			if (this.checkFreePositions().size() > 0) {
-				int number = RandUtil.RandomNumber(0, this.getFreePositions().size());
+				int number = RandUtil.RandomNumber(0, this.checkFreePositions().size());
 				Tuple<Integer, Integer> position = this.getFreePositions().get(number);
-				this.getFreePositions().remove(number);
 				Goblin goblin = new Goblin(this.getMap(), this, position);
 				this.getMonsters().add(goblin);
 			}

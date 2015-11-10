@@ -139,7 +139,7 @@ public class ActiveCharacterTest {
 		oneHandSword = new OneHandSword("", 0, 0, 0, attacker, null, null,
 				position, 0, 0, false);
 		lifePotion30 = new LifePotion(null, null, null, null);
-		magicPotion30 = new MagicPotion(0, 10, "", null, null, null, null, 30);
+		magicPotion30 = new MagicPotion(null, null, null, null);
 		lifeExtendedPotion30 = new LifeExtendedPotion(0, 10, "", null, null,
 				null, null, 30);
 	}

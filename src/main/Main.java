@@ -117,6 +117,7 @@ public class Main {
 		map.printMonsters(j, user);
 		_printInventoryUser();
 		_printLifeUser();
+		_printManaUser();
 		_printScore();
 		_printInformationMonsters();
 		if (needsToPrintGroundObjects) {
@@ -175,8 +176,12 @@ public class Main {
 		user._printLife(j, 0, map.global_fin().y + 1);
 	}
 	
+	public static void _printManaUser(){
+		user._printMana(j, 1, map.global_fin().y + 1);
+	}
+	
 	public static void _printScore(){
-		j.print(map.global_fin().y + 1, 1, "Score: " + Integer.toString(deepnessScore));
+		j.print(map.global_fin().y + 1, 2, "Score: " + Integer.toString(deepnessScore));
 	}
 	
 	public static void _printInformationMonsters() {
@@ -336,13 +341,15 @@ public class Main {
 		if (user.getSpells().size() > itemNumber) {
 			Spell spell = user.getSpells().get(itemNumber);
 			Room room = user.getRoom();
-			ArrayList<Tuple<Integer, Integer>> spellDamagedPositions = spell.getDamagedPositions(user);
-			ArrayList<Tuple<Integer, Integer>> monstersPositions = room.getPositionsOfMonsters();
-			if (spellDamagedPositions.size() > 0) {
-				for (Tuple<Integer, Integer> pos : spellDamagedPositions) {
-					if (RandUtil.containsTuple(pos, monstersPositions)) {
-						for (ActiveCharacter monsterDamaged : room.getMonstersPosition(pos)) {
-							user.attackSpell(monsterDamaged, spell);
+			if (user.generateSpell(spell)) {
+				ArrayList<Tuple<Integer, Integer>> spellDamagedPositions = spell.getDamagedPositions(user);
+				ArrayList<Tuple<Integer, Integer>> monstersPositions = room.getPositionsOfMonsters();
+				if (spellDamagedPositions.size() > 0) {
+					for (Tuple<Integer, Integer> pos : spellDamagedPositions) {
+						if (RandUtil.containsTuple(pos, monstersPositions)) {
+							for (ActiveCharacter monsterDamaged : room.getMonstersPosition(pos)) {
+								user.attackSpell(monsterDamaged, spell);
+							}
 						}
 					}
 				}

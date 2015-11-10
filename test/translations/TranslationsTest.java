@@ -67,8 +67,7 @@ public class TranslationsTest {
 			LifePotion lifePotion = new LifePotion(null, null, null, null);
 			LifeExtendedPotion lifePotionExtended = new LifeExtendedPotion(0, 10, "", null, null, null, 
 					null, 10);
-			MagicPotion magicPotion = new MagicPotion(0, 10, "", null, null, null, 
-					null, 10);
+			MagicPotion magicPotion = new MagicPotion(null, null, null, null);
 			assertEquals(weaponSpanish.getName(), "Espada Una Mano M�gica");
 			assertEquals(twoWeaponEnglish.getName(), "Espada Dos Manos M�gica");
 			assertEquals(smallShieldSpanish.getName(), "Escudo Peque�o M�gico");
