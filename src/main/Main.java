@@ -230,12 +230,11 @@ public class Main {
 	public static void _initializeMap() {
 		map = new Map(initial_point, final_point);
 		roomCharacter = map.getRandomRoom();
-		int number = RandUtil.RandomNumber(0, roomCharacter.getFreePositions().size());
+		int number = RandUtil.RandomNumber(0, roomCharacter.checkFreePositions().size());
 		user.setMap(map);
 		user.setRoom(roomCharacter);
 		user.setPosition(roomCharacter.getFreePositions().get(number));
 		user.setVisiblePositions();
-		roomCharacter.getFreePositions().remove(number);
 		for (Room room: map.getRooms()) {
 			room.putRandomPotions();
 			room.putRandomGoblins();

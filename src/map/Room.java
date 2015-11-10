@@ -64,12 +64,15 @@ public class Room {
 		this.checkFreePositions();
 	}
 	
-	public void checkFreePositions() {
+	public ArrayList<Tuple<Integer, Integer>> checkFreePositions() {
+		ArrayList<Tuple<Integer, Integer>> newFreePositions = new ArrayList<Tuple<Integer, Integer>>();
 		for (Tuple<Integer, Integer> pos : this.getInsidePositions()) {
 			if (!RandUtil.containsTuple(pos, this.getInsidecolumns())) {
-				this.getFreePositions().add(pos);
+				newFreePositions.add(pos);
 			}
 		}
+		this.setFreePositions(newFreePositions);
+		return this.getFreePositions();
 	}
 	
 	public void printItems(WSwingConsoleInterface j, ArrayList<Tuple<Integer, Integer>> visiblePositions){
@@ -330,7 +333,7 @@ public class Room {
 	}
 	
 	public void putRandomPotions() {
-		if (this.getFreePositions().size() > 0) {
+		if (this.checkFreePositions().size() > 0) {
 			int number = RandUtil.RandomNumber(0, this.getFreePositions().size());
 			Tuple<Integer, Integer> position = this.getFreePositions().get(number);
 			this.getFreePositions().remove(number);
@@ -341,7 +344,7 @@ public class Room {
 	
 	public void putRandomGoblins() {
 		if (RandUtil.RandomNumber(0, 2) == 1) {
-			if (this.getFreePositions().size() > 0) {
+			if (this.checkFreePositions().size() > 0) {
 				int number = RandUtil.RandomNumber(0, this.getFreePositions().size());
 				Tuple<Integer, Integer> position = this.getFreePositions().get(number);
 				this.getFreePositions().remove(number);
@@ -352,6 +355,7 @@ public class Room {
 	}
 	
 	public Tuple<Integer, Integer> getRandomPosition(){
+		this.checkFreePositions();
 		int value = RandUtil.RandomNumber(0, this.getInsidePositions().size());
 		return this.getInsidePositions().get(value);
 	}
