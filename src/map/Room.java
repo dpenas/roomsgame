@@ -1,10 +1,12 @@
 package map;
 
 import items.Item;
+import items.consumables.LifePotion;
 
 import java.util.ArrayList;
 
 import characters.active.ActiveCharacter;
+import characters.active.enemies.Goblin;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import main.Main;
 import util.RandUtil;
@@ -27,6 +29,7 @@ public class Room {
 	private Tuple<Integer, Integer> individual_final;
 	private Tuple<Integer, Integer> global_initial;
 	private Tuple<Integer, Integer> global_final;
+	private Map map;
 	private ArrayList<Door> doors = new ArrayList<Door>();
 	private ArrayList<Item> itemsRoom = new ArrayList<Item>();
 	private ArrayList<Room> connected_rooms = new ArrayList<Room>();
@@ -36,12 +39,15 @@ public class Room {
 	private ArrayList<Tuple<Integer, Integer>> corners = new ArrayList<Tuple<Integer, Integer>>();
 	private ArrayList<Tuple<Integer, Integer>> insidePositions = new ArrayList<Tuple<Integer, Integer>>();
 	private ArrayList<Tuple<Integer, Integer>> insidecolumns = new ArrayList<Tuple<Integer, Integer>>();
+	private ArrayList<Tuple<Integer, Integer>> portals = new ArrayList<Tuple<Integer, Integer>>();
+	private ArrayList<Tuple<Integer, Integer>> freePositions = new ArrayList<Tuple<Integer, Integer>>();
 	int ini_x;
 	int ini_y;
 	int fin_x;
 	int fin_y;
 	
-	public Room(Tuple<Integer, Integer> global_initial, Tuple<Integer, Integer> global_final){
+	public Room(Map map, Tuple<Integer, Integer> global_initial, Tuple<Integer, Integer> global_final){
+		this.map = map;
 		int individual_final_x = global_final.x - global_initial.x;
 		int individual_final_y = global_final.y - global_initial.y;
 		this.individual_initial = new Tuple<Integer, Integer>(0, 0);
@@ -55,6 +61,15 @@ public class Room {
 		this.initializeBorders();
 		this.initializeCorners();
 		this.initializeInsidePositions();
+		this.checkFreePositions();
+	}
+	
+	public void checkFreePositions() {
+		for (Tuple<Integer, Integer> pos : this.getInsidePositions()) {
+			if (!RandUtil.containsTuple(pos, this.getInsidecolumns())) {
+				this.getFreePositions().add(pos);
+			}
+		}
 	}
 	
 	public void printItems(WSwingConsoleInterface j, ArrayList<Tuple<Integer, Integer>> visiblePositions){
@@ -82,6 +97,16 @@ public class Room {
 		}
 		
 		return monsters;
+	}
+	
+	public ArrayList<Tuple<Integer, Integer>> getPositionsOfMonsters() {
+		ArrayList<Tuple<Integer, Integer>> monsterPositions = new ArrayList<Tuple<Integer, Integer>>();
+		for (ActiveCharacter monster: this.getMonsters()) {
+			if (!monster.isDead()) {
+				monsterPositions.add(monster.getPosition());
+			}
+		}
+		return monsterPositions;
 	}
 	
 	public ArrayList<Item> getItemsPosition(Tuple<Integer, Integer> pos){
@@ -198,6 +223,21 @@ public class Room {
 		}
 	}
 	
+	public boolean initializePortals() {
+		int initialNumberPortals = this.getPortals().size();
+		int tries = 0;
+		int maxTries = 10;
+		while (this.getPortals().size() <= initialNumberPortals && tries < maxTries) {
+			Tuple<Integer, Integer> pos = this.getRandomInsidePosition();
+			if (!RandUtil.containsTuple(pos, this.getInsidecolumns())){
+				this.getPortals().add(pos);
+				return true;
+			}
+			tries++;
+		}
+		return false;
+	}
+	
 	public ArrayList<Tuple<Integer, Integer>> getNextPositions(Tuple<Integer, Integer> position){
 		ArrayList<Tuple<Integer, Integer>> nextPositions = new ArrayList<Tuple<Integer, Integer>>();
 		ArrayList<Tuple<Integer, Integer>> finalNextPositions = new ArrayList<Tuple<Integer, Integer>>();
@@ -277,6 +317,37 @@ public class Room {
 				this.getInsidecolumns().add(columnPosition);
 			}
 			tries++;
+		}
+	}
+	
+	public boolean isPortal(Tuple<Integer, Integer> position) {
+		for (Tuple<Integer, Integer> portal : this.getPortals()){
+			if (RandUtil.sameTuple(position, portal)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void putRandomPotions() {
+		if (this.getFreePositions().size() > 0) {
+			int number = RandUtil.RandomNumber(0, this.getFreePositions().size());
+			Tuple<Integer, Integer> position = this.getFreePositions().get(number);
+			this.getFreePositions().remove(number);
+			LifePotion potion = new LifePotion(null, map, this, position);
+			this.getItemsRoom().add(potion);
+		}
+	}
+	
+	public void putRandomGoblins() {
+		if (RandUtil.RandomNumber(0, 2) == 1) {
+			if (this.getFreePositions().size() > 0) {
+				int number = RandUtil.RandomNumber(0, this.getFreePositions().size());
+				Tuple<Integer, Integer> position = this.getFreePositions().get(number);
+				this.getFreePositions().remove(number);
+				Goblin goblin = new Goblin(this.getMap(), this, position);
+				this.getMonsters().add(goblin);
+			}
 		}
 	}
 	
@@ -387,5 +458,29 @@ public class Room {
 
 	public void setItemsRoom(ArrayList<Item> itemsRoom) {
 		this.itemsRoom = itemsRoom;
+	}
+
+	public ArrayList<Tuple<Integer, Integer>> getPortals() {
+		return portals;
+	}
+
+	public void setPortals(ArrayList<Tuple<Integer, Integer>> portals) {
+		this.portals = portals;
+	}
+
+	public ArrayList<Tuple<Integer, Integer>> getFreePositions() {
+		return freePositions;
+	}
+
+	public void setFreePositions(ArrayList<Tuple<Integer, Integer>> freePositions) {
+		this.freePositions = freePositions;
+	}
+
+	public Map getMap() {
+		return map;
+	}
+
+	public void setMap(Map map) {
+		this.map = map;
 	}
 }

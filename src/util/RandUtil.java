@@ -60,4 +60,8 @@ public class RandUtil {
 		}
 		return false;
 	}
+	
+	public static Tuple<Integer, Integer> add(Tuple<Integer, Integer> tuple1, Tuple<Integer, Integer> tuple2) {
+		return new Tuple<Integer, Integer>(tuple1.x + tuple2.x, tuple1.y + tuple2.y);
+	}
 }

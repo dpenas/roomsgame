@@ -11,15 +11,13 @@ import characters.active.ActiveCharacter;
 
 public class LifePotion extends Consumable {
 	
-	int lifeEffect;
+	int lifeEffect = 30;
 	ArrayList<String> attributes = new ArrayList<String>();
 
-	public LifePotion(int weight, int space, String effectDescription,
-			Character character, Map map, Room room,
-			Tuple<Integer, Integer> position, int lifeEffect) {
-		super("potion", null, null, weight, space, effectDescription,
+	public LifePotion(Character character, Map map, Room room,
+			Tuple<Integer, Integer> position) {
+		super("potion", null, null, 5, 1, "Cures the user",
 				character, map, room, position);
-		this.lifeEffect = lifeEffect;
 		this.setNameAttributes(this.getLifePotionAttributes());
 		this.setName(Translations.getNameItem("potion", this.getNameAttributes()));
 	}

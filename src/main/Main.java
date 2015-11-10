@@ -5,6 +5,9 @@ import items.consumables.LifePotion;
 import items.wereables.OneHandSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
+import magic.FireRing;
+import magic.Fireball;
+import magic.Spell;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
@@ -46,10 +49,12 @@ public class Main {
 	public static char[] usedSymbols = {'.', 'P', 'G', 'A'};
 	static Tuple<Integer, Integer> initial_point = new Tuple<Integer, Integer>(0, 0);
 	static Tuple<Integer, Integer> final_point = new Tuple<Integer, Integer>(20, 20);
+	static ArrayList<Tuple<Integer, Integer>> portals = new ArrayList<Tuple<Integer, Integer>>(); 
 	static Integer[] movementInput;
 	static Integer[] inventoryInput;
 	static Integer[] pickItemInput;
 	static Integer[] attackInput;
+	static Integer[] spellInput;
 	static Map map;
 	static Tuple<Integer, Integer> pos = new Tuple<Integer, Integer>(1,1);
 	static Room roomEnemy;
@@ -61,11 +66,7 @@ public class Main {
 	static boolean hasMoved = false;
 	static char previousPositionChar = '.';
 	static char previousPositionChar2 = '.';
-	
-	
-	public static Room getRandomRoom(Map map){
-		return map.getRooms().get(RandUtil.RandomNumber(0, map.getRooms().size()));
-	}
+	static char deepnessScore = 0;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -81,6 +82,10 @@ public class Main {
 	
 	public static boolean isAttackInput(int key){
 		return Arrays.asList(attackInput).contains(key);
+	}
+	
+	public static boolean isSpellInput(int key){
+		return Arrays.asList(spellInput).contains(key);
 	}
 	
 	public static void _setKeyMap() {
@@ -101,6 +106,7 @@ public class Main {
 				keysMap.get("item5"), keysMap.get("item6")};
 		pickItemInput = new Integer[] {keysMap.get("pickItem")};
 		attackInput = new Integer[] {keysMap.get("attack")};
+		spellInput = new Integer[] {keysMap.get("spell1"), keysMap.get("spell2")};
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
@@ -111,6 +117,7 @@ public class Main {
 		map.printMonsters(j, user);
 		_printInventoryUser();
 		_printLifeUser();
+		_printScore();
 		_printInformationMonsters();
 		if (needsToPrintGroundObjects) {
 			System.out.println("I need to paint ground objects");
@@ -154,6 +161,10 @@ public class Main {
         	j.print(previousPosition.y, previousPosition.x, user.getSymbolRepresentation(), 12);
         	hasMoved = false;
         }
+		if (user.getRoom().isPortal(user.getPosition())) {
+			deepnessScore++;
+			gameFlow();
+		}
 	}
 	
 	public static void _printInventoryUser(){
@@ -162,6 +173,10 @@ public class Main {
 	
 	public static void _printLifeUser(){
 		user._printLife(j, 0, map.global_fin().y + 1);
+	}
+	
+	public static void _printScore(){
+		j.print(map.global_fin().y + 1, 1, "Score: " + Integer.toString(deepnessScore));
 	}
 	
 	public static void _printInformationMonsters() {
@@ -198,39 +213,61 @@ public class Main {
 	}
 	
 	public static void _initialize(){
+		user = new ActiveCharacter("", "", null, null, null, 
+				40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
+				new ArrayList<WereableArmor>(), 100, 100, 0,
+				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
+		WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, user, null, null,
+				null, 0, 0, true);
+		user.putItemInventory(oneHandSword);
+		FireRing fireball = new FireRing();
+		user.addSpell(fireball);
+		_initializeMap();
+		_setKeyMap();
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+	}
+	
+	public static void _initializeMap() {
 		map = new Map(initial_point, final_point);
-		roomEnemy = getRandomRoom(map);
-		roomCharacter = getRandomRoom(map);
+		roomCharacter = map.getRandomRoom();
+		int number = RandUtil.RandomNumber(0, roomCharacter.getFreePositions().size());
+		user.setMap(map);
+		user.setRoom(roomCharacter);
+		user.setPosition(roomCharacter.getFreePositions().get(number));
+		user.setVisiblePositions();
+		roomCharacter.getFreePositions().remove(number);
+		for (Room room: map.getRooms()) {
+			room.putRandomPotions();
+			room.putRandomGoblins();
+		}
+		printEverything(true);
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+		j.refresh();
+	}
+	
+	public static void _initializeTest(){
+		map = new Map(initial_point, final_point);
+		roomEnemy = map.getRandomRoom();
+		roomCharacter = map.getRandomRoom();
 		user = new ActiveCharacter("", "", map, map.obtainRoomByPosition(pos), pos, 
 				40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
 		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
-		LifePotion lifePotion30 = new LifePotion(0, 10, "", null, null, null, null, 30);
-		lifePotion30.setCharacter(user);
-		LifePotion lifePotion40 = new LifePotion(0, 10, "", null, null, null, null, 30);
-		lifePotion40.setCharacter(user);
-		LifePotion lifePotion50 = new LifePotion(0, 10, "", null, null, null, null, 30);
-		lifePotion50.setCharacter(user);
-		LifePotion lifePotion60 = new LifePotion(0, 10, "", null, null, null, pos, 30);
-		map.putItemRoom(lifePotion60);
 		WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
 		WereableWeapon oneHandSword2 = new OneHandSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
 		
-		Goblin goblin = new Goblin(map, map.obtainRoomByPosition(pos), pos, 0, new ArrayList<Item>());
-		Goblin goblin2 = new Goblin(map, map.obtainRoomByPosition(pos), pos, 0, new ArrayList<Item>());
+		Goblin goblin = new Goblin(map, map.obtainRoomByPosition(pos), pos);
+		Goblin goblin2 = new Goblin(map, map.obtainRoomByPosition(pos), pos);
 		goblin.putItemInventory(oneHandSword2);
 		goblin.equipWeapon(oneHandSword2);
 		map.obtainRoomByPosition(pos).getMonsters().add(goblin);
 		map.obtainRoomByPosition(pos).getMonsters().add(goblin2);
 		
 		ArrayList<Item> inventory = new ArrayList<Item>();
-		inventory.add(lifePotion30);
-		inventory.add(lifePotion40);
-		inventory.add(lifePotion50);
 		inventory.add(oneHandSword);
 		user.setInventory(inventory);
 		user.setLife(80);
@@ -295,9 +332,37 @@ public class Main {
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	}
 	
+	public static void _spellAction(int keyPressed){
+		int itemNumber = keyPressed % keysMap.get("spell1");
+		if (user.getSpells().size() > itemNumber) {
+			Spell spell = user.getSpells().get(itemNumber);
+			Room room = user.getRoom();
+			ArrayList<Tuple<Integer, Integer>> spellDamagedPositions = spell.getDamagedPositions(user);
+			ArrayList<Tuple<Integer, Integer>> monstersPositions = room.getPositionsOfMonsters();
+			if (spellDamagedPositions.size() > 0) {
+				for (Tuple<Integer, Integer> pos : spellDamagedPositions) {
+					if (RandUtil.containsTuple(pos, monstersPositions)) {
+						for (ActiveCharacter monsterDamaged : room.getMonstersPosition(pos)) {
+							user.attackSpell(monsterDamaged, spell);
+						}
+					}
+				}
+			}
+		} else {
+			System.out.println("No spells");
+		}
+		printEverything(true);	
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+	}
+	
 	public static void gameFlow() {
 		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);
-		_initialize();
+		j.cls();
+		if (deepnessScore == 0){
+			_initialize();
+		} else {
+			_initializeMap();
+		}
 		j.refresh();
 		for (;;) {
 			if (user.getLife() > 0) {
@@ -327,6 +392,9 @@ public class Main {
 	            }
 	            else if (isAttackInput(i)) {
 	            	_attackAction();
+	            } 
+	            else if (isSpellInput(i)) {
+	            	_spellAction(i);
 	            } else {
 	            	printEverything(true);
 					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
@@ -353,7 +421,7 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws IOException {
-		
+//		ChangeKeyBinding.editPropertiesFile(j);
 //		JLabel message = new JLabel();
 //		message.setText("Hola");
 //		message.requestFocusInWindow();

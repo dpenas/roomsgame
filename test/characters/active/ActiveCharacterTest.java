@@ -24,6 +24,7 @@ import map.Room;
 import org.junit.Before;
 import org.junit.Test;
 
+import characters.Character;
 import util.Tuple;
 
 public class ActiveCharacterTest {
@@ -137,7 +138,7 @@ public class ActiveCharacterTest {
 				itemTypeWeapon2, null, null, null, 0, 0, true, 0, 1, false);
 		oneHandSword = new OneHandSword("", 0, 0, 0, attacker, null, null,
 				position, 0, 0, false);
-		lifePotion30 = new LifePotion(0, 10, "", null, null, null, null, 30);
+		lifePotion30 = new LifePotion(null, null, null, null);
 		magicPotion30 = new MagicPotion(0, 10, "", null, null, null, null, 30);
 		lifeExtendedPotion30 = new LifeExtendedPotion(0, 10, "", null, null,
 				null, null, 30);
