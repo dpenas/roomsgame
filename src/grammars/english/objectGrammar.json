@@ -1,32 +1,34 @@
 {
-	"NP": {
-		"DET_1": "",
-		"N_2": ""
-	},
-	"NPM": {
-		"DET_1.num": "N_2.num",
-		"NP.num": "N_2.num"
-	}
-}
-{
-	"NP": {
-		"DET_1": "",
-		"ADJ_N": [{""}],
-		"N_N+1": ""
-	},
-	"NPM": {
-		"DET_1.num": "N_N+1.num",
-		"NP.num": "N_2.num"
-	}
-	}
-{
-	"S": {
-		"NP_1": "",
-		"with": [{""}],
-		"NP_2": ""
-	},
-	"SM": {
-		"NP_1.num": "NP_2.num",
-		"S.num": "NP_1.num"
-	}
+    "GM_1": {
+        "NP": {
+            "DET_1": "",
+            "N_2": ""
+        },
+        "NPM": {
+            "DET_1.num": "N_2.num",
+            "NP.num": "N_2.num"
+        }
+    },
+    "GM_2": {
+        "NP": {
+            "DET_1": "",
+            "ADJ_N": [{}],
+            "N_N+1": ""
+        },
+        "NPM": {
+            "DET_1.num": "N_N+1.num",
+            "NP.num": "N_2.num"
+        }
+    },
+    "GM_3": {
+        "S": {
+            "NP_1": "",
+            "with": [{}],
+            "NP_2": ""
+        },
+        "SM": {
+            "NP_1.num": "NP_2.num",
+            "S.num": "NP_1.num"
+        }
+    }
 }

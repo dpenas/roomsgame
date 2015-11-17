@@ -6,7 +6,9 @@ import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 import magic.FireRing;
 import magic.Spell;
+import grammars.english.*;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +19,10 @@ import java.util.ResourceBundle;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import characters.active.ActiveCharacter;
 import characters.active.enemies.Goblin;
 import util.RandUtil;
@@ -387,9 +393,12 @@ public class Main {
 //		message.setText("Hola");
 //		message.requestFocusInWindow();
 //		JOptionPane.showMessageDialog(null, message, "", JOptionPane.PLAIN_MESSAGE);
-		if (!testMode){
-			gameFlow();
-		}
+//		if (!testMode){
+//			gameFlow();
+//		}
+		
+		JsonParser parser = new JsonParser();
+		JsonObject rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammar.json")).getAsJsonObject();
 		
 	}
 }
