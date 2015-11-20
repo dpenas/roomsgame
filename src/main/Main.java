@@ -15,11 +15,14 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -399,6 +402,9 @@ public class Main {
 		
 		JsonParser parser = new JsonParser();
 		JsonObject rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammar.json")).getAsJsonObject();
-		
+		Set<Entry<String, JsonElement>> entries = rootObj.entrySet();//will return members of your object
+		for (Entry<String, JsonElement> entry: entries) {
+		    System.out.println(entry.getKey());
+		}
 	}
 }
