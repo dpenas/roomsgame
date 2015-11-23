@@ -1,24 +1,24 @@
 {
     "GM_1": {
-        "NP": {
+        "S": {
             "DET_1": "",
             "N_2": ""
         },
-        "NPM": {
-            "DET_1.num": "N_2.num",
-            "NP.num": "N_2.num"
-        }
+        "restrictions": [
+            {"DET_1.num": "N_2.num"},
+            {"NP.num": "N_2.num"}
+        ]
     },
     "GM_2": {
-        "NP": {
+        "S": {
             "DET_1": "",
             "ADJ_N": [{}],
             "N_N+1": ""
         },
-        "NPM": {
-            "DET_1.num": "N_N+1.num",
-            "NP.num": "N_2.num"
-        }
+        "restrictions": [
+            {"DET_1.num": "N_N+1.num"},
+            {"NP.num": "N_2.num"}
+        ]
     },
     "GM_3": {
         "S": {
@@ -26,9 +26,9 @@
             "with": [{}],
             "NP_2": ""
         },
-        "SM": {
-            "NP_1.num": "NP_2.num",
-            "S.num": "NP_1.num"
-        }
+        "restrictions": [
+            {"NP_1.num": "NP_2.num"},
+            {"S.num": "NP_1.num"}
+        ]
     }
 }

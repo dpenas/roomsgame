@@ -7,6 +7,8 @@ import items.wereables.WereableWeapon;
 import magic.FireRing;
 import magic.Spell;
 import grammars.english.*;
+import grammars.grammars.GrammarsRetrieval;
+import grammars.parsing.JSONParsing;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -402,9 +404,7 @@ public class Main {
 		
 		JsonParser parser = new JsonParser();
 		JsonObject rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammar.json")).getAsJsonObject();
-		Set<Entry<String, JsonElement>> entries = rootObj.entrySet();//will return members of your object
-		for (Entry<String, JsonElement> entry: entries) {
-		    System.out.println(entry.getKey());
-		}
+		JsonElement element = JSONParsing.getElement(rootObj, JSONParsing.getSpecificKeyFromSet(0, rootObj));
+		GrammarsRetrieval.getRestrictions(element);
 	}
 }
