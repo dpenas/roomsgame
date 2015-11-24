@@ -404,7 +404,7 @@ public class Main {
 		
 		JsonParser parser = new JsonParser();
 		JsonObject rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammar.json")).getAsJsonObject();
-		JsonElement element = JSONParsing.getElement(rootObj, JSONParsing.getSpecificKeyFromSet(0, rootObj));
-		GrammarsRetrieval.getRestrictions(element);
+		JsonElement element = JSONParsing.getElement(rootObj, JSONParsing.getSpecificKeyFromSet(1, rootObj));
+		GrammarsRetrieval.getGrammar(element);
 	}
 }
