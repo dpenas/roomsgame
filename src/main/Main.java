@@ -7,6 +7,7 @@ import items.wereables.WereableWeapon;
 import magic.FireRing;
 import magic.Spell;
 import grammars.english.*;
+import grammars.grammars.GrammarsOperational;
 import grammars.grammars.GrammarsRetrieval;
 import grammars.parsing.JSONParsing;
 
@@ -404,7 +405,10 @@ public class Main {
 		
 		JsonParser parser = new JsonParser();
 		JsonObject rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammar.json")).getAsJsonObject();
-		JsonElement element = JSONParsing.getElement(rootObj, JSONParsing.getSpecificKeyFromSet(1, rootObj));
-		GrammarsRetrieval.getGrammar(element);
+		ArrayList<Integer> probabilities = new ArrayList<Integer>();
+		probabilities.add(33);
+		probabilities.add(33);
+		probabilities.add(33);
+		System.out.println(GrammarsOperational.selectGrammar(rootObj, probabilities));
 	}
 }
