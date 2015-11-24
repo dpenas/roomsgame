@@ -48,4 +48,8 @@ public class GrammarsRetrieval {
 		}
 		return null;
 	}
+	
+	public static JsonObject getGrammar(JsonObject object, int position) {
+		return (JsonObject) JSONParsing.getElement(object, JSONParsing.getSpecificKeyFromSet(position, object));
+	}
 }
