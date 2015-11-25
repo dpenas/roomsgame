@@ -405,10 +405,10 @@ public class Main {
 		
 		JsonParser parser = new JsonParser();
 		JsonObject rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammar.json")).getAsJsonObject();
-		ArrayList<Integer> probabilities = new ArrayList<Integer>();
-		probabilities.add(33);
-		probabilities.add(33);
-		probabilities.add(33);
+		ArrayList<Float> probabilities = new ArrayList<Float>();
+		probabilities.add((float)33);
+		probabilities.add((float)33);
+		probabilities.add((float)33);
 		System.out.println(GrammarsOperational.selectGrammar(rootObj, probabilities));
 	}
 }
