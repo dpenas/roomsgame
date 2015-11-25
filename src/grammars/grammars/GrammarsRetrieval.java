@@ -3,7 +3,6 @@ package grammars.grammars;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.ListIterator;
 import java.util.Map;
 
 import com.google.gson.JsonArray;
@@ -15,7 +14,7 @@ import grammars.parsing.JSONParsing;
 public class GrammarsRetrieval {
 	
 	private static Map<String, ArrayList<String>> getElementsFromJsonArray(JsonArray element){
-		Iterator iterator = element.iterator();
+		Iterator<JsonElement> iterator = element.iterator();
 		ArrayList<String> keys = new ArrayList<String>();
 		ArrayList<String> values = new ArrayList<String>();
 		while(iterator.hasNext()) {
@@ -25,11 +24,9 @@ public class GrammarsRetrieval {
 			keys.add(key);
 			values.add(value);
 		}
-		Map<String, ArrayList<String>> map = new HashMap();
+		HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
 		map.put("keys", keys);
 		map.put("values", values);
-		System.out.println(map.get("keys"));
-		System.out.println(map.get("values"));
 		return map;
 	}
 	
@@ -51,5 +48,9 @@ public class GrammarsRetrieval {
 	
 	public static JsonObject getGrammar(JsonObject object, int position) {
 		return (JsonObject) JSONParsing.getElement(object, JSONParsing.getSpecificKeyFromSet(position, object));
+	}
+	
+	public static Integer getNumberGrammars(JsonObject object) {
+		return object.entrySet().size();
 	}
 }

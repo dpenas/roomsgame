@@ -405,6 +405,7 @@ public class Main {
 		
 		JsonParser parser = new JsonParser();
 		JsonObject rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammar.json")).getAsJsonObject();
+		System.out.println(rootObj.entrySet().size());
 		ArrayList<Float> probabilities = new ArrayList<Float>();
 		probabilities.add((float)33);
 		probabilities.add((float)33);

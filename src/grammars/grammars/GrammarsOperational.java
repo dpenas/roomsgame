@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 import com.google.gson.JsonObject;
 
-import grammars.parsing.JSONParsing;
+import net.slashie.util.Pair;
 import util.RandUtil;
 
 public class GrammarsOperational {
 	
-	public static JsonObject selectGrammar(JsonObject object, ArrayList<Float> probabilities) {
+	public static Pair<Integer, JsonObject> selectGrammar(JsonObject object, ArrayList<Float> probabilities) {
+		Pair<Integer, JsonObject> result = new Pair<Integer, JsonObject>(0, null);
 		int randNumber = RandUtil.RandomNumber(0, 99);
 		float accumulatedProbability = 0;
 		int position = 0;
@@ -19,7 +20,11 @@ public class GrammarsOperational {
 				position++;
 			}
 		}
-		return GrammarsRetrieval.getGrammar(object, position);
+		JsonObject grammar = GrammarsRetrieval.getGrammar(object, position);
+		result.setA(position);
+		result.setB(grammar);
+		return result;
+		
 	}
 	
 	private static boolean isArray(String string) {
@@ -29,7 +34,7 @@ public class GrammarsOperational {
 		return false;
 	}
 	
-	private static ArrayList<Float> recalculateProbabilities(ArrayList<Float> probabilities, int selectedPosition) {
+	public static ArrayList<Float> recalculateProbabilities(ArrayList<Float> probabilities, int selectedPosition) {
 		float percentageSelectedChange = Math.round(100/probabilities.size());
 		float percentageOtherChange = Math.round(Math.round(100/probabilities.size())/probabilities.size() - 1);
 		ArrayList<Float> newProbabilities = new ArrayList<Float>();
