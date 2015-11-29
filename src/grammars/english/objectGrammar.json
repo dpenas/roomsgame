@@ -2,11 +2,11 @@
     "GM_1": {
         "S": [
             {"DET_1": ""}, 
-            {"N_2": ""}
+            {"N_1": ""}
         ],
         "restrictions": [
-            {"DET_1.num": "N_2.num"},
-            {"NP.num": "N_2.num"}
+            {"DET_1.num": "N_1.num"},
+            {"N_1.num": "N_1.num"}
         ]
     },
     "GM_2": {
@@ -14,22 +14,19 @@
             [
             {"DET_1": ""}, 
             {"ADJ_N": "array"}, 
-            {"N_N+1": ""}
+            {"N_1": ""}
         ],
         "restrictions": [
-            {"DET_1.num": "N_N+1.num"},
-            {"NP.num": "N_2.num"}
+            {"DET_1.num": "N_1.num"},
+            {"N_1.num": "ADJ_N.num"}
         ]
     },
     "GM_3": {
         "S": [
-            {"NP_1": ""},
-            {"with": "array"},
-            {"NP_2": ""}
+            {"S_1": ""},
+            {"with": ""},
+            {"S_2": ""}
         ],
-        "restrictions": [
-            {"NP_1.num": "NP_2.num"},
-            {"S.num": "NP_1.num"}
-        ]
+        "restrictions": []
     }
 }

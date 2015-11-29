@@ -7,6 +7,7 @@ import items.wereables.WereableWeapon;
 import magic.FireRing;
 import magic.Spell;
 import grammars.english.*;
+import grammars.grammars.GrammarsGeneral;
 import grammars.grammars.GrammarsOperational;
 import grammars.grammars.GrammarsRetrieval;
 import grammars.parsing.JSONParsing;
@@ -405,11 +406,7 @@ public class Main {
 		
 		JsonParser parser = new JsonParser();
 		JsonObject rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammar.json")).getAsJsonObject();
-		System.out.println(rootObj.entrySet().size());
-		ArrayList<Float> probabilities = new ArrayList<Float>();
-		probabilities.add((float)33);
-		probabilities.add((float)33);
-		probabilities.add((float)33);
-		System.out.println(GrammarsOperational.selectGrammar(rootObj, probabilities));
+		GrammarsGeneral grammars = new GrammarsGeneral(rootObj);
+		System.out.println(grammars.getRandomGrammar().getGrammar().get("keys"));
 	}
 }
