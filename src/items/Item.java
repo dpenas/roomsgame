@@ -23,15 +23,15 @@ public abstract class Item {
 	private Character character;
 	private Map map;
 	private Room room;
-	private ArrayList<String> nameAttributes;
+	private ArrayList<String> adjectives;
 	private Tuple<Integer, Integer> position;
 	private String symbolRepresentation;
 
-	public Item(String name, ArrayList<String> nameAttributes, String description, 
+	public Item(String name, ArrayList<String> adjectives, String description, 
 			String gender, int weight, int space, Character character, 
 			Map map, Room room, Tuple<Integer, Integer> position, String symbolRepresentation) {
 		super();
-		this.nameAttributes = nameAttributes;
+		this.adjectives = adjectives;
 		this.name = name;
 		this.description = description;
 		this.gender = gender;
@@ -142,12 +142,12 @@ public abstract class Item {
 		this.name = name;
 	}
 
-	public ArrayList<String> getNameAttributes() {
-		return nameAttributes;
+	public ArrayList<String> getAdjectives() {
+		return adjectives;
 	}
 
-	public void setNameAttributes(ArrayList<String> nameAttributes) {
-		this.nameAttributes = nameAttributes;
+	public void setAdjectives(ArrayList<String> adjectives) {
+		this.adjectives = adjectives;
 	}
 
 	public String getSymbolRepresentation() {

@@ -18,8 +18,8 @@ public class LifePotion extends Consumable {
 			Tuple<Integer, Integer> position) {
 		super("potion", null, null, 5, 1, "Cures the user",
 				character, map, room, position);
-		this.setNameAttributes(this.getLifePotionAttributes());
-		this.setName(Translations.getNameItem("potion", this.getNameAttributes()));
+		this.setAdjectives(this.getLifePotionAttributes());
+		this.setName(Translations.getNameItem("potion", this.getAdjectives()));
 	}
 	
 	public ArrayList<String> getLifePotionAttributes(){

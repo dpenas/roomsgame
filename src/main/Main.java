@@ -2,14 +2,18 @@ package main;
 
 import items.Item;
 import items.wereables.OneHandSword;
+import items.wereables.SmallShield;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 import magic.FireRing;
 import magic.Spell;
 import grammars.english.*;
+import grammars.grammars.GrammarIndividual;
+import grammars.grammars.GrammarSelector;
 import grammars.grammars.GrammarsGeneral;
 import grammars.grammars.GrammarsOperational;
 import grammars.grammars.GrammarsRetrieval;
+import grammars.grammars.WordsGrammar;
 import grammars.parsing.JSONParsing;
 
 import java.io.FileReader;
@@ -405,8 +409,18 @@ public class Main {
 //		}
 		
 		JsonParser parser = new JsonParser();
-		JsonObject rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammar.json")).getAsJsonObject();
-		GrammarsGeneral grammars = new GrammarsGeneral(rootObj);
-		System.out.println(grammars.getRandomGrammar().getGrammar().get("keys"));
+		JsonObject rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammarTest.json")).getAsJsonObject();
+		JsonObject rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsEnglish.json")).getAsJsonObject();
+		Item item = new SmallShield("", 0, 0, 0, user, map, roomCharacter, null, 0, 0, false);
+		GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObj);
+		GrammarIndividual grammarIndividual = grammarGeneral.getRandomGrammar();
+		GrammarSelector selector = new GrammarSelector(grammarIndividual, rootObjWords, item);
+		System.out.println(selector.getAdjectives().get(0).getA());
+		System.out.println(selector.getNames());
+		System.out.println(selector.getDeterminants().getA());
+//		selector.getRandomSentence(grammar, item);
+//		GrammarsGeneral grammars = new GrammarsGeneral(rootObj);
+//		System.out.println(grammars.getRandomGrammar().getGrammar().get("keys"));
+		
 	}
 }

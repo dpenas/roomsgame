@@ -20,8 +20,8 @@ public class LifeExtendedPotion extends Consumable {
 		super("potion", null, null, weight, space, effectDescription,
 				character, map, room, position);
 		this.lifeExtendedEffect = lifeExtendedEffect;
-		this.setNameAttributes(this.getLifeExtendedPotionAttributes());
-		this.setName(Translations.getNameItem("potion", this.getNameAttributes()));
+		this.setAdjectives(this.getLifeExtendedPotionAttributes());
+		this.setName(Translations.getNameItem("potion", this.getAdjectives()));
 	}
 	
 	public ArrayList<String> getLifeExtendedPotionAttributes(){

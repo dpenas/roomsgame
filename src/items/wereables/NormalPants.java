@@ -25,14 +25,14 @@ ArrayList<String> attributes = new ArrayList<String>();
 		ArrayList<ArmorType> armorType = new ArrayList<ArmorType>();
 		armorType.add(ArmorType.PANTS);
 		this.setArmorType(armorType);
-		this.setNameAttributes(this.getNormalPantsAttributes());
+		this.setAdjectives(this.getNormalPantsAttributes());
 		//TODO: Change this to be a function
 		if (isMagic){
-			attributes = this.getNameAttributes();
+			attributes = this.getAdjectives();
 			attributes.add("magic");
-			this.setNameAttributes(attributes);
+			this.setAdjectives(attributes);
 		}
-		this.setName(Translations.getNameItem("pants", this.getNameAttributes()));
+		this.setName(Translations.getNameItem("pants", this.getAdjectives()));
 		this.setAttributes(level);
 		
 	}

@@ -1,0 +1,37 @@
+{
+    "DET": {
+        "this": [
+            {"DET_1": ""}, 
+            {"N_1": ""}
+        ]
+    },
+    "ADJ": {
+        "red": 
+            [
+            {"num": "sing"},
+            {"translation": "red"},
+            {"plural": "red"},
+            {"gender": ""}
+        ],
+      	"big":
+      		[
+      		{"num": "sing"},
+            {"translation": "big"}, 
+            {"plural": "big"}, 
+            {"gender": ""}
+        ],
+        "small":
+      		[
+            {"translation": "small"}, 
+            {"plural": "small"}, 
+            {"gender": ""}
+        ]
+    },
+    "N": {
+        "shield": [
+            {"translation": "sword"},
+            {"plural": "swords"},
+            {"gender": ""}
+        ]
+    }
+}
