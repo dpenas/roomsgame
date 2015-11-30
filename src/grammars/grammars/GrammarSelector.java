@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 
 import items.Item;
 import net.slashie.util.Pair;
+import util.RandUtil;
 
 public class GrammarSelector {
 	
@@ -14,8 +15,8 @@ public class GrammarSelector {
 	private JsonObject wordsGrammar;
 	private Item item;
 	private ArrayList<Pair<String, JsonArray>> adjectives;
-	private JsonArray names;
-	private Pair<String, JsonArray> determinants;
+	private Pair<String, JsonArray> names;
+	private ArrayList<Pair<String, JsonArray>> determinants;
 	
 	public GrammarSelector(GrammarIndividual grammar, JsonObject wordsGrammar, Item item) {
 		this.grammar = grammar;
@@ -26,13 +27,41 @@ public class GrammarSelector {
 		this.determinants = WordsGrammar.getDeterminant(wordsGrammar);
 	}
 	
-	private void fillWords() {
-		System.out.println(this.getGrammar());
+	private ArrayList<Pair<String, JsonArray>> fillWords() {
+		ArrayList<Pair<String, JsonArray>> resultArray = new ArrayList<Pair<String, JsonArray>>();
+		for (String value : this.getGrammar().getTypeWordGrammar()) {
+			switch (value) {
+				case "DET" : resultArray.add(getRandomDeterminant());
+					break;
+				case "ADJ" : resultArray.add(getRandomAdjective());
+					break;
+				case "N" : resultArray.add(getNames());
+					break;
+			}
+		}
+		return resultArray;
+	}
+	
+	private Pair<String, JsonArray> getRandomDeterminant() {
+		if (this.getDeterminants().size() > 0) {
+			return this.getDeterminants().get(RandUtil.RandomNumber(0, this.getDeterminants().size()));
+		}
+		return null;
+	}
+	
+	private Pair<String, JsonArray> getRandomAdjective() {
+		if (this.getAdjectives().size() > 0) {
+			return this.getAdjectives().get(RandUtil.RandomNumber(0, this.getAdjectives().size()));
+		}
+		return null;
 	}
 	
 	public String getRandomSentence() {
 		String sentence = "";
-		this.fillWords();
+		ArrayList<Pair<String, JsonArray>> sentenceArray = this.fillWords();
+		for(int i = 0; i < sentenceArray.size(); i++) {
+			sentence += sentenceArray.get(i).getA() + " ";
+		}
 		// TODO: Get words from grammar
 		// TODO: Apply restrictions
 		// TODO: Return sentences
@@ -65,19 +94,19 @@ public class GrammarSelector {
 		this.adjectives = adjectives;
 	}
 
-	public JsonArray getNames() {
+	public Pair<String, JsonArray> getNames() {
 		return names;
 	}
 
-	public void setNames(JsonArray names) {
+	public void setNames(Pair<String, JsonArray> names) {
 		this.names = names;
 	}
 
-	public Pair<String, JsonArray> getDeterminants() {
+	public ArrayList<Pair<String, JsonArray>> getDeterminants() {
 		return determinants;
 	}
 
-	public void setDeterminants(Pair<String, JsonArray> determinants) {
+	public void setDeterminants(ArrayList<Pair<String, JsonArray>> determinants) {
 		this.determinants = determinants;
 	}
 }

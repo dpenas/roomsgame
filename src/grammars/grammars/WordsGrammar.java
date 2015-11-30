@@ -27,7 +27,7 @@ public class WordsGrammar {
 		return itemsReturn;
 	}
 	
-	public static JsonArray getName(JsonObject rootObj, String name) {
+	public static Pair<String, JsonArray> getName(JsonObject rootObj, String name) {
 		JsonObject nameJSON = JSONParsing.getElement(rootObj, "N").getAsJsonObject();
 		JsonArray jsonArray = JSONParsing.getElement(nameJSON, name).getAsJsonArray();
 		try {
@@ -35,15 +35,19 @@ public class WordsGrammar {
 		} catch(IllegalStateException e){
 			System.err.println("ERROR: Word doesn't exist in the the given dictionary: " + e.getMessage());
 		}
-		return jsonArray;
+		return new Pair<String, JsonArray>(name, jsonArray);
 	}
 	
-	public static Pair<String, JsonArray> getDeterminant(JsonObject object) {
+	public static ArrayList<Pair<String, JsonArray>> getDeterminant(JsonObject object) {
+		ArrayList<Pair<String, JsonArray>> itemsReturn = new ArrayList<Pair<String, JsonArray>>();
 		JsonObject determinantsJSON = JSONParsing.getElement((JsonObject)object, "DET").getAsJsonObject();
-		int randNumber = RandUtil.RandomNumber(0, determinantsJSON.entrySet().size());
-		String name = JSONParsing.getSpecificKeyFromSet(randNumber, object);
-		JsonArray value = JSONParsing.getSpecificValueFromSet(randNumber, determinantsJSON).getAsJsonArray();
-		return new Pair<String, JsonArray>(name, value);
+		for (int i = 0; i < determinantsJSON.entrySet().size(); i++) {
+			String name = JSONParsing.getSpecificKeyFromSet(i, determinantsJSON);
+			JsonArray value = JSONParsing.getSpecificValueFromSet(i, determinantsJSON).getAsJsonArray();
+			itemsReturn.add(new Pair<String, JsonArray>(name, value));
+		}
+		
+		return itemsReturn;
 	}
 
 }
