@@ -26,12 +26,13 @@ public class GrammarSelector {
 		this.determinants = WordsGrammar.getDeterminant(wordsGrammar);
 	}
 	
-	private void fillWords(GrammarIndividual grammar, Item item) {
-		
+	private void fillWords() {
+		System.out.println(this.getGrammar());
 	}
 	
-	public static String getRandomSentence() {
+	public String getRandomSentence() {
 		String sentence = "";
+		this.fillWords();
 		// TODO: Get words from grammar
 		// TODO: Apply restrictions
 		// TODO: Return sentences

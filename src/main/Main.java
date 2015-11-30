@@ -415,9 +415,10 @@ public class Main {
 		GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObj);
 		GrammarIndividual grammarIndividual = grammarGeneral.getRandomGrammar();
 		GrammarSelector selector = new GrammarSelector(grammarIndividual, rootObjWords, item);
-		System.out.println(selector.getAdjectives().get(0).getA());
-		System.out.println(selector.getNames());
-		System.out.println(selector.getDeterminants().getA());
+//		System.out.println(selector.getAdjectives().get(0).getA());
+//		System.out.println(selector.getNames());
+//		System.out.println(selector.getDeterminants().getA());
+		selector.getRandomSentence();
 //		selector.getRandomSentence(grammar, item);
 //		GrammarsGeneral grammars = new GrammarsGeneral(rootObj);
 //		System.out.println(grammars.getRandomGrammar().getGrammar().get("keys"));
