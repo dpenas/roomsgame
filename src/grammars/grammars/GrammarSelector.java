@@ -16,7 +16,7 @@ public class GrammarSelector {
 	private JsonObject wordsGrammar;
 	private Item item;
 	private ArrayList<Pair<String, JsonArray>> adjectives;
-	private Pair<String, JsonArray> names;
+	private ArrayList<Pair<String, JsonArray>> names;
 	private ArrayList<Pair<String, JsonArray>> determinants;
 	
 	public GrammarSelector(GrammarIndividual grammar, JsonObject wordsGrammar, Item item) {
@@ -36,7 +36,8 @@ public class GrammarSelector {
 					break;
 				case "ADJ" : resultArray.add(getRandomAdjective());
 					break;
-				case "N" : resultArray.add(getNames());
+					// TODO: This get(0) might not be the best idea
+				case "N" : resultArray.add(getNames().get(0));
 					break;
 			}
 		}
@@ -69,6 +70,34 @@ public class GrammarSelector {
 		return "";
 	}
 	
+	private ArrayList<Pair<String, JsonArray>> changeValue(ArrayList<Pair<String, JsonArray>> sentenceArray, String valueToChange, String changeToValue, String typeChangeToValue) {
+		ArrayList<Pair<String, JsonArray>> selectedTypeWord = new ArrayList<Pair<String, JsonArray>>();
+		switch (typeChangeToValue) {
+			case "DET" :
+				selectedTypeWord = this.getDeterminants();
+				break;
+			case "N" :
+				selectedTypeWord = this.getNames();
+				break;
+			case "ADJ" :
+				selectedTypeWord = this.getAdjectives();
+				break;
+		}
+		
+		for (int i = 0; i < selectedTypeWord.size(); i++) {
+			if (selectedTypeWord.get(i).getA().equals(typeChangeToValue)) {
+				Pair<String, JsonArray> newPair = selectedTypeWord.get(i); 
+				for (int j = 0; j < sentenceArray.size(); j++) {
+					if (sentenceArray.get(j).getA().equals(valueToChange)) {
+						sentenceArray.set(j, newPair);
+					}
+				}
+			}
+		}
+		
+		return sentenceArray;
+	}
+	
 	private ArrayList<Pair<String, JsonArray>> applyNumRestrictions(Pair<String, String> restriction, ArrayList<Pair<String, JsonArray>> sentenceArray) {
 		for (Pair<String, JsonArray> sentence : sentenceArray) {
 			System.out.println(sentence.getB());
@@ -76,25 +105,26 @@ public class GrammarSelector {
 		ArrayList<String> grammar = this.getGrammar().getGrammar().get("keys");
 		String firstType = restriction.getA();
 		String secondType = restriction.getB();
-		String word1 = sentenceArray.get(grammar.indexOf(firstType)).getA();
 		JsonArray restrictions1 = sentenceArray.get(grammar.indexOf(firstType)).getB();
-		String word2 = sentenceArray.get(grammar.indexOf(secondType)).getA();
 		JsonArray restrictions2 = sentenceArray.get(grammar.indexOf(secondType)).getB();
 		String value1 = JSONParsing.getElement(restrictions1, "num");
 		String value2 = JSONParsing.getElement(restrictions2, "num");
 		if (value1 != value2) {
+			String changeToValue = "";
 			String toChange = getImportantRestriction(value1, value2);
+			String typeChangeToValue = "";
 			if (toChange.equals(value1)) {
-				String changeToValue = JSONParsing.getElement(restrictions1, "numopposite");
+				System.out.println(restrictions1);
+				changeToValue = JSONParsing.getElement(restrictions1, "numopposite");
+				typeChangeToValue = firstType; 
+				 
 			} else {
-				String changeToValue = JSONParsing.getElement(restrictions2, "numopposite");
+				changeToValue = JSONParsing.getElement(restrictions2, "numopposite");
+				typeChangeToValue = secondType;
 			}
-			// TODO: Remove pair from sentenceArray
-			// TODO: Introduce new pair from sentenceArray
+			this.changeValue(sentenceArray, toChange, changeToValue, typeChangeToValue);
 		}
 		return sentenceArray;
-		
-		
 	}
 	
 	private void applyRestrictions(ArrayList<Pair<String, JsonArray>> sentenceArray) {
@@ -117,9 +147,9 @@ public class GrammarSelector {
 		String sentence = "";
 		ArrayList<Pair<String, JsonArray>> sentenceArray = this.fillWords();
 		this.applyRestrictions(sentenceArray);
-//		for(int i = 0; i < sentenceArray.size(); i++) {
-//			sentence += sentenceArray.get(i).getA() + " ";
-//		}
+		for(int i = 0; i < sentenceArray.size(); i++) {
+			sentence += sentenceArray.get(i).getA() + " ";
+		}
 //		item.getName();
 //		
 		return sentence;
@@ -149,11 +179,11 @@ public class GrammarSelector {
 		this.adjectives = adjectives;
 	}
 
-	public Pair<String, JsonArray> getNames() {
+	public ArrayList<Pair<String, JsonArray>> getNames() {
 		return names;
 	}
 
-	public void setNames(Pair<String, JsonArray> names) {
+	public void setNames(ArrayList<Pair<String, JsonArray>> names) {
 		this.names = names;
 	}
 

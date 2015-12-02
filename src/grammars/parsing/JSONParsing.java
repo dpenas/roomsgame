@@ -15,8 +15,9 @@ public class JSONParsing {
 	
 	public static String getElement(JsonArray object, String element) {
 		for (int i = 0; i < object.size(); i++) {
-			String value = object.get(i).getAsJsonObject().get(element).getAsString();
-			if (value != null) {
+			JsonElement result = object.get(i).getAsJsonObject().get(element);
+			if (result != null) {
+				String value = result.getAsString();
 				return value;
 			}
 		}

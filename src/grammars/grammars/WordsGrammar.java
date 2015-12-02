@@ -27,7 +27,9 @@ public class WordsGrammar {
 		return itemsReturn;
 	}
 	
-	public static Pair<String, JsonArray> getName(JsonObject rootObj, String name) {
+	public static ArrayList<Pair<String, JsonArray>> getName(JsonObject rootObj, String name) {
+		// TODO: Change to search for all the names
+		ArrayList<Pair<String, JsonArray>> result = new ArrayList<Pair<String, JsonArray>>();
 		JsonObject nameJSON = JSONParsing.getElement(rootObj, "N").getAsJsonObject();
 		JsonArray jsonArray = JSONParsing.getElement(nameJSON, name).getAsJsonArray();
 		try {
@@ -35,7 +37,8 @@ public class WordsGrammar {
 		} catch(IllegalStateException e){
 			System.err.println("ERROR: Word doesn't exist in the the given dictionary: " + e.getMessage());
 		}
-		return new Pair<String, JsonArray>(name, jsonArray);
+		result.add(new Pair<String, JsonArray>(name, jsonArray));
+		return result;
 	}
 	
 	public static ArrayList<Pair<String, JsonArray>> getDeterminant(JsonObject object) {
