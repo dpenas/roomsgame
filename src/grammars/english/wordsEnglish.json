@@ -5,26 +5,32 @@
             {"translation": "this"},
             {"numopposite": "these"},
             {"gender": ""}
+        ],
+        "these": [
+            {"num": "plural"},
+            {"translation": "these"},
+            {"numopposite": "this"},
+            {"gender": ""}
         ]
     },
     "ADJ": {
         "red": 
             [
-            {"num": "sing"},
+            {"num": ""},
             {"translation": "red"},
             {"numopposite": "red"},
             {"gender": ""}
         ],
       	"big":
       		[
-      		{"num": "sing"},
+      		{"num": ""},
             {"translation": "big"}, 
             {"numopposite": "big"}, 
             {"gender": ""}
         ],
         "small":
       		[
-      		{"num": "sing"},
+      		{"num": ""},
             {"translation": "small"}, 
             {"numopposite": "small"}, 
             {"gender": ""}

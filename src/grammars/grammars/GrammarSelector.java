@@ -109,7 +109,7 @@ public class GrammarSelector {
 		JsonArray restrictions2 = sentenceArray.get(grammar.indexOf(secondType)).getB();
 		String value1 = JSONParsing.getElement(restrictions1, "num");
 		String value2 = JSONParsing.getElement(restrictions2, "num");
-		if (value1 != value2) {
+		if (value1 != value2 && value1.length() > 0 && value2.length() > 0) {
 			String changeToValue = "";
 			String toChange = getImportantRestriction(value1, value2);
 			String typeChangeToValue = "";
@@ -127,7 +127,7 @@ public class GrammarSelector {
 		return sentenceArray;
 	}
 	
-	private void applyRestrictions(ArrayList<Pair<String, JsonArray>> sentenceArray) {
+	private ArrayList<Pair<String, JsonArray>> applyRestrictions(ArrayList<Pair<String, JsonArray>> sentenceArray) {
 		for(Pair<String, String> restriction : this.getGrammar().getRestrictions()) {
 			int dotPointA = restriction.getA().indexOf(".");
 			int dotPointB = restriction.getB().indexOf(".");
@@ -137,16 +137,17 @@ public class GrammarSelector {
 					String elementA = restriction.getA().substring(0, dotPointA);
 					String elementB = restriction.getB().substring(0, dotPointB);
 					Pair<String, String> pair = new Pair<String, String>(elementA, elementB);
-					applyNumRestrictions(pair, sentenceArray);
+					sentenceArray = applyNumRestrictions(pair, sentenceArray);
 					break;
 			}
 		}
+		return sentenceArray;
 	}
 	
 	public String getRandomSentence() {
 		String sentence = "";
 		ArrayList<Pair<String, JsonArray>> sentenceArray = this.fillWords();
-		this.applyRestrictions(sentenceArray);
+		sentenceArray = this.applyRestrictions(sentenceArray);
 		for(int i = 0; i < sentenceArray.size(); i++) {
 			sentence += sentenceArray.get(i).getA() + " ";
 		}
