@@ -1,8 +1,10 @@
 {
     "DET": {
         "this": [
-            {"DET_1": ""}, 
-            {"N_1": ""}
+            {"num": "sing"},
+            {"translation": "this"},
+            {"numopposite": "these"},
+            {"gender": ""}
         ]
     },
     "ADJ": {
@@ -10,27 +12,35 @@
             [
             {"num": "sing"},
             {"translation": "red"},
-            {"plural": "red"},
+            {"numopposite": "red"},
             {"gender": ""}
         ],
       	"big":
       		[
       		{"num": "sing"},
             {"translation": "big"}, 
-            {"plural": "big"}, 
+            {"numopposite": "big"}, 
             {"gender": ""}
         ],
         "small":
       		[
+      		{"num": "sing"},
             {"translation": "small"}, 
-            {"plural": "small"}, 
+            {"numopposite": "small"}, 
             {"gender": ""}
         ]
     },
     "N": {
         "shield": [
-            {"translation": "sword"},
-            {"plural": "swords"},
+        	{"num": "sing"},
+            {"translation": "shield"},
+            {"numopposite": "shields"},
+            {"gender": ""}
+        ],
+        "shields": [
+        	{"num": "plural"},
+            {"translation": "shields"},
+            {"numopposite": "shield"},
             {"gender": ""}
         ]
     }

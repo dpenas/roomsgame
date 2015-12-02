@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import grammars.parsing.JSONParsing;
 import items.Item;
 import net.slashie.util.Pair;
 import util.RandUtil;
 
 public class GrammarSelector {
-	
+	private static final String[] WORD_IMPORTANCE = {"V", "N", "ADJ", "DET"};
 	private GrammarIndividual grammar;
 	private JsonObject wordsGrammar;
 	private Item item;
@@ -56,17 +57,71 @@ public class GrammarSelector {
 		return null;
 	}
 	
+	private String getImportantRestriction(String value1, String value2) {
+		for (int i = 0; i < WORD_IMPORTANCE.length; i++) {
+			if (WORD_IMPORTANCE[i].equals(value1)) {
+				return value2;
+			}
+			if (WORD_IMPORTANCE[i].equals(value2)) {
+				return value1;
+			}
+		}
+		return "";
+	}
+	
+	private ArrayList<Pair<String, JsonArray>> applyNumRestrictions(Pair<String, String> restriction, ArrayList<Pair<String, JsonArray>> sentenceArray) {
+		for (Pair<String, JsonArray> sentence : sentenceArray) {
+			System.out.println(sentence.getB());
+		}
+		ArrayList<String> grammar = this.getGrammar().getGrammar().get("keys");
+		String firstType = restriction.getA();
+		String secondType = restriction.getB();
+		String word1 = sentenceArray.get(grammar.indexOf(firstType)).getA();
+		JsonArray restrictions1 = sentenceArray.get(grammar.indexOf(firstType)).getB();
+		String word2 = sentenceArray.get(grammar.indexOf(secondType)).getA();
+		JsonArray restrictions2 = sentenceArray.get(grammar.indexOf(secondType)).getB();
+		String value1 = JSONParsing.getElement(restrictions1, "num");
+		String value2 = JSONParsing.getElement(restrictions2, "num");
+		if (value1 != value2) {
+			String toChange = getImportantRestriction(value1, value2);
+			if (toChange.equals(value1)) {
+				String changeToValue = JSONParsing.getElement(restrictions1, "numopposite");
+			} else {
+				String changeToValue = JSONParsing.getElement(restrictions2, "numopposite");
+			}
+			// TODO: Remove pair from sentenceArray
+			// TODO: Introduce new pair from sentenceArray
+		}
+		return sentenceArray;
+		
+		
+	}
+	
+	private void applyRestrictions(ArrayList<Pair<String, JsonArray>> sentenceArray) {
+		for(Pair<String, String> restriction : this.getGrammar().getRestrictions()) {
+			int dotPointA = restriction.getA().indexOf(".");
+			int dotPointB = restriction.getB().indexOf(".");
+			String restrictionType = restriction.getA().substring(dotPointA + 1, restriction.getA().length());
+			switch (restrictionType) {
+				case "num": 
+					String elementA = restriction.getA().substring(0, dotPointA);
+					String elementB = restriction.getB().substring(0, dotPointB);
+					Pair<String, String> pair = new Pair<String, String>(elementA, elementB);
+					applyNumRestrictions(pair, sentenceArray);
+					break;
+			}
+		}
+	}
+	
 	public String getRandomSentence() {
 		String sentence = "";
 		ArrayList<Pair<String, JsonArray>> sentenceArray = this.fillWords();
-		for(int i = 0; i < sentenceArray.size(); i++) {
-			sentence += sentenceArray.get(i).getA() + " ";
-		}
-		// TODO: Get words from grammar
-		// TODO: Apply restrictions
-		// TODO: Return sentences
+		this.applyRestrictions(sentenceArray);
+//		for(int i = 0; i < sentenceArray.size(); i++) {
+//			sentence += sentenceArray.get(i).getA() + " ";
+//		}
 //		item.getName();
-//		grammar.getRestrictions();
+//		
 		return sentence;
 	}
 

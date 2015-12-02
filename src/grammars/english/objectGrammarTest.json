@@ -7,7 +7,7 @@
         ],
         "restrictions": [
             {"DET_1.num": "N_1.num"},
-            {"N_1.num": "N_1.num"}
+            {"N_1.num": "ADJ_1.num"}
         ]
 	}
 }
