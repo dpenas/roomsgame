@@ -1,0 +1,43 @@
+{
+    "ATTACK": {
+        "S1": {
+            "S": [
+                {
+                    "NP_1": ""
+                },
+                {
+                    "V_1": ""
+                },
+                {
+                    "NP_2": ""
+                }
+            ],
+            "restrictions": [
+                {
+                    "NP_1.num": "NP_2.num"
+                },
+                {
+                    "NP_1.num": "V_1.num"
+                }
+            ]
+        },
+        "S2": {
+            "S": [
+                {
+                    "NP_1": ""
+                },
+                {
+                    "gets attacked by": ""
+                },
+                {
+                    "NP_2": ""
+                }
+            ],
+            "restrictions": [
+                {
+                    "NP_1.num": "NP_2.num"
+                }
+            ]
+        }
+    }
+}

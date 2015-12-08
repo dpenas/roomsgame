@@ -10,6 +10,7 @@ import magic.Spell;
 import grammars.english.*;
 import grammars.grammars.GrammarIndividual;
 import grammars.grammars.GrammarSelector;
+import grammars.grammars.GrammarSelectorNP;
 import grammars.grammars.GrammarsGeneral;
 import grammars.grammars.GrammarsOperational;
 import grammars.grammars.GrammarsRetrieval;
@@ -414,7 +415,7 @@ public class Main {
 		Item item = new SmallShield("", 0, 0, 0, user, map, roomCharacter, null, 0, 0, false);
 		GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObj);
 		GrammarIndividual grammarIndividual = grammarGeneral.getRandomGrammar();
-		GrammarSelector selector = new GrammarSelector(grammarIndividual, rootObjWords, item);
+		GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item);
 //		System.out.println(selector.getAdjectives().get(0).getA());
 //		System.out.println(selector.getNames());
 //		System.out.println(selector.getDeterminants().get(0).getB());

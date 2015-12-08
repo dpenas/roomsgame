@@ -5,8 +5,7 @@
             {"N_1": ""}
         ],
         "restrictions": [
-            {"DET_1.num": "N_1.num"},
-            {"N_1.num": "N_1.num"}
+            {"DET_1.num": "N_1.num"}
         ]
     },
     "GM_2": {
