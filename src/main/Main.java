@@ -11,6 +11,7 @@ import grammars.english.*;
 import grammars.grammars.GrammarIndividual;
 import grammars.grammars.GrammarSelector;
 import grammars.grammars.GrammarSelectorNP;
+import grammars.grammars.GrammarSelectorS;
 import grammars.grammars.GrammarsGeneral;
 import grammars.grammars.GrammarsOperational;
 import grammars.grammars.GrammarsRetrieval;
@@ -409,20 +410,33 @@ public class Main {
 //			gameFlow();
 //		}
 		
-		JsonParser parser = new JsonParser();
-		JsonObject rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammarTest.json")).getAsJsonObject();
-		JsonObject rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsEnglish.json")).getAsJsonObject();
-		Item item = new SmallShield("", 0, 0, 0, user, map, roomCharacter, null, 0, 0, false);
-		GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObj);
-		GrammarIndividual grammarIndividual = grammarGeneral.getRandomGrammar();
-		GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item);
-//		System.out.println(selector.getAdjectives().get(0).getA());
-//		System.out.println(selector.getNames());
-//		System.out.println(selector.getDeterminants().get(0).getB());
-		System.out.println(selector.getRandomSentence());
+		// NP Grammar example
+//		JsonParser parser = new JsonParser();
+//		JsonObject rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammarTest.json")).getAsJsonObject();
+//		JsonObject rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsEnglish.json")).getAsJsonObject();
+//		Item item = new SmallShield("", 0, 0, 0, user, map, roomCharacter, null, 0, 0, false);
+//		GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObj);
+//		GrammarIndividual grammarIndividual = grammarGeneral.getRandomGrammar();
+//		GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item);
+//		System.out.println(selector.getRandomSentence());
 //		selector.getRandomSentence(grammar, item);
 //		GrammarsGeneral grammars = new GrammarsGeneral(rootObj);
 //		System.out.println(grammars.getRandomGrammar().getGrammar().get("keys"));
+		
+		// S Grammar example
+		JsonParser parser = new JsonParser();
+		JsonObject rootObj = parser.parse(new FileReader("./src/grammars/english/sentenceGrammar.json")).getAsJsonObject();
+		JsonObject rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsEnglish.json")).getAsJsonObject();
+		JsonObject grammarAction = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
+		Item shield1 = new SmallShield("", 0, 0, 0, user, map, roomCharacter, null, 0, 0, false);
+		Item shield2 = new SmallShield("", 0, 0, 0, user, map, roomCharacter, null, 0, 0, false);
+		ArrayList<Item> items = new ArrayList<Item>();
+		items.add(shield1);
+		items.add(shield2);
+		GrammarsGeneral grammarGeneral = new GrammarsGeneral(grammarAction);
+		GrammarIndividual grammarIndividual = grammarGeneral.getRandomGrammar();
+		GrammarSelectorS selector = new GrammarSelectorS(grammarIndividual, rootObjWords, items, "attack");
+		System.out.println(selector.getRandomSentence());
 		
 	}
 }

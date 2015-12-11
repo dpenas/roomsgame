@@ -1,17 +1,12 @@
 package grammars.grammars;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import grammars.parsing.JSONParsing;
 import net.slashie.util.Pair;
-import util.RandUtil;
 
 public class WordsGrammar {
 	
@@ -47,6 +42,18 @@ public class WordsGrammar {
 		for (int i = 0; i < determinantsJSON.entrySet().size(); i++) {
 			String name = JSONParsing.getSpecificKeyFromSet(i, determinantsJSON);
 			JsonArray value = JSONParsing.getSpecificValueFromSet(i, determinantsJSON).getAsJsonArray();
+			itemsReturn.add(new Pair<String, JsonArray>(name, value));
+		}
+		
+		return itemsReturn;
+	}
+	
+	public static ArrayList<Pair<String, JsonArray>> getVerbs(JsonObject object) {
+		ArrayList<Pair<String, JsonArray>> itemsReturn = new ArrayList<Pair<String, JsonArray>>();
+		JsonObject verbsJSON = JSONParsing.getElement((JsonObject)object, "V").getAsJsonObject();
+		for (int i = 0; i < verbsJSON.entrySet().size(); i++) {
+			String name = JSONParsing.getSpecificKeyFromSet(i, verbsJSON);
+			JsonArray value = JSONParsing.getSpecificValueFromSet(i, verbsJSON).getAsJsonArray();
 			itemsReturn.add(new Pair<String, JsonArray>(name, value));
 		}
 		

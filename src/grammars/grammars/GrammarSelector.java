@@ -6,12 +6,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import grammars.parsing.JSONParsing;
-import items.Item;
 import net.slashie.util.Pair;
-import util.RandUtil;
 
 public abstract class GrammarSelector {
-	private static String[] WORD_IMPORTANCE = {"V", "N", "ADJ", "DET"};
+	private static String[] WORD_IMPORTANCE = {"NP", "N", "ADJ", "V", "DET"};
 	private GrammarIndividual grammar;
 	private JsonObject wordsGrammar;
 	
@@ -102,5 +100,13 @@ public abstract class GrammarSelector {
 
 	public void setGrammar(GrammarIndividual grammar) {
 		this.grammar = grammar;
+	}
+
+	public JsonObject getWordsGrammar() {
+		return wordsGrammar;
+	}
+
+	public void setWordsGrammar(JsonObject wordsGrammar) {
+		this.wordsGrammar = wordsGrammar;
 	}
 }

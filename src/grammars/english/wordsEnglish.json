@@ -49,5 +49,31 @@
             {"numopposite": "shield"},
             {"gender": ""}
         ]
+    },
+    "V": {
+        "attacks": [
+            {"num": "sing"},
+            {"translation": "attacks"},
+            {"numopposite": "attack"},
+            {"gender": ""}
+        ],
+        "attack": [
+            {"num": "plural"},
+            {"translation": "attack"},
+            {"numopposite": "attacks"},
+            {"gender": ""}
+        ],
+        "charges against": [
+            {"num": "sing"},
+            {"translation": "charges against"},
+            {"numopposite": "charge against"},
+            {"gender": ""}
+        ],
+        "charge against": [
+            {"num": "plural"},
+            {"translation": "charge against"},
+            {"numopposite": "charges against"},
+            {"gender": ""}
+        ]
     }
 }
