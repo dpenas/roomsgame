@@ -1,13 +1,16 @@
 package grammars.grammars;
 
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
+import grammars.parsing.JSONParsing;
 import items.Item;
 import net.slashie.util.Pair;
 import util.RandUtil;
@@ -18,9 +21,13 @@ public class GrammarSelectorS extends GrammarSelector {
 	private String type;
 	private ArrayList<Pair<String, JsonArray>> verbs;
 	private ArrayList<GrammarSelectorNP> grammarsNP = new ArrayList<GrammarSelectorNP>();
+	private ArrayList<ArrayList<Pair<String, JsonArray>>> grammarsNPPair = new ArrayList<ArrayList<Pair<String, JsonArray>>>();
+	private JsonObject grammarObj;
 
 	public GrammarSelectorS(GrammarIndividual grammar, JsonObject wordsGrammar, ArrayList<Item> items, String type) throws JsonIOException, JsonSyntaxException, FileNotFoundException {
 		super(grammar, wordsGrammar);
+		JsonParser parser = new JsonParser();
+		this.grammarObj = parser.parse(new FileReader("./src/grammars/english/objectGrammarTest.json")).getAsJsonObject();
 		this.verbs = WordsGrammar.getVerbs(wordsGrammar);
 		this.items = items;
 	}
@@ -33,8 +40,12 @@ public class GrammarSelectorS extends GrammarSelector {
 	}
 	
 	private Pair<String, JsonArray> getRandomNP() {
-		for (Item item : this.getItems()) {
-			this.getGrammarsNP().add(new GrammarSelectorNP(new GrammarIndividual(this.getGrammar().getObject()), this.getWordsGrammar(), item));
+		this.setGrammarsNP(new ArrayList<GrammarSelectorNP>());
+		this.setGrammarsNPPair(new ArrayList<ArrayList<Pair<String, JsonArray>>>());
+		for (int i = 0; i < this.getItems().size(); i++) {
+			GrammarsGeneral grammarGeneral = new GrammarsGeneral(this.getGrammarObj());
+			this.getGrammarsNP().add(new GrammarSelectorNP(grammarGeneral.getRandomGrammar(), this.getWordsGrammar(), this.getItems().get(i)));
+			this.getGrammarsNPPair().add(this.getGrammarsNP().get(i).getRandomSentencePair());
 		}
 		return null;
 	}
@@ -52,20 +63,25 @@ public class GrammarSelectorS extends GrammarSelector {
 		return resultArray;
 	}
 	
-	protected ArrayList<Pair<String, JsonArray>> changeValue(ArrayList<Pair<String, JsonArray>> sentenceArray, String valueToChange, String changeToValue, String typeChangeToValue){
+	protected ArrayList<Pair<String, JsonArray>> changeValue(ArrayList<Pair<String, JsonArray>> sentenceArray, String valueToChange, 
+			String changeToValue, String typeChangeToValue){
 		System.out.println("Value to change: " + valueToChange);
 		System.out.println("Change to: " + changeToValue);
+		System.out.println("TypeChangeToValue: " + typeChangeToValue);
 		ArrayList<Pair<String, JsonArray>> selectedTypeWord = new ArrayList<Pair<String, JsonArray>>();
 		switch (typeChangeToValue) {
 			case "V" :
 				selectedTypeWord = this.getVerbs();
 				break;
+			default : 
+				return this.getGrammarsNP().get(0).changeValue(sentenceArray, valueToChange, changeToValue, typeChangeToValue);
 		}
 		
 		for (int i = 0; i < selectedTypeWord.size(); i++) {
 			if (selectedTypeWord.get(i).getA().equals(changeToValue)) {
 				Pair<String, JsonArray> newPair = selectedTypeWord.get(i); 
 				for (int j = 0; j < sentenceArray.size(); j++) {
+					System.out.println("COMPARISON: " + sentenceArray.get(j).getA());
 					if (sentenceArray.get(j).getA().equals(valueToChange)) {
 						sentenceArray.set(j, newPair);
 					}
@@ -79,17 +95,19 @@ public class GrammarSelectorS extends GrammarSelector {
 	public String getRandomSentence() {
 		this.getRandomNP();
 		String sentence = "";
-		int j = 0;
+		int npCount = 0;
 		ArrayList<Pair<String, JsonArray>> sentenceArray = this.fillWords();
-		System.out.println(sentenceArray);
 		sentenceArray = this.applyRestrictions(sentenceArray);
 		for(int i = 0; i < sentenceArray.size(); i++) {
-//			System.out.println(sentenceArray.get(i));
-			if (sentenceArray.get(i) == null) {
-				sentence += " " + this.getGrammarsNP().get(j).getRandomSentence();
-				j++;
+			Pair<String, JsonArray> pair = sentenceArray.get(i);
+			if (pair != null) {
+				sentence += " " + pair.getA();
 			} else {
-				sentence += sentenceArray.get(i).getA() + " ";
+				ArrayList<Pair<String, JsonArray>> arrayNPPair = this.getGrammarsNPPair().get(npCount);
+				for (int z = 0; z < arrayNPPair.size(); z++){
+					sentence += " " + arrayNPPair.get(z).getA();
+				}
+				npCount++;
 			}
 		}
 		
@@ -97,9 +115,8 @@ public class GrammarSelectorS extends GrammarSelector {
 	}
 	
 	protected ArrayList<Pair<String, JsonArray>> applyRestrictions(ArrayList<Pair<String, JsonArray>> sentenceArray) {
+		System.out.println("Sentence array: ");
 		for(Pair<String, String> restriction : this.getGrammar().getRestrictions()) {
-			System.out.println(restriction);
-			System.out.println(restriction.getA());
 			int dotPointA = restriction.getA().indexOf(".");
 			int dotPointB = restriction.getB().indexOf(".");
 			String restrictionType = restriction.getA().substring(dotPointA + 1, restriction.getA().length());
@@ -108,7 +125,34 @@ public class GrammarSelectorS extends GrammarSelector {
 					String elementA = restriction.getA().substring(0, dotPointA);
 					String elementB = restriction.getB().substring(0, dotPointB);
 					Pair<String, String> pair = new Pair<String, String>(elementA, elementB);
-					sentenceArray = applyNumRestrictions(pair, sentenceArray);
+					ArrayList<Pair<String, JsonArray>> pairToCompare = new ArrayList<Pair<String, JsonArray>>();
+					// TODO: Change this, get(0) and having it in the code might not be the best idea (?)
+					Pair<String, JsonArray> pairNP = this.getGrammarsNPPair().get(0).get(2);
+					pairNP.setA("NP_1");
+					Pair<String, JsonArray> pairV = this.getVerbs().get(0);
+					pairV.setA("V_1");
+					pairToCompare.add(pairNP);
+					pairToCompare.add(pairV);
+					System.out.println("PrintNP: ");
+					System.out.println(pairNP.getA());
+					System.out.println(pairNP.getB());
+					System.out.println("PrintV: ");
+					System.out.println(pairV.getA());
+					System.out.println(pairV.getB());
+					ArrayList<Pair<String, JsonArray>> newSentenceArray = applyNumRestrictions(pair, pairToCompare);
+					System.out.println("New sentence array Before: ");
+					for(int i = 0; i < newSentenceArray.size(); i++) {
+						System.out.println("New sentence a: " + newSentenceArray.get(i).getA());
+						System.out.println("New sentence b: " + newSentenceArray.get(i).getB());
+//						if (newSentenceArray.get(i).getA() == "V_1") {
+//							newSentenceArray.get(i).setA(JSONParsing.getElement(newSentenceArray.get(i).getB(), "translation"));
+//							for (Pair<String, JsonArray> a : sentenceArray) {
+//								if (a != null) {
+//									sentenceArray.set(sentenceArray.indexOf(a), newSentenceArray.get(i));
+//								}
+//							}
+//						}
+					}
 					break;
 			}
 		}
@@ -145,6 +189,22 @@ public class GrammarSelectorS extends GrammarSelector {
 
 	public void setGrammarsNP(ArrayList<GrammarSelectorNP> grammarsNP) {
 		this.grammarsNP = grammarsNP;
+	}
+
+	public ArrayList<ArrayList<Pair<String, JsonArray>>> getGrammarsNPPair() {
+		return grammarsNPPair;
+	}
+
+	public void setGrammarsNPPair(ArrayList<ArrayList<Pair<String, JsonArray>>> grammarsNPPair) {
+		this.grammarsNPPair = grammarsNPPair;
+	}
+
+	public JsonObject getGrammarObj() {
+		return grammarObj;
+	}
+
+	public void setGrammarObj(JsonObject grammarObj) {
+		this.grammarObj = grammarObj;
 	}
 	
 }

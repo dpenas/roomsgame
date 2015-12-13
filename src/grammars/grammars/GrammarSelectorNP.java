@@ -94,9 +94,21 @@ public class GrammarSelectorNP extends GrammarSelector {
 		for(int i = 0; i < sentenceArray.size(); i++) {
 			sentence += sentenceArray.get(i).getA() + " ";
 		}
-//		item.getName();
-//		
 		return sentence;
+	}
+	
+	public ArrayList<Pair<String, JsonArray>> getRandomSentencePair() {
+		System.out.println(this.getGrammar());
+		System.out.println(this.getItem());
+		ArrayList<Pair<String, JsonArray>> sentenceArray = this.fillWords();
+		System.out.println("sentenceArray: " + sentenceArray);
+		for (Pair<String, JsonArray> a : sentenceArray) {
+			System.out.println("asdasd");
+			System.out.println(a.getA());
+			System.out.println(a.getB());
+		}
+		sentenceArray = this.applyRestrictions(sentenceArray);
+		return sentenceArray;
 	}
 	
 	public Item getItem() {

@@ -38,6 +38,10 @@ public abstract class GrammarSelector {
 //			System.out.println(sentence.getB());
 //		}
 		ArrayList<String> grammar = this.getGrammar().getGrammar().get("keys");
+		System.out.println(restriction.getA());
+		System.out.println(restriction.getB());
+		System.out.println(sentenceArray.get(0).getA());
+		System.out.println(sentenceArray.get(0).getB());
 		String firstType = restriction.getA();
 		String secondType = restriction.getB();
 		JsonArray restrictions1 = sentenceArray.get(grammar.indexOf(firstType)).getB();
