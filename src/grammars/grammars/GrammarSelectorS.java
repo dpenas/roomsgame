@@ -139,13 +139,16 @@ public class GrammarSelectorS extends GrammarSelector {
 			String restrictionType = restriction.getA().substring(dotPointA + 1, restriction.getA().length());
 			switch (restrictionType) {
 				case "num": 
-					// TODO: Change so the order of the restriction doesn't matter
 					String elementA = restriction.getA().substring(0, dotPointA);
 					String elementB = restriction.getB().substring(0, dotPointB);
 					Pair<String, String> pair = new Pair<String, String>(elementA, elementB);
 					returnSentenceArray = applyNumRestrictions(pair, newSentenceArray);
-					// TODO: Change this so we don't have 1 or whatever
-					returnSentenceArray.set(1, returnSentenceArray.get(1));
+					// TODO: Change this so we don't have to set with "1"
+					for(Pair<String, JsonArray> a : returnSentenceArray) {
+						if (this.getVerbs().contains(a)) {
+							returnSentenceArray.set(1, a);
+						}
+					}
 					returnSentenceArray.set(0, null);
 					returnSentenceArray.add(null);
 					break;
