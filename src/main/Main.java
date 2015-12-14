@@ -419,9 +419,7 @@ public class Main {
 //		GrammarIndividual grammarIndividual = grammarGeneral.getRandomGrammar();
 //		GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item);
 //		System.out.println(selector.getRandomSentence());
-//		selector.getRandomSentence(grammar, item);
-//		GrammarsGeneral grammars = new GrammarsGeneral(rootObj);
-//		System.out.println(grammars.getRandomGrammar().getGrammar().get("keys"));
+//		selector.getRandomSentence();
 		
 		// S Grammar example
 		JsonParser parser = new JsonParser();

@@ -9,7 +9,7 @@ import grammars.parsing.JSONParsing;
 import net.slashie.util.Pair;
 
 public abstract class GrammarSelector {
-	private static String[] WORD_IMPORTANCE = {"NP", "N", "ADJ", "V", "DET"};
+	private static String[] WORD_IMPORTANCE = {"NP", "N", "ADJ", "DET", "V"};
 	private GrammarIndividual grammar;
 	private JsonObject wordsGrammar;
 	
@@ -22,11 +22,15 @@ public abstract class GrammarSelector {
 	protected abstract ArrayList<Pair<String, JsonArray>> changeValue(ArrayList<Pair<String, JsonArray>> sentenceArray, String valueToChange, String changeToValue, String typeChangeToValue);
 	
 	protected String getImportantRestriction(String value1Type, String value1, String value2Type, String value2) {
+		System.out.println("I receive value1Type: " + value1Type + " value1: " + value1 + " value2Type: " 
+				+ value2Type + " value2: " + value2);
 		for (int i = 0; i < WORD_IMPORTANCE.length; i++) {
 			if (WORD_IMPORTANCE[i].equals(value1Type)) {
+				System.out.println("I'm returning value2");
 				return value2;
 			}
 			if (WORD_IMPORTANCE[i].equals(value2Type)) {
+				System.out.println("I'm returning value1");
 				return value1;
 			}
 		}
@@ -52,16 +56,18 @@ public abstract class GrammarSelector {
 		String value2 = JSONParsing.getElement(restrictions2, "translation");
 		String value1Num = JSONParsing.getElement(restrictions1, "num");
 		String value2Num = JSONParsing.getElement(restrictions2, "num");
-//		System.out.println("Value1Num: " + value1Num);
-//		System.out.println("Value2Num: " + value2Num);
-//		System.out.println("Value1: " + value1);
-//		System.out.println("Value2: " + value2);
+		System.out.println("Value1Num: " + value1Num);
+		System.out.println("Value2Num: " + value2Num);
+		System.out.println("Value1: " + value1);
+		System.out.println("Value2: " + value2);
 		if (!value1Num.equals(value2Num) && value1Num.length() > 0 && value2Num.length() > 0) {
 			String changeToValue = "";
 			String typeFirstRestriction = firstType.substring(0, firstType.indexOf("_"));
 			String typeSecondRestriction = secondType.substring(0, secondType.indexOf("_"));
+			System.out.println("Type first restriction: " + typeFirstRestriction);
+			System.out.println("Type second restriction: " + typeSecondRestriction);
 			String toChange = getImportantRestriction(typeFirstRestriction, value1, typeSecondRestriction, value2);
-//			System.out.println("toChange: " + toChange);
+			System.out.println("toChange: " + toChange);
 			String typeChangeToValue = "";
 			if (toChange.equals(value1)) {
 //				System.out.println(restrictions1);
@@ -76,10 +82,15 @@ public abstract class GrammarSelector {
 //			System.out.println("TypeChangeToValue: " + typeChangeToValue);
 			this.changeValue(sentenceArray, toChange, changeToValue, typeChangeToValue);
 		}
+		System.out.println("Num Restrictions Sentence Array: ");
+		for (Pair<String, JsonArray> a : sentenceArray) {
+			System.out.println(a.getA() + " " + a.getB());
+		}
 		return sentenceArray;
 	}
 	
 	protected ArrayList<Pair<String, JsonArray>> applyRestrictions(ArrayList<Pair<String, JsonArray>> sentenceArray) {
+		System.out.println("SentenceArray: " + sentenceArray.get(0).getA());
 		for(Pair<String, String> restriction : this.getGrammar().getRestrictions()) {
 			int dotPointA = restriction.getA().indexOf(".");
 			int dotPointB = restriction.getB().indexOf(".");

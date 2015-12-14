@@ -10,7 +10,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
-import grammars.parsing.JSONParsing;
 import items.Item;
 import net.slashie.util.Pair;
 import util.RandUtil;
@@ -79,7 +78,7 @@ public class GrammarSelectorS extends GrammarSelector {
 		
 		for (int i = 0; i < selectedTypeWord.size(); i++) {
 			if (selectedTypeWord.get(i).getA().equals(changeToValue)) {
-				Pair<String, JsonArray> newPair = selectedTypeWord.get(i); 
+				Pair<String, JsonArray> newPair = selectedTypeWord.get(i);
 				for (int j = 0; j < sentenceArray.size(); j++) {
 					System.out.println("COMPARISON: " + sentenceArray.get(j).getA());
 					if (sentenceArray.get(j).getA().equals(valueToChange)) {
@@ -88,7 +87,10 @@ public class GrammarSelectorS extends GrammarSelector {
 				}
 			}
 		}
-		
+		for (Pair<String,JsonArray> a : sentenceArray) {
+			System.out.println("Sentence Array a: " + a.getA());
+			System.out.println("Sentence Array b: " + a.getB());
+		}
 		return sentenceArray;
 	}
 	
@@ -115,48 +117,41 @@ public class GrammarSelectorS extends GrammarSelector {
 	}
 	
 	protected ArrayList<Pair<String, JsonArray>> applyRestrictions(ArrayList<Pair<String, JsonArray>> sentenceArray) {
-		System.out.println("Sentence array: ");
+		ArrayList<Pair<String, JsonArray>> newSentenceArray = new ArrayList<Pair<String, JsonArray>>();
+		ArrayList<Pair<String, JsonArray>> returnSentenceArray = new ArrayList<Pair<String, JsonArray>>();
+		for (Pair<String, JsonArray> pair : sentenceArray) {
+			if (pair != null) {
+				newSentenceArray.add(pair);
+			}
+		}
+		System.out.println("Printing new Sentence Array: ");
+		for (Pair<String, JsonArray> pair : newSentenceArray) {
+			System.out.println(pair.getA());
+			System.out.println(pair.getB());
+		}
+		newSentenceArray.add(this.getGrammarsNPPair().get(0).get(2));
+		newSentenceArray.set(1, newSentenceArray.get(0));
+		newSentenceArray.set(0, this.getGrammarsNPPair().get(0).get(2));
+		
 		for(Pair<String, String> restriction : this.getGrammar().getRestrictions()) {
 			int dotPointA = restriction.getA().indexOf(".");
 			int dotPointB = restriction.getB().indexOf(".");
 			String restrictionType = restriction.getA().substring(dotPointA + 1, restriction.getA().length());
 			switch (restrictionType) {
 				case "num": 
+					// TODO: Change so the order of the restriction doesn't matter
 					String elementA = restriction.getA().substring(0, dotPointA);
 					String elementB = restriction.getB().substring(0, dotPointB);
 					Pair<String, String> pair = new Pair<String, String>(elementA, elementB);
-					ArrayList<Pair<String, JsonArray>> pairToCompare = new ArrayList<Pair<String, JsonArray>>();
-					// TODO: Change this, get(0) and having it in the code might not be the best idea (?)
-					Pair<String, JsonArray> pairNP = this.getGrammarsNPPair().get(0).get(2);
-					pairNP.setA("NP_1");
-					Pair<String, JsonArray> pairV = this.getVerbs().get(0);
-					pairV.setA("V_1");
-					pairToCompare.add(pairNP);
-					pairToCompare.add(pairV);
-					System.out.println("PrintNP: ");
-					System.out.println(pairNP.getA());
-					System.out.println(pairNP.getB());
-					System.out.println("PrintV: ");
-					System.out.println(pairV.getA());
-					System.out.println(pairV.getB());
-					ArrayList<Pair<String, JsonArray>> newSentenceArray = applyNumRestrictions(pair, pairToCompare);
-					System.out.println("New sentence array Before: ");
-					for(int i = 0; i < newSentenceArray.size(); i++) {
-						System.out.println("New sentence a: " + newSentenceArray.get(i).getA());
-						System.out.println("New sentence b: " + newSentenceArray.get(i).getB());
-//						if (newSentenceArray.get(i).getA() == "V_1") {
-//							newSentenceArray.get(i).setA(JSONParsing.getElement(newSentenceArray.get(i).getB(), "translation"));
-//							for (Pair<String, JsonArray> a : sentenceArray) {
-//								if (a != null) {
-//									sentenceArray.set(sentenceArray.indexOf(a), newSentenceArray.get(i));
-//								}
-//							}
-//						}
-					}
+					returnSentenceArray = applyNumRestrictions(pair, newSentenceArray);
+					// TODO: Change this so we don't have 1 or whatever
+					returnSentenceArray.set(1, returnSentenceArray.get(1));
+					returnSentenceArray.set(0, null);
+					returnSentenceArray.add(null);
 					break;
 			}
 		}
-		return sentenceArray;
+		return returnSentenceArray;
 	}
 
 	public ArrayList<Pair<String, JsonArray>> getVerbs() {
