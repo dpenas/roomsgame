@@ -90,7 +90,6 @@ public abstract class GrammarSelector {
 	}
 	
 	protected ArrayList<Pair<String, JsonArray>> applyRestrictions(ArrayList<Pair<String, JsonArray>> sentenceArray) {
-		System.out.println("SentenceArray: " + sentenceArray.get(0).getA());
 		for(Pair<String, String> restriction : this.getGrammar().getRestrictions()) {
 			int dotPointA = restriction.getA().indexOf(".");
 			int dotPointB = restriction.getB().indexOf(".");
@@ -105,6 +104,17 @@ public abstract class GrammarSelector {
 			}
 		}
 		return sentenceArray;
+	}
+	
+	public boolean emptySentenceArray(ArrayList<Pair<String, JsonArray>> sentenceArray) {
+		for (Pair<String, JsonArray> a : sentenceArray) {
+			if (a == null) return true;
+		}
+		return false;
+	}
+	
+	public String returnParseString(String string, String element) {
+		return string.substring(0, string.indexOf(element));
 	}
 	
 	public abstract String getRandomSentence();

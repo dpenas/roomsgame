@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
+import grammars.parsing.JSONParsing;
 import items.Item;
 import net.slashie.util.Pair;
 import util.RandUtil;
@@ -23,12 +24,26 @@ public class GrammarSelectorS extends GrammarSelector {
 	private ArrayList<ArrayList<Pair<String, JsonArray>>> grammarsNPPair = new ArrayList<ArrayList<Pair<String, JsonArray>>>();
 	private JsonObject grammarObj;
 
-	public GrammarSelectorS(GrammarIndividual grammar, JsonObject wordsGrammar, ArrayList<Item> items, String type) throws JsonIOException, JsonSyntaxException, FileNotFoundException {
+	public GrammarSelectorS(GrammarIndividual grammar, JsonObject wordsGrammar, ArrayList<Item> items, String type) throws JsonIOException, JsonSyntaxException, FileNotFoundException, InstantiationException, IllegalAccessException {
 		super(grammar, wordsGrammar);
 		JsonParser parser = new JsonParser();
 		this.grammarObj = parser.parse(new FileReader("./src/grammars/english/objectGrammarTest.json")).getAsJsonObject();
 		this.verbs = WordsGrammar.getVerbs(wordsGrammar);
 		this.items = items;
+		this.analyseGrammar();
+	}
+	
+	private void analyseGrammar() throws InstantiationException, IllegalAccessException {
+		System.out.println("WORKING ON THIS");
+		for (int i = 0; i < this.getGrammar().getGrammar().get("keys").size(); i++) {
+			String value = this.getGrammar().getGrammar().get("keys").get(i);
+			String typeValue = this.returnParseString(value, "_");
+			if (!typeValue.equals("V")) {
+				System.out.println("TypeValue: " + typeValue);
+				this.getRandomNP(typeValue);
+			}
+		}
+		System.out.println("FINISHED WORKING ON THIS");
 	}
 	
 	private Pair<String, JsonArray> getRandomVerb() {
@@ -38,12 +53,20 @@ public class GrammarSelectorS extends GrammarSelector {
 		return null;
 	}
 	
-	private Pair<String, JsonArray> getRandomNP() {
+	private Pair<String, JsonArray> getRandomNP(String type) {
 		this.setGrammarsNP(new ArrayList<GrammarSelectorNP>());
 		this.setGrammarsNPPair(new ArrayList<ArrayList<Pair<String, JsonArray>>>());
+		JsonParser parser = new JsonParser();
+		JsonObject rootObj = null;
+		try {
+			rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammar.json")).getAsJsonObject();
+		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		rootObj = JSONParsing.getElement(rootObj, type).getAsJsonObject();
 		for (int i = 0; i < this.getItems().size(); i++) {
-			GrammarsGeneral grammarGeneral = new GrammarsGeneral(this.getGrammarObj());
-			this.getGrammarsNP().add(new GrammarSelectorNP(grammarGeneral.getRandomGrammar(), this.getWordsGrammar(), this.getItems().get(i)));
+			GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObj);
+			this.getGrammarsNP().add(new GrammarSelectorNP(grammarGeneral.getRandomGrammar(), this.getWordsGrammar(), this.getItems().get(i), type));
 			this.getGrammarsNPPair().add(this.getGrammarsNP().get(i).getRandomSentencePair());
 		}
 		return null;
@@ -95,7 +118,6 @@ public class GrammarSelectorS extends GrammarSelector {
 	}
 	
 	public String getRandomSentence() {
-		this.getRandomNP();
 		String sentence = "";
 		int npCount = 0;
 		ArrayList<Pair<String, JsonArray>> sentenceArray = this.fillWords();
@@ -116,7 +138,7 @@ public class GrammarSelectorS extends GrammarSelector {
 		return sentence;
 	}
 	
-	protected ArrayList<Pair<String, JsonArray>> applyRestrictions(ArrayList<Pair<String, JsonArray>> sentenceArray) {
+	private ArrayList<Pair<String, JsonArray>> applyRestrictionsSNP(ArrayList<Pair<String, JsonArray>> sentenceArray) {
 		ArrayList<Pair<String, JsonArray>> newSentenceArray = new ArrayList<Pair<String, JsonArray>>();
 		ArrayList<Pair<String, JsonArray>> returnSentenceArray = new ArrayList<Pair<String, JsonArray>>();
 		for (Pair<String, JsonArray> pair : sentenceArray) {
@@ -124,11 +146,12 @@ public class GrammarSelectorS extends GrammarSelector {
 				newSentenceArray.add(pair);
 			}
 		}
-		System.out.println("Printing new Sentence Array: ");
-		for (Pair<String, JsonArray> pair : newSentenceArray) {
-			System.out.println(pair.getA());
-			System.out.println(pair.getB());
-		}
+//		System.out.println("Printing new Sentence Array: ");
+//		for (Pair<String, JsonArray> pair : newSentenceArray) {
+//			System.out.println(pair.getA());
+//			System.out.println(pair.getB());
+//		}
+		// TODO: Change this
 		newSentenceArray.add(this.getGrammarsNPPair().get(0).get(2));
 		newSentenceArray.set(1, newSentenceArray.get(0));
 		newSentenceArray.set(0, this.getGrammarsNPPair().get(0).get(2));
@@ -155,6 +178,13 @@ public class GrammarSelectorS extends GrammarSelector {
 			}
 		}
 		return returnSentenceArray;
+	}
+	
+	protected ArrayList<Pair<String, JsonArray>> applyRestrictions(ArrayList<Pair<String, JsonArray>> sentenceArray) {
+		if (this.emptySentenceArray(sentenceArray)) {
+			return this.applyRestrictionsSNP(sentenceArray);
+		}
+		return null;
 	}
 
 	public ArrayList<Pair<String, JsonArray>> getVerbs() {

@@ -12,13 +12,15 @@ import util.RandUtil;
 public class GrammarSelectorNP extends GrammarSelector {
 	
 	private Item item;
+	private String type;
 	private ArrayList<Pair<String, JsonArray>> adjectives;
 	private ArrayList<Pair<String, JsonArray>> names;
 	private ArrayList<Pair<String, JsonArray>> determinants;
 
-	public GrammarSelectorNP(GrammarIndividual grammar, JsonObject wordsGrammar, Item item) {
+	public GrammarSelectorNP(GrammarIndividual grammar, JsonObject wordsGrammar, Item item, String type) {
 		super(grammar, wordsGrammar);
 		this.item = item;
+		this.type = type;
 		this.adjectives = WordsGrammar.getAdjectives(wordsGrammar, item.getAdjectives());
 		this.names = WordsGrammar.getName(wordsGrammar, item.getName());
 		this.determinants = WordsGrammar.getDeterminant(wordsGrammar);
@@ -139,6 +141,14 @@ public class GrammarSelectorNP extends GrammarSelector {
 
 	public void setDeterminants(ArrayList<Pair<String, JsonArray>> determinants) {
 		this.determinants = determinants;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

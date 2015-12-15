@@ -24,6 +24,9 @@ import map.Room;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+
 import characters.Character;
 import util.Tuple;
 
@@ -67,7 +70,7 @@ public class ActiveCharacterTest {
 	Room room = map.getRooms().get(0);
 
 	@Before
-	public void setUp() throws IOException {
+	public void setUp() throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 		language = new String("en");
 		country = new String("US");
 		currentLocale = new Locale(language, country);

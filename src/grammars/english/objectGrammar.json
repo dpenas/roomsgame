@@ -1,31 +1,35 @@
 {
-    "GM_1": {
-        "S": [
-            {"DET_1": ""}, 
-            {"N_1": ""}
-        ],
-        "restrictions": [
-            {"DET_1.num": "N_1.num"}
-        ]
+    "SIMPLE": {
+        "GM_1": {
+            "S": [
+                {"DET_1": ""}, 
+                {"N_1": ""}
+            ],
+            "restrictions": [
+                {"DET_1.num": "N_1.num"}
+            ]
+        }
     },
-    "GM_2": {
-        "S": 
-            [
-            {"DET_1": ""}, 
-            {"ADJ_N": "array"}, 
-            {"N_1": ""}
-        ],
-        "restrictions": [
-            {"DET_1.num": "N_1.num"},
-            {"N_1.num": "ADJ_N.num"}
-        ]
+    "ADJECTIVE": {
+        "GM_2": {
+            "S": [
+                {"ADJ": ""}
+            ],
+            "restrictions": []
+        }
     },
-    "GM_3": {
-        "S": [
-            {"S_1": ""},
-            {"with": ""},
-            {"S_2": ""}
-        ],
-        "restrictions": []
+    "GENERAL": {
+        "GM_3": {
+            "S": 
+                [
+                {"DET_1": ""}, 
+                {"ADJ_N": "array"}, 
+                {"N_1": ""}
+            ],
+            "restrictions": [
+                {"DET_1.num": "N_1.num"},
+                {"N_1.num": "ADJ_N.num"}
+            ]
+        }
     }
 }

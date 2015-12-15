@@ -33,8 +33,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 import characters.active.ActiveCharacter;
 import characters.active.enemies.Goblin;
@@ -134,7 +136,7 @@ public class Main {
 		}
 	}
 	
-	public static void _moveCharacterAction(int i){
+	public static void _moveCharacterAction(int i) throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException{
 		Tuple<Integer, Integer> previousPosition = user.getPosition();
         Tuple<Integer, Integer> newPosition = RandUtil.inputMoveInterpretation(i, Arrays.asList(movementInput), user);
 		if (user.move(newPosition)){
@@ -335,7 +337,7 @@ public class Main {
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	}
 	
-	public static void gameFlow() {
+	public static void gameFlow() throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);
 		j.cls();
 		if (deepnessScore == 0){
@@ -400,7 +402,7 @@ public class Main {
 		}
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 //		ChangeKeyBinding.editPropertiesFile(j);
 //		JLabel message = new JLabel();
 //		message.setText("Hola");

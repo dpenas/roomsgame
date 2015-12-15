@@ -16,6 +16,9 @@ public class GrammarIndividual {
 	private ArrayList<String> numberGrammar;
 	
 	public GrammarIndividual(JsonObject object) {
+		System.out.println("WHAT I RECEIVE");
+		System.out.println(object);
+		System.out.println("FINISH WHAT I RECEIVE");
 		this.object = object;
 		this.restrictions = this.setRestrictions(GrammarsRetrieval.getRestrictions(object));
 		this.grammar = GrammarsRetrieval.getGrammar(object);
