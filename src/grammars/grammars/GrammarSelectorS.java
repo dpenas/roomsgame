@@ -34,16 +34,15 @@ public class GrammarSelectorS extends GrammarSelector {
 	}
 	
 	private void analyseGrammar() throws InstantiationException, IllegalAccessException {
-		System.out.println("WORKING ON THIS");
+		this.setGrammarsNP(new ArrayList<GrammarSelectorNP>());
+		this.setGrammarsNPPair(new ArrayList<ArrayList<Pair<String, JsonArray>>>());
 		for (int i = 0; i < this.getGrammar().getGrammar().get("keys").size(); i++) {
 			String value = this.getGrammar().getGrammar().get("keys").get(i);
 			String typeValue = this.returnParseString(value, "_");
 			if (!typeValue.equals("V")) {
-				System.out.println("TypeValue: " + typeValue);
 				this.getRandomNP(typeValue, i);
 			}
 		}
-		System.out.println("FINISHED WORKING ON THIS");
 	}
 	
 	private Pair<String, JsonArray> getRandomVerb() {
@@ -57,8 +56,6 @@ public class GrammarSelectorS extends GrammarSelector {
 		if (itemPos > this.getItems().size() - 1) {
 			itemPos = this.getItems().size() - 1;
 		}
-		this.setGrammarsNP(new ArrayList<GrammarSelectorNP>());
-		this.setGrammarsNPPair(new ArrayList<ArrayList<Pair<String, JsonArray>>>());
 		JsonParser parser = new JsonParser();
 		JsonObject rootObj = null;
 		try {
@@ -129,6 +126,8 @@ public class GrammarSelectorS extends GrammarSelector {
 			if (pair != null) {
 				sentence += " " + pair.getA();
 			} else {
+				System.out.println("pair: " + this.getGrammarsNPPair().size());
+				System.out.println("npCount: " + npCount);
 				ArrayList<Pair<String, JsonArray>> arrayNPPair = this.getGrammarsNPPair().get(npCount);
 				for (int z = 0; z < arrayNPPair.size(); z++){
 					sentence += " " + arrayNPPair.get(z).getA();
@@ -149,20 +148,10 @@ public class GrammarSelectorS extends GrammarSelector {
 				newSentenceArray.add(pair);
 			}
 		}
-//		System.out.println("Printing new Sentence Array: ");
-//		for (Pair<String, JsonArray> pair : newSentenceArray) {
-//			System.out.println(pair.getA());
-//			System.out.println(pair.getB());
-//		}
-		// TODO: Change this
-		System.out.println("The next thing: ");
-		for (int i = 0; i < this.getGrammarsNPPair().size(); i++) {
-			System.out.println(this.getGrammarsNPPair().get(i));
-		}
-		System.out.println("GrammarsNPPair: " + this.getGrammarsNPPair().get(0));
-		newSentenceArray.add(this.getGrammarsNPPair().get(0).get(2));
+		int selectedNamePos =  this.getGrammarsNP().get(0).getSelectedNamePos();
+		newSentenceArray.add(this.getGrammarsNPPair().get(0).get(selectedNamePos));
 		newSentenceArray.set(1, newSentenceArray.get(0));
-		newSentenceArray.set(0, this.getGrammarsNPPair().get(0).get(2));
+		newSentenceArray.set(0, this.getGrammarsNPPair().get(0).get(selectedNamePos));
 		
 		for(Pair<String, String> restriction : this.getGrammar().getRestrictions()) {
 			System.out.println("restriction: " + restriction);

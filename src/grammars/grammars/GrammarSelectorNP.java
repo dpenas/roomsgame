@@ -112,6 +112,16 @@ public class GrammarSelectorNP extends GrammarSelector {
 		return sentenceArray;
 	}
 	
+	public int getSelectedNamePos() {
+		ArrayList<String> elements = this.getGrammar().getGrammar().get("keys");
+		for (int i = 0; i < elements.size(); i++) {
+			if (this.returnParseString(elements.get(i), "_").equals("N")) {
+				return i;
+			}
+		}
+		return 0;
+	}
+	
 	public Item getItem() {
 		return item;
 	}
