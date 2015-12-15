@@ -29,6 +29,7 @@ public class GrammarIndividual {
 	public ArrayList<String> setTypeGrammar() {
 		ArrayList<String> grammarTypes = new ArrayList<String>();
 		for (String grammar : this.getGrammar().get("keys")) {
+			System.out.println("HOOOOOOOLAAAAAA: " + grammar);
 			int endType = 0;
 			if (grammar.equals(grammar.toUpperCase())) {
 				endType = grammar.indexOf("_");

@@ -43,6 +43,7 @@ public class GrammarSelectorNP extends GrammarSelector {
 	protected ArrayList<Pair<String, JsonArray>> fillWords() {
 		ArrayList<Pair<String, JsonArray>> resultArray = new ArrayList<Pair<String, JsonArray>>();
 		for (String value : this.getGrammar().getTypeWordGrammar()) {
+			System.out.println("Value: " + value);
 			switch (value) {
 				case "DET" : resultArray.add(getRandomDeterminant());
 					break;
