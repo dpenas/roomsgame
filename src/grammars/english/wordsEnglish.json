@@ -30,8 +30,15 @@
         ],
         "small":
       		[
-      		{"num": ""},
+      		{"num": "sing"},
             {"translation": "small"}, 
+            {"numopposite": "smalls"}, 
+            {"gender": ""}
+        ],
+        "smalls":
+            [
+            {"num": "plural"},
+            {"translation": "smalls"}, 
             {"numopposite": "small"}, 
             {"gender": ""}
         ]

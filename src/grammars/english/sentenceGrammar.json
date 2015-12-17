@@ -7,17 +7,8 @@
                 {"ADJECTIVE_1": ""}
             ],
             "restrictions": [
-                {"SIMPLE_1.num": "V_1.num"}
-            ]
-        },
-        "S1": {
-            "S": [
-                {"GENERAL_1": ""},
-                {"V_1": ""},
-                {"GENERAL_2": ""}
-            ],
-            "restrictions": [
-                {"GENERAL_1.num": "V_1.num"}
+                {"SIMPLE_1.num": "V_1.num"},
+                {"ADJECTIVE_1.num": "V_1.num"}
             ]
         }
     }

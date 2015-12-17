@@ -142,18 +142,19 @@ public class GrammarSelectorS extends GrammarSelector {
 	private ArrayList<Pair<String, JsonArray>> applyRestrictionsSNP(ArrayList<Pair<String, JsonArray>> sentenceArray) {
 		ArrayList<Pair<String, JsonArray>> newSentenceArray = new ArrayList<Pair<String, JsonArray>>();
 		ArrayList<Pair<String, JsonArray>> returnSentenceArray = new ArrayList<Pair<String, JsonArray>>();
-		System.out.println("Sentence Array today");
-		for (Pair<String, JsonArray> pair : sentenceArray) {
-			if (pair != null) {
-				newSentenceArray.add(pair);
-			}
-		}
-		int selectedNamePos =  this.getGrammarsNP().get(0).getSelectedNamePos();
-		newSentenceArray.add(this.getGrammarsNPPair().get(0).get(selectedNamePos));
-		newSentenceArray.set(1, newSentenceArray.get(0));
-		newSentenceArray.set(0, this.getGrammarsNPPair().get(0).get(selectedNamePos));
+		int iteration = 0;
 		
 		for(Pair<String, String> restriction : this.getGrammar().getRestrictions()) {
+			System.out.println("Iteration: " + iteration);
+			for (Pair<String, JsonArray> pair : sentenceArray) {
+				if (pair != null) {
+					newSentenceArray.add(pair);
+				}
+			}
+			int selectedNamePos =  this.getGrammarsNP().get(0).getSelectedNamePos();
+			newSentenceArray.add(this.getGrammarsNPPair().get(0).get(selectedNamePos));
+			newSentenceArray.set(1, newSentenceArray.get(0));
+			newSentenceArray.set(0, this.getGrammarsNPPair().get(0).get(selectedNamePos));
 			System.out.println("restriction: " + restriction);
 			int dotPointA = restriction.getA().indexOf(".");
 			int dotPointB = restriction.getB().indexOf(".");
@@ -174,11 +175,20 @@ public class GrammarSelectorS extends GrammarSelector {
 					returnSentenceArray.add(null);
 					break;
 			}
+			iteration++;
 		}
 		return returnSentenceArray;
 	}
 	
 	protected ArrayList<Pair<String, JsonArray>> applyRestrictions(ArrayList<Pair<String, JsonArray>> sentenceArray) {
+		System.out.println("LALALALALA");
+		for (int i = 0; i < sentenceArray.size(); i++) {
+			if (sentenceArray.get(i) != null) {
+				System.out.println(sentenceArray.get(i).getA());
+				System.out.println(sentenceArray.get(i).getB());
+			}
+		}
+		System.out.println("FIN LALALALALA");
 		if (this.emptySentenceArray(sentenceArray)) {
 			return this.applyRestrictionsSNP(sentenceArray);
 		}
