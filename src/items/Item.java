@@ -8,6 +8,7 @@ import items.wereables.WereableWeapon;
 import java.util.ArrayList;
 
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
+import util.RandUtil;
 import util.Tuple;
 import map.Map;
 import map.Room;

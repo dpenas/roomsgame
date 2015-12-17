@@ -37,10 +37,9 @@ public abstract class GrammarSelector {
 		return "";
 	}
 	
-	protected ArrayList<Pair<String, JsonArray>> applyNumRestrictions(Pair<String, String> restriction, ArrayList<Pair<String, JsonArray>> sentenceArray) {
-//		for (Pair<String, JsonArray> sentence : sentenceArray) {
-//			System.out.println(sentence.getB());
-//		}
+	protected ArrayList<Pair<String, JsonArray>> applyNumRestrictions(Pair<String, String> restriction, 
+			ArrayList<Pair<String, JsonArray>> sentenceArray, ArrayList<Integer> numItems) {
+		
 		ArrayList<String> grammar = this.getGrammar().getGrammar().get("keys");
 		System.out.println("GRAMMAR: " + grammar);
 		System.out.println(restriction.getA());
@@ -57,8 +56,23 @@ public abstract class GrammarSelector {
 		String secondType = restriction.getB();
 		System.out.println("firstType: " + firstType);
 		System.out.println("secondType: " + secondType);
-		JsonArray restrictions1 = sentenceArray.get(grammar.indexOf(firstType)).getB();
-		JsonArray restrictions2 = sentenceArray.get(grammar.indexOf(secondType)).getB();
+		JsonArray restrictions1 = null;
+		JsonArray restrictions2 = null;
+		if (numItems == null) {
+			restrictions1 = sentenceArray.get(grammar.indexOf(firstType)).getB();
+			restrictions2 = sentenceArray.get(grammar.indexOf(secondType)).getB();
+		} else {
+			int totalFirstItem = 0;
+			int totalSecondItem = 0;
+			for (int i = 0; i < grammar.indexOf(firstType); i++) {
+				totalFirstItem += numItems.get(i);
+				restrictions1 = sentenceArray.get(totalFirstItem).getB();
+			}
+			for (int i = 0; i < grammar.indexOf(secondType); i++) {
+				totalSecondItem += numItems.get(i);
+				restrictions2 = sentenceArray.get(totalSecondItem).getB();
+			}
+		}
 //		System.out.println("restrictions1: " + restrictions1);
 //		System.out.println("restrictions2: " + restrictions2);
 		String value1 = JSONParsing.getElement(restrictions1, "translation");
@@ -108,7 +122,7 @@ public abstract class GrammarSelector {
 					String elementA = restriction.getA().substring(0, dotPointA);
 					String elementB = restriction.getB().substring(0, dotPointB);
 					Pair<String, String> pair = new Pair<String, String>(elementA, elementB);
-					sentenceArray = applyNumRestrictions(pair, sentenceArray);
+					sentenceArray = applyNumRestrictions(pair, sentenceArray, null);
 					break;
 			}
 		}
@@ -120,6 +134,15 @@ public abstract class GrammarSelector {
 			if (a == null) return true;
 		}
 		return false;
+	}
+	
+	protected ArrayList<String> getGrammarTypes() {
+		ArrayList<String> parsedGrammarTypes = new ArrayList<String>();
+		ArrayList<String> grammarTypes = this.getGrammar().getGrammar().get("keys");
+		for (int i = 0; i < grammarTypes.size(); i++) {
+			parsedGrammarTypes.add(this.returnParseString(grammarTypes.get(i), "_"));
+		}
+		return parsedGrammarTypes;
 	}
 	
 	public String returnParseString(String string, String element) {

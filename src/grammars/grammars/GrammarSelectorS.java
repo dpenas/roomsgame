@@ -152,9 +152,28 @@ public class GrammarSelectorS extends GrammarSelector {
 				}
 			}
 			int selectedNamePos =  this.getGrammarsNP().get(0).getSelectedNamePos();
-			newSentenceArray.add(this.getGrammarsNPPair().get(0).get(selectedNamePos));
-			newSentenceArray.set(1, newSentenceArray.get(0));
-			newSentenceArray.set(0, this.getGrammarsNPPair().get(0).get(selectedNamePos));
+			System.out.println("WORKING ON THIS: ");
+			ArrayList<String> getGrammarTypes = this.getGrammarTypes();
+			ArrayList<Integer> numItems = new ArrayList<Integer>();
+			int NPgrammarCount = 0;
+			for (int i = 0; i < getGrammarTypes.size(); i++) {
+				switch (getGrammarTypes.get(i)) {
+					case "ADJECTIVE" :
+						numItems.add(1);
+						newSentenceArray.add((this.getGrammarsNP().get(NPgrammarCount).getRandomAdjective()));
+						break;
+					case "V":
+						numItems.add(1);
+						newSentenceArray.add(this.getVerbs().get(0));
+						break;
+					default : 
+						numItems.add(this.getGrammarsNPPair().get(0).size());
+						newSentenceArray.add(this.getGrammarsNPPair().get(0).get(selectedNamePos));
+						NPgrammarCount++;
+						break;
+				}
+			}
+			System.out.println("END WORKING ON THIS: ");
 			System.out.println("restriction: " + restriction);
 			int dotPointA = restriction.getA().indexOf(".");
 			int dotPointB = restriction.getB().indexOf(".");
@@ -164,7 +183,7 @@ public class GrammarSelectorS extends GrammarSelector {
 					String elementA = restriction.getA().substring(0, dotPointA);
 					String elementB = restriction.getB().substring(0, dotPointB);
 					Pair<String, String> pair = new Pair<String, String>(elementA, elementB);
-					returnSentenceArray = applyNumRestrictions(pair, newSentenceArray);
+					returnSentenceArray = applyNumRestrictions(pair, newSentenceArray, numItems);
 					// TODO: Change this so we don't have to set with "1"
 					for(Pair<String, JsonArray> a : returnSentenceArray) {
 						if (this.getVerbs().contains(a)) {

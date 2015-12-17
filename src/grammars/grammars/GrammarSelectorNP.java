@@ -14,6 +14,7 @@ public class GrammarSelectorNP extends GrammarSelector {
 	private Item item;
 	private String type;
 	private ArrayList<Pair<String, JsonArray>> adjectives;
+	private ArrayList<Pair<String, JsonArray>> allAdjectives;
 	private ArrayList<Pair<String, JsonArray>> names;
 	private ArrayList<Pair<String, JsonArray>> determinants;
 
@@ -21,6 +22,7 @@ public class GrammarSelectorNP extends GrammarSelector {
 		super(grammar, wordsGrammar);
 		this.item = item;
 		this.type = type;
+		this.allAdjectives = WordsGrammar.getAllAdjectives(wordsGrammar);
 		this.adjectives = WordsGrammar.getAdjectives(wordsGrammar, item.getAdjectives());
 		this.names = WordsGrammar.getName(wordsGrammar, item.getName());
 		this.determinants = WordsGrammar.getDeterminant(wordsGrammar);
@@ -33,7 +35,7 @@ public class GrammarSelectorNP extends GrammarSelector {
 		return null;
 	}
 	
-	private Pair<String, JsonArray> getRandomAdjective() {
+	public Pair<String, JsonArray> getRandomAdjective() {
 		if (this.getAdjectives().size() > 0) {
 			return this.getAdjectives().get(RandUtil.RandomNumber(0, this.getAdjectives().size()));
 		}
@@ -58,8 +60,8 @@ public class GrammarSelectorNP extends GrammarSelector {
 	}
 	
 	protected ArrayList<Pair<String, JsonArray>> changeValue(ArrayList<Pair<String, JsonArray>> sentenceArray, String valueToChange, String changeToValue, String typeChangeToValue){
-		System.out.println("Value to change: " + valueToChange);
-		System.out.println("Change to: " + changeToValue);
+		System.out.println("Value to change!!: " + valueToChange);
+		System.out.println("Change to!!: " + changeToValue);
 		ArrayList<Pair<String, JsonArray>> selectedTypeWord = new ArrayList<Pair<String, JsonArray>>();
 		switch (typeChangeToValue) {
 			case "DET" :
@@ -68,15 +70,17 @@ public class GrammarSelectorNP extends GrammarSelector {
 			case "N" :
 				selectedTypeWord = this.getNames();
 				break;
-			case "ADJ" :
-				selectedTypeWord = this.getAdjectives();
+			case "ADJECTIVE":
+			case "ADJ":
+				selectedTypeWord = this.getAllAdjectives();
 				break;
 		}
 		
 //		System.out.println("SelectedTypeWord.get(A): " + selectedTypeWord.get(0).getA());
 //		System.out.println("sentenceArray.get(0).getA(): " + sentenceArray.get(0).getA());
-		
 		for (int i = 0; i < selectedTypeWord.size(); i++) {
+			System.out.println("changeToValue: "+ changeToValue);
+			System.out.println("selectedTypeWord.get(i).getA(): "+ selectedTypeWord.get(i).getA());
 			if (selectedTypeWord.get(i).getA().equals(changeToValue)) {
 				Pair<String, JsonArray> newPair = selectedTypeWord.get(i); 
 				for (int j = 0; j < sentenceArray.size(); j++) {
@@ -122,6 +126,8 @@ public class GrammarSelectorNP extends GrammarSelector {
 		return 0;
 	}
 	
+	
+	
 	public Item getItem() {
 		return item;
 	}
@@ -160,6 +166,14 @@ public class GrammarSelectorNP extends GrammarSelector {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public ArrayList<Pair<String, JsonArray>> getAllAdjectives() {
+		return allAdjectives;
+	}
+
+	public void setAllAdjectives(ArrayList<Pair<String, JsonArray>> allAdjectives) {
+		this.allAdjectives = allAdjectives;
 	}
 
 }
