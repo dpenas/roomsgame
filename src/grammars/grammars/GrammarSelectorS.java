@@ -146,12 +146,6 @@ public class GrammarSelectorS extends GrammarSelector {
 		
 		for(Pair<String, String> restriction : this.getGrammar().getRestrictions()) {
 			System.out.println("Iteration: " + iteration);
-			for (Pair<String, JsonArray> pair : sentenceArray) {
-				if (pair != null) {
-					newSentenceArray.add(pair);
-				}
-			}
-			int selectedNamePos =  this.getGrammarsNP().get(0).getSelectedNamePos();
 			System.out.println("WORKING ON THIS: ");
 			ArrayList<String> getGrammarTypes = this.getGrammarTypes();
 			ArrayList<Integer> numItems = new ArrayList<Integer>();
@@ -163,12 +157,16 @@ public class GrammarSelectorS extends GrammarSelector {
 						newSentenceArray.add((this.getGrammarsNP().get(NPgrammarCount).getRandomAdjective()));
 						break;
 					case "V":
+						Pair<String, JsonArray> verb = this.getRandomVerb();
+						System.out.println("Adding: " + verb.getA());
 						numItems.add(1);
-						newSentenceArray.add(this.getVerbs().get(0));
+						newSentenceArray.add(verb);
 						break;
 					default : 
 						numItems.add(this.getGrammarsNPPair().get(0).size());
-						newSentenceArray.add(this.getGrammarsNPPair().get(0).get(selectedNamePos));
+						for (Pair<String, JsonArray> pair : this.getGrammarsNPPair().get(0)) {
+							newSentenceArray.add(pair);
+						}
 						NPgrammarCount++;
 						break;
 				}
@@ -182,6 +180,8 @@ public class GrammarSelectorS extends GrammarSelector {
 				case "num": 
 					String elementA = restriction.getA().substring(0, dotPointA);
 					String elementB = restriction.getB().substring(0, dotPointB);
+					System.out.println("ElementA: " + elementA);
+					System.out.println("ElementA: " + elementB);
 					Pair<String, String> pair = new Pair<String, String>(elementA, elementB);
 					returnSentenceArray = applyNumRestrictions(pair, newSentenceArray, numItems);
 					// TODO: Change this so we don't have to set with "1"

@@ -66,15 +66,22 @@ public abstract class GrammarSelector {
 			int totalSecondItem = 0;
 			for (int i = 0; i < grammar.indexOf(firstType); i++) {
 				totalFirstItem += numItems.get(i);
+				System.out.println("TotalFirstItem: " + totalFirstItem);
 				restrictions1 = sentenceArray.get(totalFirstItem).getB();
+			}
+			if (grammar.indexOf(firstType) == 0) {
+				restrictions1 = sentenceArray.get(0).getB();
 			}
 			for (int i = 0; i < grammar.indexOf(secondType); i++) {
 				totalSecondItem += numItems.get(i);
 				restrictions2 = sentenceArray.get(totalSecondItem).getB();
 			}
+			if (grammar.indexOf(secondType) == 0) {
+				restrictions2 = sentenceArray.get(0).getB();
+			}
 		}
-//		System.out.println("restrictions1: " + restrictions1);
-//		System.out.println("restrictions2: " + restrictions2);
+		System.out.println("restrictions1: " + restrictions1);
+		System.out.println("restrictions2: " + restrictions2);
 		String value1 = JSONParsing.getElement(restrictions1, "translation");
 		String value2 = JSONParsing.getElement(restrictions2, "translation");
 		String value1Num = JSONParsing.getElement(restrictions1, "num");

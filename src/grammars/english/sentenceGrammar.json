@@ -7,7 +7,7 @@
                 {"ADJECTIVE_1": ""}
             ],
             "restrictions": [
-                {"ADJECTIVE_1.num": "V_1.num"}
+                {"SIMPLE_1.num": "V_1.num"}
             ]
         }
     }
