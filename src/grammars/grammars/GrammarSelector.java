@@ -9,7 +9,7 @@ import grammars.parsing.JSONParsing;
 import net.slashie.util.Pair;
 
 public abstract class GrammarSelector {
-	private static String[] WORD_IMPORTANCE = {"NP", "N", "ADJ", "DET", "V"};
+	private static String[] WORD_IMPORTANCE = {"SIMPLE", "NP", "N", "DET", "V", "ADJ", "ADJECTIVE"};
 	private GrammarIndividual grammar;
 	private JsonObject wordsGrammar;
 	
@@ -71,6 +71,9 @@ public abstract class GrammarSelector {
 			}
 			if (grammar.indexOf(firstType) == 0) {
 				restrictions1 = sentenceArray.get(0).getB();
+			}
+			for (Integer integer: numItems) {
+				System.out.println("integer: " + integer);
 			}
 			for (int i = 0; i < grammar.indexOf(secondType); i++) {
 				totalSecondItem += numItems.get(i);
