@@ -1,14 +1,23 @@
 {
     "ATTACK": {
-        "S2": {
+        "S1": {
             "S": [
                 {"SIMPLE_1": ""},
                 {"V_1": ""},
-                {"ADJECTIVE_1": ""}
+                {"SIMPLE_2": ""}
             ],
             "restrictions": [
-            	{"SIMPLE_1.num": "V_1.num"},
-                {"ADJECTIVE_1.num": "V_1.num"}
+                {"SIMPLE_1.num": "V_1.num"}
+            ]
+        },
+        "S2": {
+            "S": [
+                {"GENERAL_1": ""},
+                {"V_1": ""},
+                {"GENERAL_2": ""}
+            ],
+            "restrictions": [
+            	{"GENERAL_1.num": "V_1.num"}
             ]
         }
     }
