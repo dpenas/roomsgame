@@ -77,6 +77,10 @@ public class Main {
 	static char previousPositionChar = '.';
 	static char previousPositionChar2 = '.';
 	static char deepnessScore = 0;
+	static JsonParser parser = new JsonParser();
+	static JsonObject rootObj;
+	static JsonObject rootObjWords;
+	static JsonObject grammarAction;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -403,6 +407,9 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
+		rootObj = parser.parse(new FileReader("./src/grammars/english/sentenceGrammar.json")).getAsJsonObject();
+		rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsEnglish.json")).getAsJsonObject();
+		grammarAction = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
 //		ChangeKeyBinding.editPropertiesFile(j);
 //		JLabel message = new JLabel();
 //		message.setText("Hola");
@@ -424,10 +431,6 @@ public class Main {
 //		selector.getRandomSentence();
 		
 		// S Grammar example
-		JsonParser parser = new JsonParser();
-		JsonObject rootObj = parser.parse(new FileReader("./src/grammars/english/sentenceGrammar.json")).getAsJsonObject();
-		JsonObject rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsEnglish.json")).getAsJsonObject();
-		JsonObject grammarAction = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
 		Item shield1 = new SmallShield("", 0, 0, 0, user, map, roomCharacter, null, 0, 0, false);
 		Item shield2 = new SmallShield("", 0, 0, 0, user, map, roomCharacter, null, 0, 0, false);
 		ArrayList<Item> items = new ArrayList<Item>();
