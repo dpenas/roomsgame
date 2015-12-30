@@ -116,16 +116,16 @@
             {"numopposite": "potion"},
             {"gender": ""}
         ],
-        "user": [
+        "hero": [
             {"num": "sing"},
-            {"translation": "user"},
-            {"numopposite": "users"},
+            {"translation": "hero"},
+            {"numopposite": "heroes"},
             {"gender": ""}
         ],
-        "users": [
+        "heroes": [
             {"num": "plural"},
-            {"translation": "users"},
-            {"numopposite": "user"},
+            {"translation": "heroes"},
+            {"numopposite": "hero"},
             {"gender": ""}
         ],
         "dragon": [

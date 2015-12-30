@@ -232,7 +232,7 @@ public class Main {
 	}
 	
 	public static void _initialize(){
-		user = new ActiveCharacter("", "", null, null, null, 
+		user = new ActiveCharacter("hero", "", null, null, null, 
 				40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
