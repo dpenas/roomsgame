@@ -56,9 +56,10 @@ public class ActiveCharacter extends Character {
 			ArrayList<WereableWeapon> weaponsEquipped,
 			ArrayList<WereableArmor> armorsEquipped, int inventorySpace, int carryWeight,
 			int actualCarryWeight, ArrayList<Item> inventory, int actualInventorySpace, int evasion,
-			int totalLife, int magic, int totalMagic, String symbolRepresentation, int vision, int movementType) {
+			int totalLife, int magic, int totalMagic, String symbolRepresentation, int vision, int movementType,
+			ArrayList<String> adjectives) {
 		super(name, description, map, room, position, weight, length, carryWeight, actualCarryWeight, 
-				inventory, symbolRepresentation);
+				inventory, symbolRepresentation, adjectives);
 		this.damage = damage;
 		this.totalMagic = totalMagic;
 		this.magic = magic;

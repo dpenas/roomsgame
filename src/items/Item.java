@@ -13,29 +13,22 @@ import util.Tuple;
 import map.Map;
 import map.Room;
 import characters.Character;
+import grammars.grammars.PrintableObject;
 
-public abstract class Item {
+public abstract class Item extends PrintableObject{
 
-	private String name;
-	private String description;
-	private String gender;
 	private int weight;
 	private int space;
 	private Character character;
 	private Map map;
 	private Room room;
-	private ArrayList<String> adjectives;
 	private Tuple<Integer, Integer> position;
 	private String symbolRepresentation;
 
 	public Item(String name, ArrayList<String> adjectives, String description, 
 			String gender, int weight, int space, Character character, 
 			Map map, Room room, Tuple<Integer, Integer> position, String symbolRepresentation) {
-		super();
-		this.adjectives = adjectives;
-		this.name = name;
-		this.description = description;
-		this.gender = gender;
+		super(name, description, adjectives);
 		this.weight = weight;
 		this.space = space;
 		this.character = character;
@@ -69,14 +62,6 @@ public abstract class Item {
 	
 	public boolean isConsumableItem(){
 		return Consumable.class.isInstance(this);
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public String getGender() {
-		return gender;
 	}
 
 	public int getWeight() {
@@ -119,36 +104,12 @@ public abstract class Item {
 		this.position = position;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
 	public void setWeight(int weight) {
 		this.weight = weight;
 	}
 
 	public void setSpace(int space) {
 		this.space = space;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public ArrayList<String> getAdjectives() {
-		return adjectives;
-	}
-
-	public void setAdjectives(ArrayList<String> adjectives) {
-		this.adjectives = adjectives;
 	}
 
 	public String getSymbolRepresentation() {

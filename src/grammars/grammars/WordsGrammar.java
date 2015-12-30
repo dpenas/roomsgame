@@ -37,6 +37,7 @@ public class WordsGrammar {
 		// TODO: Change to search for all the names
 		ArrayList<Pair<String, JsonArray>> result = new ArrayList<Pair<String, JsonArray>>();
 		JsonObject nameJSON = JSONParsing.getElement(rootObj, "N").getAsJsonObject();
+		System.out.println("nameJSON: " + nameJSON);
 		JsonArray jsonArray = JSONParsing.getElement(nameJSON, name).getAsJsonArray();
 		try {
 			jsonArray = JSONParsing.getElement(nameJSON, name).getAsJsonArray();

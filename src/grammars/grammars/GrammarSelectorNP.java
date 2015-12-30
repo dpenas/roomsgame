@@ -5,26 +5,25 @@ import java.util.ArrayList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import items.Item;
 import net.slashie.util.Pair;
 import util.RandUtil;
 
 public class GrammarSelectorNP extends GrammarSelector {
 	
-	private Item item;
+	private PrintableObject name;
 	private String type;
 	private ArrayList<Pair<String, JsonArray>> adjectives;
 	private ArrayList<Pair<String, JsonArray>> allAdjectives;
 	private ArrayList<Pair<String, JsonArray>> names;
 	private ArrayList<Pair<String, JsonArray>> determinants;
 
-	public GrammarSelectorNP(GrammarIndividual grammar, JsonObject wordsGrammar, Item item, String type) {
+	public GrammarSelectorNP(GrammarIndividual grammar, JsonObject wordsGrammar, PrintableObject name, String type) {
 		super(grammar, wordsGrammar);
-		this.item = item;
+		this.name = name;
 		this.type = type;
 		this.allAdjectives = WordsGrammar.getAllAdjectives(wordsGrammar);
-		this.adjectives = WordsGrammar.getAdjectives(wordsGrammar, item.getAdjectives());
-		this.names = WordsGrammar.getName(wordsGrammar, item.getName());
+		this.adjectives = WordsGrammar.getAdjectives(wordsGrammar, name.getAdjectives());
+		this.names = WordsGrammar.getName(wordsGrammar, name.getName());
 		this.determinants = WordsGrammar.getDeterminant(wordsGrammar);
 	}
 	
@@ -106,7 +105,7 @@ public class GrammarSelectorNP extends GrammarSelector {
 	
 	public ArrayList<Pair<String, JsonArray>> getRandomSentencePair() {
 		System.out.println(this.getGrammar());
-		System.out.println(this.getItem());
+		System.out.println(this.getName());
 		ArrayList<Pair<String, JsonArray>> sentenceArray = this.fillWords();
 		for (Pair<String, JsonArray> a : sentenceArray) {
 			System.out.println(a.getA());
@@ -125,15 +124,13 @@ public class GrammarSelectorNP extends GrammarSelector {
 		}
 		return 0;
 	}
-	
-	
-	
-	public Item getItem() {
-		return item;
+
+	public PrintableObject getName() {
+		return name;
 	}
 
-	public void setItem(Item item) {
-		this.item = item;
+	public void setName(PrintableObject name) {
+		this.name = name;
 	}
 
 	public ArrayList<Pair<String, JsonArray>> getAdjectives() {

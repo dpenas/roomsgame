@@ -77,39 +77,41 @@ public class ActiveCharacterTest {
 		messagesWereables = ResourceBundle.getBundle(
 				"translations.files.MessagesWereable", currentLocale);
 		main.Main.main(null);
+		ArrayList<String> adjectives = new ArrayList<String>();
+		adjectives.add("small");
 
 		attacker = new ActiveCharacter("", "", map, room, position, 40, 10,
 				100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
+				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
 		defender = new ActiveCharacter("", "", map, room, position, 40, 10,
 				100, 0, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
+				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
 		c1 = new ActiveCharacter("", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
+				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
 		c2 = new ActiveCharacter("", "", map, room, position, 40, 10, 100, 50,
 				100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 95,
-				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
+				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
 		c3 = new ActiveCharacter("", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
+				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
 		c4 = new ActiveCharacter("", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
+				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
 		c5 = new ActiveCharacter("", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
+				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
 		c6 = new ActiveCharacter("", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
+				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
 		itemTypeArmor1 = new ArrayList<ItemEnumerate.ArmorType>();
 		itemTypeArmor1.add(ArmorType.CHEST);
 		itemTypeArmor2 = new ArrayList<ItemEnumerate.ArmorType>();

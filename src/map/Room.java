@@ -347,11 +347,13 @@ public class Room {
 	}
 	
 	public void putRandomGoblins() {
+		ArrayList<String> adjectives = new ArrayList<String>();
+		adjectives.add("small");
 		if (RandUtil.RandomNumber(0, 2) == 1) {
 			if (this.checkFreePositions().size() > 0) {
 				int number = RandUtil.RandomNumber(0, this.checkFreePositions().size());
 				Tuple<Integer, Integer> position = this.getFreePositions().get(number);
-				Goblin goblin = new Goblin(this.getMap(), this, position);
+				Goblin goblin = new Goblin(this.getMap(), this, position, adjectives);
 				this.getMonsters().add(goblin);
 			}
 		}

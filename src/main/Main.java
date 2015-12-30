@@ -1,23 +1,6 @@
 package main;
 
-import items.Item;
-import items.wereables.OneHandSword;
-import items.wereables.SmallShield;
-import items.wereables.WereableArmor;
-import items.wereables.WereableWeapon;
-import magic.FireRing;
-import magic.Spell;
-import grammars.english.*;
-import grammars.grammars.GrammarIndividual;
-import grammars.grammars.GrammarSelector;
-import grammars.grammars.GrammarSelectorNP;
-import grammars.grammars.GrammarSelectorS;
-import grammars.grammars.GrammarsGeneral;
-import grammars.grammars.GrammarsOperational;
-import grammars.grammars.GrammarsRetrieval;
-import grammars.grammars.WordsGrammar;
-import grammars.parsing.JSONParsing;
-
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,14 +8,11 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map.Entry;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -40,11 +20,21 @@ import com.google.gson.JsonSyntaxException;
 
 import characters.active.ActiveCharacter;
 import characters.active.enemies.Goblin;
-import util.RandUtil;
-import util.Tuple;
+import grammars.grammars.GrammarIndividual;
+import grammars.grammars.GrammarSelectorS;
+import grammars.grammars.GrammarsGeneral;
+import grammars.grammars.PrintableObject;
+import grammars.parsing.JSONParsing;
+import items.Item;
+import items.wereables.OneHandSword;
+import items.wereables.WereableArmor;
+import items.wereables.WereableWeapon;
+import magic.FireRing;
 import map.Map;
 import map.Room;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
+import util.RandUtil;
+import util.Tuple;
 
 
 public class Main {
@@ -80,7 +70,7 @@ public class Main {
 	static JsonParser parser = new JsonParser();
 	static JsonObject rootObj;
 	static JsonObject rootObjWords;
-	static JsonObject grammarAction;
+	static GrammarsGeneral grammarAttack;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -112,6 +102,18 @@ public class Main {
 			keysMap.put(key, Integer.parseInt(value));
 		}
 		_bindKeys();
+	}
+	
+	public static void printMessage(String message){
+//		try {
+//			ChangeKeyBinding.editPropertiesFile(j);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		JLabel messageLabel = new JLabel();
+		messageLabel.setText(message);
+		messageLabel.requestFocusInWindow();
+		JOptionPane.showMessageDialog(null, messageLabel, "", JOptionPane.PLAIN_MESSAGE);
 	}
 	
 	public static void _bindKeys() {
@@ -232,10 +234,12 @@ public class Main {
 	}
 	
 	public static void _initialize(){
+		ArrayList<String> adjectives = new ArrayList<String>();
+		adjectives.add("small");
 		user = new ActiveCharacter("hero", "", null, null, null, 
 				40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
+				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
 		WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
 		user.putItemInventory(oneHandSword);
@@ -267,19 +271,20 @@ public class Main {
 		map = new Map(initial_point, final_point);
 		roomEnemy = map.getRandomRoom();
 		roomCharacter = map.getRandomRoom();
-		user = new ActiveCharacter("", "", map, map.obtainRoomByPosition(pos), pos, 
+		ArrayList<String> adjectives = new ArrayList<String>();
+		adjectives.add("small");
+		user = new ActiveCharacter("heroe", "", map, map.obtainRoomByPosition(pos), pos, 
 				40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0);
+				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
 		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 		WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
 		WereableWeapon oneHandSword2 = new OneHandSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
-		
-		Goblin goblin = new Goblin(map, map.obtainRoomByPosition(pos), pos);
-		Goblin goblin2 = new Goblin(map, map.obtainRoomByPosition(pos), pos);
+		Goblin goblin = new Goblin(map, map.obtainRoomByPosition(pos), pos, adjectives);
+		Goblin goblin2 = new Goblin(map, map.obtainRoomByPosition(pos), pos, adjectives);
 		goblin.putItemInventory(oneHandSword2);
 		goblin.equipWeapon(oneHandSword2);
 		map.obtainRoomByPosition(pos).getMonsters().add(goblin);
@@ -326,6 +331,24 @@ public class Main {
 	public static void _attackAction(){
 		if (map.getMonstersPosition(user).size() > 0) {
 			ActiveCharacter monster = user.weaponAttack();
+			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+			names.add(user);
+			names.add(monster);
+			System.out.println("Monster Name: " + monster.getName());
+			System.out.println("User Name: " + user.getName());
+			System.out.println("Size monster adj: " + names.get(0).getAdjectives().get(0));
+			System.out.println("Size user adj: " + names.get(1).getAdjectives().get(0));
+			GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
+			GrammarSelectorS selector = null;
+			try {
+				selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, "attack");
+			} catch (JsonIOException | JsonSyntaxException | FileNotFoundException | InstantiationException
+					| IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			if (selector != null) {
+				printMessage(selector.getRandomSentence());
+			}
 			if (monster.getLife() <= 0) {
 				hasChanged = true;
 			}
@@ -409,15 +432,11 @@ public class Main {
 	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 		rootObj = parser.parse(new FileReader("./src/grammars/english/sentenceGrammar.json")).getAsJsonObject();
 		rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsEnglish.json")).getAsJsonObject();
-		grammarAction = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
-//		ChangeKeyBinding.editPropertiesFile(j);
-//		JLabel message = new JLabel();
-//		message.setText("Hola");
-//		message.requestFocusInWindow();
-//		JOptionPane.showMessageDialog(null, message, "", JOptionPane.PLAIN_MESSAGE);
-//		if (!testMode){
-//			gameFlow();
-//		}
+		JsonObject objectAttack = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
+		grammarAttack = new GrammarsGeneral(objectAttack);
+		if (!testMode){
+			gameFlow();
+		}
 		
 		// NP Grammar example
 //		JsonParser parser = new JsonParser();
@@ -431,15 +450,19 @@ public class Main {
 //		selector.getRandomSentence();
 		
 		// S Grammar example
-		Item shield1 = new SmallShield("", 0, 0, 0, user, map, roomCharacter, null, 0, 0, false);
-		Item shield2 = new SmallShield("", 0, 0, 0, user, map, roomCharacter, null, 0, 0, false);
-		ArrayList<Item> items = new ArrayList<Item>();
-		items.add(shield1);
-		items.add(shield2);
-		GrammarsGeneral grammarGeneral = new GrammarsGeneral(grammarAction);
-		GrammarIndividual grammarIndividual = grammarGeneral.getRandomGrammar();
-		GrammarSelectorS selector = new GrammarSelectorS(grammarIndividual, rootObjWords, items, "attack");
-		System.out.println(selector.getRandomSentence());
+//		Item shield1 = new SmallShield("", 0, 0, 0, user, map, roomCharacter, null, 0, 0, false);
+//		Item shield2 = new SmallShield("", 0, 0, 0, user, map, roomCharacter, null, 0, 0, false);
+//		ArrayList<PrintableObject> items = new ArrayList<PrintableObject>();
+//		items.add(shield1);
+//		items.add(shield2);
+//		
+//		GrammarSelectorS selector = new GrammarSelectorS(grammarIndividual, rootObjWords, items, "attack");
+//		System.out.println(selector.getRandomSentence());
+//		rootObj = parser.parse(new FileReader("./src/grammars/english/sentenceGrammar.json")).getAsJsonObject();
+//		rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsEnglish.json")).getAsJsonObject();
+//		JsonObject objectAttack = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
+//		GrammarsGeneral grammarAttack = new GrammarsGeneral(objectAttack);
+//		GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
 		
 	}
 }

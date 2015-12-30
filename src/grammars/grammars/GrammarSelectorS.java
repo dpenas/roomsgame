@@ -17,30 +17,33 @@ import util.RandUtil;
 
 public class GrammarSelectorS extends GrammarSelector {
 
-	private ArrayList<Item> items;
+	private ArrayList<PrintableObject> names;
 	private String type;
 	private ArrayList<Pair<String, JsonArray>> verbs;
 	private ArrayList<GrammarSelectorNP> grammarsNP = new ArrayList<GrammarSelectorNP>();
 	private ArrayList<ArrayList<Pair<String, JsonArray>>> grammarsNPPair = new ArrayList<ArrayList<Pair<String, JsonArray>>>();
 	private JsonObject grammarObj;
 
-	public GrammarSelectorS(GrammarIndividual grammar, JsonObject wordsGrammar, ArrayList<Item> items, String type) throws JsonIOException, JsonSyntaxException, FileNotFoundException, InstantiationException, IllegalAccessException {
+	public GrammarSelectorS(GrammarIndividual grammar, JsonObject wordsGrammar, ArrayList<PrintableObject> names, String type) throws JsonIOException, JsonSyntaxException, FileNotFoundException, InstantiationException, IllegalAccessException {
 		super(grammar, wordsGrammar);
 		JsonParser parser = new JsonParser();
 		this.grammarObj = parser.parse(new FileReader("./src/grammars/english/objectGrammarTest.json")).getAsJsonObject();
 		this.verbs = WordsGrammar.getVerbs(wordsGrammar);
-		this.items = items;
+		this.names = names;
 		this.analyseGrammar();
 	}
 	
 	private void analyseGrammar() throws InstantiationException, IllegalAccessException {
+		int namePos = 0;
 		this.setGrammarsNP(new ArrayList<GrammarSelectorNP>());
 		this.setGrammarsNPPair(new ArrayList<ArrayList<Pair<String, JsonArray>>>());
 		for (int i = 0; i < this.getGrammar().getGrammar().get("keys").size(); i++) {
 			String value = this.getGrammar().getGrammar().get("keys").get(i);
 			String typeValue = this.returnParseString(value, "_");
 			if (!typeValue.equals("V")) {
-				this.getRandomNP(typeValue, i);
+				System.out.println("NamePos naming thing: " + namePos);
+				this.getRandomNP(typeValue, namePos);
+				namePos++;
 			}
 		}
 	}
@@ -52,9 +55,9 @@ public class GrammarSelectorS extends GrammarSelector {
 		return null;
 	}
 	
-	private Pair<String, JsonArray> getRandomNP(String type, int itemPos) {
-		if (itemPos > this.getItems().size() - 1) {
-			itemPos = this.getItems().size() - 1;
+	private Pair<String, JsonArray> getRandomNP(String type, int namePos) {
+		if (namePos > this.getNames().size() - 1) {
+			namePos = this.getNames().size() - 1;
 		}
 		JsonParser parser = new JsonParser();
 		JsonObject rootObj = null;
@@ -65,7 +68,7 @@ public class GrammarSelectorS extends GrammarSelector {
 		}
 		rootObj = JSONParsing.getElement(rootObj, type).getAsJsonObject();
 		GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObj);
-		this.getGrammarsNP().add(new GrammarSelectorNP(grammarGeneral.getRandomGrammar(), this.getWordsGrammar(), this.getItems().get(itemPos), type));
+		this.getGrammarsNP().add(new GrammarSelectorNP(grammarGeneral.getRandomGrammar(), this.getWordsGrammar(), this.getNames().get(namePos), type));
 		System.out.println("RandomSentencePair: " + this.getGrammarsNP().get(this.getGrammarsNP().size() - 1).getRandomSentencePair());
 		this.getGrammarsNPPair().add(this.getGrammarsNP().get(this.getGrammarsNP().size() - 1).getRandomSentencePair());
 		return null;
@@ -174,8 +177,8 @@ public class GrammarSelectorS extends GrammarSelector {
 							newSentenceArray.add(verb);
 							break;
 						default : 
-							numItems.add(this.getGrammarsNPPair().get(0).size());
-							for (Pair<String, JsonArray> pair : this.getGrammarsNPPair().get(0)) {
+							numItems.add(this.getGrammarsNPPair().get(NPgrammarCount).size());
+							for (Pair<String, JsonArray> pair : this.getGrammarsNPPair().get(NPgrammarCount)) {
 								System.out.println("Adding this pair: " + pair.getA());
 								newSentenceArray.add(pair);
 							}
@@ -208,7 +211,6 @@ public class GrammarSelectorS extends GrammarSelector {
 	}
 	
 	protected ArrayList<Pair<String, JsonArray>> applyRestrictions(ArrayList<Pair<String, JsonArray>> sentenceArray) {
-		System.out.println("LALALALALA");
 		for (int i = 0; i < sentenceArray.size(); i++) {
 			if (sentenceArray.get(i) != null) {
 				System.out.println(sentenceArray.get(i).getA());
@@ -229,12 +231,12 @@ public class GrammarSelectorS extends GrammarSelector {
 		this.verbs = verbs;
 	}
 
-	public ArrayList<Item> getItems() {
-		return items;
+	public ArrayList<PrintableObject> getNames() {
+		return names;
 	}
 
-	public void setItems(ArrayList<Item> items) {
-		this.items = items;
+	public void setNames(ArrayList<PrintableObject> names) {
+		this.names = names;
 	}
 
 	public String getType() {
