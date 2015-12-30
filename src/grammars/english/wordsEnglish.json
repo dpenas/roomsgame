@@ -1,5 +1,11 @@
 {
     "DET": {
+        "the": [
+            {"num": ""},
+            {"translation": "the"},
+            {"numopposite": "the"},
+            {"gender": ""}
+        ],
         "this": [
             {"num": "sing"},
             {"translation": "this"},
@@ -55,7 +61,109 @@
             {"translation": "shields"},
             {"numopposite": "shield"},
             {"gender": ""}
-        ]
+        ],
+        "chest": [
+            {"num": "sing"},
+            {"translation": "chest"},
+            {"numopposite": "chests"},
+            {"gender": ""}
+        ],
+        "chests": [
+            {"num": "plural"},
+            {"translation": "chests"},
+            {"numopposite": "chest"},
+            {"gender": ""}
+        ],
+        "glove": [
+            {"num": "sing"},
+            {"translation": "glove"},
+            {"numopposite": "gloves"},
+            {"gender": ""}
+        ],
+        "gloves": [
+            {"num": "plural"},
+            {"translation": "gloves"},
+            {"numopposite": "glove"},
+            {"gender": ""}
+        ],
+        "pants": [
+            {"num": "plural"},
+            {"translation": "pants"},
+            {"numopposite": "pants"},
+            {"gender": ""}
+        ],
+        "sword": [
+            {"num": "sing"},
+            {"translation": "sword"},
+            {"numopposite": "swords"},
+            {"gender": ""}
+        ],
+        "swords": [
+            {"num": "plural"},
+            {"translation": "swords"},
+            {"numopposite": "sword"},
+            {"gender": ""}
+        ],
+        "potion": [
+            {"num": "sing"},
+            {"translation": "potion"},
+            {"numopposite": "potions"},
+            {"gender": ""}
+        ],
+        "potions": [
+            {"num": "plural"},
+            {"translation": "potions"},
+            {"numopposite": "potion"},
+            {"gender": ""}
+        ],
+        "user": [
+            {"num": "sing"},
+            {"translation": "user"},
+            {"numopposite": "users"},
+            {"gender": ""}
+        ],
+        "users": [
+            {"num": "plural"},
+            {"translation": "users"},
+            {"numopposite": "user"},
+            {"gender": ""}
+        ],
+        "dragon": [
+            {"num": "sing"},
+            {"translation": "dragon"},
+            {"numopposite": "dragons"},
+            {"gender": ""}
+        ],
+        "dragons": [
+            {"num": "plural"},
+            {"translation": "dragons"},
+            {"numopposite": "dragon"},
+            {"gender": ""}
+        ],
+        "goblin": [
+            {"num": "sing"},
+            {"translation": "goblin"},
+            {"numopposite": "goblins"},
+            {"gender": ""}
+        ],
+        "goblins": [
+            {"num": "plural"},
+            {"translation": "goblins"},
+            {"numopposite": "goblin"},
+            {"gender": ""}
+        ],
+        "rat": [
+            {"num": "sing"},
+            {"translation": "rat"},
+            {"numopposite": "rats"},
+            {"gender": ""}
+        ],
+        "rats": [
+            {"num": "plural"},
+            {"translation": "rats"},
+            {"numopposite": "rat"},
+            {"gender": ""}
+        ],
     },
     "V": {
         "attacks": [
