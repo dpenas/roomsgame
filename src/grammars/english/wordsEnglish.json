@@ -47,6 +47,20 @@
             {"translation": "smalls"}, 
             {"numopposite": "small"}, 
             {"gender": ""}
+        ],
+        "life":
+        	[
+            {"num": "sing"},
+            {"translation": "life"}, 
+            {"numopposite": "life"}, 
+            {"gender": ""}
+        ],
+        "magic":
+        	[
+            {"num": "sing"},
+            {"translation": "magic"}, 
+            {"numopposite": "magic"}, 
+            {"gender": ""}
         ]
     },
     "N": {

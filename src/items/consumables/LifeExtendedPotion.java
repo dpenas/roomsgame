@@ -21,7 +21,7 @@ public class LifeExtendedPotion extends Consumable {
 				character, map, room, position);
 		this.lifeExtendedEffect = lifeExtendedEffect;
 		this.setAdjectives(this.getLifeExtendedPotionAttributes());
-		this.setName(Translations.getNameItem("potion", this.getAdjectives()));
+//		this.setName(Translations.getNameItem("potion", this.getAdjectives()));
 	}
 	
 	public ArrayList<String> getLifeExtendedPotionAttributes(){

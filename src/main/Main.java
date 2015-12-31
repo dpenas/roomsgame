@@ -71,6 +71,7 @@ public class Main {
 	static JsonObject rootObj;
 	static JsonObject rootObjWords;
 	static GrammarsGeneral grammarAttack;
+	static GrammarsGeneral grammarPickItem;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -320,7 +321,23 @@ public class Main {
 		for (Item item: user.getRoom().getItemsRoom()){
 			System.out.println("The items are: " + item.getName());
 		}
-		if (user.pickItem(user.getPosition(), user.getRoom())){
+		Item item = user.pickItem(user.getPosition(), user.getRoom());
+		if (item != null) {
+			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+			names.add(user);
+			names.add(item);
+			System.out.println("Name the name: " + item.getName());
+			GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
+			GrammarSelectorS selector = null;
+			try {
+				selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, "pick");
+			} catch (JsonIOException | JsonSyntaxException | FileNotFoundException | InstantiationException
+					| IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			if (selector != null) {
+				printMessage(selector.getRandomSentence());
+			}
 			hasChanged = true;
     	}
 		j.cls();
@@ -433,7 +450,9 @@ public class Main {
 		rootObj = parser.parse(new FileReader("./src/grammars/english/sentenceGrammar.json")).getAsJsonObject();
 		rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsEnglish.json")).getAsJsonObject();
 		JsonObject objectAttack = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
+		JsonObject objectPickItem = JSONParsing.getElement(rootObj, "PICK").getAsJsonObject();
 		grammarAttack = new GrammarsGeneral(objectAttack);
+		grammarPickItem = new GrammarsGeneral(objectPickItem);
 		if (!testMode){
 			gameFlow();
 		}

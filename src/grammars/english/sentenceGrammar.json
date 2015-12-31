@@ -38,7 +38,7 @@
             "S": [
                 {"SIMPLE_1": ""},
                 {"V_1": ""},
-                {"SIMPLE_2": ""}
+                {"ADJ": ""}
             ],
             "restrictions": [
                 {"SIMPLE_1.num": "V_1.num"}

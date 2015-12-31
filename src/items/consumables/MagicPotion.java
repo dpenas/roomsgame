@@ -18,7 +18,7 @@ public class MagicPotion extends Consumable{
 			Tuple<Integer, Integer> position) {
 		super("potion", null, null, 2, 1, "", character, map, room, position);
 		this.setAdjectives(this.getMagicPotionAttributes());
-		this.setName(Translations.getNameItem("potion", this.getAdjectives()));
+//		this.setName(Translations.getNameItem("potion", this.getAdjectives()));
 	}
 	
 	public ArrayList<String> getMagicPotionAttributes(){

@@ -418,18 +418,18 @@ public class ActiveCharacter extends Character {
 		return false;
 	}
 	
-	public boolean pickItem(Tuple<Integer, Integer> pos, Room room){
+	public Item pickItem(Tuple<Integer, Integer> pos, Room room){
 		if (room.isMapPositionHere(pos)){
 			for (Item item : room.getItemsRoom()){
 				if (pos.x == item.getPosition().x && pos.y == item.getPosition().y){
 					if (this.putItemInventory(item)){
 						room.getItemsRoom().remove(item);
-						return true;
+						return item;
 					}
 				}
 			}
 		}
-		return false;
+		return null;
 	}
 	
 	// TODO: Change this so we can use another inventory
