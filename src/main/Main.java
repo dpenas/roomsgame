@@ -330,7 +330,7 @@ public class Main {
 			GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
 			GrammarSelectorS selector = null;
 			try {
-				selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, "pick");
+				selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, "PICK");
 			} catch (JsonIOException | JsonSyntaxException | FileNotFoundException | InstantiationException
 					| IllegalAccessException e) {
 				e.printStackTrace();
@@ -358,16 +358,18 @@ public class Main {
 			GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
 			GrammarSelectorS selector = null;
 			try {
-				selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, "attack");
+				selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, "ATTACK");
 			} catch (JsonIOException | JsonSyntaxException | FileNotFoundException | InstantiationException
 					| IllegalAccessException e) {
 				e.printStackTrace();
 			}
-			if (selector != null) {
-				printMessage(selector.getRandomSentence());
-			}
 			if (monster.getLife() <= 0) {
 				hasChanged = true;
+			} else {
+				// We only print the message if the enemy is alive
+				if (selector != null) {
+					printMessage(selector.getRandomSentence());
+				}
 			}
     	}
 		printEverything(true);

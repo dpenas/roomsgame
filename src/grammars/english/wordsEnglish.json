@@ -180,29 +180,81 @@
         ]
     },
     "V": {
-        "attacks": [
-            {"num": "sing"},
-            {"translation": "attacks"},
-            {"numopposite": "attack"},
-            {"gender": ""}
-        ],
-        "attack": [
-            {"num": "plural"},
-            {"translation": "attack"},
-            {"numopposite": "attacks"},
-            {"gender": ""}
-        ],
-        "charges against": [
-            {"num": "sing"},
-            {"translation": "charges against"},
-            {"numopposite": "charge against"},
-            {"gender": ""}
-        ],
-        "charge against": [
-            {"num": "plural"},
-            {"translation": "charge against"},
-            {"numopposite": "charges against"},
-            {"gender": ""}
-        ]
+    	"ATTACK": {
+    		"attacks": [
+	            {"num": "sing"},
+	            {"translation": "attacks"},
+	            {"numopposite": "attack"},
+	            {"gender": ""}
+        	],
+	        "attack": [
+	            {"num": "plural"},
+	            {"translation": "attack"},
+	            {"numopposite": "attacks"},
+	            {"gender": ""}
+	        ],
+	        "hurts": [
+	            {"num": "sing"},
+	            {"translation": "hurts"},
+	            {"numopposite": "hurt"},
+	            {"gender": ""}
+        	],
+	        "hurt": [
+	            {"num": "plural"},
+	            {"translation": "hurt"},
+	            {"numopposite": "hurts"},
+	            {"gender": ""}
+	        ],
+	        "charges against": [
+	            {"num": "sing"},
+	            {"translation": "charges against"},
+	            {"numopposite": "charge against"},
+	            {"gender": ""}
+	        ],
+	        "charge against": [
+	            {"num": "plural"},
+	            {"translation": "charge against"},
+	            {"numopposite": "charges against"},
+	            {"gender": ""}
+	        ]
+    	},
+    	"PICK": {
+    		"picks": [
+	            {"num": "sing"},
+	            {"translation": "picks"},
+	            {"numopposite": "pick"},
+	            {"gender": ""}
+        	],
+	        "pick": [
+	            {"num": "plural"},
+	            {"translation": "pick"},
+	            {"numopposite": "picks"},
+	            {"gender": ""}
+	        ],
+	        "gets": [
+	            {"num": "sing"},
+	            {"translation": "gets"},
+	            {"numopposite": "get"},
+	            {"gender": ""}
+	        ],
+	        "get": [
+	            {"num": "plural"},
+	            {"translation": "get"},
+	            {"numopposite": "gets"},
+	            {"gender": ""}
+	        ],
+	        "takes": [
+	            {"num": "sing"},
+	            {"translation": "takes"},
+	            {"numopposite": "take"},
+	            {"gender": ""}
+	        ],
+	        "take": [
+	            {"num": "plural"},
+	            {"translation": "take"},
+	            {"numopposite": "takes"},
+	            {"gender": ""}
+	        ]
+    	}
     }
 }

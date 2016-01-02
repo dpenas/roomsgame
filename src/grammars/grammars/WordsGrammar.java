@@ -60,9 +60,10 @@ public class WordsGrammar {
 		return itemsReturn;
 	}
 	
-	public static ArrayList<Pair<String, JsonArray>> getVerbs(JsonObject object) {
+	public static ArrayList<Pair<String, JsonArray>> getVerbs(JsonObject object, String type) {
 		ArrayList<Pair<String, JsonArray>> itemsReturn = new ArrayList<Pair<String, JsonArray>>();
-		JsonObject verbsJSON = JSONParsing.getElement((JsonObject)object, "V").getAsJsonObject();
+		JsonObject allVerbsJSON = JSONParsing.getElement((JsonObject)object, "V").getAsJsonObject();
+		JsonObject verbsJSON = JSONParsing.getElement(allVerbsJSON, type).getAsJsonObject();
 		for (int i = 0; i < verbsJSON.entrySet().size(); i++) {
 			String name = JSONParsing.getSpecificKeyFromSet(i, verbsJSON);
 			JsonArray value = JSONParsing.getSpecificValueFromSet(i, verbsJSON).getAsJsonArray();

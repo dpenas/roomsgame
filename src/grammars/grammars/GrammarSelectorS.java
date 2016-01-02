@@ -28,7 +28,7 @@ public class GrammarSelectorS extends GrammarSelector {
 		super(grammar, wordsGrammar);
 		JsonParser parser = new JsonParser();
 		this.grammarObj = parser.parse(new FileReader("./src/grammars/english/objectGrammarTest.json")).getAsJsonObject();
-		this.verbs = WordsGrammar.getVerbs(wordsGrammar);
+		this.verbs = WordsGrammar.getVerbs(wordsGrammar, type);
 		this.names = names;
 		this.analyseGrammar();
 	}

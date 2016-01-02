@@ -3,6 +3,7 @@ package grammars.grammars;
 import java.util.ArrayList;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import grammars.parsing.JSONParsing;
@@ -70,7 +71,11 @@ public abstract class GrammarSelector {
 				restrictions1 = sentenceArray.get(totalFirstItem).getB();
 			}
 			if (grammar.indexOf(firstType) == 0) {
-				restrictions1 = sentenceArray.get(0).getB();
+				for (int i = 0; i < sentenceArray.size(); i++) {
+					if (JSONParsing.getElement(sentenceArray.get(i).getB(), "translation") != "") {
+						restrictions1 = sentenceArray.get(i).getB();
+					}
+				}
 			}
 			for (Integer integer: numItems) {
 				System.out.println("integer: " + integer);
