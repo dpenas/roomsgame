@@ -67,6 +67,7 @@ public class GrammarSelectorS extends GrammarSelector {
 			e.printStackTrace();
 		}
 		rootObj = JSONParsing.getElement(rootObj, type).getAsJsonObject();
+		System.out.println("CHECK THIS!: " + rootObj);
 		GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObj);
 		this.getGrammarsNP().add(new GrammarSelectorNP(grammarGeneral.getRandomGrammar(), this.getWordsGrammar(), this.getNames().get(namePos), type));
 		System.out.println("RandomSentencePair: " + this.getGrammarsNP().get(this.getGrammarsNP().size() - 1).getRandomSentencePair());
@@ -120,6 +121,11 @@ public class GrammarSelectorS extends GrammarSelector {
 	}
 	
 	public String getRandomSentence() {
+		try {
+			this.analyseGrammar();
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
 		String sentence = "";
 		int npCount = 0;
 		ArrayList<Pair<String, JsonArray>> sentenceArray = this.fillWords();

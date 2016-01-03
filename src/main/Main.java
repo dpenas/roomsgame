@@ -327,7 +327,9 @@ public class Main {
 			names.add(user);
 			names.add(item);
 			System.out.println("Name the name: " + item.getName());
-			GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
+			GrammarIndividual grammarIndividual = grammarPickItem.getRandomGrammar();
+			System.out.println("GrammarPickItem!!: " + grammarPickItem.getGeneralGrammar());
+			System.out.println("Selected Grammar: " + grammarIndividual.getGrammar());
 			GrammarSelectorS selector = null;
 			try {
 				selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, "PICK");
@@ -408,20 +410,26 @@ public class Main {
 				System.out.println("Code" + i);
 				j.cls();
 				
-				System.out.println(i);
+				System.out.println("This is the I!: " + i);
+				System.out.println("Is pick Item input: " + isPickItemInput(i));
 	            if (isMovementInput(i)){
+	            	System.out.println("IT IS MovementInput! :");
 	            	_moveCharacterAction(i);
 	            }
 	            else if (isInventoryInput(i)) {
+	            	System.out.println("IT IS InventoryInput! :");
 	            	_inventoryAction(i);
 	            }
 	            else if (isPickItemInput(i)) {
+	            	System.out.println("IT IS PickItem! :");
 	            	_pickItemAction();
 	            }
 	            else if (isAttackInput(i)) {
+	            	System.out.println("IT IS AttackInput! :");
 	            	_attackAction();
 	            } 
 	            else if (isSpellInput(i)) {
+	            	System.out.println("IT IS SpellInput! :");
 	            	_spellAction(i);
 	            } else {
 	            	printEverything(true);
@@ -453,6 +461,7 @@ public class Main {
 		rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsEnglish.json")).getAsJsonObject();
 		JsonObject objectAttack = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
 		JsonObject objectPickItem = JSONParsing.getElement(rootObj, "PICK").getAsJsonObject();
+		System.out.println("objectPickItem: " + objectPickItem);
 		grammarAttack = new GrammarsGeneral(objectAttack);
 		grammarPickItem = new GrammarsGeneral(objectPickItem);
 		if (!testMode){

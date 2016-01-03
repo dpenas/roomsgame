@@ -161,6 +161,8 @@ public abstract class GrammarSelector {
 	}
 	
 	public String returnParseString(String string, String element) {
+		System.out.println("String: " + string);
+		System.out.println("Element: " + element);
 		return string.substring(0, string.indexOf(element));
 	}
 	
