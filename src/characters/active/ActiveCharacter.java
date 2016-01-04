@@ -1,12 +1,20 @@
 package characters.active;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import map.Map;
 import map.Room;
 import characters.Character;
 import characters.active.enemies.Movement;
+import grammars.grammars.GrammarIndividual;
+import grammars.grammars.GrammarSelectorS;
+import grammars.grammars.PrintableObject;
 import util.RandUtil;
 import util.Tuple;
 import magic.Spell;
@@ -479,10 +487,21 @@ public class ActiveCharacter extends Character {
 		}
 	}
 	
-	public void doTurn(ActiveCharacter user){
+	public String doTurn(ActiveCharacter user, GrammarIndividual grammarAttack, JsonObject rootObjWords){
 		if (this.getRoom().equals(user.getRoom()) && !this.isDead()){
 			if (RandUtil.sameTuple(this.getPosition(), user.getPosition())){
+				ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+				names.add(this);
+				names.add(user);
+				GrammarSelectorS selector = null;
+				try {
+					selector = new GrammarSelectorS(grammarAttack, rootObjWords, names, "ATTACK");
+				} catch (JsonIOException | JsonSyntaxException | FileNotFoundException | InstantiationException
+						| IllegalAccessException e) {
+					e.printStackTrace();
+				}
 				this.attack(user);
+				return selector.getRandomSentence();
 			} else {
 				Tuple<Integer, Integer> pos = Movement.moveCharacter(this, user);
 				if (pos != null) {
@@ -490,6 +509,7 @@ public class ActiveCharacter extends Character {
 				}
 			}
 		}
+		return "";	
 	}
 	
 	public int getDamage() {

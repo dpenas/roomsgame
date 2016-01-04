@@ -6,8 +6,11 @@ import items.consumables.MagicPotion;
 
 import java.util.ArrayList;
 
+import com.google.gson.JsonObject;
+
 import characters.active.ActiveCharacter;
 import characters.active.enemies.Goblin;
+import grammars.grammars.GrammarIndividual;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import main.Main;
 import util.RandUtil;
@@ -132,10 +135,11 @@ public class Room {
 		return false;
 	}
 	
-	public void monsterTurn(ActiveCharacter user){
+	public String monsterTurn(ActiveCharacter user, GrammarIndividual grammarAttack, JsonObject rootObjWords){
 		for (ActiveCharacter monster : this.getMonsters()){
-			monster.doTurn(user);
+			return monster.doTurn(user, grammarAttack, rootObjWords);
 		}
+		return "";
 	}
 	
 	public String getSymbolPosition(Tuple<Integer, Integer> tuple){

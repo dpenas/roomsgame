@@ -399,7 +399,12 @@ public class Main {
 				if (debug) {
 					System.out.println("Vida user: " + user.getLife());
 				}
-				user.getRoom().monsterTurn(user);
+				GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
+				String sentence = user.getRoom().monsterTurn(user, grammarIndividual, rootObjWords);
+				if (!sentence.isEmpty()) {
+					printMessage(sentence);
+				}
+				
 				if (hasMoved) {
 					printEverything(true);
 					j.refresh();
