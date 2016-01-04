@@ -301,6 +301,19 @@ public class Main {
 		j.refresh();
 	}
 	
+	public static void _printMessage(GrammarIndividual grammarIndividual, ArrayList<PrintableObject> names, String type) {
+		GrammarSelectorS selector = null;
+		try {
+			selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, type);
+		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException | InstantiationException
+				| IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		if (selector != null) {
+			printMessage(selector.getRandomSentence());
+		}
+	}
+	
 	public static void _inventoryAction(int i){
 		if (debug) {
     		System.out.println(user.getWeaponsEquipped().size());
@@ -312,17 +325,8 @@ public class Main {
 			names.add(user);
 			names.add(item);
 			GrammarIndividual grammarIndividual = grammarUseItem.getRandomGrammar();
-			GrammarSelectorS selector = null;
-			try {
-				selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, "USE");
-			} catch (JsonIOException | JsonSyntaxException | FileNotFoundException | InstantiationException
-					| IllegalAccessException e) {
-				e.printStackTrace();
-			}
+			_printMessage(grammarIndividual, names, "USE");
 			user.useItem(item);
-			if (selector != null) {
-				printMessage(selector.getRandomSentence());
-			}
 		}
 		if (debug) {
 			System.out.println(user.getWeaponsEquipped().size());
@@ -341,18 +345,7 @@ public class Main {
 			names.add(item);
 			System.out.println("Name the name: " + item.getName());
 			GrammarIndividual grammarIndividual = grammarPickItem.getRandomGrammar();
-			System.out.println("GrammarPickItem!!: " + grammarPickItem.getGeneralGrammar());
-			System.out.println("Selected Grammar: " + grammarIndividual.getGrammar());
-			GrammarSelectorS selector = null;
-			try {
-				selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, "PICK");
-			} catch (JsonIOException | JsonSyntaxException | FileNotFoundException | InstantiationException
-					| IllegalAccessException e) {
-				e.printStackTrace();
-			}
-			if (selector != null) {
-				printMessage(selector.getRandomSentence());
-			}
+			_printMessage(grammarIndividual, names, "PICK");
 			hasChanged = false;
     	}
 		j.cls();
@@ -371,21 +364,12 @@ public class Main {
 			System.out.println("User Name: " + user.getName());
 			System.out.println("Size monster adj: " + names.get(0).getAdjectives().get(0));
 			System.out.println("Size user adj: " + names.get(1).getAdjectives().get(0));
-			GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
-			GrammarSelectorS selector = null;
-			try {
-				selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, "ATTACK");
-			} catch (JsonIOException | JsonSyntaxException | FileNotFoundException | InstantiationException
-					| IllegalAccessException e) {
-				e.printStackTrace();
-			}
 			if (monster.getLife() <= 0) {
 				hasChanged = true;
 			} else {
 				// We only print the message if the enemy is alive
-				if (selector != null) {
-					printMessage(selector.getRandomSentence());
-				}
+				GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
+				_printMessage(grammarIndividual, names, "ATTACK");
 			}
     	}
 		printEverything(true);
