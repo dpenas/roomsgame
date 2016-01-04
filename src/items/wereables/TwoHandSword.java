@@ -34,14 +34,13 @@ public class TwoHandSword extends WereableWeapon {
 			attributes.add("magic");
 			this.setAdjectives(attributes);
 		}
-		this.setName(Translations.getNameItem("sword", this.getAdjectives()));
+//		this.setName(Translations.getNameItem("sword", this.getAdjectives()));
 		this.setAttributes(this.getLevel(), false);
 		
 	}
 	
 	public ArrayList<String> getTwoHandSwordAttributes(){
-		attributes.add("two");
-		attributes.add("hand");
+		attributes.add("two hand");
 		return attributes;
 	}
 

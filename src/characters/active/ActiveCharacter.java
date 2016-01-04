@@ -323,7 +323,9 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public void printInventory(ArrayList<Item> inventory, WSwingConsoleInterface j, int initPos_i, int initPos_j){
+		System.out.println("Printing Inventory: ");
 		for (int i = 0; i < inventory.size(); i++){
+			System.out.println("Item: " + 1);
 			String name = i + 1 + " - " + inventory.get(i).getName();
 			j.print(initPos_j, initPos_i + i, name);
 		}

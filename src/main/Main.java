@@ -72,6 +72,7 @@ public class Main {
 	static JsonObject rootObjWords;
 	static GrammarsGeneral grammarAttack;
 	static GrammarsGeneral grammarPickItem;
+	static GrammarsGeneral grammarUseItem;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -304,17 +305,29 @@ public class Main {
 		if (debug) {
     		System.out.println(user.getWeaponsEquipped().size());
     	}
-		
 		int itemNumber = i % keysMap.get("item1");
 		if (itemNumber + 1 <= user.getInventory().size()) {
-			user.useItem(user.getInventory().get(itemNumber));
-	    	j.cls();
+			Item item = user.getInventory().get(itemNumber);
+			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+			names.add(user);
+			names.add(item);
+			GrammarIndividual grammarIndividual = grammarUseItem.getRandomGrammar();
+			GrammarSelectorS selector = null;
+			try {
+				selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, "USE");
+			} catch (JsonIOException | JsonSyntaxException | FileNotFoundException | InstantiationException
+					| IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			user.useItem(item);
+			if (selector != null) {
+				printMessage(selector.getRandomSentence());
+			}
 		}
 		if (debug) {
 			System.out.println(user.getWeaponsEquipped().size());
 		}
-		printEverything(true);
-		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+		hasChanged = false;
 	}
 	
 	public static void _pickItemAction(){
@@ -340,11 +353,12 @@ public class Main {
 			if (selector != null) {
 				printMessage(selector.getRandomSentence());
 			}
-			hasChanged = true;
+			hasChanged = false;
     	}
 		j.cls();
 		printEverything(true);
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+		j.refresh();
 	}
 	
 	public static void _attackAction(){
@@ -403,6 +417,10 @@ public class Main {
 				String sentence = user.getRoom().monsterTurn(user, grammarIndividual, rootObjWords);
 				if (!sentence.isEmpty()) {
 					printMessage(sentence);
+					j.cls();
+					printEverything(true);
+					j.refresh();
+					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 				}
 				
 				if (hasMoved) {
@@ -444,7 +462,9 @@ public class Main {
 	            if (debug) {
 	            	System.out.println("Vida user: " + user.getLife());
 	            }
-	            
+	            j.cls();
+	            printEverything(true);
+				j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 				j.refresh();
 			}
 			else {
@@ -466,9 +486,10 @@ public class Main {
 		rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsEnglish.json")).getAsJsonObject();
 		JsonObject objectAttack = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
 		JsonObject objectPickItem = JSONParsing.getElement(rootObj, "PICK").getAsJsonObject();
-		System.out.println("objectPickItem: " + objectPickItem);
+		JsonObject objectUseItem = JSONParsing.getElement(rootObj, "USE").getAsJsonObject();
 		grammarAttack = new GrammarsGeneral(objectAttack);
 		grammarPickItem = new GrammarsGeneral(objectPickItem);
+		grammarUseItem = new GrammarsGeneral(objectUseItem);
 		if (!testMode){
 			gameFlow();
 		}

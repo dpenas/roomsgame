@@ -61,6 +61,20 @@
             {"translation": "magic"}, 
             {"numopposite": "magic"}, 
             {"gender": ""}
+        ],
+        "one hand":
+            [
+            {"num": "sing"},
+            {"translation": "one hand"}, 
+            {"numopposite": "one hand"}, 
+            {"gender": ""}
+        ],
+        "two hand":
+            [
+            {"num": "sing"},
+            {"translation": "two hand"}, 
+            {"numopposite": "two hand"}, 
+            {"gender": ""}
         ]
     },
     "N": {
@@ -255,6 +269,20 @@
 	            {"numopposite": "takes"},
 	            {"gender": ""}
 	        ]
-    	}
+    	},
+        "USE": {
+            "uses": [
+                {"num": "sing"},
+                {"translation": "uses"},
+                {"numopposite": "use"},
+                {"gender": ""}
+            ],
+            "use": [
+                {"num": "plural"},
+                {"translation": "use"},
+                {"numopposite": "uses"},
+                {"gender": ""}
+            ]
+        }
     }
 }
