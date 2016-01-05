@@ -283,6 +283,20 @@
                 {"numopposite": "uses"},
                 {"gender": ""}
             ]
+        },
+        "DESCITEM": {
+            "has": [
+                {"num": "sing"},
+                {"translation": "has"},
+                {"numopposite": "have"},
+                {"gender": ""}
+            ],
+            "have": [
+                {"num": "plural"},
+                {"translation": "have"},
+                {"numopposite": "has"},
+                {"gender": ""}
+            ]
         }
     }
 }

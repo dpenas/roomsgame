@@ -27,6 +27,7 @@ public class GrammarSelectorS extends GrammarSelector {
 	public GrammarSelectorS(GrammarIndividual grammar, JsonObject wordsGrammar, ArrayList<PrintableObject> names, String type) throws JsonIOException, JsonSyntaxException, FileNotFoundException, InstantiationException, IllegalAccessException {
 		super(grammar, wordsGrammar);
 		JsonParser parser = new JsonParser();
+		this.type = type;
 		this.grammarObj = parser.parse(new FileReader("./src/grammars/english/objectGrammarTest.json")).getAsJsonObject();
 		this.verbs = WordsGrammar.getVerbs(wordsGrammar, type);
 		this.names = names;
@@ -37,8 +38,18 @@ public class GrammarSelectorS extends GrammarSelector {
 		int namePos = 0;
 		this.setGrammarsNP(new ArrayList<GrammarSelectorNP>());
 		this.setGrammarsNPPair(new ArrayList<ArrayList<Pair<String, JsonArray>>>());
-		for (int i = 0; i < this.getGrammar().getGrammar().get("keys").size(); i++) {
-			String value = this.getGrammar().getGrammar().get("keys").get(i);
+		int endIteration;
+		if (type == "DESCITEM") {
+			endIteration = this.getNames().size() + 1;
+		} else {
+			endIteration = this.getGrammar().getGrammar().get("keys").size();
+		}
+		for (int i = 0; i < endIteration; i++) {
+			int selectedValue = i;
+			if (i >= this.getGrammar().getGrammar().get("keys").size()) {
+				selectedValue = this.getGrammar().getGrammar().get("keys").size() - 1;
+			}
+			String value = this.getGrammar().getGrammar().get("keys").get(selectedValue);
 			String typeValue = this.returnParseString(value, "_");
 			if (!typeValue.equals("V")) {
 				System.out.println("NamePos naming thing: " + namePos);
@@ -67,7 +78,8 @@ public class GrammarSelectorS extends GrammarSelector {
 			e.printStackTrace();
 		}
 		rootObj = JSONParsing.getElement(rootObj, type).getAsJsonObject();
-		System.out.println("CHECK THIS!: " + rootObj);
+		System.out.println("namePos is this: !: " + namePos);
+		System.out.println("We are going to use this item: !: " + this.getNames().get(namePos).getName());
 		GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObj);
 		this.getGrammarsNP().add(new GrammarSelectorNP(grammarGeneral.getRandomGrammar(), this.getWordsGrammar(), this.getNames().get(namePos), type));
 		System.out.println("RandomSentencePair: " + this.getGrammarsNP().get(this.getGrammarsNP().size() - 1).getRandomSentencePair());
@@ -77,13 +89,29 @@ public class GrammarSelectorS extends GrammarSelector {
 	
 	protected ArrayList<Pair<String, JsonArray>> fillWords() {
 		ArrayList<Pair<String, JsonArray>> resultArray = new ArrayList<Pair<String, JsonArray>>();
-		for (String value : this.getGrammar().getTypeWordGrammar()) {
-			switch (value) {
+		int endIteration;
+		if (type == "DESCITEM") {
+			endIteration = this.getNames().size() + 1;
+		} else {
+			endIteration = this.getGrammar().getTypeWordGrammar().size();
+		}
+		System.out.println("ENDITERATION: " + endIteration);
+		for (int i = 0; i < endIteration; i++) {
+			int selectedTypeWordGrammar = i;
+			if (selectedTypeWordGrammar >= this.getGrammar().getTypeWordGrammar().size()) {
+				selectedTypeWordGrammar = this.getGrammar().getTypeWordGrammar().size() - 1;
+			}
+			System.out.println(selectedTypeWordGrammar);
+			switch (this.getGrammar().getTypeWordGrammar().get(selectedTypeWordGrammar)) {
 				case "V" : 
 					resultArray.add(getRandomVerb());
 					break;
 				default: resultArray.add(null);
 			}
+		}
+		System.out.println("WOWOWOWO");
+		for (int j = 0; j < resultArray.size(); j++) {
+			System.out.println(resultArray.get(j));
 		}
 		return resultArray;
 	}
@@ -160,16 +188,25 @@ public class GrammarSelectorS extends GrammarSelector {
 		ArrayList<String> getGrammarTypes = this.getGrammarTypes();
 		ArrayList<Integer> numItems = new ArrayList<Integer>();
 		int iteration = 0;
-		
 		for(Pair<String, String> restriction : this.getGrammar().getRestrictions()) {
 			System.out.println("Iteration: " + iteration);
 			System.out.println("WORKING ON THIS: ");
 			int NPgrammarCount = 0;
 			/* We only execute this when there's no data on newSentenceArray, since in that case we already
 			 have the information we need */
+			int endIteration;
+			if (type == "DESCITEM") {
+				endIteration = this.getNames().size() + 1;
+			} else {
+				endIteration = this.getGrammarTypes().size();
+			}
 			if (newSentenceArray.size() == 0) {
-				for (int i = 0; i < getGrammarTypes.size(); i++) {
-					switch (getGrammarTypes.get(i)) {
+				for (int i = 0; i < endIteration; i++) {
+					int selectElement = i;
+					if (i >= getGrammarTypes().size()) {
+						selectElement =  getGrammarTypes().size() - 1;
+					}
+					switch (getGrammarTypes.get(selectElement)) {
 						case "ADJECTIVE" :
 							numItems.add(1);
 							Pair<String, JsonArray> adjective = this.getGrammarsNP().get(NPgrammarCount).getRandomAdjective();
@@ -188,7 +225,9 @@ public class GrammarSelectorS extends GrammarSelector {
 								System.out.println("Adding this pair: " + pair.getA());
 								newSentenceArray.add(pair);
 							}
-							NPgrammarCount++;
+							if (NPgrammarCount < this.getGrammarsNPPair().size() - 1) {
+								NPgrammarCount++;
+							}
 							break;
 					}
 				}
@@ -217,6 +256,7 @@ public class GrammarSelectorS extends GrammarSelector {
 	}
 	
 	protected ArrayList<Pair<String, JsonArray>> applyRestrictions(ArrayList<Pair<String, JsonArray>> sentenceArray) {
+		ArrayList<Pair<String, JsonArray>> returnArray = new ArrayList<Pair<String, JsonArray>>();
 		for (int i = 0; i < sentenceArray.size(); i++) {
 			if (sentenceArray.get(i) != null) {
 				System.out.println(sentenceArray.get(i).getA());
@@ -224,9 +264,9 @@ public class GrammarSelectorS extends GrammarSelector {
 			}
 		}
 		if (this.emptySentenceArray(sentenceArray)) {
-			return this.applyRestrictionsSNP(sentenceArray);
+			returnArray.addAll(this.applyRestrictionsSNP(sentenceArray));
 		}
-		return null;
+		return returnArray;
 	}
 
 	public ArrayList<Pair<String, JsonArray>> getVerbs() {

@@ -73,6 +73,7 @@ public class Main {
 	static GrammarsGeneral grammarAttack;
 	static GrammarsGeneral grammarPickItem;
 	static GrammarsGeneral grammarUseItem;
+	static GrammarsGeneral grammarDescribeItem;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -334,6 +335,17 @@ public class Main {
 		hasChanged = false;
 	}
 	
+	public static void _inventoryAction2(int i){
+		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+		names.add(user);
+		for (Item item : user.getInventory()) {
+			names.add(item);
+		}
+		GrammarIndividual grammarIndividual = grammarUseItem.getRandomGrammar();
+		_printMessage(grammarIndividual, names, "DESCITEM");
+		hasChanged = false;
+	}
+	
 	public static void _pickItemAction(){
 		for (Item item: user.getRoom().getItemsRoom()){
 			System.out.println("The items are: " + item.getName());
@@ -425,7 +437,7 @@ public class Main {
 	            }
 	            else if (isInventoryInput(i)) {
 	            	System.out.println("IT IS InventoryInput! :");
-	            	_inventoryAction(i);
+	            	_inventoryAction2(i);
 	            }
 	            else if (isPickItemInput(i)) {
 	            	System.out.println("IT IS PickItem! :");
@@ -471,9 +483,11 @@ public class Main {
 		JsonObject objectAttack = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
 		JsonObject objectPickItem = JSONParsing.getElement(rootObj, "PICK").getAsJsonObject();
 		JsonObject objectUseItem = JSONParsing.getElement(rootObj, "USE").getAsJsonObject();
+		JsonObject objectDescribeItem = JSONParsing.getElement(rootObj, "DESCITEM").getAsJsonObject();
 		grammarAttack = new GrammarsGeneral(objectAttack);
 		grammarPickItem = new GrammarsGeneral(objectPickItem);
 		grammarUseItem = new GrammarsGeneral(objectUseItem);
+		grammarDescribeItem = new GrammarsGeneral(objectDescribeItem);
 		if (!testMode){
 			gameFlow();
 		}
