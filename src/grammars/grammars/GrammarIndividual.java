@@ -50,7 +50,7 @@ public class GrammarIndividual {
 			if (grammar.equals(grammar.toUpperCase())) {
 				beginType = grammar.indexOf("_");
 				if (beginType > -1) {
-					grammarNumbers.add(grammar.substring(beginType, grammar.length()));
+					grammarNumbers.add(grammar.substring(beginType + 1, grammar.length()));
 				}
 			} else {
 				grammarNumbers.add("");

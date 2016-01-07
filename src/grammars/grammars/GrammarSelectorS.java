@@ -3,6 +3,7 @@ package grammars.grammars;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonIOException;
@@ -16,6 +17,9 @@ import net.slashie.util.Pair;
 import util.RandUtil;
 
 public class GrammarSelectorS extends GrammarSelector {
+	
+	private String[] typesNPGrammarComplete = {"GENERAL_N", "SIMPLE_N"};
+	private String[] typesNPGrammar = {"GENERAL", "SIMPLE"};
 
 	private ArrayList<PrintableObject> names;
 	private String type;
@@ -148,6 +152,38 @@ public class GrammarSelectorS extends GrammarSelector {
 		return sentenceArray;
 	}
 	
+	private boolean containsArray(String element, String[] array) {
+		for (String individualElement : array) {
+			System.out.println("IndividualElement!! " + individualElement);
+			System.out.println("Element!! " + individualElement);
+			if (element.equals(individualElement)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private int numberWordIndefiniteNP(ArrayList<Pair<String, JsonArray>> sentenceArray) {
+		ArrayList<String> completeGrammars = this.getGrammar().getGrammar().get("keys");
+		ArrayList<String> nameGrammars = this.getGrammar().getTypeWordGrammar();
+		int valuesIndefinite = sentenceArray.size();
+		int numNP = 0;
+		for (int i = 0; i < completeGrammars.size(); i++) {
+			if (this.containsArray(nameGrammars.get(i), this.typesNPGrammar)) {
+				System.out.println("HEYasdasd!!");
+				if (!this.containsArray(completeGrammars.get(i), this.typesNPGrammarComplete)) {
+					System.out.println("lelele: " + this.getGrammarsNPPair().get(numNP).size());
+					valuesIndefinite -= this.getGrammarsNPPair().get(numNP).size();
+				}
+				numNP++;
+			} else {
+				valuesIndefinite -= 1;
+			}
+		}
+		System.out.println("ValuesIndefinite! " + valuesIndefinite);
+		return valuesIndefinite;
+	}
+	
 	public String getRandomSentence() {
 		try {
 			this.analyseGrammar();
@@ -155,28 +191,68 @@ public class GrammarSelectorS extends GrammarSelector {
 			e.printStackTrace();
 		}
 		String sentence = "";
-		int npCount = 0;
+		System.out.println("GrammarsNP!!!");
+		for (int j = 0; j < this.getGrammarsNP().size(); j++) {
+			System.out.println(this.getGrammarsNP().get(j));
+		}
+		System.out.println("GrammarsNP Pair!!!");
+		for (int j = 0; j < this.getGrammarsNPPair().size(); j++) {
+			System.out.println(this.getGrammarsNPPair().get(j));
+		}
+		
+		System.out.println("this.getGrammar(): " + this.getGrammar().getTypeWordGrammar());
+		
+		System.out.println("this.getGrammar2(): " + this.getGrammar().getGrammar().get("keys"));
+		
+		ArrayList<String> grammarsTotal = this.getGrammar().getGrammar().get("keys");
+		ArrayList<Integer> values = new ArrayList<Integer>();
+		
 		ArrayList<Pair<String, JsonArray>> sentenceArray = this.fillWords();
 		sentenceArray = this.applyRestrictions(sentenceArray);
-		System.out.println("sentenceArray in getRandomSentence: ");
-		for (Pair<String, JsonArray> pair : sentenceArray) {
-			if (pair != null) {
-				System.out.println("PairA : " + pair.getA());
+		int grammarNP = 0;
+		int iniIndefiniteNP = 0;
+		for (int i = 0; i < grammarsTotal.size(); i++) {
+			int sizeNPPair = this.getGrammarsNPPair().get(grammarNP).size();
+			int numberWordIndefinite = this.numberWordIndefiniteNP(sentenceArray);
+			if (this.containsArray(this.getGrammar().getTypeWordGrammar().get(i), typesNPGrammar)) {
+				if (this.getGrammar().getNumberGrammar().get(i).equals("N")) {
+					int sizeDivision = numberWordIndefinite / sizeNPPair;
+					for (int j = 0; j < sizeDivision; j++) {
+						if (values.size() == 0) {
+							values.add(iniIndefiniteNP + this.getGrammarsNPPair().get(grammarNP).size());
+						} else {
+							values.add(values.get(values.size() - 1) + sizeNPPair);
+						}
+					}
+				} else {
+					iniIndefiniteNP += this.getGrammarsNPPair().get(grammarNP).size();
+				}
+				grammarNP++;
+			} else {
+				iniIndefiniteNP++;
 			}
 		}
-		System.out.println("END sentenceArray in getRandomSentence: ");
+		boolean changed = false;
 		for(int i = 0; i < sentenceArray.size(); i++) {
 			Pair<String, JsonArray> pair = sentenceArray.get(i);
-			if (pair != null) {
-				sentence += " " + pair.getA();
+			if (values.contains(i) && (values.get(values.size() - 2)) == i) {
+				JsonObject others = JSONParsing.getElement(this.getWordsGrammar(), "OTHERS").getAsJsonObject();
+				JsonArray and = JSONParsing.getElement(others, "and").getAsJsonArray();
+				String translationAnd = JSONParsing.getElement(and, "translation");
+				sentence += " " + translationAnd + " " + pair.getA();
+				changed = false;
 			} else {
-				System.out.println("pair: " + this.getGrammarsNPPair().size());
-				System.out.println("npCount: " + npCount);
-				ArrayList<Pair<String, JsonArray>> arrayNPPair = this.getGrammarsNPPair().get(npCount);
-				for (int z = 0; z < arrayNPPair.size(); z++){
-					sentence += " " + arrayNPPair.get(z).getA();
+				if (values.contains(i)) {
+					sentence += ", " + pair.getA() + " ";
+					changed = true;
+				} else {
+					if (changed) {
+						sentence += pair.getA();
+					} else {
+						sentence += " " + pair.getA();
+					}
+					changed = false;
 				}
-				npCount++;
 			}
 		}
 		
