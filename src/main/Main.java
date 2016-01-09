@@ -342,13 +342,15 @@ public class Main {
 	}
 	
 	public static void _descriptionAction(int i){
-		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-		names.add(user);
-		for (Item item : user.getInventory()) {
-			names.add(item);
+		if (user.getInventory().size() > 0) {
+			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+			names.add(user);
+			for (Item item : user.getInventory()) {
+				names.add(item);
+			}
+			GrammarIndividual grammarIndividual = grammarUseItem.getRandomGrammar();
+			_printMessage(grammarIndividual, names, "DESCITEM");
 		}
-		GrammarIndividual grammarIndividual = grammarUseItem.getRandomGrammar();
-		_printMessage(grammarIndividual, names, "DESCITEM");
 		hasChanged = false;
 	}
 	
