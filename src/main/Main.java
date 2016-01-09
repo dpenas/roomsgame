@@ -55,6 +55,7 @@ public class Main {
 	static Integer[] pickItemInput;
 	static Integer[] attackInput;
 	static Integer[] spellInput;
+	static Integer[] descriptionInput;
 	static Map map;
 	static Tuple<Integer, Integer> pos = new Tuple<Integer, Integer>(1,1);
 	static Room roomEnemy;
@@ -95,6 +96,10 @@ public class Main {
 		return Arrays.asList(spellInput).contains(key);
 	}
 	
+	public static boolean isDescriptionInput(int key){
+		return Arrays.asList(descriptionInput).contains(key);
+	}
+	
 	public static void _setKeyMap() {
 		keyBinding = ResourceBundle.getBundle("config.keys", currentLocale);
 		Enumeration <String> keys = keyBinding.getKeys();
@@ -126,6 +131,7 @@ public class Main {
 		pickItemInput = new Integer[] {keysMap.get("pickItem")};
 		attackInput = new Integer[] {keysMap.get("attack")};
 		spellInput = new Integer[] {keysMap.get("spell1"), keysMap.get("spell2")};
+		descriptionInput = new Integer[] {keysMap.get("descInv")};
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
@@ -335,7 +341,7 @@ public class Main {
 		hasChanged = false;
 	}
 	
-	public static void _inventoryAction2(int i){
+	public static void _descriptionAction(int i){
 		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 		names.add(user);
 		for (Item item : user.getInventory()) {
@@ -437,7 +443,7 @@ public class Main {
 	            }
 	            else if (isInventoryInput(i)) {
 	            	System.out.println("IT IS InventoryInput! :");
-	            	_inventoryAction2(i);
+	            	_inventoryAction(i);
 	            }
 	            else if (isPickItemInput(i)) {
 	            	System.out.println("IT IS PickItem! :");
@@ -450,6 +456,9 @@ public class Main {
 	            else if (isSpellInput(i)) {
 	            	System.out.println("IT IS SpellInput! :");
 	            	_spellAction(i);
+	            } else if (isDescriptionInput(i)) {
+	            	System.out.println("IT IS DescriptionInput! :");
+	            	_descriptionAction(i);
 	            } else {
 	            	printEverything(true);
 					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
@@ -491,32 +500,6 @@ public class Main {
 		if (!testMode){
 			gameFlow();
 		}
-		
-		// NP Grammar example
-//		JsonParser parser = new JsonParser();
-//		JsonObject rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammarTest.json")).getAsJsonObject();
-//		JsonObject rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsEnglish.json")).getAsJsonObject();
-//		Item item = new SmallShield("", 0, 0, 0, user, map, roomCharacter, null, 0, 0, false);
-//		GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObj);
-//		GrammarIndividual grammarIndividual = grammarGeneral.getRandomGrammar();
-//		GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item);
-//		System.out.println(selector.getRandomSentence());
-//		selector.getRandomSentence();
-		
-		// S Grammar example
-//		Item shield1 = new SmallShield("", 0, 0, 0, user, map, roomCharacter, null, 0, 0, false);
-//		Item shield2 = new SmallShield("", 0, 0, 0, user, map, roomCharacter, null, 0, 0, false);
-//		ArrayList<PrintableObject> items = new ArrayList<PrintableObject>();
-//		items.add(shield1);
-//		items.add(shield2);
-//		
-//		GrammarSelectorS selector = new GrammarSelectorS(grammarIndividual, rootObjWords, items, "attack");
-//		System.out.println(selector.getRandomSentence());
-//		rootObj = parser.parse(new FileReader("./src/grammars/english/sentenceGrammar.json")).getAsJsonObject();
-//		rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsEnglish.json")).getAsJsonObject();
-//		JsonObject objectAttack = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
-//		GrammarsGeneral grammarAttack = new GrammarsGeneral(objectAttack);
-//		GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
 		
 	}
 }
