@@ -1,10 +1,13 @@
 {
-    "VERYSIMPLE": {
+    "SIMPLENODET": {
         "GM_1": {
             "S": [
+                {"ADJ_1": "array"},
                 {"N_1": ""}
             ],
-            "restrictions": []
+            "restrictions": [
+                {"N_1.num": "ADJ_1.num"}
+            ]
         }
     },
     "SIMPLE": {

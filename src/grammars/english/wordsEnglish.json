@@ -75,6 +75,27 @@
             {"translation": "two hand"}, 
             {"numopposite": "two hand"}, 
             {"gender": ""}
+        ],
+        "some": 
+            [
+            {"num": "sing"},
+            {"translation": "some"}, 
+            {"numopposite": "some"}, 
+            {"gender": ""}
+        ],
+        "a lot of": 
+            [
+            {"num": "sing"},
+            {"translation": "a lot of"}, 
+            {"numopposite": "a lot of"}, 
+            {"gender": ""}
+        ],
+        "a little": 
+            [
+            {"num": "sing"},
+            {"translation": "a little"}, 
+            {"numopposite": "a little"}, 
+            {"gender": ""}
         ]
     },
     "N": {
@@ -310,7 +331,7 @@
                 {"gender": ""}
             ]
         },
-        "DESCNUM": {
+        "DESCPERSONAL": {
             "has": [
                 {"num": "sing"},
                 {"translation": "has"},
@@ -327,7 +348,10 @@
     },
     "OTHERS": {
         "and": [
-            {"translation": "and"}
+            {
+                "translation": "and",
+                "gender": ""
+            }
         ]
     }
 }

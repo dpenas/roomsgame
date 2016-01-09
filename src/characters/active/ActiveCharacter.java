@@ -514,6 +514,16 @@ public class ActiveCharacter extends Character {
 		return "";	
 	}
 	
+	public String getLifeAdjective() {
+		if (this.getLife() > 75 && this.getLife() <= 100) {
+			return "a lot of";
+		} else if (this.getLife() > 40 && this.getLife() <= 75) {
+				return "some";
+		} else {
+			return "a little";
+		}
+	}
+	
 	public int getDamage() {
 		return damage;
 	}

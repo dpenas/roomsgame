@@ -24,6 +24,7 @@ import grammars.grammars.GrammarIndividual;
 import grammars.grammars.GrammarSelectorS;
 import grammars.grammars.GrammarsGeneral;
 import grammars.grammars.PrintableObject;
+import grammars.grammars.WordsGrammar;
 import grammars.parsing.JSONParsing;
 import items.Item;
 import items.wereables.OneHandSword;
@@ -75,7 +76,7 @@ public class Main {
 	static GrammarsGeneral grammarPickItem;
 	static GrammarsGeneral grammarUseItem;
 	static GrammarsGeneral grammarDescribeItem;
-	static GrammarsGeneral grammarDescribeNumber;
+	static GrammarsGeneral grammarDescribePersonal;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -357,13 +358,16 @@ public class Main {
 	}
 	
 	private static void _messageDescriptionLife() {
-		PrintableObject life = new PrintableObject("life", "", null);
+		ArrayList<String> adjectives = new ArrayList<String>();
+		adjectives.add(user.getLifeAdjective());
+		PrintableObject life = new PrintableObject("life", "", adjectives);
 		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 		names.add(user);
 		names.add(life);
-		GrammarIndividual grammarIndividual = grammarDescribeNumber.getRandomGrammar();
-		String message = _getMessage(grammarIndividual, names, "DESCNUM");
-		message += " " + user.getLife();
+		GrammarIndividual grammarIndividual = grammarDescribePersonal.getRandomGrammar();
+		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL");
+//		String valueToChange = JSONParsing.getElement(WordsGrammar.getAdjectives(rootObjWords, adjectives).get(0).getB(), "translation");
+//		message = message.replaceAll(valueToChange, String.valueOf(user.getLife()));
 		printMessage(message);
 	}
 	
@@ -518,12 +522,12 @@ public class Main {
 		JsonObject objectPickItem = JSONParsing.getElement(rootObj, "PICK").getAsJsonObject();
 		JsonObject objectUseItem = JSONParsing.getElement(rootObj, "USE").getAsJsonObject();
 		JsonObject objectDescribeItem = JSONParsing.getElement(rootObj, "DESCITEM").getAsJsonObject();
-		JsonObject objectDescribeNumber = JSONParsing.getElement(rootObj, "DESCNUM").getAsJsonObject();
+		JsonObject objectDescribePersonal = JSONParsing.getElement(rootObj, "DESCPERSONAL").getAsJsonObject();
 		grammarAttack = new GrammarsGeneral(objectAttack);
 		grammarPickItem = new GrammarsGeneral(objectPickItem);
 		grammarUseItem = new GrammarsGeneral(objectUseItem);
 		grammarDescribeItem = new GrammarsGeneral(objectDescribeItem);
-		grammarDescribeNumber = new GrammarsGeneral(objectDescribeNumber);
+		grammarDescribePersonal = new GrammarsGeneral(objectDescribePersonal);
 		if (!testMode){
 			gameFlow();
 		}
