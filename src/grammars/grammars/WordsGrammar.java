@@ -13,11 +13,13 @@ public class WordsGrammar {
 	public static ArrayList<Pair<String, JsonArray>> getAdjectives(JsonObject rootObj, ArrayList<String> adjectives) {
 		ArrayList<Pair<String, JsonArray>> itemsReturn = new ArrayList<Pair<String, JsonArray>>();
 		JsonObject adjectivesJSON = JSONParsing.getElement((JsonObject)rootObj, "ADJ").getAsJsonObject();
-		for (int i = 0; i < adjectives.size(); i++) {
-			JsonArray jsonArray = JSONParsing.getElement(adjectivesJSON, adjectives.get(i)).getAsJsonArray();
-			String string = adjectives.get(i);
-			Pair<String, JsonArray> pair = new Pair<String, JsonArray>(string, jsonArray);
-			itemsReturn.add(pair);
+		if (adjectives != null) {
+			for (int i = 0; i < adjectives.size(); i++) {
+				JsonArray jsonArray = JSONParsing.getElement(adjectivesJSON, adjectives.get(i)).getAsJsonArray();
+				String string = adjectives.get(i);
+				Pair<String, JsonArray> pair = new Pair<String, JsonArray>(string, jsonArray);
+				itemsReturn.add(pair);
+			}
 		}
 		return itemsReturn;
 	}

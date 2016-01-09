@@ -191,6 +191,18 @@
             {"translation": "rats"},
             {"numopposite": "rat"},
             {"gender": ""}
+        ],
+        "life": [
+            {"num": "sing"},
+            {"translation": "lige"},
+            {"numopposite": "lives"},
+            {"gender": ""}
+        ],
+        "lives": [
+            {"num": "plural"},
+            {"translation": "lives"},
+            {"numopposite": "life"},
+            {"gender": ""}
         ]
     },
     "V": {
@@ -285,6 +297,20 @@
             ]
         },
         "DESCITEM": {
+            "has": [
+                {"num": "sing"},
+                {"translation": "has"},
+                {"numopposite": "have"},
+                {"gender": ""}
+            ],
+            "have": [
+                {"num": "plural"},
+                {"translation": "have"},
+                {"numopposite": "has"},
+                {"gender": ""}
+            ]
+        },
+        "DESCNUM": {
             "has": [
                 {"num": "sing"},
                 {"translation": "has"},

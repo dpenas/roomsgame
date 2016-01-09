@@ -1,4 +1,12 @@
 {
+    "VERYSIMPLE": {
+        "GM_1": {
+            "S": [
+                {"N_1": ""}
+            ],
+            "restrictions": []
+        }
+    },
     "SIMPLE": {
         "GM_1": {
             "S": [

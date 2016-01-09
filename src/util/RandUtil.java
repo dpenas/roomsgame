@@ -21,6 +21,10 @@ public class RandUtil {
 		return randomIntValue;
 	}
 	
+	public static boolean isNumeric(String str){
+		return str.matches("-?\\d+(\\.\\d+)?");
+	}
+	
 	public static Tuple<Integer, Integer> inputMoveInterpretation(int input, List<Integer> movementInput, ActiveCharacter character){
 		int down = movementInput.get(0);
 		int up = movementInput.get(1);

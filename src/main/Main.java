@@ -75,6 +75,7 @@ public class Main {
 	static GrammarsGeneral grammarPickItem;
 	static GrammarsGeneral grammarUseItem;
 	static GrammarsGeneral grammarDescribeItem;
+	static GrammarsGeneral grammarDescribeNumber;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -131,7 +132,7 @@ public class Main {
 		pickItemInput = new Integer[] {keysMap.get("pickItem")};
 		attackInput = new Integer[] {keysMap.get("attack")};
 		spellInput = new Integer[] {keysMap.get("spell1"), keysMap.get("spell2")};
-		descriptionInput = new Integer[] {keysMap.get("descInv")};
+		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descLife")};
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
@@ -308,7 +309,7 @@ public class Main {
 		j.refresh();
 	}
 	
-	public static void _printMessage(GrammarIndividual grammarIndividual, ArrayList<PrintableObject> names, String type) {
+	public static String _getMessage(GrammarIndividual grammarIndividual, ArrayList<PrintableObject> names, String type) {
 		GrammarSelectorS selector = null;
 		try {
 			selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, type);
@@ -317,8 +318,10 @@ public class Main {
 			e.printStackTrace();
 		}
 		if (selector != null) {
-			printMessage(selector.getRandomSentence());
+			return selector.getRandomSentence();
 		}
+		
+		return "";
 	}
 	
 	public static void _inventoryAction(int i){
@@ -332,7 +335,7 @@ public class Main {
 			names.add(user);
 			names.add(item);
 			GrammarIndividual grammarIndividual = grammarUseItem.getRandomGrammar();
-			_printMessage(grammarIndividual, names, "USE");
+			printMessage(_getMessage(grammarIndividual, names, "USE"));
 			user.useItem(item);
 		}
 		if (debug) {
@@ -341,15 +344,35 @@ public class Main {
 		hasChanged = false;
 	}
 	
-	public static void _descriptionAction(int i){
+	private static void _messageDescriptionInventory() {
 		if (user.getInventory().size() > 0) {
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);
 			for (Item item : user.getInventory()) {
 				names.add(item);
 			}
-			GrammarIndividual grammarIndividual = grammarUseItem.getRandomGrammar();
-			_printMessage(grammarIndividual, names, "DESCITEM");
+			GrammarIndividual grammarIndividual = grammarDescribeItem.getRandomGrammar();
+			printMessage(_getMessage(grammarIndividual, names, "DESCITEM"));
+		}
+	}
+	
+	private static void _messageDescriptionLife() {
+		PrintableObject life = new PrintableObject("life", "", null);
+		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+		names.add(user);
+		names.add(life);
+		GrammarIndividual grammarIndividual = grammarDescribeNumber.getRandomGrammar();
+		String message = _getMessage(grammarIndividual, names, "DESCNUM");
+		message += " " + user.getLife();
+		printMessage(message);
+	}
+	
+	public static void _descriptionAction(int i){
+		if (i == keysMap.get("descInv")) {
+			_messageDescriptionInventory();
+		}
+		if (i == keysMap.get("descLife")) {
+			_messageDescriptionLife();
 		}
 		hasChanged = false;
 	}
@@ -365,7 +388,7 @@ public class Main {
 			names.add(item);
 			System.out.println("Name the name: " + item.getName());
 			GrammarIndividual grammarIndividual = grammarPickItem.getRandomGrammar();
-			_printMessage(grammarIndividual, names, "PICK");
+			printMessage(_getMessage(grammarIndividual, names, "PICK"));
 			hasChanged = false;
     	}
 		j.cls();
@@ -389,7 +412,7 @@ public class Main {
 			} else {
 				// We only print the message if the enemy is alive
 				GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
-				_printMessage(grammarIndividual, names, "ATTACK");
+				printMessage(_getMessage(grammarIndividual, names, "ATTACK"));
 			}
     	}
 		printEverything(true);
@@ -495,10 +518,12 @@ public class Main {
 		JsonObject objectPickItem = JSONParsing.getElement(rootObj, "PICK").getAsJsonObject();
 		JsonObject objectUseItem = JSONParsing.getElement(rootObj, "USE").getAsJsonObject();
 		JsonObject objectDescribeItem = JSONParsing.getElement(rootObj, "DESCITEM").getAsJsonObject();
+		JsonObject objectDescribeNumber = JSONParsing.getElement(rootObj, "DESCNUM").getAsJsonObject();
 		grammarAttack = new GrammarsGeneral(objectAttack);
 		grammarPickItem = new GrammarsGeneral(objectPickItem);
 		grammarUseItem = new GrammarsGeneral(objectUseItem);
 		grammarDescribeItem = new GrammarsGeneral(objectDescribeItem);
+		grammarDescribeNumber = new GrammarsGeneral(objectDescribeNumber);
 		if (!testMode){
 			gameFlow();
 		}
