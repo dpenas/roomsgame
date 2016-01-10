@@ -181,7 +181,7 @@ public class GrammarSelectorS extends GrammarSelector {
 		return valuesIndefinite;
 	}
 	
-	public String getRandomSentence() {
+	public String getRandomSentence(boolean usePronoun, boolean useAnd) {
 		try {
 			this.analyseGrammar();
 		} catch (InstantiationException | IllegalAccessException e) {
@@ -252,8 +252,33 @@ public class GrammarSelectorS extends GrammarSelector {
 				}
 			}
 		}
+		if (usePronoun) {
+			System.out.println("In testing!");
+			String nameToGetPronounFrom = this.getGrammarsNP().get(0).getName().getName();
+			String toChangeFor = "";
+			String pronoun = JSONParsing.getElement(WordsGrammar.getName(this.getWordsGrammar(), nameToGetPronounFrom).get(0).getB(), "pronoun");
+			if (useAnd) {
+				JsonObject others = JSONParsing.getElement(this.getWordsGrammar(), "OTHERS").getAsJsonObject();
+				JsonArray and = JSONParsing.getElement(others, "and").getAsJsonArray();
+				String translationAnd = JSONParsing.getElement(and, "translation");
+				toChangeFor += translationAnd;
+			}
+			toChangeFor += " " + pronoun + " ";
+			String NPToDelete = "";
+			for (Pair<String, JsonArray> word : this.getGrammarsNPPair().get(0)) {
+				System.out.println("Word: " + word.getA());
+				NPToDelete += word.getA() + " ";
+			}
+			System.out.println("NPToDelete: " + NPToDelete);
+			sentence = sentence.replaceAll(NPToDelete, toChangeFor);
+		}
 		
 		return sentence;
+	}
+	
+	@Override
+	public String getRandomSentence() {
+		return this.getRandomSentence(false, false);
 	}
 	
 	private ArrayList<Pair<String, JsonArray>> applyRestrictionsSNP(ArrayList<Pair<String, JsonArray>> sentenceArray) {

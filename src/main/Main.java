@@ -133,7 +133,8 @@ public class Main {
 		pickItemInput = new Integer[] {keysMap.get("pickItem")};
 		attackInput = new Integer[] {keysMap.get("attack")};
 		spellInput = new Integer[] {keysMap.get("spell1"), keysMap.get("spell2")};
-		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descLife"), keysMap.get("descMana")};
+		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descLife"), keysMap.get("descMana"), 
+				keysMap.get("descMonster")};
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
@@ -310,7 +311,7 @@ public class Main {
 		j.refresh();
 	}
 	
-	public static String _getMessage(GrammarIndividual grammarIndividual, ArrayList<PrintableObject> names, String type) {
+	public static String _getMessage(GrammarIndividual grammarIndividual, ArrayList<PrintableObject> names, String type, boolean usePronoun) {
 		GrammarSelectorS selector = null;
 		try {
 			selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, type);
@@ -319,7 +320,11 @@ public class Main {
 			e.printStackTrace();
 		}
 		if (selector != null) {
-			return selector.getRandomSentence();
+			if (!usePronoun) {
+				return selector.getRandomSentence();
+			} else {
+				return selector.getRandomSentence(true, true);
+			}
 		}
 		
 		return "";
@@ -336,7 +341,7 @@ public class Main {
 			names.add(user);
 			names.add(item);
 			GrammarIndividual grammarIndividual = grammarUseItem.getRandomGrammar();
-			printMessage(_getMessage(grammarIndividual, names, "USE"));
+			printMessage(_getMessage(grammarIndividual, names, "USE", false));
 			user.useItem(item);
 		}
 		if (debug) {
@@ -353,36 +358,49 @@ public class Main {
 				names.add(item);
 			}
 			GrammarIndividual grammarIndividual = grammarDescribeItem.getRandomGrammar();
-			printMessage(_getMessage(grammarIndividual, names, "DESCITEM"));
+			printMessage(_getMessage(grammarIndividual, names, "DESCITEM", false));
 		}
 	}
 	
-	private static void _messageDescriptionLife() {
+	private static String _messageDescriptionLife(ActiveCharacter character, boolean numerical, boolean usePronoun) {
 		ArrayList<String> adjectives = new ArrayList<String>();
-		adjectives.add(user.getLifeAdjective());
+		adjectives.add(character.getLifeAdjective());
 		PrintableObject life = new PrintableObject("life", "", adjectives);
 		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-		names.add(user);
+		names.add(character);
 		names.add(life);
 		GrammarIndividual grammarIndividual = grammarDescribePersonal.getRandomGrammar();
-		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL");
-//		String valueToChange = JSONParsing.getElement(WordsGrammar.getAdjectives(rootObjWords, adjectives).get(0).getB(), "translation");
-//		message = message.replaceAll(valueToChange, String.valueOf(user.getLife()));
-		printMessage(message);
+		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL", usePronoun);
+		if (numerical) {
+			String valueToChange = JSONParsing.getElement(WordsGrammar.getAdjectives(rootObjWords, adjectives).get(0).getB(), "translation");
+			message = message.replaceAll(valueToChange, String.valueOf(character.getLife()));
+		}
+		return message;
 	}
 	
-	private static void _messageDescriptionMana() {
+	private static String _messageDescriptionMana(ActiveCharacter character, boolean numerical, boolean usePronoun) {
 		ArrayList<String> adjectives = new ArrayList<String>();
-		adjectives.add(user.getManaAdjective());
+		adjectives.add(character.getManaAdjective());
 		PrintableObject mana = new PrintableObject("mana", "", adjectives);
 		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-		names.add(user);
+		names.add(character);
 		names.add(mana);
 		GrammarIndividual grammarIndividual = grammarDescribePersonal.getRandomGrammar();
-		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL");
-//		String valueToChange = JSONParsing.getElement(WordsGrammar.getAdjectives(rootObjWords, adjectives).get(0).getB(), "translation");
-//		message = message.replaceAll(valueToChange, String.valueOf(user.getMagic()));
-		printMessage(message);
+		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL", usePronoun);
+		if (numerical) {
+			String valueToChange = JSONParsing.getElement(WordsGrammar.getAdjectives(rootObjWords, adjectives).get(0).getB(), "translation");
+			message = message.replaceAll(valueToChange, String.valueOf(character.getMagic()));
+		}
+		return message;
+	}
+	
+	private static void _messageDescriptionMonster(boolean numerical) {
+		for (ActiveCharacter monster : map.getMonstersPosition(user)) {
+			String message = ""; 
+			message += _messageDescriptionLife(monster, numerical, false);
+			message += " " + _messageDescriptionMana(monster, numerical, true);
+			printMessage(message);
+		}
 	}
 	
 	public static void _descriptionAction(int i){
@@ -390,10 +408,13 @@ public class Main {
 			_messageDescriptionInventory();
 		}
 		if (i == keysMap.get("descLife")) {
-			_messageDescriptionLife();
+			printMessage(_messageDescriptionLife(user, false, false));
 		}
 		if (i == keysMap.get("descMana")) {
-			_messageDescriptionMana();
+			printMessage(_messageDescriptionMana(user, false, false));
+		}
+		if (i == keysMap.get("descMonster")) {
+			_messageDescriptionMonster(false);
 		}
 		hasChanged = false;
 	}
@@ -409,7 +430,7 @@ public class Main {
 			names.add(item);
 			System.out.println("Name the name: " + item.getName());
 			GrammarIndividual grammarIndividual = grammarPickItem.getRandomGrammar();
-			printMessage(_getMessage(grammarIndividual, names, "PICK"));
+			printMessage(_getMessage(grammarIndividual, names, "PICK", false));
 			hasChanged = false;
     	}
 		j.cls();
@@ -433,7 +454,7 @@ public class Main {
 			} else {
 				// We only print the message if the enemy is alive
 				GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
-				printMessage(_getMessage(grammarIndividual, names, "ATTACK"));
+				printMessage(_getMessage(grammarIndividual, names, "ATTACK", false));
 			}
     	}
 		printEverything(true);

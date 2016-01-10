@@ -103,134 +103,156 @@
         	{"num": "sing"},
             {"translation": "shield"},
             {"numopposite": "shields"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "shields": [
         	{"num": "plural"},
             {"translation": "shields"},
             {"numopposite": "shield"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "chest": [
             {"num": "sing"},
             {"translation": "chest"},
             {"numopposite": "chests"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "chests": [
             {"num": "plural"},
             {"translation": "chests"},
             {"numopposite": "chest"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "glove": [
             {"num": "sing"},
             {"translation": "glove"},
             {"numopposite": "gloves"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "gloves": [
             {"num": "plural"},
             {"translation": "gloves"},
             {"numopposite": "glove"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "pants": [
             {"num": "plural"},
             {"translation": "pants"},
             {"numopposite": "pants"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "sword": [
             {"num": "sing"},
             {"translation": "sword"},
             {"numopposite": "swords"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "swords": [
             {"num": "plural"},
             {"translation": "swords"},
             {"numopposite": "sword"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "potion": [
             {"num": "sing"},
             {"translation": "potion"},
             {"numopposite": "potions"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "potions": [
             {"num": "plural"},
             {"translation": "potions"},
             {"numopposite": "potion"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "hero": [
             {"num": "sing"},
             {"translation": "hero"},
             {"numopposite": "heroes"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "he"}
         ],
         "heroes": [
             {"num": "plural"},
             {"translation": "heroes"},
             {"numopposite": "hero"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "they"}
         ],
         "dragon": [
             {"num": "sing"},
             {"translation": "dragon"},
             {"numopposite": "dragons"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "dragons": [
             {"num": "plural"},
             {"translation": "dragons"},
             {"numopposite": "dragon"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "goblin": [
             {"num": "sing"},
             {"translation": "goblin"},
             {"numopposite": "goblins"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "goblins": [
             {"num": "plural"},
             {"translation": "goblins"},
             {"numopposite": "goblin"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "rat": [
             {"num": "sing"},
             {"translation": "rat"},
             {"numopposite": "rats"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "rats": [
             {"num": "plural"},
             {"translation": "rats"},
             {"numopposite": "rat"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "life": [
             {"num": "sing"},
             {"translation": "lige"},
             {"numopposite": "lives"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "lives": [
             {"num": "plural"},
             {"translation": "lives"},
             {"numopposite": "life"},
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ],
         "mana":
             [
             {"num": "sing"},
             {"translation": "mana"}, 
             {"numopposite": "mana"}, 
-            {"gender": ""}
+            {"gender": ""},
+            {"pronoun": "it"}
         ]
     },
     "V": {
