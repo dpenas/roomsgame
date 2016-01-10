@@ -133,7 +133,7 @@ public class Main {
 		pickItemInput = new Integer[] {keysMap.get("pickItem")};
 		attackInput = new Integer[] {keysMap.get("attack")};
 		spellInput = new Integer[] {keysMap.get("spell1"), keysMap.get("spell2")};
-		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descLife")};
+		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descLife"), keysMap.get("descMana")};
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
@@ -371,12 +371,29 @@ public class Main {
 		printMessage(message);
 	}
 	
+	private static void _messageDescriptionMana() {
+		ArrayList<String> adjectives = new ArrayList<String>();
+		adjectives.add(user.getManaAdjective());
+		PrintableObject mana = new PrintableObject("mana", "", adjectives);
+		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+		names.add(user);
+		names.add(mana);
+		GrammarIndividual grammarIndividual = grammarDescribePersonal.getRandomGrammar();
+		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL");
+//		String valueToChange = JSONParsing.getElement(WordsGrammar.getAdjectives(rootObjWords, adjectives).get(0).getB(), "translation");
+//		message = message.replaceAll(valueToChange, String.valueOf(user.getMagic()));
+		printMessage(message);
+	}
+	
 	public static void _descriptionAction(int i){
 		if (i == keysMap.get("descInv")) {
 			_messageDescriptionInventory();
 		}
 		if (i == keysMap.get("descLife")) {
 			_messageDescriptionLife();
+		}
+		if (i == keysMap.get("descMana")) {
+			_messageDescriptionMana();
 		}
 		hasChanged = false;
 	}

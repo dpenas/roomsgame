@@ -224,6 +224,13 @@
             {"translation": "lives"},
             {"numopposite": "life"},
             {"gender": ""}
+        ],
+        "mana":
+            [
+            {"num": "sing"},
+            {"translation": "mana"}, 
+            {"numopposite": "mana"}, 
+            {"gender": ""}
         ]
     },
     "V": {

@@ -524,6 +524,16 @@ public class ActiveCharacter extends Character {
 		}
 	}
 	
+	public String getManaAdjective() {
+		if (this.getMagic() > 75 && this.getMagic() <= 100) {
+			return "a lot of";
+		} else if (this.getMagic() > 40 && this.getMagic() <= 75) {
+				return "some";
+		} else {
+			return "a little";
+		}
+	}
+	
 	public int getDamage() {
 		return damage;
 	}
