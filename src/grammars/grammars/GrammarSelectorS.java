@@ -81,6 +81,9 @@ public class GrammarSelectorS extends GrammarSelector {
 		rootObj = JSONParsing.getElement(rootObj, type).getAsJsonObject();
 		System.out.println("namePos is this: !: " + namePos);
 		System.out.println("We are going to use this item: !: " + this.getNames().get(namePos).getName());
+		for (PrintableObject name : this.getNames()) {
+			System.out.println("Naming thingy: " + name.getName());
+		}
 		GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObj);
 		this.getGrammarsNP().add(new GrammarSelectorNP(grammarGeneral.getRandomGrammar(), this.getWordsGrammar(), this.getNames().get(namePos), type));
 		System.out.println("RandomSentencePair: " + this.getGrammarsNP().get(this.getGrammarsNP().size() - 1).getRandomSentencePair());

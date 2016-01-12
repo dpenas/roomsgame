@@ -59,7 +59,7 @@ public class RandUtil {
 	}
 	
 	public static boolean sameTuple(Tuple<Integer, Integer> tuple1, Tuple<Integer, Integer> tuple2){
-		if (tuple1.x == tuple2.x && tuple1.y == tuple2.y){
+		if (tuple1 != null && tuple2 != null && tuple1.x == tuple2.x && tuple1.y == tuple2.y){
 			return true;
 		}
 		return false;

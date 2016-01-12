@@ -22,19 +22,17 @@ public abstract class Item extends PrintableObject{
 	private Character character;
 	private Map map;
 	private Room room;
-	private Tuple<Integer, Integer> position;
 	private String symbolRepresentation;
 
 	public Item(String name, ArrayList<String> adjectives, String description, 
 			String gender, int weight, int space, Character character, 
 			Map map, Room room, Tuple<Integer, Integer> position, String symbolRepresentation) {
-		super(name, description, adjectives);
+		super(name, description, adjectives, position);
 		this.weight = weight;
 		this.space = space;
 		this.character = character;
 		this.map = map;
 		this.room = room;
-		this.position = position;
 		this.symbolRepresentation = symbolRepresentation;
 	}
 	
@@ -94,14 +92,6 @@ public abstract class Item extends PrintableObject{
 
 	public void setRoom(Room room) {
 		this.room = room;
-	}
-
-	public Tuple<Integer, Integer> getPosition() {
-		return position;
-	}
-
-	public void setPosition(Tuple<Integer, Integer> position) {
-		this.position = position;
 	}
 
 	public void setWeight(int weight) {

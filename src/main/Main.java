@@ -31,6 +31,7 @@ import items.wereables.OneHandSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 import magic.FireRing;
+import map.Door;
 import map.Map;
 import map.Room;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
@@ -77,6 +78,7 @@ public class Main {
 	static GrammarsGeneral grammarUseItem;
 	static GrammarsGeneral grammarDescribeItem;
 	static GrammarsGeneral grammarDescribePersonal;
+	static GrammarsGeneral grammarDescribeEnvironment;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -134,7 +136,7 @@ public class Main {
 		attackInput = new Integer[] {keysMap.get("attack")};
 		spellInput = new Integer[] {keysMap.get("spell1"), keysMap.get("spell2")};
 		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descLife"), keysMap.get("descMana"), 
-				keysMap.get("descMonster")};
+				keysMap.get("descMonster"), keysMap.get("descEnv")};
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
@@ -365,7 +367,7 @@ public class Main {
 	private static String _messageDescriptionLife(ActiveCharacter character, boolean numerical, boolean usePronoun) {
 		ArrayList<String> adjectives = new ArrayList<String>();
 		adjectives.add(character.getLifeAdjective());
-		PrintableObject life = new PrintableObject("life", "", adjectives);
+		PrintableObject life = new PrintableObject("life", "", adjectives, null);
 		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 		names.add(character);
 		names.add(life);
@@ -381,7 +383,7 @@ public class Main {
 	private static String _messageDescriptionMana(ActiveCharacter character, boolean numerical, boolean usePronoun) {
 		ArrayList<String> adjectives = new ArrayList<String>();
 		adjectives.add(character.getManaAdjective());
-		PrintableObject mana = new PrintableObject("mana", "", adjectives);
+		PrintableObject mana = new PrintableObject("mana", "", adjectives, null);
 		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 		names.add(character);
 		names.add(mana);
@@ -403,6 +405,39 @@ public class Main {
 		}
 	}
 	
+	private static String _messageDescriptionEnvironment(PrintableObject object, String directions) {
+		ArrayList<String> adjectives = new ArrayList<String>();
+		PrintableObject direction = new PrintableObject(directions, "", adjectives, null);
+		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+		names.add(object);
+		names.add(direction);
+		GrammarIndividual grammarIndividual = grammarDescribeEnvironment.getRandomGrammar();
+		String message = _getMessage(grammarIndividual, names, "DESCGENERAL", false);
+		return message;
+	}
+	
+	private static void _messageDescriptionEnvironment() {
+		String message = "";
+		for (Tuple<Integer, Integer> pos : user.getVisiblePositions()) {
+			for (ActiveCharacter enemy : user.getRoom().getMonstersPosition(pos)) {
+				message += _messageDescriptionEnvironment(enemy, enemy.getPositionDirections(user.getPosition())) + " ";
+			}
+			for (Item item : user.getRoom().getItemsPosition(pos)) {
+				message += _messageDescriptionEnvironment(item, item.getPositionDirections(user.getPosition())) + " ";
+			}
+			for (Door door : user.getRoom().getDoorsPosition(pos)) {
+				ArrayList<Door> alreadyPrintedDoors = new ArrayList<Door>();
+				Tuple<Integer, Integer> position = door.getPositionRoom(user);
+				if (position != null && !alreadyPrintedDoors.contains(door)) {
+					PrintableObject doorPrintable = new PrintableObject("door", "", door.getAdjectives(), position);
+					message += _messageDescriptionEnvironment(doorPrintable, doorPrintable.getPositionDirections(user.getPosition())) + " ";
+					alreadyPrintedDoors.add(door);
+				}
+			}
+		}
+		printMessage(message);
+	}
+	
 	public static void _descriptionAction(int i){
 		if (i == keysMap.get("descInv")) {
 			_messageDescriptionInventory();
@@ -415,6 +450,9 @@ public class Main {
 		}
 		if (i == keysMap.get("descMonster")) {
 			_messageDescriptionMonster(false);
+		}
+		if (i == keysMap.get("descEnv")) {
+			_messageDescriptionEnvironment();
 		}
 		hasChanged = false;
 	}
@@ -561,11 +599,13 @@ public class Main {
 		JsonObject objectUseItem = JSONParsing.getElement(rootObj, "USE").getAsJsonObject();
 		JsonObject objectDescribeItem = JSONParsing.getElement(rootObj, "DESCITEM").getAsJsonObject();
 		JsonObject objectDescribePersonal = JSONParsing.getElement(rootObj, "DESCPERSONAL").getAsJsonObject();
+		JsonObject objectDescribeEnvironment = JSONParsing.getElement(rootObj, "DESCENV").getAsJsonObject();
 		grammarAttack = new GrammarsGeneral(objectAttack);
 		grammarPickItem = new GrammarsGeneral(objectPickItem);
 		grammarUseItem = new GrammarsGeneral(objectUseItem);
 		grammarDescribeItem = new GrammarsGeneral(objectDescribeItem);
 		grammarDescribePersonal = new GrammarsGeneral(objectDescribePersonal);
+		grammarDescribeEnvironment = new GrammarsGeneral(objectDescribeEnvironment);
 		if (!testMode){
 			gameFlow();
 		}

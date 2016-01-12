@@ -40,6 +40,7 @@ public class WordsGrammar {
 		ArrayList<Pair<String, JsonArray>> result = new ArrayList<Pair<String, JsonArray>>();
 		JsonObject nameJSON = JSONParsing.getElement(rootObj, "N").getAsJsonObject();
 		System.out.println("nameJSON: " + nameJSON);
+		System.out.println("name: " + name);
 		JsonArray jsonArray = JSONParsing.getElement(nameJSON, name).getAsJsonArray();
 		try {
 			jsonArray = JSONParsing.getElement(nameJSON, name).getAsJsonArray();

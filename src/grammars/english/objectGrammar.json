@@ -1,4 +1,12 @@
 {
+    "SIMPLEONLYNAME": {
+        "GM_1": {
+            "S": [
+                {"N_1": ""}
+            ],
+            "restrictions": []
+        }
+    },
     "SIMPLENODET": {
         "GM_1": {
             "S": [

@@ -38,14 +38,21 @@
       		[
       		{"num": "sing"},
             {"translation": "small"}, 
-            {"numopposite": "smalls"}, 
+            {"numopposite": "small"}, 
             {"gender": ""}
         ],
-        "smalls":
+        "old":
             [
-            {"num": "plural"},
-            {"translation": "smalls"}, 
-            {"numopposite": "small"}, 
+            {"num": "sing"},
+            {"translation": "old"}, 
+            {"numopposite": "old"}, 
+            {"gender": ""}
+        ],
+        "creepy":
+            [
+            {"num": "sing"},
+            {"translation": "creepy"}, 
+            {"numopposite": "creepy"}, 
             {"gender": ""}
         ],
         "life":
@@ -253,6 +260,94 @@
             {"numopposite": "mana"}, 
             {"gender": ""},
             {"pronoun": "it"}
+        ],
+        "east":
+            [
+            {"num": "sing"},
+            {"translation": "east"}, 
+            {"numopposite": "east"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "northeast":
+            [
+            {"num": "sing"},
+            {"translation": "northeast"}, 
+            {"numopposite": "northeast"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "southeast":
+            [
+            {"num": "sing"},
+            {"translation": "southeast"}, 
+            {"numopposite": "southeast"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "west":
+            [
+            {"num": "sing"},
+            {"translation": "west"}, 
+            {"numopposite": "west"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "northwest":
+            [
+            {"num": "sing"},
+            {"translation": "northwest"}, 
+            {"numopposite": "northwest"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "southwest":
+            [
+            {"num": "sing"},
+            {"translation": "southwest"}, 
+            {"numopposite": "southwest"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "north":
+            [
+            {"num": "sing"},
+            {"translation": "north"}, 
+            {"numopposite": "north"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "south":
+            [
+            {"num": "sing"},
+            {"translation": "south"}, 
+            {"numopposite": "south"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "door":
+            [
+            {"num": "sing"},
+            {"translation": "door"}, 
+            {"numopposite": "doors"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "doors":
+            [
+            {"num": "sing"},
+            {"translation": "doors"}, 
+            {"numopposite": "door"}, 
+            {"gender": ""},
+            {"pronoun": "they"}
+        ],
+        "in the same position":
+            [
+            {"num": "sing"},
+            {"translation": "in the same position"}, 
+            {"numopposite": "in the same position"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
         ]
     },
     "V": {
@@ -371,6 +466,20 @@
                 {"num": "plural"},
                 {"translation": "have"},
                 {"numopposite": "has"},
+                {"gender": ""}
+            ]
+        },
+        "DESCGENERAL": {
+            "is": [
+                {"num": "sing"},
+                {"translation": "is"},
+                {"numopposite": "are"},
+                {"gender": ""}
+            ],
+            "are": [
+                {"num": "plural"},
+                {"translation": "are"},
+                {"numopposite": "is"},
                 {"gender": ""}
             ]
         }
