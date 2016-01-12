@@ -451,6 +451,7 @@ public class Main {
 	
 	private static void _messageDescriptionEnvironment() {
 		String message = "<html>";
+		ArrayList<Door> alreadyPrintedDoors = new ArrayList<Door>();
 		for (Tuple<Integer, Integer> pos : user.getVisiblePositions()) {
 			for (ActiveCharacter enemy : user.getRoom().getMonstersPosition(pos)) {
 				message += _messageDescriptionEnvironment(enemy, enemy.getPositionDirections(user.getPosition())) + " ";
@@ -461,7 +462,6 @@ public class Main {
 			}
 			message += "<br>";
 			for (Door door : user.getRoom().getDoorsPosition(pos)) {
-				ArrayList<Door> alreadyPrintedDoors = new ArrayList<Door>();
 				Tuple<Integer, Integer> position = door.getPositionRoom(user);
 				if (position != null && !alreadyPrintedDoors.contains(door)) {
 					PrintableObject doorPrintable = new PrintableObject("door", "", door.getAdjectives(), position);
