@@ -108,6 +108,21 @@ public class ActiveCharacter extends Character {
 			}
 		}
 	}
+	
+	public ArrayList<Tuple<Integer, Integer>> getImmediateReachablePositions() {
+		ArrayList<Tuple<Integer, Integer>> allWalkablePositions = new ArrayList<Tuple<Integer, Integer>>();
+		ArrayList<Tuple<Integer, Integer>> walkablePositions = new ArrayList<Tuple<Integer, Integer>>();
+		allWalkablePositions.add(new Tuple<Integer, Integer>(this.getPosition().x - 1, this.getPosition().y));
+		allWalkablePositions.add(new Tuple<Integer, Integer>(this.getPosition().x + 1, this.getPosition().y));
+		allWalkablePositions.add(new Tuple<Integer, Integer>(this.getPosition().x, this.getPosition().y - 1));
+		allWalkablePositions.add(new Tuple<Integer, Integer>(this.getPosition().x, this.getPosition().y + 1));
+		for (Tuple<Integer, Integer> pos : allWalkablePositions) {
+			if (this.canMove(pos)) {
+				walkablePositions.add(pos);
+			}
+		}
+		return walkablePositions;
+	}
 
 	public int getAttackFromWeapons(ActiveCharacter character){
 		int damage = 0;
@@ -464,10 +479,18 @@ public class ActiveCharacter extends Character {
 	
 	public boolean move(Tuple<Integer, Integer> position){
 		Room room = this.getMap().obtainRoomByPosition(position); 
-		if (room != null && !RandUtil.containsTuple(position, room.getInsidecolumns()) 
-				&& (room.isInside(position) || room.isADoor(position))){
+		if (this.canMove(position)) {
 			this.setPosition(position);
 			this.setRoom(room);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean canMove(Tuple<Integer, Integer> position) {
+		Room room = this.getMap().obtainRoomByPosition(position); 
+		if (room != null && !RandUtil.containsTuple(position, room.getInsidecolumns()) 
+				&& (room.isInside(position) || room.isADoor(position))){
 			return true;
 		}
 		return false;

@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -137,7 +138,7 @@ public class Main {
 		attackInput = new Integer[] {keysMap.get("attack")};
 		spellInput = new Integer[] {keysMap.get("spell1"), keysMap.get("spell2")};
 		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descLife"), keysMap.get("descMana"), 
-				keysMap.get("descMonster"), keysMap.get("descEnv")};
+				keysMap.get("descMonster"), keysMap.get("descEnv"), keysMap.get("descWalkablePositions")};
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
@@ -427,6 +428,27 @@ public class Main {
 		return message;
 	}
 	
+	private static void _messageDescriptionWalkablePositions() {
+		String message = "";
+		JsonObject others = JSONParsing.getElement(rootObjWords, "OTHERS").getAsJsonObject();
+		JsonArray reachablePositionsMessage = JSONParsing.getElement(others, "reachable positions").getAsJsonArray();
+		String translationreachablePositionsMessage = JSONParsing.getElement(reachablePositionsMessage, "translation");
+		message += translationreachablePositionsMessage + ": ";
+		int count = 0;
+		ArrayList<String> reachablePositions = user.getRoom().printableReachablePositionsCharacter(user);
+		JsonObject names = JSONParsing.getElement(rootObjWords, "N").getAsJsonObject();
+		JsonArray reachablePositionMessage;
+		for (String reachablePosition : reachablePositions) {
+			reachablePositionMessage = JSONParsing.getElement(names, reachablePosition).getAsJsonArray();
+			message += JSONParsing.getElement(reachablePositionMessage, "translation");
+			if (count != reachablePositions.size() - 1) {
+				message += ", ";
+			}
+			count++;
+		}
+		printMessage(message);
+	}
+	
 	private static void _messageDescriptionEnvironment() {
 		String message = "<html>";
 		for (Tuple<Integer, Integer> pos : user.getVisiblePositions()) {
@@ -476,6 +498,9 @@ public class Main {
 		}
 		if (i == keysMap.get("descEnv")) {
 			_messageDescriptionEnvironment();
+		}
+		if (i == keysMap.get("descWalkablePositions")) {
+			_messageDescriptionWalkablePositions();
 		}
 		hasChanged = false;
 	}

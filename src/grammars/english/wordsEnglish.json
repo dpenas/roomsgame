@@ -506,6 +506,18 @@
                 "translation": "and",
                 "gender": ""
             }
+        ],
+        "or": [
+            {
+                "translation": "or",
+                "gender": ""
+            }
+        ],
+        "reachable positions": [
+            {
+                "translation": "Reachable Positions",
+                "gender": ""
+            }
         ]
     }
 }

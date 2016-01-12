@@ -79,6 +79,27 @@ public class Room {
 		return this.getFreePositions();
 	}
 	
+	public ArrayList<Tuple<Integer, Integer>> reachablePositionsCharacter(ActiveCharacter character) {
+		return character.getImmediateReachablePositions();
+	}
+	
+	public ArrayList<String> printableReachablePositionsCharacter(ActiveCharacter character) {
+		ArrayList<String> printablePositions = new ArrayList<String>();
+		Tuple<Integer, Integer> currentPosition = character.getPosition();
+		for (Tuple<Integer, Integer> pos : this.reachablePositionsCharacter(character)) {
+			if (pos.x > currentPosition.x) {
+				printablePositions.add("south");
+			} else if (pos.x < currentPosition.x) {
+				printablePositions.add("north");
+			} else if (pos.y > currentPosition.y) {
+				printablePositions.add("east");
+			} else if (pos.y < currentPosition.y) {
+				printablePositions.add("west");
+			}
+		}
+		return printablePositions;
+	}
+	
 	public void printItems(WSwingConsoleInterface j, ArrayList<Tuple<Integer, Integer>> visiblePositions){
 		for (Item item : getItemsRoom()){
 			if (RandUtil.containsTuple(item.getPosition(), visiblePositions)){

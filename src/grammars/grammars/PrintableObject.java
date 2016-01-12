@@ -34,7 +34,7 @@ public class PrintableObject {
 			} else if (thisx < characterx) {
 				return "northeast";
 			}
-			System.out.println("east");
+			return "east";
 		} else if (thisy < charactery) {
 			if (thisx > characterx) {
 				return "southwest";
