@@ -348,6 +348,22 @@
             {"numopposite": "in the same position"}, 
             {"gender": ""},
             {"pronoun": "it"}
+        ],
+        "portal":
+            [
+            {"num": "sing"},
+            {"translation": "portal"}, 
+            {"numopposite": "portals"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "portals":
+            [
+            {"num": "plural"},
+            {"translation": "portals"}, 
+            {"numopposite": "portal"}, 
+            {"gender": ""},
+            {"pronoun": "they"}
         ]
     },
     "V": {

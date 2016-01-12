@@ -138,6 +138,17 @@ public class Room {
 		return doors;
 	}
 	
+	public ArrayList<Tuple<Integer, Integer>> getPortalsPosition(Tuple<Integer, Integer> pos){
+		ArrayList<Tuple<Integer, Integer>> portals = new ArrayList<Tuple<Integer, Integer>>();
+		for (Tuple<Integer, Integer> portal: this.getPortals()){
+			if (RandUtil.sameTuple(pos, portal)){
+				portals.add(portal);
+			}
+		}
+		
+		return portals;
+	}
+	
 	public boolean putItemRoom(Item item){
 		if (isMapPositionHere(item.getPosition())){
 			this.getItemsRoom().add(item);

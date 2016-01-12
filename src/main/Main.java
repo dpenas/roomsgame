@@ -79,6 +79,7 @@ public class Main {
 	static GrammarsGeneral grammarDescribeItem;
 	static GrammarsGeneral grammarDescribePersonal;
 	static GrammarsGeneral grammarDescribeEnvironment;
+	static GrammarsGeneral grammarDescribeEnvironmentSimple;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -416,6 +417,16 @@ public class Main {
 		return message;
 	}
 	
+	private static String _messageSimpleEnvironment(PrintableObject object, String directions) {
+		PrintableObject direction = new PrintableObject(directions, "", null, null);
+		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+		names.add(object);
+		names.add(direction);
+		GrammarIndividual grammarIndividual = grammarDescribeEnvironmentSimple.getRandomGrammar();
+		String message = _getMessage(grammarIndividual, names, "DESCGENERAL", false);
+		return message;
+	}
+	
 	private static void _messageDescriptionEnvironment() {
 		String message = "<html>";
 		for (Tuple<Integer, Integer> pos : user.getVisiblePositions()) {
@@ -437,7 +448,13 @@ public class Main {
 				}
 			}
 			message += "<br>";
-			
+			for (Tuple<Integer, Integer> portal : user.getRoom().getPortalsPosition(pos)) {
+				if (portal != null) {
+					PrintableObject portablePrintable = new PrintableObject("portal", "", null, portal);
+					message += _messageSimpleEnvironment(portablePrintable, portablePrintable.getPositionDirections(user.getPosition())) + " ";
+				}
+			}
+			message += "<br>";
 		}
 		message = message.replaceAll("(<br>)+", "<br>");
 		message += "</html>";
@@ -606,12 +623,14 @@ public class Main {
 		JsonObject objectDescribeItem = JSONParsing.getElement(rootObj, "DESCITEM").getAsJsonObject();
 		JsonObject objectDescribePersonal = JSONParsing.getElement(rootObj, "DESCPERSONAL").getAsJsonObject();
 		JsonObject objectDescribeEnvironment = JSONParsing.getElement(rootObj, "DESCENV").getAsJsonObject();
+		JsonObject objectDescribeEnvironmentSimple = JSONParsing.getElement(rootObj, "DESCENVSIMPLE").getAsJsonObject();
 		grammarAttack = new GrammarsGeneral(objectAttack);
 		grammarPickItem = new GrammarsGeneral(objectPickItem);
 		grammarUseItem = new GrammarsGeneral(objectUseItem);
 		grammarDescribeItem = new GrammarsGeneral(objectDescribeItem);
 		grammarDescribePersonal = new GrammarsGeneral(objectDescribePersonal);
 		grammarDescribeEnvironment = new GrammarsGeneral(objectDescribeEnvironment);
+		grammarDescribeEnvironmentSimple = new GrammarsGeneral(objectDescribeEnvironmentSimple);
 		if (!testMode){
 			gameFlow();
 		}
