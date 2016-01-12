@@ -417,14 +417,16 @@ public class Main {
 	}
 	
 	private static void _messageDescriptionEnvironment() {
-		String message = "";
+		String message = "<html>";
 		for (Tuple<Integer, Integer> pos : user.getVisiblePositions()) {
 			for (ActiveCharacter enemy : user.getRoom().getMonstersPosition(pos)) {
 				message += _messageDescriptionEnvironment(enemy, enemy.getPositionDirections(user.getPosition())) + " ";
 			}
+			message += "<br>";
 			for (Item item : user.getRoom().getItemsPosition(pos)) {
 				message += _messageDescriptionEnvironment(item, item.getPositionDirections(user.getPosition())) + " ";
 			}
+			message += "<br>";
 			for (Door door : user.getRoom().getDoorsPosition(pos)) {
 				ArrayList<Door> alreadyPrintedDoors = new ArrayList<Door>();
 				Tuple<Integer, Integer> position = door.getPositionRoom(user);
@@ -434,7 +436,11 @@ public class Main {
 					alreadyPrintedDoors.add(door);
 				}
 			}
+			message += "<br>";
+			
 		}
+		message = message.replaceAll("(<br>)+", "<br>");
+		message += "</html>";
 		printMessage(message);
 	}
 	
