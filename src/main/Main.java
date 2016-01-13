@@ -555,6 +555,7 @@ public class Main {
 	}
 	
 	public static void gameFlow() throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
+		boolean doMonstersTurn = false;
 		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);
 		j.cls();
 		if (deepnessScore == 0){
@@ -565,17 +566,16 @@ public class Main {
 		j.refresh();
 		for (;;) {
 			if (user.getLife() > 0) {
-				if (debug) {
-					System.out.println("Vida user: " + user.getLife());
-				}
 				GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
-				String sentence = user.getRoom().monsterTurn(user, grammarIndividual, rootObjWords);
-				if (!sentence.isEmpty()) {
-					printMessage(sentence);
-					j.cls();
-					printEverything(true);
-					j.refresh();
-					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+				if (doMonstersTurn) {
+					String sentence = user.getRoom().monsterTurn(user, grammarIndividual, rootObjWords);
+					if (!sentence.isEmpty()) {
+						printMessage(sentence);
+						j.cls();
+						printEverything(true);
+						j.refresh();
+						j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+					}	
 				}
 				
 				if (hasMoved) {
@@ -591,25 +591,31 @@ public class Main {
 				System.out.println("This is the I!: " + i);
 				System.out.println("Is pick Item input: " + isPickItemInput(i));
 	            if (isMovementInput(i)){
+	            	doMonstersTurn = true;
 	            	System.out.println("IT IS MovementInput! :");
 	            	_moveCharacterAction(i);
 	            }
 	            else if (isInventoryInput(i)) {
+	            	doMonstersTurn = true;
 	            	System.out.println("IT IS InventoryInput! :");
 	            	_inventoryAction(i);
 	            }
 	            else if (isPickItemInput(i)) {
+	            	doMonstersTurn = true;
 	            	System.out.println("IT IS PickItem! :");
 	            	_pickItemAction();
 	            }
 	            else if (isAttackInput(i)) {
+	            	doMonstersTurn = true;
 	            	System.out.println("IT IS AttackInput! :");
 	            	_attackAction();
 	            } 
 	            else if (isSpellInput(i)) {
+	            	doMonstersTurn = true;
 	            	System.out.println("IT IS SpellInput! :");
 	            	_spellAction(i);
 	            } else if (isDescriptionInput(i)) {
+	            	doMonstersTurn = false;
 	            	System.out.println("IT IS DescriptionInput! :");
 	            	_descriptionAction(i);
 	            } else {
