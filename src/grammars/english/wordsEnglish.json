@@ -400,8 +400,8 @@
         "hand":
             [
             {"num": "sing"},
-            {"translation": "head"}, 
-            {"numopposite": "heads"}, 
+            {"translation": "hand"}, 
+            {"numopposite": "hands"}, 
             {"gender": ""},
             {"pronoun": "it"}
         ],

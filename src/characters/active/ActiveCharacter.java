@@ -313,6 +313,27 @@ public class ActiveCharacter extends Character {
 		return null;
 	}
 	
+	public ArrayList<Item> getWearHandsDefense() {
+		ArrayList<Item> handsWereable = new ArrayList<Item>(); 
+		for (WereableArmor armorEquiped : this.getArmorsEquipped()) {
+			if (armorEquiped.getArmorType().get(0).equals(ItemEnumerate.ArmorType.HANDS)){
+				handsWereable.add(armorEquiped);
+			}
+		}
+		return handsWereable;
+	}
+	
+	public ArrayList<Item> getWearHandsAttack() {
+		ArrayList<Item> handsWereable = new ArrayList<Item>(); 
+		for (WereableWeapon weaponEquiped : this.getWeaponsEquipped()) {
+			if (weaponEquiped.getWeaponType().get(0).equals(ItemEnumerate.WeaponType.LEFTHAND) ||
+					weaponEquiped.getWeaponType().get(0).equals(ItemEnumerate.WeaponType.RIGHTHAND)){
+				handsWereable.add(weaponEquiped);
+			}
+		}
+		return handsWereable;
+	}
+	
 	public boolean equipWeapon(WereableWeapon weapon){
 		ArrayList<WeaponType> freeSlots = new ArrayList<WeaponType>(this.getFreeWeaponSlots());
 		ArrayList<WeaponType> weaponType = weapon.getWeaponType();

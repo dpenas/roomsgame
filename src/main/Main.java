@@ -141,7 +141,7 @@ public class Main {
 		spellInput = new Integer[] {keysMap.get("spell1"), keysMap.get("spell2")};
 		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descLife"), keysMap.get("descMana"), 
 				keysMap.get("descMonster"), keysMap.get("descEnv"), keysMap.get("descWalkablePositions"),
-				keysMap.get("descHead")};
+				keysMap.get("descHead"), keysMap.get("descHands")};
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
@@ -261,9 +261,12 @@ public class Main {
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
 		WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
+		WereableWeapon oneHandSword2 = new OneHandSword("", 0, 0, 100, user, null, null,
+				null, 0, 0, true);
 		NormalHelmet helmet = new NormalHelmet("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
 		user.putItemInventory(oneHandSword);
+		user.putItemInventory(oneHandSword2);
 		user.putItemInventory(helmet);
 		FireRing fireRing = new FireRing();
 		user.addSpell(fireRing);
@@ -473,18 +476,22 @@ public class Main {
 	}
 	
 	private static void _messageDescriptionCharacterWearsHands() {
-		Item helmet = user.getWearHelmet();
-		if (helmet != null) {
+		ArrayList<Item> hands = user.getWearHandsAttack();
+		String message = "<html>";
+		for (Item itemhand : hands) {
 			ArrayList<String> preposition = new ArrayList<String>();
-			preposition.add("on");
-			PrintableObject head = new PrintableObject("head", "", null, null);
+			preposition.add("in");
+			PrintableObject head = new PrintableObject("hand", "", null, null);
 			head.setPrepositions(preposition);
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);
-			names.add(helmet);
+			names.add(itemhand);
 			names.add(head);
 			GrammarIndividual grammarIndividual = grammarDescribeCharacterWears.getRandomGrammar();
-			String message = _getMessage(grammarIndividual, names, "DESCWEARS", false);
+			message += _getMessage(grammarIndividual, names, "DESCWEARS", false) + "<br>";
+		}
+		if (!message.isEmpty()) {
+			message += "</html>";
 			printMessage(message);
 		}
 	}
