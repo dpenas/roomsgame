@@ -331,6 +331,15 @@ public class ActiveCharacter extends Character {
 		return null;
 	}
 	
+	public Item getWearGloves() {
+		for (WereableArmor armorEquiped : this.getArmorsEquipped()) {
+			if (armorEquiped.getArmorType().get(0).equals(ItemEnumerate.ArmorType.HANDS)){
+				return armorEquiped;
+			}
+		}
+		return null;
+	}
+	
 	public ArrayList<Item> getWearHandsDefense() {
 		ArrayList<Item> handsWereable = new ArrayList<Item>(); 
 		for (WereableArmor armorEquiped : this.getArmorsEquipped()) {

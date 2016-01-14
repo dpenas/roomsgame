@@ -29,6 +29,7 @@ import grammars.grammars.WordsGrammar;
 import grammars.parsing.JSONParsing;
 import items.Item;
 import items.wereables.NormalArmor;
+import items.wereables.NormalGloves;
 import items.wereables.NormalHelmet;
 import items.wereables.NormalPants;
 import items.wereables.OneHandSword;
@@ -144,7 +145,7 @@ public class Main {
 		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descLife"), keysMap.get("descMana"), 
 				keysMap.get("descMonster"), keysMap.get("descEnv"), keysMap.get("descWalkablePositions"),
 				keysMap.get("descHead"), keysMap.get("descHands"), keysMap.get("descChest"),
-				keysMap.get("descPants")};
+				keysMap.get("descPants"), keysMap.get("descGloves")};
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
@@ -272,11 +273,14 @@ public class Main {
 				null, 0, 0, true);
 		NormalPants pants = new NormalPants("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
+		NormalGloves gloves = new NormalGloves("", 0, 0, 100, user, null, null,
+				null, 0, 0, true);
 		user.putItemInventory(oneHandSword);
 		user.putItemInventory(oneHandSword2);
 		user.putItemInventory(helmet);
 		user.putItemInventory(chest);
 		user.putItemInventory(pants);
+		user.putItemInventory(gloves);
 		FireRing fireRing = new FireRing();
 		user.addSpell(fireRing);
 		_initializeMap();
@@ -571,6 +575,12 @@ public class Main {
 			Item pants = user.getWearPants();
 			if (pants != null) {
 				_messageDescriptionCharacterWears(pants, "on", "legs");
+			}
+		}
+		if (i == keysMap.get("descGloves")) {
+			Item gloves = user.getWearGloves();
+			if (gloves != null) {
+				_messageDescriptionCharacterWears(gloves, "in", "hands");
 			}
 		}
 		if (i == keysMap.get("descHands")) {

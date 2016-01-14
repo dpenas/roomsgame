@@ -468,6 +468,22 @@
             {"numopposite": "leg"}, 
             {"gender": ""},
             {"pronoun": "they"}
+        ],
+        "glove":
+            [
+            {"num": "sing"},
+            {"translation": "glove"}, 
+            {"numopposite": "gloves"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "gloves":
+            [
+            {"num": "plural"},
+            {"translation": "gloves"}, 
+            {"numopposite": "glove"}, 
+            {"gender": ""},
+            {"pronoun": "they"}
         ]
     },
     "V": {
