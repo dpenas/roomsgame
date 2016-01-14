@@ -323,6 +323,16 @@ public class ActiveCharacter extends Character {
 		return handsWereable;
 	}
 	
+	public ArrayList<Item> getWearChest() {
+		ArrayList<Item> handsWereable = new ArrayList<Item>(); 
+		for (WereableArmor armorEquiped : this.getArmorsEquipped()) {
+			if (armorEquiped.getArmorType().get(0).equals(ItemEnumerate.ArmorType.CHEST)){
+				handsWereable.add(armorEquiped);
+			}
+		}
+		return handsWereable;
+	}
+	
 	public ArrayList<Item> getWearHandsAttack() {
 		ArrayList<Item> handsWereable = new ArrayList<Item>(); 
 		for (WereableWeapon weaponEquiped : this.getWeaponsEquipped()) {

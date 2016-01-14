@@ -458,21 +458,18 @@ public class Main {
 		printMessage(message);
 	}
 	
-	private static void _messageDescriptionCharacterWearsHelmet() {
-		Item helmet = user.getWearHelmet();
-		if (helmet != null) {
-			ArrayList<String> preposition = new ArrayList<String>();
-			preposition.add("on");
-			PrintableObject head = new PrintableObject("head", "", null, null);
-			head.setPrepositions(preposition);
-			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-			names.add(user);
-			names.add(helmet);
-			names.add(head);
-			GrammarIndividual grammarIndividual = grammarDescribeCharacterWears.getRandomGrammar();
-			String message = _getMessage(grammarIndividual, names, "DESCWEARS", false);
-			printMessage(message);
-		}
+	private static void _messageDescriptionCharacterWears(Item item, String usePreposition, String bodyPartString) {
+		ArrayList<String> preposition = new ArrayList<String>();
+		preposition.add(usePreposition);
+		PrintableObject bodyPart = new PrintableObject(bodyPartString, "", null, null);
+		bodyPart.setPrepositions(preposition);
+		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+		names.add(user);
+		names.add(item);
+		names.add(bodyPart);
+		GrammarIndividual grammarIndividual = grammarDescribeCharacterWears.getRandomGrammar();
+		String message = _getMessage(grammarIndividual, names, "DESCWEARS", false);
+		printMessage(message);
 	}
 	
 	private static void _messageDescriptionCharacterWearsHands() {
@@ -550,7 +547,10 @@ public class Main {
 			_messageDescriptionWalkablePositions();
 		}
 		if (i == keysMap.get("descHead")) {
-			_messageDescriptionCharacterWearsHelmet();
+			Item helmet = user.getWearHelmet();
+			if (helmet != null) {
+				_messageDescriptionCharacterWears(helmet, "on", "head");
+			}
 		}
 		if (i == keysMap.get("descHands")) {
 			_messageDescriptionCharacterWearsHands();

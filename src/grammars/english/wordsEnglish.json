@@ -428,6 +428,22 @@
             {"numopposite": "helmets"}, 
             {"gender": ""},
             {"pronoun": "they"}
+        ],
+        "chest":
+            [
+            {"num": "sing"},
+            {"translation": "chest"}, 
+            {"numopposite": "chests"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "chests":
+            [
+            {"num": "plural"},
+            {"translation": "chests"}, 
+            {"numopposite": "chest"}, 
+            {"gender": ""},
+            {"pronoun": "they"}
         ]
     },
     "V": {
