@@ -1,4 +1,14 @@
 {
+    "SIMPLEPREP": {
+        "GM_1": {
+            "S": [
+                {"PREP_1": ""},
+                {"DET_1": ""},
+                {"N_1": ""}
+            ],
+            "restrictions": []
+        }
+    },
     "SIMPLEONLYNAME": {
         "GM_1": {
             "S": [

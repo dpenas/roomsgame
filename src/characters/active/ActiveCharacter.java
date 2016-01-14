@@ -304,6 +304,15 @@ public class ActiveCharacter extends Character {
 		return availableSlots;
 	}
 	
+	public Item getWearHelmet() {
+		for (WereableArmor armorEquiped : this.getArmorsEquipped()) {
+			if (armorEquiped.getArmorType().get(0).equals(ItemEnumerate.ArmorType.HEAD)){
+				return armorEquiped;
+			}
+		}
+		return null;
+	}
+	
 	public boolean equipWeapon(WereableWeapon weapon){
 		ArrayList<WeaponType> freeSlots = new ArrayList<WeaponType>(this.getFreeWeaponSlots());
 		ArrayList<WeaponType> weaponType = weapon.getWeaponType();

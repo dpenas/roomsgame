@@ -9,6 +9,7 @@ public class PrintableObject {
 	private String name;
 	private String description;
 	private ArrayList<String> adjectives;
+	private ArrayList<String> prepositions;
 	private Tuple<Integer, Integer> position;
 	
 	public PrintableObject(String name, String description, ArrayList<String> adjectives, Tuple<Integer, Integer> position) {
@@ -73,6 +74,14 @@ public class PrintableObject {
 	}
 	public void setPosition(Tuple<Integer, Integer> position) {
 		this.position = position;
+	}
+
+	public ArrayList<String> getPrepositions() {
+		return prepositions;
+	}
+
+	public void setPrepositions(ArrayList<String> prepositions) {
+		this.prepositions = prepositions;
 	}
 
 }

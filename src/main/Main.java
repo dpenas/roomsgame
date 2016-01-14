@@ -28,6 +28,7 @@ import grammars.grammars.PrintableObject;
 import grammars.grammars.WordsGrammar;
 import grammars.parsing.JSONParsing;
 import items.Item;
+import items.wereables.NormalHelmet;
 import items.wereables.OneHandSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
@@ -81,6 +82,7 @@ public class Main {
 	static GrammarsGeneral grammarDescribePersonal;
 	static GrammarsGeneral grammarDescribeEnvironment;
 	static GrammarsGeneral grammarDescribeEnvironmentSimple;
+	static GrammarsGeneral grammarDescribeCharacterWears;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -138,7 +140,8 @@ public class Main {
 		attackInput = new Integer[] {keysMap.get("attack")};
 		spellInput = new Integer[] {keysMap.get("spell1"), keysMap.get("spell2")};
 		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descLife"), keysMap.get("descMana"), 
-				keysMap.get("descMonster"), keysMap.get("descEnv"), keysMap.get("descWalkablePositions")};
+				keysMap.get("descMonster"), keysMap.get("descEnv"), keysMap.get("descWalkablePositions"),
+				keysMap.get("descHead")};
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
@@ -258,9 +261,12 @@ public class Main {
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
 		WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
+		NormalHelmet helmet = new NormalHelmet("", 0, 0, 100, user, null, null,
+				null, 0, 0, true);
 		user.putItemInventory(oneHandSword);
-		FireRing fireball = new FireRing();
-		user.addSpell(fireball);
+		user.putItemInventory(helmet);
+		FireRing fireRing = new FireRing();
+		user.addSpell(fireRing);
 		_initializeMap();
 		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
@@ -449,6 +455,40 @@ public class Main {
 		printMessage(message);
 	}
 	
+	private static void _messageDescriptionCharacterWearsHelmet() {
+		Item helmet = user.getWearHelmet();
+		if (helmet != null) {
+			ArrayList<String> preposition = new ArrayList<String>();
+			preposition.add("on");
+			PrintableObject head = new PrintableObject("head", "", null, null);
+			head.setPrepositions(preposition);
+			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+			names.add(user);
+			names.add(helmet);
+			names.add(head);
+			GrammarIndividual grammarIndividual = grammarDescribeCharacterWears.getRandomGrammar();
+			String message = _getMessage(grammarIndividual, names, "DESCWEARS", false);
+			printMessage(message);
+		}
+	}
+	
+	private static void _messageDescriptionCharacterWearsHands() {
+		Item helmet = user.getWearHelmet();
+		if (helmet != null) {
+			ArrayList<String> preposition = new ArrayList<String>();
+			preposition.add("on");
+			PrintableObject head = new PrintableObject("head", "", null, null);
+			head.setPrepositions(preposition);
+			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+			names.add(user);
+			names.add(helmet);
+			names.add(head);
+			GrammarIndividual grammarIndividual = grammarDescribeCharacterWears.getRandomGrammar();
+			String message = _getMessage(grammarIndividual, names, "DESCWEARS", false);
+			printMessage(message);
+		}
+	}
+	
 	private static void _messageDescriptionEnvironment() {
 		String message = "<html>";
 		ArrayList<Door> alreadyPrintedDoors = new ArrayList<Door>();
@@ -501,6 +541,12 @@ public class Main {
 		}
 		if (i == keysMap.get("descWalkablePositions")) {
 			_messageDescriptionWalkablePositions();
+		}
+		if (i == keysMap.get("descHead")) {
+			_messageDescriptionCharacterWearsHelmet();
+		}
+		if (i == keysMap.get("descHands")) {
+			_messageDescriptionCharacterWearsHands();
 		}
 		hasChanged = false;
 	}
@@ -655,6 +701,7 @@ public class Main {
 		JsonObject objectDescribePersonal = JSONParsing.getElement(rootObj, "DESCPERSONAL").getAsJsonObject();
 		JsonObject objectDescribeEnvironment = JSONParsing.getElement(rootObj, "DESCENV").getAsJsonObject();
 		JsonObject objectDescribeEnvironmentSimple = JSONParsing.getElement(rootObj, "DESCENVSIMPLE").getAsJsonObject();
+		JsonObject objectCharacterWears = JSONParsing.getElement(rootObj, "DESCCHAWEARS").getAsJsonObject();
 		grammarAttack = new GrammarsGeneral(objectAttack);
 		grammarPickItem = new GrammarsGeneral(objectPickItem);
 		grammarUseItem = new GrammarsGeneral(objectUseItem);
@@ -662,6 +709,7 @@ public class Main {
 		grammarDescribePersonal = new GrammarsGeneral(objectDescribePersonal);
 		grammarDescribeEnvironment = new GrammarsGeneral(objectDescribeEnvironment);
 		grammarDescribeEnvironmentSimple = new GrammarsGeneral(objectDescribeEnvironmentSimple);
+		grammarDescribeCharacterWears = new GrammarsGeneral(objectCharacterWears);
 		if (!testMode){
 			gameFlow();
 		}

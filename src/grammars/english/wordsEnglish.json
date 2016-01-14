@@ -1,21 +1,23 @@
 {
+    "PREP": {
+        "in": [
+            {"num": ""},
+            {"translation": "in"},
+            {"numopposite": "in"},
+            {"gender": ""}
+        ],
+        "on": [
+            {"num": ""},
+            {"translation": "on"},
+            {"numopposite": "on"},
+            {"gender": ""}
+        ]
+    },
     "DET": {
         "the": [
             {"num": ""},
             {"translation": "the"},
             {"numopposite": "the"},
-            {"gender": ""}
-        ],
-        "this": [
-            {"num": "sing"},
-            {"translation": "this"},
-            {"numopposite": "these"},
-            {"gender": ""}
-        ],
-        "these": [
-            {"num": "plural"},
-            {"translation": "these"},
-            {"numopposite": "this"},
             {"gender": ""}
         ]
     },
@@ -25,6 +27,20 @@
             {"num": ""},
             {"translation": "red"},
             {"numopposite": "red"},
+            {"gender": ""}
+        ],
+        "normal": 
+            [
+            {"num": ""},
+            {"translation": "normal"},
+            {"numopposite": "normal"},
+            {"gender": ""}
+        ],
+        "average": 
+            [
+            {"num": ""},
+            {"translation": "average"},
+            {"numopposite": "average"},
             {"gender": ""}
         ],
       	"big":
@@ -364,6 +380,54 @@
             {"numopposite": "portal"}, 
             {"gender": ""},
             {"pronoun": "they"}
+        ],
+        "head":
+            [
+            {"num": "sing"},
+            {"translation": "head"}, 
+            {"numopposite": "heads"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "heads":
+            [
+            {"num": "plural"},
+            {"translation": "heads"}, 
+            {"numopposite": "head"}, 
+            {"gender": ""},
+            {"pronoun": "they"}
+        ],
+        "hand":
+            [
+            {"num": "sing"},
+            {"translation": "head"}, 
+            {"numopposite": "heads"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "hands":
+            [
+            {"num": "plural"},
+            {"translation": "hands"}, 
+            {"numopposite": "hand"}, 
+            {"gender": ""},
+            {"pronoun": "they"}
+        ],
+        "helmet":
+            [
+            {"num": "sing"},
+            {"translation": "helmet"}, 
+            {"numopposite": "helmets"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "helmets":
+            [
+            {"num": "plural"},
+            {"translation": "helmet"}, 
+            {"numopposite": "helmets"}, 
+            {"gender": ""},
+            {"pronoun": "they"}
         ]
     },
     "V": {
@@ -496,6 +560,20 @@
                 {"num": "plural"},
                 {"translation": "are"},
                 {"numopposite": "is"},
+                {"gender": ""}
+            ]
+        },
+        "DESCWEARS": {
+            "wears": [
+                {"num": "sing"},
+                {"translation": "wears"},
+                {"numopposite": "wear"},
+                {"gender": ""}
+            ],
+            "wear": [
+                {"num": "plural"},
+                {"translation": "wear"},
+                {"numopposite": "wears"},
                 {"gender": ""}
             ]
         }

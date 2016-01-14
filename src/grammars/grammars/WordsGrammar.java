@@ -24,12 +24,37 @@ public class WordsGrammar {
 		return itemsReturn;
 	}
 	
+	public static ArrayList<Pair<String, JsonArray>> getPrepositions(JsonObject rootObj, ArrayList<String> prepositions) {
+		ArrayList<Pair<String, JsonArray>> itemsReturn = new ArrayList<Pair<String, JsonArray>>();
+		JsonObject prepositionsJSON = JSONParsing.getElement((JsonObject)rootObj, "PREP").getAsJsonObject();
+		if (prepositions != null) {
+			for (int i = 0; i < prepositions.size(); i++) {
+				JsonArray jsonArray = JSONParsing.getElement(prepositionsJSON, prepositions.get(i)).getAsJsonArray();
+				String string = prepositions.get(i);
+				Pair<String, JsonArray> pair = new Pair<String, JsonArray>(string, jsonArray);
+				itemsReturn.add(pair);
+			}
+		}
+		return itemsReturn;
+	}
+	
 	public static ArrayList<Pair<String, JsonArray>> getAllAdjectives(JsonObject rootObj) {
 		ArrayList<Pair<String, JsonArray>> itemsReturn = new ArrayList<Pair<String, JsonArray>>();
 		JsonObject adjectivesJSON = JSONParsing.getElement((JsonObject)rootObj, "ADJ").getAsJsonObject();
 		for (int i = 0; i < adjectivesJSON.entrySet().size(); i++) {
 			String name = JSONParsing.getSpecificKeyFromSet(i, adjectivesJSON);
 			JsonArray value = JSONParsing.getSpecificValueFromSet(i, adjectivesJSON).getAsJsonArray();
+			itemsReturn.add(new Pair<String, JsonArray>(name, value));
+		}
+		return itemsReturn;
+	}
+	
+	public static ArrayList<Pair<String, JsonArray>> getAllPrepositions(JsonObject rootObj) {
+		ArrayList<Pair<String, JsonArray>> itemsReturn = new ArrayList<Pair<String, JsonArray>>();
+		JsonObject prepositionsJSON = JSONParsing.getElement((JsonObject)rootObj, "PREP").getAsJsonObject();
+		for (int i = 0; i < prepositionsJSON.entrySet().size(); i++) {
+			String name = JSONParsing.getSpecificKeyFromSet(i, prepositionsJSON);
+			JsonArray value = JSONParsing.getSpecificValueFromSet(i, prepositionsJSON).getAsJsonArray();
 			itemsReturn.add(new Pair<String, JsonArray>(name, value));
 		}
 		return itemsReturn;

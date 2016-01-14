@@ -12,6 +12,8 @@ public class GrammarSelectorNP extends GrammarSelector {
 	
 	private PrintableObject name;
 	private String type;
+	private ArrayList<Pair<String, JsonArray>> allPrepositions;
+	private ArrayList<Pair<String, JsonArray>> prepositions;
 	private ArrayList<Pair<String, JsonArray>> adjectives;
 	private ArrayList<Pair<String, JsonArray>> allAdjectives;
 	private ArrayList<Pair<String, JsonArray>> names;
@@ -21,6 +23,8 @@ public class GrammarSelectorNP extends GrammarSelector {
 		super(grammar, wordsGrammar);
 		this.name = name;
 		this.type = type;
+		this.prepositions = WordsGrammar.getPrepositions(wordsGrammar, name.getPrepositions());
+		this.allPrepositions = WordsGrammar.getAllPrepositions(wordsGrammar);
 		this.allAdjectives = WordsGrammar.getAllAdjectives(wordsGrammar);
 		this.adjectives = WordsGrammar.getAdjectives(wordsGrammar, name.getAdjectives());
 		this.names = WordsGrammar.getName(wordsGrammar, name.getName());
@@ -41,12 +45,21 @@ public class GrammarSelectorNP extends GrammarSelector {
 		return null;
 	}
 	
+	public Pair<String, JsonArray> getRandomPreposition() {
+		if (this.getPrepositions().size() > 0) {
+			return this.getPrepositions().get(RandUtil.RandomNumber(0, this.getPrepositions().size()));
+		}
+		return null;
+	}
+	
 	protected ArrayList<Pair<String, JsonArray>> fillWords() {
 		ArrayList<Pair<String, JsonArray>> resultArray = new ArrayList<Pair<String, JsonArray>>();
 		for (String value : this.getGrammar().getTypeWordGrammar()) {
 			System.out.println("Value: " + value);
 			switch (value) {
 				case "DET" : resultArray.add(getRandomDeterminant());
+					break;
+				case "PREP" : resultArray.add(getRandomPreposition());
 					break;
 				case "ADJ" : resultArray.add(getRandomAdjective());
 					break;
@@ -171,6 +184,22 @@ public class GrammarSelectorNP extends GrammarSelector {
 
 	public void setAllAdjectives(ArrayList<Pair<String, JsonArray>> allAdjectives) {
 		this.allAdjectives = allAdjectives;
+	}
+
+	public ArrayList<Pair<String, JsonArray>> getAllPrepositions() {
+		return allPrepositions;
+	}
+
+	public void setAllPrepositions(ArrayList<Pair<String, JsonArray>> allPrepositions) {
+		this.allPrepositions = allPrepositions;
+	}
+
+	public ArrayList<Pair<String, JsonArray>> getPrepositions() {
+		return prepositions;
+	}
+
+	public void setPrepositions(ArrayList<Pair<String, JsonArray>> prepositions) {
+		this.prepositions = prepositions;
 	}
 
 }
