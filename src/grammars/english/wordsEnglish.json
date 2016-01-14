@@ -165,7 +165,7 @@
             {"pronoun": "it"}
         ],
         "pants": [
-            {"num": "plural"},
+            {"num": "sing"},
             {"translation": "pants"},
             {"numopposite": "pants"},
             {"gender": ""},
@@ -442,6 +442,30 @@
             {"num": "plural"},
             {"translation": "chests"}, 
             {"numopposite": "chest"}, 
+            {"gender": ""},
+            {"pronoun": "they"}
+        ],
+        "armor":
+            [
+            {"num": "sing"},
+            {"translation": "armor"}, 
+            {"numopposite": "armor"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "leg":
+            [
+            {"num": "sing"},
+            {"translation": "leg"}, 
+            {"numopposite": "legs"}, 
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "legs":
+            [
+            {"num": "plural"},
+            {"translation": "legs"}, 
+            {"numopposite": "leg"}, 
             {"gender": ""},
             {"pronoun": "they"}
         ]

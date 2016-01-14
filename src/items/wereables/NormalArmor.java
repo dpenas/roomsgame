@@ -10,16 +10,16 @@ import translations.Translations;
 import util.Tuple;
 import characters.Character;
 
-public class NormalChest extends WereableArmor {
+public class NormalArmor extends WereableArmor {
 	
 ArrayList<String> attributes = new ArrayList<String>();
 	
-	public NormalChest (String description, int weight,
+	public NormalArmor (String description, int weight,
 			int space, int durability, Character character, Map map, Room room,
 			Tuple<Integer, Integer> position, int erosion,
 			int level, boolean isMagic) {
 		//TODO: Change the defense (the 10) to the algorithm based on level
-		super("chest", null, "", "m", 
+		super("armor", null, "", "m", 
 				weight, space, new ArrayList<ArmorType>(), durability, character,
 				10, map, room, position, erosion, level, isMagic);
 		ArrayList<ArmorType> armorType = new ArrayList<ArmorType>();
@@ -32,13 +32,14 @@ ArrayList<String> attributes = new ArrayList<String>();
 			attributes.add("magic");
 			this.setAdjectives(attributes);
 		}
-		this.setName(Translations.getNameItem("chest", this.getAdjectives()));
+//		this.setName(Translations.getNameItem("chest", this.getAdjectives()));
 		this.setAttributes(level);
 		
 	}
 	
 	public ArrayList<String> getNormalChestAttributes(){
 		attributes.add("normal");
+		attributes.add("average");
 		return attributes;
 	}
 

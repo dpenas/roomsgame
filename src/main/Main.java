@@ -28,7 +28,9 @@ import grammars.grammars.PrintableObject;
 import grammars.grammars.WordsGrammar;
 import grammars.parsing.JSONParsing;
 import items.Item;
+import items.wereables.NormalArmor;
 import items.wereables.NormalHelmet;
+import items.wereables.NormalPants;
 import items.wereables.OneHandSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
@@ -141,7 +143,8 @@ public class Main {
 		spellInput = new Integer[] {keysMap.get("spell1"), keysMap.get("spell2")};
 		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descLife"), keysMap.get("descMana"), 
 				keysMap.get("descMonster"), keysMap.get("descEnv"), keysMap.get("descWalkablePositions"),
-				keysMap.get("descHead"), keysMap.get("descHands")};
+				keysMap.get("descHead"), keysMap.get("descHands"), keysMap.get("descChest"),
+				keysMap.get("descPants")};
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
@@ -265,9 +268,15 @@ public class Main {
 				null, 0, 0, true);
 		NormalHelmet helmet = new NormalHelmet("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
+		NormalArmor chest = new NormalArmor("", 0, 0, 100, user, null, null,
+				null, 0, 0, true);
+		NormalPants pants = new NormalPants("", 0, 0, 100, user, null, null,
+				null, 0, 0, true);
 		user.putItemInventory(oneHandSword);
 		user.putItemInventory(oneHandSword2);
 		user.putItemInventory(helmet);
+		user.putItemInventory(chest);
+		user.putItemInventory(pants);
 		FireRing fireRing = new FireRing();
 		user.addSpell(fireRing);
 		_initializeMap();
@@ -550,6 +559,18 @@ public class Main {
 			Item helmet = user.getWearHelmet();
 			if (helmet != null) {
 				_messageDescriptionCharacterWears(helmet, "on", "head");
+			}
+		}
+		if (i == keysMap.get("descChest")) {
+			Item chest = user.getWearChest();
+			if (chest != null) {
+				_messageDescriptionCharacterWears(chest, "in", "chest");
+			}
+		}
+		if (i == keysMap.get("descPants")) {
+			Item pants = user.getWearPants();
+			if (pants != null) {
+				_messageDescriptionCharacterWears(pants, "on", "legs");
 			}
 		}
 		if (i == keysMap.get("descHands")) {

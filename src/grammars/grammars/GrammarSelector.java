@@ -62,21 +62,23 @@ public abstract class GrammarSelector {
 		if (numItems == null) {
 			restrictions1 = sentenceArray.get(grammar.indexOf(firstType)).getB();
 			restrictions2 = sentenceArray.get(grammar.indexOf(secondType)).getB();
+			System.out.println("restriction1 inside numitems: " + restrictions1);
 		} else {
 			int totalFirstItem = 0;
 			int totalSecondItem = 0;
-			for (int i = 0; i < grammar.indexOf(firstType); i++) {
+			for (int i = 0; i <= grammar.indexOf(firstType); i++) {
 				totalFirstItem += numItems.get(i);
 				System.out.println("TotalFirstItem: " + totalFirstItem);
-				restrictions1 = sentenceArray.get(totalFirstItem).getB();
+				restrictions1 = sentenceArray.get(totalFirstItem - 1).getB();
 			}
-			if (grammar.indexOf(firstType) == 0) {
-				for (int i = 0; i < sentenceArray.size(); i++) {
-					if (JSONParsing.getElement(sentenceArray.get(i).getB(), "translation") != "") {
-						restrictions1 = sentenceArray.get(i).getB();
-					}
-				}
-			}
+			System.out.println("This is the problem: R1 " + restrictions1);
+//			if (grammar.indexOf(firstType) == 0) {
+//				for (int i = 0; i < sentenceArray.size(); i++) {
+//					if (JSONParsing.getElement(sentenceArray.get(i).getB(), "translation") != "") {
+//						restrictions1 = sentenceArray.get(i).getB();
+//					}
+//				}
+//			}
 			for (Integer integer: numItems) {
 				System.out.println("integer: " + integer);
 			}

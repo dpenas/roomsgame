@@ -313,20 +313,28 @@ public class ActiveCharacter extends Character {
 		return null;
 	}
 	
+	public Item getWearChest() {
+		for (WereableArmor armorEquiped : this.getArmorsEquipped()) {
+			if (armorEquiped.getArmorType().get(0).equals(ItemEnumerate.ArmorType.CHEST)){
+				return armorEquiped;
+			}
+		}
+		return null;
+	}
+	
+	public Item getWearPants() {
+		for (WereableArmor armorEquiped : this.getArmorsEquipped()) {
+			if (armorEquiped.getArmorType().get(0).equals(ItemEnumerate.ArmorType.PANTS)){
+				return armorEquiped;
+			}
+		}
+		return null;
+	}
+	
 	public ArrayList<Item> getWearHandsDefense() {
 		ArrayList<Item> handsWereable = new ArrayList<Item>(); 
 		for (WereableArmor armorEquiped : this.getArmorsEquipped()) {
 			if (armorEquiped.getArmorType().get(0).equals(ItemEnumerate.ArmorType.HANDS)){
-				handsWereable.add(armorEquiped);
-			}
-		}
-		return handsWereable;
-	}
-	
-	public ArrayList<Item> getWearChest() {
-		ArrayList<Item> handsWereable = new ArrayList<Item>(); 
-		for (WereableArmor armorEquiped : this.getArmorsEquipped()) {
-			if (armorEquiped.getArmorType().get(0).equals(ItemEnumerate.ArmorType.CHEST)){
 				handsWereable.add(armorEquiped);
 			}
 		}

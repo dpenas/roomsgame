@@ -32,7 +32,7 @@ ArrayList<String> attributes = new ArrayList<String>();
 			attributes.add("magic");
 			this.setAdjectives(attributes);
 		}
-		this.setName(Translations.getNameItem("pants", this.getAdjectives()));
+//		this.setName(Translations.getNameItem("pants", this.getAdjectives()));
 		this.setAttributes(level);
 		
 	}
