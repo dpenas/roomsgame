@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -63,7 +64,9 @@ public class Main {
 	static Integer[] attackInput;
 	static Integer[] spellInput;
 	static Integer[] descriptionInput;
+	static Integer[] descriptionWereableInput;
 	static Integer[] throwItemInput;
+	static Integer[] unequipItemInput;
 	static Map map;
 	static Tuple<Integer, Integer> pos = new Tuple<Integer, Integer>(1,1);
 	static Room roomEnemy;
@@ -112,8 +115,16 @@ public class Main {
 		return Arrays.asList(descriptionInput).contains(key);
 	}
 	
+	public static boolean isDescriptionWereableInput(int key){
+		return Arrays.asList(descriptionWereableInput).contains(key);
+	}
+	
 	public static boolean isThrowItemInput(int key){
 		return Arrays.asList(throwItemInput).contains(key);
+	}
+	
+	public static boolean isUnequipItemInput(int key){
+		return Arrays.asList(unequipItemInput).contains(key);
 	}
 	
 	public static void _setKeyMap() {
@@ -148,10 +159,11 @@ public class Main {
 		attackInput = new Integer[] {keysMap.get("attack")};
 		spellInput = new Integer[] {keysMap.get("spell1"), keysMap.get("spell2")};
 		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descLife"), keysMap.get("descMana"), 
-				keysMap.get("descMonster"), keysMap.get("descEnv"), keysMap.get("descWalkablePositions"),
-				keysMap.get("descHead"), keysMap.get("descHands"), keysMap.get("descChest"),
+				keysMap.get("descMonster"), keysMap.get("descEnv"), keysMap.get("descWalkablePositions")};
+		descriptionWereableInput = new Integer[] {keysMap.get("descHead"), keysMap.get("descHands"), keysMap.get("descChest"),
 				keysMap.get("descPants"), keysMap.get("descGloves")};
 		throwItemInput = new Integer[] {keysMap.get("throwItem")};
+		unequipItemInput = new Integer[] {keysMap.get("unequipItem")};
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
@@ -645,17 +657,32 @@ public class Main {
 	}
 	
 	public static void _throwItem(int keyPressed){
-		//TODO: Working here
 		int itemNumber = keyPressed % keysMap.get("item1");
 		if (itemNumber + 1 <= user.getInventory().size()) {
 			Item item = user.getInventory().get(itemNumber);
-			user.throwItem(item);
+			if (user.throwItem(item)) {
+				ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+				names.add(user);
+				names.add(item);
+				System.out.println("Name the name: " + item.getName());
+				GrammarIndividual grammarIndividual = grammarPickItem.getRandomGrammar();
+				printMessage(_getMessage(grammarIndividual, names, "THROW", false));
+			}
+			hasChanged = false;
+		}
+		printEverything(true);	
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+	}
+	
+	public static void _unequipItem(Item item){
+		//TODO: Working here
+		if (user.unequipItem(item)) {
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);
 			names.add(item);
 			System.out.println("Name the name: " + item.getName());
 			GrammarIndividual grammarIndividual = grammarPickItem.getRandomGrammar();
-			printMessage(_getMessage(grammarIndividual, names, "THROW", false));
+			printMessage(_getMessage(grammarIndividual, names, "UNEQUIP", false));
 			hasChanged = false;
 		}
 		printEverything(true);	
@@ -722,7 +749,7 @@ public class Main {
 	            	doMonstersTurn = true;
 	            	System.out.println("IT IS SpellInput! :");
 	            	_spellAction(i);
-	            } else if (isDescriptionInput(i)) {
+	            } else if (isDescriptionInput(i) || isDescriptionWereableInput(i)) {
 	            	doMonstersTurn = false;
 	            	System.out.println("IT IS DescriptionInput! :");
 	            	_descriptionAction(i);
@@ -731,8 +758,42 @@ public class Main {
 	            	if (isInventoryInput(itemCode)) {
 	            		_throwItem(itemCode);
 	            	}
-	            	
-	            } else {
+	            } else if (isUnequipItemInput(i)) {
+	            	int itemCode = j.inkey().code;
+	            	if (isDescriptionWereableInput(itemCode)) {
+	            		if (itemCode == keysMap.get("descHead")) {
+	            			Item helmet = user.getWearHelmet();
+	            			if (helmet != null) {
+	            				_unequipItem(helmet);
+	            			}
+	            		}
+	            		if (itemCode == keysMap.get("descChest")) {
+	            			Item chest = user.getWearChest();
+	            			if (chest != null) {
+	            				_unequipItem(chest);
+	            			}
+	            		}
+	            		if (itemCode == keysMap.get("descPants")) {
+	            			System.out.println("Hello mister");
+	            			Item pants = user.getWearPants();
+	            			if (pants != null) {
+	            				_unequipItem(pants);
+	            			}
+	            		}
+	            		if (itemCode == keysMap.get("descGloves")) {
+	            			Item gloves = user.getWearGloves();
+	            			if (gloves != null) {
+	            				_unequipItem(gloves);
+	            			}
+	            		}
+	            		if (itemCode == keysMap.get("descHands")) {
+	            			if (user.getWeaponsEquipped().size() > 0) {
+	            				_unequipItem(user.getWeaponsEquipped().get(0));
+	            			}
+	            		}
+	            	}
+	            } 
+	            else {
 	            	printEverything(true);
 					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	            }

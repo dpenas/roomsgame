@@ -601,6 +601,20 @@
                 {"gender": ""}
             ]
         },
+        "UNEQUIP": {
+            "unequips": [
+                {"num": "sing"},
+                {"translation": "unequips"},
+                {"numopposite": "unequip"},
+                {"gender": ""}
+            ],
+            "unequip": [
+                {"num": "plural"},
+                {"translation": "unequip"},
+                {"numopposite": "unequips"},
+                {"gender": ""}
+            ]
+        },
         "USE": {
             "uses": [
                 {"num": "sing"},

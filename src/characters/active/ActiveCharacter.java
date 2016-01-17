@@ -424,6 +424,15 @@ public class ActiveCharacter extends Character {
 		_printLife(j, initPos_j + 1, initPos_i);
 	}
 	
+	public boolean unequipItem(Item item) {
+		if (item instanceof WereableArmor) {
+			return this.unEquipArmor((WereableArmor)item);
+		} else if (item instanceof WereableWeapon) {
+			return this.unEquipWeapon((WereableWeapon)item);
+		}
+		return false;
+	}
+	
 	/**
 	 * The armor will go to the inventory if there's enough space
 	 * @param armor
@@ -431,7 +440,7 @@ public class ActiveCharacter extends Character {
 	 */
 	
 	public boolean unEquipArmor(WereableArmor armor){
-		if (this.getInventorySpace() >= this.getActualInventorySpace() + armor.getSpace()){
+		if ((this.getInventorySpace() >= this.getActualInventorySpace() + armor.getSpace()) && this.getArmorsEquipped().contains(armor)){
 			this.getArmorsEquipped().remove(armor);
 			this.getInventory().add(armor);
 			this.setActualInventorySpace(this.getActualInventorySpace() + armor.getSpace());
@@ -442,7 +451,7 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public boolean unEquipWeapon(WereableWeapon weapon){
-		if (this.getInventorySpace() >= this.getActualInventorySpace() + weapon.getSpace()){
+		if ((this.getInventorySpace() >= this.getActualInventorySpace() + weapon.getSpace()) && this.getWeaponsEquipped().contains(weapon)){
 			if (weapon.getIsSingleHand()){
 				weapon.setWeaponType(new ArrayList<ItemEnumerate.WeaponType>());
 			}
