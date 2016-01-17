@@ -458,8 +458,10 @@ public class ActiveCharacter extends Character {
 	public boolean throwItem(Item item){
 		if (item.getCharacter().equals(this)){
 			item.setCharacter(null);
+			item.setMap(this.getMap());
 			item.setRoom(this.getRoom());
 			item.setPosition(this.getPosition());
+			item.getRoom().getItemsRoom().add(item);
 			if (this.getWeaponsEquipped().contains(item)){
 				this.getWeaponsEquipped().remove(item);
 			} else if (this.getArmorsEquipped().contains(item)){

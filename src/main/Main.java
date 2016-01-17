@@ -63,6 +63,7 @@ public class Main {
 	static Integer[] attackInput;
 	static Integer[] spellInput;
 	static Integer[] descriptionInput;
+	static Integer[] throwItemInput;
 	static Map map;
 	static Tuple<Integer, Integer> pos = new Tuple<Integer, Integer>(1,1);
 	static Room roomEnemy;
@@ -111,6 +112,10 @@ public class Main {
 		return Arrays.asList(descriptionInput).contains(key);
 	}
 	
+	public static boolean isThrowItemInput(int key){
+		return Arrays.asList(throwItemInput).contains(key);
+	}
+	
 	public static void _setKeyMap() {
 		keyBinding = ResourceBundle.getBundle("config.keys", currentLocale);
 		Enumeration <String> keys = keyBinding.getKeys();
@@ -146,6 +151,7 @@ public class Main {
 				keysMap.get("descMonster"), keysMap.get("descEnv"), keysMap.get("descWalkablePositions"),
 				keysMap.get("descHead"), keysMap.get("descHands"), keysMap.get("descChest"),
 				keysMap.get("descPants"), keysMap.get("descGloves")};
+		throwItemInput = new Integer[] {keysMap.get("throwItem")};
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
@@ -638,6 +644,24 @@ public class Main {
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	}
 	
+	public static void _throwItem(int keyPressed){
+		//TODO: Working here
+		int itemNumber = keyPressed % keysMap.get("item1");
+		if (itemNumber + 1 <= user.getInventory().size()) {
+			Item item = user.getInventory().get(itemNumber);
+			user.throwItem(item);
+			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+			names.add(user);
+			names.add(item);
+			System.out.println("Name the name: " + item.getName());
+			GrammarIndividual grammarIndividual = grammarPickItem.getRandomGrammar();
+			printMessage(_getMessage(grammarIndividual, names, "THROW", false));
+			hasChanged = false;
+		}
+		printEverything(true);	
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+	}
+	
 	public static void gameFlow() throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 		boolean doMonstersTurn = false;
 		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);
@@ -702,6 +726,12 @@ public class Main {
 	            	doMonstersTurn = false;
 	            	System.out.println("IT IS DescriptionInput! :");
 	            	_descriptionAction(i);
+	            } else if (isThrowItemInput(i)) {
+	            	int itemCode = j.inkey().code;
+	            	if (isInventoryInput(itemCode)) {
+	            		_throwItem(itemCode);
+	            	}
+	            	
 	            } else {
 	            	printEverything(true);
 					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);

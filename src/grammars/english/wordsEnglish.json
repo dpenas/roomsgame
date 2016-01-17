@@ -563,6 +563,44 @@
 	            {"gender": ""}
 	        ]
     	},
+        "THROW": {
+            "throws": [
+                {"num": "sing"},
+                {"translation": "throws"},
+                {"numopposite": "throw"},
+                {"gender": ""}
+            ],
+            "throw": [
+                {"num": "plural"},
+                {"translation": "throw"},
+                {"numopposite": "throws"},
+                {"gender": ""}
+            ],
+            "gets rid of": [
+                {"num": "sing"},
+                {"translation": "gets rid of"},
+                {"numopposite": "get rid of"},
+                {"gender": ""}
+            ],
+            "get rid of": [
+                {"num": "plural"},
+                {"translation": "get rid of"},
+                {"numopposite": "gets rid of"},
+                {"gender": ""}
+            ],
+            "leaves": [
+                {"num": "sing"},
+                {"translation": "leaves"},
+                {"numopposite": "leave"},
+                {"gender": ""}
+            ],
+            "leave": [
+                {"num": "plural"},
+                {"translation": "leave"},
+                {"numopposite": "leaves"},
+                {"gender": ""}
+            ]
+        },
         "USE": {
             "uses": [
                 {"num": "sing"},
