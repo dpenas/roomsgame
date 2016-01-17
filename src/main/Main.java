@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -500,7 +499,9 @@ public class Main {
 		names.add(bodyPart);
 		GrammarIndividual grammarIndividual = grammarDescribeCharacterWears.getRandomGrammar();
 		String message = _getMessage(grammarIndividual, names, "DESCWEARS", false);
-		printMessage(message);
+		if (!message.isEmpty()) {
+			printMessage(message);
+		}
 	}
 	
 	private static void _messageDescriptionCharacterWearsHands() {
@@ -518,7 +519,7 @@ public class Main {
 			GrammarIndividual grammarIndividual = grammarDescribeCharacterWears.getRandomGrammar();
 			message += _getMessage(grammarIndividual, names, "DESCWEARS", false) + "<br>";
 		}
-		if (!message.isEmpty()) {
+		if (message.length() > 10) {
 			message += "</html>";
 			printMessage(message);
 		}
