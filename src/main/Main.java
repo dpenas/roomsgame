@@ -89,6 +89,7 @@ public class Main {
 	static GrammarsGeneral grammarDescribeEnvironment;
 	static GrammarsGeneral grammarDescribeEnvironmentSimple;
 	static GrammarsGeneral grammarDescribeCharacterWears;
+	static GrammarsGeneral grammarUnvalidDescription;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -214,6 +215,7 @@ public class Main {
         		} 
         	}
         } else {
+        	_messageUnvalid();
         	printEverything(true);
         	j.print(previousPosition.y, previousPosition.x, user.getSymbolRepresentation(), 12);
         	hasMoved = false;
@@ -525,6 +527,19 @@ public class Main {
 		}
 	}
 	
+	private static void _messageUnvalid() {
+		String message = "";
+		PrintableObject that = new PrintableObject("that", "", null, null);
+		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+		names.add(user);
+		names.add(that);
+		GrammarIndividual grammarIndividual = grammarUnvalidDescription.getRandomGrammar();
+		message += _getMessage(grammarIndividual, names, "DESCUNVALID", false);
+		if (!message.isEmpty()) {
+			printMessage(message);
+		}
+	}
+	
 	private static void _messageDescriptionEnvironment() {
 		String message = "<html>";
 		ArrayList<Door> alreadyPrintedDoors = new ArrayList<Door>();
@@ -832,6 +847,7 @@ public class Main {
 		JsonObject objectDescribeEnvironment = JSONParsing.getElement(rootObj, "DESCENV").getAsJsonObject();
 		JsonObject objectDescribeEnvironmentSimple = JSONParsing.getElement(rootObj, "DESCENVSIMPLE").getAsJsonObject();
 		JsonObject objectCharacterWears = JSONParsing.getElement(rootObj, "DESCCHAWEARS").getAsJsonObject();
+		JsonObject unvalidDescription = JSONParsing.getElement(rootObj, "DESCUNVALID").getAsJsonObject();
 		grammarAttack = new GrammarsGeneral(objectAttack);
 		grammarPickItem = new GrammarsGeneral(objectPickItem);
 		grammarUseItem = new GrammarsGeneral(objectUseItem);
@@ -840,6 +856,7 @@ public class Main {
 		grammarDescribeEnvironment = new GrammarsGeneral(objectDescribeEnvironment);
 		grammarDescribeEnvironmentSimple = new GrammarsGeneral(objectDescribeEnvironmentSimple);
 		grammarDescribeCharacterWears = new GrammarsGeneral(objectCharacterWears);
+		grammarUnvalidDescription = new GrammarsGeneral(unvalidDescription);
 		if (!testMode){
 			gameFlow();
 		}

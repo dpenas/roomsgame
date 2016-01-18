@@ -484,6 +484,13 @@
             {"numopposite": "glove"}, 
             {"gender": ""},
             {"pronoun": "they"}
+        ],
+        "that":
+            [
+            {"num": "sing"},
+            {"translation": "that"}, 
+            {"numopposite": "that"}, 
+            {"gender": ""}
         ]
     },
     "V": {
@@ -612,6 +619,26 @@
                 {"num": "plural"},
                 {"translation": "unequip"},
                 {"numopposite": "unequips"},
+                {"gender": ""}
+            ]
+        },
+        "DESCUNVALID": {
+            "can't do": [
+                {"num": "sing"},
+                {"translation": "can't do"},
+                {"numopposite": "can't do"},
+                {"gender": ""}
+            ],
+            "is not allowed to do": [
+                {"num": "sing"},
+                {"translation": "is not allowed to do"},
+                {"numopposite": "are not allowed to do"},
+                {"gender": ""}
+            ],
+            "are not allowed to do": [
+                {"num": "plural"},
+                {"translation": "are not allowed to do"},
+                {"numopposite": "is not allowed to do"},
                 {"gender": ""}
             ]
         },
