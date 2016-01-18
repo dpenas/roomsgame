@@ -90,6 +90,7 @@ public class Main {
 	static GrammarsGeneral grammarDescribeEnvironmentSimple;
 	static GrammarsGeneral grammarDescribeCharacterWears;
 	static GrammarsGeneral grammarUnvalidDescription;
+	static GrammarsGeneral grammarSimpleDescription;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -221,6 +222,12 @@ public class Main {
         	hasMoved = false;
         }
 		if (user.getRoom().isPortal(user.getPosition())) {
+			PrintableObject portal = new PrintableObject("portal", "", null, null);
+			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+			names.add(user);
+			names.add(portal);
+			GrammarIndividual grammarIndividual = grammarSimpleDescription.getRandomGrammar();
+			printMessage(_getMessage(grammarIndividual, names, "DESCGOESTHROUGH", false));
 			deepnessScore++;
 			gameFlow();
 		}
@@ -848,6 +855,7 @@ public class Main {
 		JsonObject objectDescribeEnvironmentSimple = JSONParsing.getElement(rootObj, "DESCENVSIMPLE").getAsJsonObject();
 		JsonObject objectCharacterWears = JSONParsing.getElement(rootObj, "DESCCHAWEARS").getAsJsonObject();
 		JsonObject unvalidDescription = JSONParsing.getElement(rootObj, "DESCUNVALID").getAsJsonObject();
+		JsonObject simpleDescription = JSONParsing.getElement(rootObj, "DESCSIMPLE").getAsJsonObject();
 		grammarAttack = new GrammarsGeneral(objectAttack);
 		grammarPickItem = new GrammarsGeneral(objectPickItem);
 		grammarUseItem = new GrammarsGeneral(objectUseItem);
@@ -857,6 +865,7 @@ public class Main {
 		grammarDescribeEnvironmentSimple = new GrammarsGeneral(objectDescribeEnvironmentSimple);
 		grammarDescribeCharacterWears = new GrammarsGeneral(objectCharacterWears);
 		grammarUnvalidDescription = new GrammarsGeneral(unvalidDescription);
+		grammarSimpleDescription = new GrammarsGeneral(simpleDescription);
 		if (!testMode){
 			gameFlow();
 		}

@@ -711,6 +711,20 @@
                 {"numopposite": "wears"},
                 {"gender": ""}
             ]
+        },
+        "DESCGOESTHROUGH": {
+            "goes through": [
+                {"num": "sing"},
+                {"translation": "goes through"},
+                {"numopposite": "go through"},
+                {"gender": ""}
+            ],
+            "go through": [
+                {"num": "plural"},
+                {"translation": "go through"},
+                {"numopposite": "goes through"},
+                {"gender": ""}
+            ]
         }
     },
     "OTHERS": {
