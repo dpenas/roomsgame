@@ -125,6 +125,13 @@
             {"translation": "a little"}, 
             {"numopposite": "a little"}, 
             {"gender": ""}
+        ],
+        "dead": 
+            [
+            {"num": "sing"},
+            {"translation": "dead"}, 
+            {"numopposite": "dead"}, 
+            {"gender": ""}
         ]
     },
     "N": {

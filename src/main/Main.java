@@ -91,6 +91,7 @@ public class Main {
 	static GrammarsGeneral grammarDescribeCharacterWears;
 	static GrammarsGeneral grammarUnvalidDescription;
 	static GrammarsGeneral grammarSimpleDescription;
+	static GrammarsGeneral grammarAdjectiveDescription;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -414,6 +415,16 @@ public class Main {
 		}
 	}
 	
+	private static void _messageDescriptionDead(ActiveCharacter character) {
+		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+		ArrayList<String> adjectives = new ArrayList<String>();
+		adjectives.add("dead");
+		character.setAdjectives(adjectives);
+		names.add(character);
+		GrammarIndividual grammarIndividual = grammarAdjectiveDescription.getRandomGrammar();
+		printMessage(_getMessage(grammarIndividual, names, "DESCGENERAL", false));
+	}
+	
 	private static String _messageDescriptionLife(ActiveCharacter character, boolean numerical, boolean usePronoun) {
 		ArrayList<String> adjectives = new ArrayList<String>();
 		adjectives.add(character.getLifeAdjective());
@@ -662,6 +673,7 @@ public class Main {
 			System.out.println("Size monster adj: " + names.get(0).getAdjectives().get(0));
 			System.out.println("Size user adj: " + names.get(1).getAdjectives().get(0));
 			if (monster.getLife() <= 0) {
+				_messageDescriptionDead(monster);
 				hasChanged = true;
 			} else {
 				// We only print the message if the enemy is alive
@@ -857,6 +869,7 @@ public class Main {
 		JsonObject objectCharacterWears = JSONParsing.getElement(rootObj, "DESCCHAWEARS").getAsJsonObject();
 		JsonObject unvalidDescription = JSONParsing.getElement(rootObj, "DESCUNVALID").getAsJsonObject();
 		JsonObject simpleDescription = JSONParsing.getElement(rootObj, "DESCSIMPLE").getAsJsonObject();
+		JsonObject adjectiveDescription = JSONParsing.getElement(rootObj, "DESCRIPTIONADJECTIVE").getAsJsonObject();
 		grammarAttack = new GrammarsGeneral(objectAttack);
 		grammarPickItem = new GrammarsGeneral(objectPickItem);
 		grammarUseItem = new GrammarsGeneral(objectUseItem);
@@ -867,6 +880,7 @@ public class Main {
 		grammarDescribeCharacterWears = new GrammarsGeneral(objectCharacterWears);
 		grammarUnvalidDescription = new GrammarsGeneral(unvalidDescription);
 		grammarSimpleDescription = new GrammarsGeneral(simpleDescription);
+		grammarAdjectiveDescription = new GrammarsGeneral(adjectiveDescription);
 		if (!testMode){
 			gameFlow();
 		}
