@@ -581,11 +581,12 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public String doTurn(ActiveCharacter user, GrammarIndividual grammarAttack, JsonObject rootObjWords){
-		if (this.getRoom().equals(user.getRoom()) && !this.isDead()){
+		if (this.getRoom().equals(user.getRoom()) && !this.isDead() && this.getWeaponsEquipped().size() > 0){
 			if (RandUtil.sameTuple(this.getPosition(), user.getPosition())){
 				ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 				names.add(this);
 				names.add(user);
+				names.add(this.getWeaponsEquipped().get(0));
 				GrammarSelectorS selector = null;
 				try {
 					selector = new GrammarSelectorS(grammarAttack, rootObjWords, names, "ATTACK");

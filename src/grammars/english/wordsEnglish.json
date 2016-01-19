@@ -11,6 +11,12 @@
             {"translation": "on"},
             {"numopposite": "on"},
             {"gender": ""}
+        ],
+        "with": [
+            {"num": ""},
+            {"translation": "with"},
+            {"numopposite": "with"},
+            {"gender": ""}
         ]
     },
     "DET": {

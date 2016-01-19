@@ -656,6 +656,7 @@ public class Main {
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);
 			names.add(monster);
+			names.add(user.getWeaponsEquipped().get(0));
 			System.out.println("Monster Name: " + monster.getName());
 			System.out.println("User Name: " + user.getName());
 			System.out.println("Size monster adj: " + names.get(0).getAdjectives().get(0));

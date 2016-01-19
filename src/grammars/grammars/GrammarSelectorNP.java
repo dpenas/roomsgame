@@ -121,8 +121,10 @@ public class GrammarSelectorNP extends GrammarSelector {
 		System.out.println(this.getName());
 		ArrayList<Pair<String, JsonArray>> sentenceArray = this.fillWords();
 		for (Pair<String, JsonArray> a : sentenceArray) {
-			System.out.println(a.getA());
-			System.out.println(a.getB());
+			if (a != null) {
+				System.out.println(a.getA());
+				System.out.println(a.getB());
+			}
 		}
 		sentenceArray = this.applyRestrictions(sentenceArray);
 		return sentenceArray;

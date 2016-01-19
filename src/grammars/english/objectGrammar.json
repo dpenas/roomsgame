@@ -9,6 +9,20 @@
             "restrictions": []
         }
     },
+    "GENERALPREP": {
+        "GM_1": {
+            "S": [
+                {"PREP_1": ""},
+                {"DET_1": ""},
+                {"ADJ_N": "array"},
+                {"N_1": ""}
+            ],
+            "restrictions": [
+                {"DET_1.num": "N_1.num"},
+                {"N_1.num": "ADJ_N.num"}
+            ]
+        }
+    },
     "SIMPLEONLYNAME": {
         "GM_1": {
             "S": [

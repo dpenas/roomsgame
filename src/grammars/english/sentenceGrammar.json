@@ -4,7 +4,8 @@
             "S": [
                 {"SIMPLE_1": ""},
                 {"V_1": ""},
-                {"SIMPLE_2": ""}
+                {"SIMPLE_2": ""},
+                {"SIMPLEPREP_1": ""}
             ],
             "restrictions": [
                 {"SIMPLE_1.num": "V_1.num"}
@@ -14,10 +15,66 @@
             "S": [
                 {"GENERAL_1": ""},
                 {"V_1": ""},
-                {"GENERAL_2": ""}
+                {"SIMPLE_2": ""},
+                {"SIMPLEPREP_1": ""}
             ],
             "restrictions": [
-            	{"GENERAL_1.num": "V_1.num"}
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        },
+        "S3": {
+            "S": [
+                {"GENERAL_1": ""},
+                {"V_1": ""},
+                {"GENERAL_2": ""},
+                {"SIMPLEPREP_1": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        },
+        "S4": {
+            "S": [
+                {"GENERAL_1": ""},
+                {"V_1": ""},
+                {"GENERAL_2": ""},
+                {"SIMPLEPREP_1": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        },
+        "S5": {
+            "S": [
+                {"GENERAL_1": ""},
+                {"V_1": ""},
+                {"GENERAL_2": ""},
+                {"GENERALPREP_1": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        },
+        "S6": {
+            "S": [
+                {"SIMPLE_1": ""},
+                {"V_1": ""},
+                {"GENERAL_2": ""},
+                {"GENERALPREP_1": ""}
+            ],
+            "restrictions": [
+                {"SIMPLE_1.num": "V_1.num"}
+            ]
+        },
+        "S7": {
+            "S": [
+                {"SIMPLE_1": ""},
+                {"V_1": ""},
+                {"SIMPLE_2": ""},
+                {"GENERALPREP_1": ""}
+            ],
+            "restrictions": [
+                {"SIMPLE_1.num": "V_1.num"}
             ]
         }
     },
