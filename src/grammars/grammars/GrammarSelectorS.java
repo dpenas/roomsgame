@@ -256,7 +256,6 @@ public class GrammarSelectorS extends GrammarSelector {
 			}
 		}
 		if (usePronoun) {
-			System.out.println("In testing!");
 			String nameToGetPronounFrom = this.getGrammarsNP().get(0).getName().getName();
 			String toChangeFor = "";
 			String pronoun = JSONParsing.getElement(WordsGrammar.getName(this.getWordsGrammar(), nameToGetPronounFrom).get(0).getB(), "pronoun");

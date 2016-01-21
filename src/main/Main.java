@@ -392,7 +392,7 @@ public class Main {
 	public static void generatePrintMessage(ArrayList<PrintableObject> names, GrammarsGeneral grammar, String type, boolean usePronoun,
 			boolean useAnd) {
 		GrammarIndividual grammarIndividual = grammar.getRandomGrammar();
-		printMessage(_getMessage(grammarIndividual, names, "USE", usePronoun, useAnd));
+		printMessage(_getMessage(grammarIndividual, names, type, usePronoun, useAnd));
 	}
 	
 	public static void _inventoryAction(int i){
@@ -431,7 +431,7 @@ public class Main {
 		adjectives.add("dead");
 		character.setAdjectives(adjectives);
 		names.add(character);
-		generatePrintMessage(names, grammarAdjectiveDescription, "DESCGENERAL", usePronoun(), false);
+		generatePrintMessage(names, grammarAdjectiveDescription, "DESCGENERAL", false, false);
 	}
 	
 	private static String _messageDescriptionLife(ActiveCharacter character, boolean numerical, boolean usePronoun) {
