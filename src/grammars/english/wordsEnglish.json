@@ -155,6 +155,20 @@
             {"gender": ""},
             {"pronoun": "it"}
         ],
+        "weapon": [
+        	{"num": "sing"},
+            {"translation": "weapon"},
+            {"numopposite": "weapons"},
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
+        "weapons": [
+        	{"num": "plural"},
+            {"translation": "weapons"},
+            {"numopposite": "weapon"},
+            {"gender": ""},
+            {"pronoun": "it"}
+        ],
         "chest": [
             {"num": "sing"},
             {"translation": "chest"},
@@ -548,6 +562,20 @@
 	            {"num": "plural"},
 	            {"translation": "charge against"},
 	            {"numopposite": "charges against"},
+	            {"gender": ""}
+	        ]
+    	},
+    	"NOTHAVE": {
+    		"doesn't have": [
+	            {"num": "sing"},
+	            {"translation": "doesn't have"},
+	            {"numopposite": "don't have"},
+	            {"gender": ""}
+        	],
+	        "don't have": [
+	            {"num": "plural"},
+	            {"translation": "don't have"},
+	            {"numopposite": "doesn't have"},
 	            {"gender": ""}
 	        ]
     	},

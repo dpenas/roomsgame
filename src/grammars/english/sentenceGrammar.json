@@ -78,6 +78,28 @@
             ]
         }
     },
+    "GENERAL": {
+        "S1": {
+            "S": [
+            	{"GENERAL_1": ""},
+                {"V_1": ""},
+                {"SIMPLE_1": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        },
+        "S2": {
+            "S": [
+            	{"SIMPLE_1": ""},
+                {"V_1": ""},
+                {"SIMPLE_2": ""}
+            ],
+            "restrictions": [
+                {"SIMPLE_1.num": "V_1.num"}
+            ]
+        }
+    },
     "ATTACKMISS": {
         "S1": {
             "S": [
