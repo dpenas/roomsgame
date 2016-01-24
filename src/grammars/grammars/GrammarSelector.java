@@ -10,7 +10,7 @@ import grammars.parsing.JSONParsing;
 import net.slashie.util.Pair;
 
 public abstract class GrammarSelector {
-	private static String[] WORD_IMPORTANCE = {"SIMPLE", "NP", "N", "DET", "GENERAL", "V", "ADJ", "ADJECTIVE"};
+	private static String[] WORD_IMPORTANCE = {"SIMPLE", "SIMPLEPREP", "NP", "N", "DET", "GENERAL", "V", "ADJ", "ADJECTIVE"};
 	private GrammarIndividual grammar;
 	private JsonObject wordsGrammar;
 	

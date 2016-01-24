@@ -40,6 +40,7 @@ import map.Door;
 import map.Map;
 import map.Room;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
+import net.slashie.util.Pair;
 import util.RandUtil;
 import util.Tuple;
 
@@ -93,6 +94,7 @@ public class Main {
 	static GrammarsGeneral grammarUnvalidDescription;
 	static GrammarsGeneral grammarSimpleDescription;
 	static GrammarsGeneral grammarAdjectiveDescription;
+	static GrammarsGeneral grammarMissDescription;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -668,17 +670,31 @@ public class Main {
 	
 	public static void _attackAction(){
 		if (map.getMonstersPosition(user).size() > 0) {
-			ActiveCharacter monster = user.weaponAttack();
+			Pair<Boolean, ActiveCharacter> monster = user.weaponAttack();
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);
-			names.add(monster);
+			names.add(monster.getB());
 			names.add(user.getWeaponsEquipped().get(0));
-			if (monster.getLife() <= 0) {
-				_messageDescriptionDead(monster);
-				hasChanged = true;
+			GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
+			String message = _getMessage(grammarIndividual, names, "ATTACK", usePronoun(), false);
+			if (monster.getA()) {
+				if (monster.getB().getLife() <= 0) {
+					_messageDescriptionDead(monster.getB());
+					hasChanged = true;
+				} else {
+					// We only print the message if the enemy is alive
+					printMessage(message);
+				}
 			} else {
-				// We only print the message if the enemy is alive
-				generatePrintMessage(names, grammarAttack, "ATTACK", usePronoun(), false);
+				GrammarIndividual grammarIndividualMiss = grammarMissDescription.getRandomGrammar();
+				ArrayList<PrintableObject> namesMiss = new ArrayList<PrintableObject>();
+				ArrayList<String> preposition = new ArrayList<String>();
+				preposition.add("but");
+				user.setPrepositions(preposition);
+				namesMiss.add(user);
+				String messageMiss = _getMessage(grammarIndividualMiss, namesMiss, "MISS", true, false);
+				user.setPrepositions(null);
+				printMessage(message+ messageMiss);
 			}
     	}
 		printEverything(true);
@@ -736,9 +752,19 @@ public class Main {
 			if (user.getLife() > 0) {
 				GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
 				if (doMonstersTurn) {
-					String sentence = user.getRoom().monsterTurn(user, grammarIndividual, rootObjWords);
-					if (!sentence.isEmpty()) {
-						printMessage(sentence);
+					Pair<Boolean, String> message = user.getRoom().monsterTurn(user, grammarIndividual, rootObjWords);
+					if (message.getA() && !message.getB().isEmpty()) {
+						printMessage(message.getB());
+					} else if (!message.getB().isEmpty()){
+						GrammarIndividual grammarIndividualMiss = grammarMissDescription.getRandomGrammar();
+						ArrayList<PrintableObject> namesMiss = new ArrayList<PrintableObject>();
+						ArrayList<String> preposition = new ArrayList<String>();
+						preposition.add("but");
+						user.setPrepositions(preposition);
+						namesMiss.add(user);
+						String messageMiss = _getMessage(grammarIndividualMiss, namesMiss, "MISS", true, false);
+						user.setPrepositions(null);
+						printMessage(message.getB() + messageMiss);
 						j.cls();
 						printEverything(true);
 						j.refresh();
@@ -863,6 +889,7 @@ public class Main {
 		JsonObject unvalidDescription = JSONParsing.getElement(rootObj, "DESCUNVALID").getAsJsonObject();
 		JsonObject simpleDescription = JSONParsing.getElement(rootObj, "DESCSIMPLE").getAsJsonObject();
 		JsonObject adjectiveDescription = JSONParsing.getElement(rootObj, "DESCRIPTIONADJECTIVE").getAsJsonObject();
+		JsonObject missDescription = JSONParsing.getElement(rootObj, "ATTACKMISS").getAsJsonObject();
 		grammarAttack = new GrammarsGeneral(objectAttack);
 		grammarPickItem = new GrammarsGeneral(objectPickItem);
 		grammarUseItem = new GrammarsGeneral(objectUseItem);
@@ -874,6 +901,7 @@ public class Main {
 		grammarUnvalidDescription = new GrammarsGeneral(unvalidDescription);
 		grammarSimpleDescription = new GrammarsGeneral(simpleDescription);
 		grammarAdjectiveDescription = new GrammarsGeneral(adjectiveDescription);
+		grammarMissDescription = new GrammarsGeneral(missDescription);
 		if (!testMode){
 			gameFlow();
 		}

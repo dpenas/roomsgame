@@ -139,6 +139,15 @@ public class GrammarSelectorNP extends GrammarSelector {
 		}
 		return 0;
 	}
+	
+	public boolean isPreposition(String givenPreposition) {
+		for (Pair<String, JsonArray> preposition : this.getAllPrepositions()) {
+			if (preposition.getA().equals(givenPreposition)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public PrintableObject getName() {
 		return name;

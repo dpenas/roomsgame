@@ -17,6 +17,12 @@
             {"translation": "with"},
             {"numopposite": "with"},
             {"gender": ""}
+        ],
+        "but": [
+            {"num": ""},
+            {"translation": "but"},
+            {"numopposite": "but"},
+            {"gender": ""}
         ]
     },
     "DET": {
@@ -666,6 +672,20 @@
                 {"num": "plural"},
                 {"translation": "use"},
                 {"numopposite": "uses"},
+                {"gender": ""}
+            ]
+        },
+        "MISS": {
+            "misses": [
+                {"num": "sing"},
+                {"translation": "misses"},
+                {"numopposite": "miss"},
+                {"gender": ""}
+            ],
+            "miss": [
+                {"num": "plural"},
+                {"translation": "miss"},
+                {"numopposite": "misses"},
                 {"gender": ""}
             ]
         },

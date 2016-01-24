@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
+import net.slashie.util.Pair;
 import map.Map;
 import map.Room;
 import characters.Character;
@@ -211,7 +212,7 @@ public class ActiveCharacter extends Character {
 		return true;
 	}
 	
-	public ActiveCharacter weaponAttack() {
+	public Pair<Boolean, ActiveCharacter> weaponAttack() {
 		Map map = this.getMap();
 		ActiveCharacter monster = map.getMonstersPosition(this).get(0);
 		for (int i = 0; i < map.getMonstersPosition(this).size(); i++) {
@@ -221,10 +222,9 @@ public class ActiveCharacter extends Character {
 				break;
 			}
 		}
-
-		this.attack(monster);
+		Pair<Boolean, ActiveCharacter> returnValue = new Pair<Boolean, ActiveCharacter>(this.attack(monster), monster);
 		System.out.println("Vida monster: " + map.getMonstersPosition(this).get(0).getLife());
-		return monster;
+		return returnValue;
 	}
 	
 	private void attackWithSpell(ActiveCharacter defender, Spell spell) {
@@ -580,7 +580,7 @@ public class ActiveCharacter extends Character {
 		}
 	}
 	
-	public String doTurn(ActiveCharacter user, GrammarIndividual grammarAttack, JsonObject rootObjWords){
+	public Pair<Boolean, String> doTurn(ActiveCharacter user, GrammarIndividual grammarAttack, JsonObject rootObjWords){
 		if (this.getRoom().equals(user.getRoom()) && !this.isDead() && this.getWeaponsEquipped().size() > 0){
 			if (RandUtil.sameTuple(this.getPosition(), user.getPosition())){
 				ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
@@ -594,8 +594,8 @@ public class ActiveCharacter extends Character {
 						| IllegalAccessException e) {
 					e.printStackTrace();
 				}
-				this.attack(user);
-				return selector.getRandomSentence();
+				Pair<Boolean, String> returnValue = new Pair<Boolean, String>(this.attack(user), selector.getRandomSentence());
+				return returnValue;
 			} else {
 				Tuple<Integer, Integer> pos = Movement.moveCharacter(this, user);
 				if (pos != null) {
@@ -603,7 +603,7 @@ public class ActiveCharacter extends Character {
 				}
 			}
 		}
-		return "";	
+		return new Pair<Boolean, String>(false, "");	
 	}
 	
 	public String getLifeAdjective() {

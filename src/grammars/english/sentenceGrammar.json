@@ -78,6 +78,17 @@
             ]
         }
     },
+    "ATTACKMISS": {
+        "S1": {
+            "S": [
+            	{"SIMPLEPREP_1": ""},
+                {"V_1": ""}
+            ],
+            "restrictions": [
+                {"SIMPLEPREP_1.num": "V_1.num"}
+            ]
+        }
+    },
     "DESCRIPTIONADJECTIVE": {
         "S1": {
             "S": [

@@ -12,6 +12,7 @@ import characters.active.ActiveCharacter;
 import characters.active.enemies.Goblin;
 import grammars.grammars.GrammarIndividual;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
+import net.slashie.util.Pair;
 import main.Main;
 import util.RandUtil;
 import util.Tuple;
@@ -178,11 +179,11 @@ public class Room {
 		return false;
 	}
 	
-	public String monsterTurn(ActiveCharacter user, GrammarIndividual grammarAttack, JsonObject rootObjWords){
+	public Pair<Boolean, String> monsterTurn(ActiveCharacter user, GrammarIndividual grammarAttack, JsonObject rootObjWords){
 		for (ActiveCharacter monster : this.getMonsters()){
 			return monster.doTurn(user, grammarAttack, rootObjWords);
 		}
-		return "";
+		return new Pair<Boolean, String>(false, "");
 	}
 	
 	public String getSymbolPosition(Tuple<Integer, Integer> tuple){

@@ -78,6 +78,8 @@ public class GrammarSelectorS extends GrammarSelector {
 		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		System.out.println(rootObj);
+		System.out.println(type);
 		rootObj = JSONParsing.getElement(rootObj, type).getAsJsonObject();
 		System.out.println("namePos is this: !: " + namePos);
 		System.out.println("We are going to use this item: !: " + this.getNames().get(namePos).getName());
@@ -268,8 +270,10 @@ public class GrammarSelectorS extends GrammarSelector {
 			toChangeFor += " " + pronoun + " ";
 			String NPToDelete = "";
 			for (Pair<String, JsonArray> word : this.getGrammarsNPPair().get(0)) {
-				System.out.println("Word: " + word.getA());
-				NPToDelete += word.getA() + " ";
+				if (!this.getGrammarsNP().get(0).isPreposition(word.getA())) {
+					System.out.println("Word: " + word.getA());
+					NPToDelete += word.getA() + " ";
+				}
 			}
 			System.out.println("NPToDelete: " + NPToDelete);
 			sentence = sentence.replaceAll(NPToDelete, toChangeFor);
