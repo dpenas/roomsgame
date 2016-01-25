@@ -54,6 +54,7 @@ public class ActiveCharacter extends Character {
 	private int movementType;
 	private boolean isDead;
 	private boolean isFirstTimeDead;
+	private int maximumItemsInventory;
 	private ArrayList<WereableWeapon> weaponsEquipped;
 	private ArrayList<WereableArmor> armorsEquipped;
 	private ArrayList<Tuple<Integer, Integer>> visiblePositions = new ArrayList<Tuple<Integer, Integer>>();
@@ -86,6 +87,7 @@ public class ActiveCharacter extends Character {
 		this.isFirstTimeDead = true;
 		this.movementType = movementType;
 		this.spells = new ArrayList<Spell>();
+		this.maximumItemsInventory = 6;
 	}
 	
 	public void setVisiblePositions(){
@@ -425,10 +427,12 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public boolean unequipItem(Item item) {
-		if (item instanceof WereableArmor) {
-			return this.unEquipArmor((WereableArmor)item);
-		} else if (item instanceof WereableWeapon) {
-			return this.unEquipWeapon((WereableWeapon)item);
+		if (this.getInventory().size() < this.getMaximumItemsInventory()) {
+			if (item instanceof WereableArmor) {
+				return this.unEquipArmor((WereableArmor)item);
+			} else if (item instanceof WereableWeapon) {
+				return this.unEquipWeapon((WereableWeapon)item);
+			}
 		}
 		return false;
 	}
@@ -499,7 +503,7 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public boolean putItemInventory(Item item){
-		if (this.getActualCarryWeight() + item.getWeight() <= this.getWeight()){
+		if (this.getActualCarryWeight() + item.getWeight() <= this.getWeight() && this.getInventory().size() < this.getMaximumItemsInventory()){
 			if (this.getActualInventorySpace() + item.getSpace() <= this.getInventorySpace()){
 				this.setActualCarryWeight(this.getActualCarryWeight() + item.getWeight());
 				this.setActualInventorySpace(this.getActualInventorySpace() + item.getSpace());
@@ -512,7 +516,7 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public Item pickItem(Tuple<Integer, Integer> pos, Room room){
-		if (room.isMapPositionHere(pos)){
+		if (room.isMapPositionHere(pos) && this.getInventory().size() < this.getMaximumItemsInventory()){
 			for (Item item : room.getItemsRoom()){
 				if (pos.x == item.getPosition().x && pos.y == item.getPosition().y){
 					if (this.putItemInventory(item)){
@@ -786,6 +790,18 @@ public class ActiveCharacter extends Character {
 
 	public void setSpells(ArrayList<Spell> spells) {
 		this.spells = spells;
+	}
+
+	public int getMaximumItemsInventory() {
+		return maximumItemsInventory;
+	}
+
+	public void setMaximumItemsInventory(int maximumItemsInventory) {
+		this.maximumItemsInventory = maximumItemsInventory;
+	}
+
+	public void setVisiblePositions(ArrayList<Tuple<Integer, Integer>> visiblePositions) {
+		this.visiblePositions = visiblePositions;
 	}
 
 }

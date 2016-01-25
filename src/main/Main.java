@@ -669,17 +669,16 @@ public class Main {
 	}
 	
 	public static void _pickItemAction(){
-		for (Item item: user.getRoom().getItemsRoom()){
-			System.out.println("The items are: " + item.getName());
-		}
 		Item item = user.pickItem(user.getPosition(), user.getRoom());
-		if (item != null) {
+		if (user.getInventory().size() <= user.getMaximumItemsInventory() && item != null ) {
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);
 			names.add(item);
 			generatePrintMessage(names, grammarPickItem, "PICK", usePronoun(), false);
 			hasChanged = false;
-    	}
+		} else {
+			_messageUnvalid();
+		}
 		j.cls();
 		printEverything(true);
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
@@ -759,6 +758,8 @@ public class Main {
 			System.out.println("Name the name: " + item.getName());
 			generatePrintMessage(names, grammarPickItem, "UNEQUIP", usePronoun(), false);
 			hasChanged = false;
+		} else {
+			_messageUnvalid();
 		}
 		printEverything(true);	
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
