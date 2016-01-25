@@ -23,13 +23,10 @@ public class GrammarSelectorS extends GrammarSelector {
 	private ArrayList<Pair<String, JsonArray>> verbs;
 	private ArrayList<GrammarSelectorNP> grammarsNP = new ArrayList<GrammarSelectorNP>();
 	private ArrayList<ArrayList<Pair<String, JsonArray>>> grammarsNPPair = new ArrayList<ArrayList<Pair<String, JsonArray>>>();
-	private JsonObject grammarObj;
 
 	public GrammarSelectorS(GrammarIndividual grammar, JsonObject wordsGrammar, ArrayList<PrintableObject> names, String type) throws JsonIOException, JsonSyntaxException, FileNotFoundException, InstantiationException, IllegalAccessException {
 		super(grammar, wordsGrammar);
-		JsonParser parser = new JsonParser();
 		this.type = type;
-		this.grammarObj = parser.parse(new FileReader("./src/grammars/english/objectGrammarTest.json")).getAsJsonObject();
 		this.verbs = WordsGrammar.getVerbs(wordsGrammar, type);
 		this.names = names;
 		this.analyseGrammar();
@@ -411,14 +408,6 @@ public class GrammarSelectorS extends GrammarSelector {
 
 	public void setGrammarsNPPair(ArrayList<ArrayList<Pair<String, JsonArray>>> grammarsNPPair) {
 		this.grammarsNPPair = grammarsNPPair;
-	}
-
-	public JsonObject getGrammarObj() {
-		return grammarObj;
-	}
-
-	public void setGrammarObj(JsonObject grammarObj) {
-		this.grammarObj = grammarObj;
 	}
 	
 }

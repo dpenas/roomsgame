@@ -1,12 +1,21 @@
 package grammars.grammars;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+
+import grammars.parsing.JSONParsing;
 import util.Tuple;
 
 public class PrintableObject {
 	
 	private String name;
+	private String printableName;
 	private String description;
 	private ArrayList<String> adjectives;
 	private ArrayList<String> prepositions;
@@ -17,6 +26,7 @@ public class PrintableObject {
 		this.description = description;
 		this.adjectives = adjectives;
 		this.position = position;
+		this.printableName = "";
 	}
 	
 	public String getPositionDirections(Tuple<Integer, Integer> characterPos) {
@@ -82,6 +92,14 @@ public class PrintableObject {
 
 	public void setPrepositions(ArrayList<String> prepositions) {
 		this.prepositions = prepositions;
+	}
+
+	public String getPrintableName() {
+		return printableName;
+	}
+
+	public void setPrintableName(String printableName) {
+		this.printableName = printableName;
 	}
 
 }

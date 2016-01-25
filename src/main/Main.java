@@ -22,6 +22,7 @@ import com.google.gson.JsonSyntaxException;
 import characters.active.ActiveCharacter;
 import characters.active.enemies.Goblin;
 import grammars.grammars.GrammarIndividual;
+import grammars.grammars.GrammarSelectorNP;
 import grammars.grammars.GrammarSelectorS;
 import grammars.grammars.GrammarsGeneral;
 import grammars.grammars.PrintableObject;
@@ -248,7 +249,23 @@ public class Main {
 	}
 	
 	public static void _printInventoryUser(){
-		user.printInventory(user.getInventory(), j, map.global_fin().x + 1, 0);
+		JsonObject grammarObjNames = null;
+		JsonObject rootObjNames = null;
+		try {
+			grammarObjNames = parser.parse(new FileReader("./src/grammars/english/objectGrammar.json")).getAsJsonObject();
+			rootObjNames = JSONParsing.getElement(grammarObjNames, "GENERAL").getAsJsonObject();
+		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
+			e.printStackTrace();
+		}
+//		user.printInventory(user.getInventory(), j, map.global_fin().x + 1, 0);
+		for (int i = 0; i < user.getInventory().size(); i++){
+			if (user.getInventory().get(i).getPrintableName().isEmpty()) {
+				GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObjNames);
+				GrammarSelectorNP grammarIndividual = new GrammarSelectorNP(grammarGeneral.getRandomGrammar(), rootObjWords, user.getInventory().get(i), "GENERAL");
+				user.getInventory().get(i).setPrintableName(grammarIndividual.getRandomSentence());
+			}
+			j.print(0, map.global_fin().x + 1 + i, i + 1 + " - " + user.getInventory().get(i).getPrintableName());
+		}
 	}
 	
 	public static void _printLifeUser(){
