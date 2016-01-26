@@ -587,21 +587,40 @@ public class Main {
 	
 	private static void _messageDescriptionEnvironment() {
 		String message = "<html>";
+		boolean withNumbers = true;
 		ArrayList<Door> alreadyPrintedDoors = new ArrayList<Door>();
 		for (Tuple<Integer, Integer> pos : user.getVisiblePositions()) {
 			for (ActiveCharacter enemy : user.getRoom().getMonstersPosition(pos)) {
-				message += _messageDescriptionEnvironment(enemy, enemy.getPositionDirections(user.getPosition())) + " ";
+				if (withNumbers) {
+					String messagePosition = enemy.getPositionDirectionsWithNumbers(user.getPosition()).getA();
+					String messageNumbers = enemy.getPositionDirectionsWithNumbers(user.getPosition()).getB();
+					message += _messageDescriptionEnvironment(enemy, messagePosition) + messageNumbers;
+				} else {
+					message += _messageDescriptionEnvironment(enemy, enemy.getPositionDirections(user.getPosition())) + " ";
+				}
 			}
 			message += "<br>";
 			for (Item item : user.getRoom().getItemsPosition(pos)) {
-				message += _messageDescriptionEnvironment(item, item.getPositionDirections(user.getPosition())) + " ";
+				if (withNumbers) {
+					String messagePosition = item.getPositionDirectionsWithNumbers(user.getPosition()).getA();
+					String messageNumbers = item.getPositionDirectionsWithNumbers(user.getPosition()).getB();
+					message += _messageDescriptionEnvironment(item, messagePosition) + messageNumbers;
+				} else {
+					message += _messageDescriptionEnvironment(item, item.getPositionDirections(user.getPosition())) + " ";
+				}
 			}
 			message += "<br>";
 			for (Door door : user.getRoom().getDoorsPosition(pos)) {
 				Tuple<Integer, Integer> position = door.getPositionRoom(user);
 				if (position != null && !alreadyPrintedDoors.contains(door)) {
 					PrintableObject doorPrintable = new PrintableObject("door", "", door.getAdjectives(), position);
-					message += _messageDescriptionEnvironment(doorPrintable, doorPrintable.getPositionDirections(user.getPosition())) + " ";
+					if (withNumbers) {
+						String messagePosition = doorPrintable.getPositionDirectionsWithNumbers(user.getPosition()).getA();
+						String messageNumbers = doorPrintable.getPositionDirectionsWithNumbers(user.getPosition()).getB();
+						message += _messageDescriptionEnvironment(doorPrintable, messagePosition) + messageNumbers;
+					} else {
+						message += _messageDescriptionEnvironment(doorPrintable, doorPrintable.getPositionDirections(user.getPosition())) + " ";
+					}
 					alreadyPrintedDoors.add(door);
 				}
 			}
@@ -609,7 +628,13 @@ public class Main {
 			for (Tuple<Integer, Integer> portal : user.getRoom().getPortalsPosition(pos)) {
 				if (portal != null) {
 					PrintableObject portablePrintable = new PrintableObject("portal", "", null, portal);
-					message += _messageSimpleEnvironment(portablePrintable, portablePrintable.getPositionDirections(user.getPosition())) + " ";
+					if (withNumbers) {
+						String messagePosition = portablePrintable.getPositionDirectionsWithNumbers(user.getPosition()).getA();
+						String messageNumbers = portablePrintable.getPositionDirectionsWithNumbers(user.getPosition()).getB();
+						message += _messageSimpleEnvironment(portablePrintable, messagePosition) + messageNumbers;
+					} else {
+						message += _messageSimpleEnvironment(portablePrintable, portablePrintable.getPositionDirections(user.getPosition())) + " ";
+					}
 				}
 			}
 			message += "<br>";

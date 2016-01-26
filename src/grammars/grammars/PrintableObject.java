@@ -10,6 +10,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
 import grammars.parsing.JSONParsing;
+import net.slashie.util.Pair;
 import util.Tuple;
 
 public class PrintableObject {
@@ -59,6 +60,60 @@ public class PrintableObject {
 			return "north";
 		}
 		return "in the same position";
+	}
+	
+	public Pair<String, String> getPositionDirectionsWithNumbers(Tuple<Integer, Integer> characterPos) {
+		int thisx = this.getPosition().x;
+		int thisy = this.getPosition().y;
+		int characterx = characterPos.x;
+		int charactery = characterPos.y;
+		Pair<String, String> returnValue = new Pair<String, String>("", "");
+		if (thisy > charactery) {
+			if (thisx > characterx) {
+				returnValue.setA("southeast");
+				String message = " " + Math.abs(thisx-characterx) + "," + Math.abs(thisy-charactery);
+				returnValue.setB(message);
+				return returnValue;
+			} else if (thisx < characterx) {
+				returnValue.setA("northeast");
+				String message = " " + Math.abs(thisx-characterx) + "," + Math.abs(thisy-charactery);
+				returnValue.setB(message);
+				return returnValue;
+			}
+			String message = " " + Math.abs(thisy-charactery) + "";
+			returnValue.setB(message);
+			returnValue.setA("east");
+			return returnValue;
+		} else if (thisy < charactery) {
+			if (thisx > characterx) {
+				returnValue.setA("southwest");
+				String message = " " + Math.abs(thisx-characterx) + "," + Math.abs(thisy-charactery);
+				returnValue.setB(message);
+				return returnValue;
+			} else if (thisx < characterx) {
+				returnValue.setA("northwest");
+				String message = " " + Math.abs(thisx-characterx) + "," + Math.abs(thisy-charactery);
+				returnValue.setB(message);
+				return returnValue;
+			}
+			String message = " " + Math.abs(thisy-charactery) + "";
+			returnValue.setB(message);
+			returnValue.setA("west");
+			return returnValue;
+		} else if (thisx > characterx) {
+			returnValue.setA("south");
+			String message = " " + Math.abs(thisx-characterx) + "";
+			returnValue.setB(message);
+			return returnValue;
+		} else if (thisx < characterx) {
+			returnValue.setA("north");
+			String message = " " + Math.abs(thisx-characterx) + "";
+			returnValue.setB(message);
+			return returnValue;
+		}
+		returnValue.setA("in the same position");
+		returnValue.setB("");
+		return returnValue;
 	}
 	
 	public String getName() {
