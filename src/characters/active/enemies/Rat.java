@@ -14,10 +14,9 @@ import util.Tuple;
 public class Rat extends ActiveCharacter {
 
 	public Rat(Map map, Room room, Tuple<Integer, Integer> position, int inventorySpace,
-			ArrayList<Item> inventory) {
+			ArrayList<Item> inventory, ArrayList<String> adjectives) {
 		super("rat", "", map, room, position, 2, 1, 30,
 				50, 100, 100, new ArrayList<WereableWeapon>(), new ArrayList<WereableArmor>(), 0,
-				0, 0, inventory, 0,
-				0, 100, 0, 0, "G", 3, 2);
+				0, 0, inventory, 0, 0, 100, 0, 0, "G", 3, 2, adjectives);
 	}
 }

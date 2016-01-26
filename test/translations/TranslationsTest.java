@@ -7,7 +7,7 @@ import translations.exceptions.WordNotFoundException;
 import items.consumables.LifeExtendedPotion;
 import items.consumables.LifePotion;
 import items.consumables.MagicPotion;
-import items.wereables.NormalChest;
+import items.wereables.NormalArmor;
 import items.wereables.NormalGloves;
 import items.wereables.NormalHelmet;
 import items.wereables.NormalPants;
@@ -22,6 +22,9 @@ import java.util.ResourceBundle;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+
 public class TranslationsTest {
 	public static String language;
 	public static String country;
@@ -29,7 +32,7 @@ public class TranslationsTest {
 	public static ResourceBundle messagesWereables;
 	
 	@Before
-	public void setUp() throws IOException{
+	public void setUp() throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException{
 		language = new String("en");
 		country = new String("US");
 		currentLocale = new Locale(language, country);
@@ -60,7 +63,7 @@ public class TranslationsTest {
 					null, 0, 1, true);
 			NormalGloves normalGlovesSpanish = new NormalGloves("", 10, 0, 0, null, null, null, 
 					null, 0, 1, true);
-			NormalChest normalChestSpanish = new NormalChest("", 10, 0, 0, null, null, null, 
+			NormalArmor normalChestSpanish = new NormalArmor("", 10, 0, 0, null, null, null, 
 					null, 0, 1, true);
 			NormalPants normalPantsSpanish = new NormalPants("", 10, 0, 0, null, null, null, 
 					null, 0, 1, true);

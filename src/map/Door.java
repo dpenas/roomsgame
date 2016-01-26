@@ -1,5 +1,8 @@
 package map;
 
+import java.util.ArrayList;
+
+import characters.active.ActiveCharacter;
 import util.Tuple;
 
 public class Door {
@@ -26,6 +29,23 @@ public class Door {
 			return positionRoom2;
 		}
 		return null;
+	}
+	
+	public Tuple<Integer, Integer> getPositionRoom(ActiveCharacter character) {
+		if (character.getRoom().equals(room1)) {
+			return positionRoom1;
+		}
+		if (character.getRoom().equals(room2)) {
+			return positionRoom2;
+		}
+		return null;
+	}
+	
+	public ArrayList<String> getAdjectives() {
+		ArrayList<String> adjectives = new ArrayList<String>();
+		adjectives.add("old");
+		adjectives.add("creepy");
+		return adjectives;
 	}
 	
 	public Tuple<Integer, Integer> getPositionRoom1() {

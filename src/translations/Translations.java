@@ -86,6 +86,7 @@ public final class Translations {
 	
 	public static String spanishNameItem(String name, ArrayList<String> nameAttributes, Locale locale) {
 		String finalName = "";
+		System.out.println(name);
 		finalName = finalName + main.Main.messagesWereables.getString(name);
 		String adjectives = "";
 		boolean isChanged = false;

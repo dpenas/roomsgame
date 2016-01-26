@@ -19,18 +19,18 @@ ArrayList<String> attributes = new ArrayList<String>();
 			Tuple<Integer, Integer> position, int erosion,
 			int level, boolean isMagic) {
 		//TODO: Change the defense (the 10) to the algorithm based on level
-		super("shield", null, description, "m", 
+		super("shield", null, description, "m",
 				weight, space, durability, character, 
 				new ArrayList<WeaponType>(),
 				map, room, position, 0, erosion, true, 10, level, isMagic);
-		this.setNameAttributes(this.getSmallShieldAttributes());
+		this.setAdjectives(this.getSmallShieldAttributes());
 		//TODO: Change this to be a function
 		if (isMagic){
-			attributes = this.getNameAttributes();
+			attributes = this.getAdjectives();
 			attributes.add("magic");
-			this.setNameAttributes(attributes);
+			this.setAdjectives(attributes);
 		}
-		this.setName(Translations.getNameItem("shield", this.getNameAttributes()));
+//		this.setName(Translations.getNameItem("shield", this.getAdjectives()));
 		this.setAttributes(this.getLevel(), true);
 		
 	}

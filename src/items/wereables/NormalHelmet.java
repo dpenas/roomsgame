@@ -19,26 +19,27 @@ ArrayList<String> attributes = new ArrayList<String>();
 			Tuple<Integer, Integer> position, int erosion,
 			int level, boolean isMagic) {
 		//TODO: Change the defense (the 10) to the algorithm based on level
-		super("shield", null, "", "m", 
+		super("helmet", null, "", "m", 
 				weight, space, new ArrayList<ArmorType>(), durability, character,
 				10, map, room, position, erosion, level, isMagic);
 		ArrayList<ArmorType> armorType = new ArrayList<ArmorType>();
 		armorType.add(ArmorType.HEAD);
 		this.setArmorType(armorType);
-		this.setNameAttributes(this.getSmallShieldAttributes());
+		this.setAdjectives(this.getNormalHelmetAttributes());
 		//TODO: Change this to be a function
 		if (isMagic){
-			attributes = this.getNameAttributes();
+			attributes = this.getAdjectives();
 			attributes.add("magic");
-			this.setNameAttributes(attributes);
+			this.setAdjectives(attributes);
 		}
-		this.setName(Translations.getNameItem("helmet", this.getNameAttributes()));
+//		this.setName(Translations.getNameItem("helmet", this.getAdjectives()));
 		this.setAttributes(level);
 		
 	}
 	
-	public ArrayList<String> getSmallShieldAttributes(){
+	public ArrayList<String> getNormalHelmetAttributes(){
 		attributes.add("normal");
+		attributes.add("average");
 		return attributes;
 	}
 

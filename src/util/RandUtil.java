@@ -21,6 +21,10 @@ public class RandUtil {
 		return randomIntValue;
 	}
 	
+	public static boolean isNumeric(String str){
+		return str.matches("-?\\d+(\\.\\d+)?");
+	}
+	
 	public static Tuple<Integer, Integer> inputMoveInterpretation(int input, List<Integer> movementInput, ActiveCharacter character){
 		int down = movementInput.get(0);
 		int up = movementInput.get(1);
@@ -55,7 +59,7 @@ public class RandUtil {
 	}
 	
 	public static boolean sameTuple(Tuple<Integer, Integer> tuple1, Tuple<Integer, Integer> tuple2){
-		if (tuple1.x == tuple2.x && tuple1.y == tuple2.y){
+		if (tuple1 != null && tuple2 != null && tuple1.x == tuple2.x && tuple1.y == tuple2.y){
 			return true;
 		}
 		return false;

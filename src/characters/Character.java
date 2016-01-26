@@ -2,12 +2,13 @@ package characters;
 
 import java.util.ArrayList;
 
+import grammars.grammars.PrintableObject;
 import items.Item;
 import map.Map;
 import map.Room;
 import util.Tuple;
 
-public abstract class Character {
+public abstract class Character extends PrintableObject {
 	private String name;
 	private String description;
 	private int weight; // Character's weight
@@ -17,18 +18,16 @@ public abstract class Character {
 	private Map map;
 	private Room room;
 	private String symbolRepresentation;
-	private Tuple<Integer, Integer> position;
 	private ArrayList<Item> inventory;
 	
 	public Character(String name, String description, Map map,
 			Room room, Tuple<Integer, Integer> position, int weight, int length, int carryWeight,
-			int actualCarryWeight, ArrayList<Item> inventory, String symbolRepresentation) {
-		super();
+			int actualCarryWeight, ArrayList<Item> inventory, String symbolRepresentation, ArrayList<String> adjectives) {
+		super(name, description, adjectives, position);
 		this.name = name;
 		this.description = description;
 		this.map = map;
 		this.room = room;
-		this.position = position;
 		this.weight = weight;
 		this.length = length;
 		this.carryWeight = carryWeight;
@@ -55,14 +54,6 @@ public abstract class Character {
 
 	public void setRoom(Room room) {
 		this.room = room;
-	}
-
-	public Tuple<Integer, Integer> getPosition() {
-		return position;
-	}
-
-	public void setPosition(Tuple<Integer, Integer> position) {
-		this.position = position;
 	}
 
 	public ArrayList<Item> getInventory() {

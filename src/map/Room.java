@@ -6,9 +6,13 @@ import items.consumables.MagicPotion;
 
 import java.util.ArrayList;
 
+import com.google.gson.JsonObject;
+
 import characters.active.ActiveCharacter;
 import characters.active.enemies.Goblin;
+import grammars.grammars.GrammarIndividual;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
+import net.slashie.util.Pair;
 import main.Main;
 import util.RandUtil;
 import util.Tuple;
@@ -76,6 +80,27 @@ public class Room {
 		return this.getFreePositions();
 	}
 	
+	public ArrayList<Tuple<Integer, Integer>> reachablePositionsCharacter(ActiveCharacter character) {
+		return character.getImmediateReachablePositions();
+	}
+	
+	public ArrayList<String> printableReachablePositionsCharacter(ActiveCharacter character) {
+		ArrayList<String> printablePositions = new ArrayList<String>();
+		Tuple<Integer, Integer> currentPosition = character.getPosition();
+		for (Tuple<Integer, Integer> pos : this.reachablePositionsCharacter(character)) {
+			if (pos.x > currentPosition.x) {
+				printablePositions.add("south");
+			} else if (pos.x < currentPosition.x) {
+				printablePositions.add("north");
+			} else if (pos.y > currentPosition.y) {
+				printablePositions.add("east");
+			} else if (pos.y < currentPosition.y) {
+				printablePositions.add("west");
+			}
+		}
+		return printablePositions;
+	}
+	
 	public void printItems(WSwingConsoleInterface j, ArrayList<Tuple<Integer, Integer>> visiblePositions){
 		for (Item item : getItemsRoom()){
 			if (RandUtil.containsTuple(item.getPosition(), visiblePositions)){
@@ -124,6 +149,28 @@ public class Room {
 		return items;
 	}
 	
+	public ArrayList<Door> getDoorsPosition(Tuple<Integer, Integer> pos){
+		ArrayList<Door> doors = new ArrayList<Door>();
+		for (Door door: this.getDoors()){
+			if (RandUtil.sameTuple(pos, door.getPositionRoom(pos))){
+				doors.add(door);
+			}
+		}
+		
+		return doors;
+	}
+	
+	public ArrayList<Tuple<Integer, Integer>> getPortalsPosition(Tuple<Integer, Integer> pos){
+		ArrayList<Tuple<Integer, Integer>> portals = new ArrayList<Tuple<Integer, Integer>>();
+		for (Tuple<Integer, Integer> portal: this.getPortals()){
+			if (RandUtil.sameTuple(pos, portal)){
+				portals.add(portal);
+			}
+		}
+		
+		return portals;
+	}
+	
 	public boolean putItemRoom(Item item){
 		if (isMapPositionHere(item.getPosition())){
 			this.getItemsRoom().add(item);
@@ -132,10 +179,11 @@ public class Room {
 		return false;
 	}
 	
-	public void monsterTurn(ActiveCharacter user){
+	public Pair<Boolean, String> monsterTurn(ActiveCharacter user, GrammarIndividual grammarAttack, JsonObject rootObjWords){
 		for (ActiveCharacter monster : this.getMonsters()){
-			monster.doTurn(user);
+			return monster.doTurn(user, grammarAttack, rootObjWords);
 		}
+		return new Pair<Boolean, String>(false, "");
 	}
 	
 	public String getSymbolPosition(Tuple<Integer, Integer> tuple){
@@ -347,11 +395,13 @@ public class Room {
 	}
 	
 	public void putRandomGoblins() {
+		ArrayList<String> adjectives = new ArrayList<String>();
+		adjectives.add("small");
 		if (RandUtil.RandomNumber(0, 2) == 1) {
 			if (this.checkFreePositions().size() > 0) {
 				int number = RandUtil.RandomNumber(0, this.checkFreePositions().size());
 				Tuple<Integer, Integer> position = this.getFreePositions().get(number);
-				Goblin goblin = new Goblin(this.getMap(), this, position);
+				Goblin goblin = new Goblin(this.getMap(), this, position, adjectives);
 				this.getMonsters().add(goblin);
 			}
 		}

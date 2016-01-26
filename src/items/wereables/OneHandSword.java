@@ -22,20 +22,19 @@ public class OneHandSword extends WereableWeapon {
 		super("sword", null, description, "m", 
 				weight, space, durability, character, new ArrayList<WeaponType>(),
 				map, room, position, 10, erosion, true, 0, level, isMagic);
-		this.setNameAttributes(this.getOneHandSwordAttributes());
+		this.setAdjectives(this.getOneHandSwordAttributes());
 		if (isMagic){
-			attributes = this.getNameAttributes();
+			attributes = this.getAdjectives();
 			attributes.add("magic");
-			this.setNameAttributes(attributes);
+			this.setAdjectives(attributes);
 		}
-		this.setName(Translations.getNameItem("sword", this.getNameAttributes()));
+//		this.setName(Translations.getNameItem("sword", this.getAdjectives()));
 		this.setAttributes(this.getLevel(), false);
 		
 	}
 	
 	public ArrayList<String> getOneHandSwordAttributes(){
-		attributes.add("one");
-		attributes.add("hand");
+		attributes.add("one hand");
 		return attributes;
 	}
 	

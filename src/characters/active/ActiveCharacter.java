@@ -1,12 +1,21 @@
 package characters.active;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
+import net.slashie.util.Pair;
 import map.Map;
 import map.Room;
 import characters.Character;
 import characters.active.enemies.Movement;
+import grammars.grammars.GrammarIndividual;
+import grammars.grammars.GrammarSelectorS;
+import grammars.grammars.PrintableObject;
 import util.RandUtil;
 import util.Tuple;
 import magic.Spell;
@@ -45,6 +54,7 @@ public class ActiveCharacter extends Character {
 	private int movementType;
 	private boolean isDead;
 	private boolean isFirstTimeDead;
+	private int maximumItemsInventory;
 	private ArrayList<WereableWeapon> weaponsEquipped;
 	private ArrayList<WereableArmor> armorsEquipped;
 	private ArrayList<Tuple<Integer, Integer>> visiblePositions = new ArrayList<Tuple<Integer, Integer>>();
@@ -56,9 +66,10 @@ public class ActiveCharacter extends Character {
 			ArrayList<WereableWeapon> weaponsEquipped,
 			ArrayList<WereableArmor> armorsEquipped, int inventorySpace, int carryWeight,
 			int actualCarryWeight, ArrayList<Item> inventory, int actualInventorySpace, int evasion,
-			int totalLife, int magic, int totalMagic, String symbolRepresentation, int vision, int movementType) {
+			int totalLife, int magic, int totalMagic, String symbolRepresentation, int vision, int movementType,
+			ArrayList<String> adjectives) {
 		super(name, description, map, room, position, weight, length, carryWeight, actualCarryWeight, 
-				inventory, symbolRepresentation);
+				inventory, symbolRepresentation, adjectives);
 		this.damage = damage;
 		this.totalMagic = totalMagic;
 		this.magic = magic;
@@ -76,6 +87,7 @@ public class ActiveCharacter extends Character {
 		this.isFirstTimeDead = true;
 		this.movementType = movementType;
 		this.spells = new ArrayList<Spell>();
+		this.maximumItemsInventory = 6;
 	}
 	
 	public void setVisiblePositions(){
@@ -98,6 +110,21 @@ public class ActiveCharacter extends Character {
 				this.visiblePositions.add(new Tuple<Integer, Integer>(i, j));
 			}
 		}
+	}
+	
+	public ArrayList<Tuple<Integer, Integer>> getImmediateReachablePositions() {
+		ArrayList<Tuple<Integer, Integer>> allWalkablePositions = new ArrayList<Tuple<Integer, Integer>>();
+		ArrayList<Tuple<Integer, Integer>> walkablePositions = new ArrayList<Tuple<Integer, Integer>>();
+		allWalkablePositions.add(new Tuple<Integer, Integer>(this.getPosition().x - 1, this.getPosition().y));
+		allWalkablePositions.add(new Tuple<Integer, Integer>(this.getPosition().x + 1, this.getPosition().y));
+		allWalkablePositions.add(new Tuple<Integer, Integer>(this.getPosition().x, this.getPosition().y - 1));
+		allWalkablePositions.add(new Tuple<Integer, Integer>(this.getPosition().x, this.getPosition().y + 1));
+		for (Tuple<Integer, Integer> pos : allWalkablePositions) {
+			if (this.canMove(pos)) {
+				walkablePositions.add(pos);
+			}
+		}
+		return walkablePositions;
 	}
 
 	public int getAttackFromWeapons(ActiveCharacter character){
@@ -187,7 +214,7 @@ public class ActiveCharacter extends Character {
 		return true;
 	}
 	
-	public ActiveCharacter weaponAttack() {
+	public Pair<Boolean, ActiveCharacter> weaponAttack() {
 		Map map = this.getMap();
 		ActiveCharacter monster = map.getMonstersPosition(this).get(0);
 		for (int i = 0; i < map.getMonstersPosition(this).size(); i++) {
@@ -197,10 +224,9 @@ public class ActiveCharacter extends Character {
 				break;
 			}
 		}
-
-		this.attack(monster);
+		Pair<Boolean, ActiveCharacter> returnValue = new Pair<Boolean, ActiveCharacter>(this.attack(monster), monster);
 		System.out.println("Vida monster: " + map.getMonstersPosition(this).get(0).getLife());
-		return monster;
+		return returnValue;
 	}
 	
 	private void attackWithSpell(ActiveCharacter defender, Spell spell) {
@@ -280,6 +306,63 @@ public class ActiveCharacter extends Character {
 		return availableSlots;
 	}
 	
+	public Item getWearHelmet() {
+		for (WereableArmor armorEquiped : this.getArmorsEquipped()) {
+			if (armorEquiped.getArmorType().get(0).equals(ItemEnumerate.ArmorType.HEAD)){
+				return armorEquiped;
+			}
+		}
+		return null;
+	}
+	
+	public Item getWearChest() {
+		for (WereableArmor armorEquiped : this.getArmorsEquipped()) {
+			if (armorEquiped.getArmorType().get(0).equals(ItemEnumerate.ArmorType.CHEST)){
+				return armorEquiped;
+			}
+		}
+		return null;
+	}
+	
+	public Item getWearPants() {
+		for (WereableArmor armorEquiped : this.getArmorsEquipped()) {
+			if (armorEquiped.getArmorType().get(0).equals(ItemEnumerate.ArmorType.PANTS)){
+				return armorEquiped;
+			}
+		}
+		return null;
+	}
+	
+	public Item getWearGloves() {
+		for (WereableArmor armorEquiped : this.getArmorsEquipped()) {
+			if (armorEquiped.getArmorType().get(0).equals(ItemEnumerate.ArmorType.HANDS)){
+				return armorEquiped;
+			}
+		}
+		return null;
+	}
+	
+	public ArrayList<Item> getWearHandsDefense() {
+		ArrayList<Item> handsWereable = new ArrayList<Item>(); 
+		for (WereableArmor armorEquiped : this.getArmorsEquipped()) {
+			if (armorEquiped.getArmorType().get(0).equals(ItemEnumerate.ArmorType.HANDS)){
+				handsWereable.add(armorEquiped);
+			}
+		}
+		return handsWereable;
+	}
+	
+	public ArrayList<Item> getWearHandsAttack() {
+		ArrayList<Item> handsWereable = new ArrayList<Item>(); 
+		for (WereableWeapon weaponEquiped : this.getWeaponsEquipped()) {
+			if (weaponEquiped.getWeaponType().get(0).equals(ItemEnumerate.WeaponType.LEFTHAND) ||
+					weaponEquiped.getWeaponType().get(0).equals(ItemEnumerate.WeaponType.RIGHTHAND)){
+				handsWereable.add(weaponEquiped);
+			}
+		}
+		return handsWereable;
+	}
+	
 	public boolean equipWeapon(WereableWeapon weapon){
 		ArrayList<WeaponType> freeSlots = new ArrayList<WeaponType>(this.getFreeWeaponSlots());
 		ArrayList<WeaponType> weaponType = weapon.getWeaponType();
@@ -314,7 +397,9 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public void printInventory(ArrayList<Item> inventory, WSwingConsoleInterface j, int initPos_i, int initPos_j){
+		System.out.println("Printing Inventory: ");
 		for (int i = 0; i < inventory.size(); i++){
+			System.out.println("Item: " + 1);
 			String name = i + 1 + " - " + inventory.get(i).getName();
 			j.print(initPos_j, initPos_i + i, name);
 		}
@@ -341,6 +426,17 @@ public class ActiveCharacter extends Character {
 		_printLife(j, initPos_j + 1, initPos_i);
 	}
 	
+	public boolean unequipItem(Item item) {
+		if (this.getInventory().size() < this.getMaximumItemsInventory()) {
+			if (item instanceof WereableArmor) {
+				return this.unEquipArmor((WereableArmor)item);
+			} else if (item instanceof WereableWeapon) {
+				return this.unEquipWeapon((WereableWeapon)item);
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * The armor will go to the inventory if there's enough space
 	 * @param armor
@@ -348,7 +444,7 @@ public class ActiveCharacter extends Character {
 	 */
 	
 	public boolean unEquipArmor(WereableArmor armor){
-		if (this.getInventorySpace() >= this.getActualInventorySpace() + armor.getSpace()){
+		if ((this.getInventorySpace() >= this.getActualInventorySpace() + armor.getSpace()) && this.getArmorsEquipped().contains(armor)){
 			this.getArmorsEquipped().remove(armor);
 			this.getInventory().add(armor);
 			this.setActualInventorySpace(this.getActualInventorySpace() + armor.getSpace());
@@ -359,7 +455,7 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public boolean unEquipWeapon(WereableWeapon weapon){
-		if (this.getInventorySpace() >= this.getActualInventorySpace() + weapon.getSpace()){
+		if ((this.getInventorySpace() >= this.getActualInventorySpace() + weapon.getSpace()) && this.getWeaponsEquipped().contains(weapon)){
 			if (weapon.getIsSingleHand()){
 				weapon.setWeaponType(new ArrayList<ItemEnumerate.WeaponType>());
 			}
@@ -375,8 +471,10 @@ public class ActiveCharacter extends Character {
 	public boolean throwItem(Item item){
 		if (item.getCharacter().equals(this)){
 			item.setCharacter(null);
+			item.setMap(this.getMap());
 			item.setRoom(this.getRoom());
 			item.setPosition(this.getPosition());
+			item.getRoom().getItemsRoom().add(item);
 			if (this.getWeaponsEquipped().contains(item)){
 				this.getWeaponsEquipped().remove(item);
 			} else if (this.getArmorsEquipped().contains(item)){
@@ -405,7 +503,7 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public boolean putItemInventory(Item item){
-		if (this.getActualCarryWeight() + item.getWeight() <= this.getWeight()){
+		if (this.getActualCarryWeight() + item.getWeight() <= this.getWeight() && this.getInventory().size() < this.getMaximumItemsInventory()){
 			if (this.getActualInventorySpace() + item.getSpace() <= this.getInventorySpace()){
 				this.setActualCarryWeight(this.getActualCarryWeight() + item.getWeight());
 				this.setActualInventorySpace(this.getActualInventorySpace() + item.getSpace());
@@ -417,18 +515,18 @@ public class ActiveCharacter extends Character {
 		return false;
 	}
 	
-	public boolean pickItem(Tuple<Integer, Integer> pos, Room room){
-		if (room.isMapPositionHere(pos)){
+	public Item pickItem(Tuple<Integer, Integer> pos, Room room){
+		if (room.isMapPositionHere(pos) && this.getInventory().size() < this.getMaximumItemsInventory()){
 			for (Item item : room.getItemsRoom()){
 				if (pos.x == item.getPosition().x && pos.y == item.getPosition().y){
 					if (this.putItemInventory(item)){
 						room.getItemsRoom().remove(item);
-						return true;
+						return item;
 					}
 				}
 			}
 		}
-		return false;
+		return null;
 	}
 	
 	// TODO: Change this so we can use another inventory
@@ -453,10 +551,18 @@ public class ActiveCharacter extends Character {
 	
 	public boolean move(Tuple<Integer, Integer> position){
 		Room room = this.getMap().obtainRoomByPosition(position); 
-		if (room != null && !RandUtil.containsTuple(position, room.getInsidecolumns()) 
-				&& (room.isInside(position) || room.isADoor(position))){
+		if (this.canMove(position)) {
 			this.setPosition(position);
 			this.setRoom(room);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean canMove(Tuple<Integer, Integer> position) {
+		Room room = this.getMap().obtainRoomByPosition(position); 
+		if (room != null && !RandUtil.containsTuple(position, room.getInsidecolumns()) 
+				&& (room.isInside(position) || room.isADoor(position))){
 			return true;
 		}
 		return false;
@@ -478,16 +584,49 @@ public class ActiveCharacter extends Character {
 		}
 	}
 	
-	public void doTurn(ActiveCharacter user){
-		if (this.getRoom().equals(user.getRoom()) && !this.isDead()){
+	public Pair<Boolean, String> doTurn(ActiveCharacter user, GrammarIndividual grammarAttack, JsonObject rootObjWords){
+		if (this.getRoom().equals(user.getRoom()) && !this.isDead() && this.getWeaponsEquipped().size() > 0){
 			if (RandUtil.sameTuple(this.getPosition(), user.getPosition())){
-				this.attack(user);
+				ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+				names.add(this);
+				names.add(user);
+				names.add(this.getWeaponsEquipped().get(0));
+				GrammarSelectorS selector = null;
+				try {
+					selector = new GrammarSelectorS(grammarAttack, rootObjWords, names, "ATTACK");
+				} catch (JsonIOException | JsonSyntaxException | FileNotFoundException | InstantiationException
+						| IllegalAccessException e) {
+					e.printStackTrace();
+				}
+				Pair<Boolean, String> returnValue = new Pair<Boolean, String>(this.attack(user), selector.getRandomSentence());
+				return returnValue;
 			} else {
 				Tuple<Integer, Integer> pos = Movement.moveCharacter(this, user);
 				if (pos != null) {
 					this.move(pos);
 				}
 			}
+		}
+		return new Pair<Boolean, String>(false, "");	
+	}
+	
+	public String getLifeAdjective() {
+		if (this.getLife() > 75 && this.getLife() <= 100) {
+			return "a lot of";
+		} else if (this.getLife() > 40 && this.getLife() <= 75) {
+				return "some";
+		} else {
+			return "a little";
+		}
+	}
+	
+	public String getManaAdjective() {
+		if (this.getMagic() > 75 && this.getMagic() <= 100) {
+			return "a lot of";
+		} else if (this.getMagic() > 40 && this.getMagic() <= 75) {
+				return "some";
+		} else {
+			return "a little";
 		}
 	}
 	
@@ -651,6 +790,18 @@ public class ActiveCharacter extends Character {
 
 	public void setSpells(ArrayList<Spell> spells) {
 		this.spells = spells;
+	}
+
+	public int getMaximumItemsInventory() {
+		return maximumItemsInventory;
+	}
+
+	public void setMaximumItemsInventory(int maximumItemsInventory) {
+		this.maximumItemsInventory = maximumItemsInventory;
+	}
+
+	public void setVisiblePositions(ArrayList<Tuple<Integer, Integer>> visiblePositions) {
+		this.visiblePositions = visiblePositions;
 	}
 
 }
