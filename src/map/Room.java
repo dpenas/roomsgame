@@ -278,10 +278,11 @@ public class Room {
 	public boolean initializePortals() {
 		int initialNumberPortals = this.getPortals().size();
 		int tries = 0;
-		int maxTries = 10;
+		int maxTries = 20;
 		while (this.getPortals().size() <= initialNumberPortals && tries < maxTries) {
 			Tuple<Integer, Integer> pos = this.getRandomInsidePosition();
-			if (!RandUtil.containsTuple(pos, this.getInsidecolumns())){
+			if (!RandUtil.containsTuple(pos, this.getInsidecolumns()) && this.getItemsPosition(pos).size() <= 0
+					&& this.getDoorsPosition(pos).size() <= 0){
 				this.getPortals().add(pos);
 				return true;
 			}
