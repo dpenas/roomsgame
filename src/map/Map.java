@@ -32,6 +32,7 @@ public class Map {
 	boolean is_there_free_space = true;
 	private ArrayList<Room> rooms;
 	private int size;
+	private boolean hasPortals = false;
 
 	/**
 	 * Creates a random map, which is a collection of rooms
@@ -110,10 +111,6 @@ public class Map {
 		}
 		
 		possibleExtensionPoints = cleanArray(possibleExtensionPoints);
-		
-		for(int i = 0; i < possibleExtensionPoints.size(); i++) {
-		    // System.out.print("Posible punto: " + possibleExtensionPoints.get(i).x + " " + possibleExtensionPoints.get(i).y + "\n");
-		}
 		
 		int position_random_selected = RandUtil.RandomNumber(0, possibleExtensionPoints.size());
 		
@@ -415,7 +412,8 @@ public class Map {
 		Tuple<Integer, Integer> initialPoint;
 		Tuple<Integer, Integer> finalPoint;
 		//int total_number_rooms = this.obtainNumberRooms();
-		int total_number_rooms = 3;
+		int [] possibleNumberRooms = {3,4,5,6};
+		int total_number_rooms = possibleNumberRooms[RandUtil.RandomNumber(0, possibleNumberRooms.length)];
 		
 		while (number_rooms < total_number_rooms){
 			initialPoint = this.obtainAvailableRoom();
@@ -433,13 +431,11 @@ public class Map {
 			GenericMatrixFunctions.printMatrix(this.getFreeRoom());
 		}
 		complete_map();
-		
 		assignDoors();
+		System.out.println("hey Portals");
 		int randomNumber = RandUtil.RandomNumber(0, this.getRooms().size());
-		boolean havePortals = false;
-		while (!havePortals) {
-			havePortals = this.getRooms().get(randomNumber).initializePortals();
-		}
+		this.setHasPortals(this.getRooms().get(randomNumber).initializePortals());
+		System.out.println("End Portals");
 	}
 	
 	public void assignIndividualDoor(Room room){
@@ -479,7 +475,9 @@ public class Map {
 		}
 		
 		int randNumber = RandUtil.RandomNumber(0, doorPoints.size());
-		
+		if (randNumber < 0) {
+			return;
+		}
 		doorFirstPosition = doorPoints.get(randNumber);
 		otherRoomDoorPositions.add(new Tuple<Integer, Integer>(doorFirstPosition.x - 1, doorFirstPosition.y));
 		otherRoomDoorPositions.add(new Tuple<Integer, Integer>(doorFirstPosition.x, doorFirstPosition.y - 1));
@@ -592,12 +590,20 @@ public class Map {
 	
 	public void fixUnreachableRooms(){
 		ArrayList<Room> unreachable = this.getUnreachableRooms();
-		while (unreachable.size() != 0){
+		int maximum = 0;
+		int limit = 10;
+		while (unreachable.size() != 0 && maximum < limit){
 			System.out.println(this.getRooms().size());
 			for (Room r : unreachable){
 				this.assignIndividualDoor(r);
 			}
 			unreachable = this.getUnreachableRooms();
+			maximum++;
+		}
+		if (unreachable.size() > 0) {
+			for (Room r : unreachable) {
+				this.getRooms().remove(r);
+			}
 		}
 	}
 	
@@ -738,6 +744,14 @@ public class Map {
 	
 	public byte[][] getFreeRoom(){
 		return free_room;
+	}
+
+	public boolean hasPortals() {
+		return hasPortals;
+	}
+
+	public void setHasPortals(boolean hasPortals) {
+		this.hasPortals = hasPortals;
 	}
 
 }

@@ -264,7 +264,10 @@ public class Room {
 	}
 	
 	public Tuple<Integer, Integer> getRandomInsidePosition(){
-		return this.getInsidePositions().get(RandUtil.RandomNumber(0, this.getInsidePositions().size()));
+		if (this.getInsidePositions().size() > 0) {
+			return this.getInsidePositions().get(RandUtil.RandomNumber(0, this.getInsidePositions().size()));
+		}
+		return null;
 	}
 	
 	public void initializeInsidePositions(){	
@@ -278,13 +281,16 @@ public class Room {
 	public boolean initializePortals() {
 		int initialNumberPortals = this.getPortals().size();
 		int tries = 0;
-		int maxTries = 20;
+		int maxTries = 10;
 		while (this.getPortals().size() <= initialNumberPortals && tries < maxTries) {
+			System.out.println("tries: " + tries);
 			Tuple<Integer, Integer> pos = this.getRandomInsidePosition();
-			if (!RandUtil.containsTuple(pos, this.getInsidecolumns()) && this.getItemsPosition(pos).size() <= 0
-					&& this.getDoorsPosition(pos).size() <= 0){
-				this.getPortals().add(pos);
-				return true;
+			if (pos != null) {
+				if (!RandUtil.containsTuple(pos, this.getInsidecolumns()) && this.getItemsPosition(pos).size() <= 0
+						&& this.getDoorsPosition(pos).size() <= 0){
+					this.getPortals().add(pos);
+					return true;
+				}
 			}
 			tries++;
 		}

@@ -53,7 +53,7 @@ public class Main {
 	public static ResourceBundle messagesWereables, keyBinding;
 	public static int countElements;
 	public static HashMap<String, Integer> keysMap;
-	public static boolean debug = false;
+	public static boolean debug = true;
 	public static boolean testMode = false;
 	public static boolean canUsePronoun = false;
 	public static char[] usedSymbols = {'.', 'P', 'G', 'A'};
@@ -340,20 +340,33 @@ public class Main {
 	}
 	
 	public static void _initializeMap() {
+		int min_rooms = 5;
 		map = new Map(initial_point, final_point);
-		roomCharacter = map.getRandomRoom();
-		int number = RandUtil.RandomNumber(0, roomCharacter.checkFreePositions().size());
-		user.setMap(map);
-		user.setRoom(roomCharacter);
-		user.setPosition(roomCharacter.getFreePositions().get(number));
-		user.setVisiblePositions();
-		for (Room room: map.getRooms()) {
-			room.putRandomPotions();
-			room.putRandomGoblins();
+		while (map.getRooms().size() < min_rooms || !map.hasPortals()) {
+			map = new Map(initial_point, final_point);
+			System.out.println("Map Rooms Size: " + map.getRooms().size());
 		}
-		printEverything(true);
-		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
-		j.refresh();
+		System.out.println("Amount of rooms: " + map.getRooms().size());
+		int number = 0;
+		boolean notDone = true;
+		while (number <= 0 || notDone) {
+			roomCharacter = map.getRandomRoom();
+			number = RandUtil.RandomNumber(0, roomCharacter.checkFreePositions().size());
+			user.setMap(map);
+			user.setRoom(roomCharacter);
+			if (number > 0 && roomCharacter.getFreePositions().size() > number) {
+				user.setPosition(roomCharacter.getFreePositions().get(number));
+				user.setVisiblePositions();
+				for (Room room: map.getRooms()) {
+					room.putRandomPotions();
+					room.putRandomGoblins();
+				}
+				printEverything(true);
+				j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+				j.refresh();
+				notDone = false;
+			}
+		}
 	}
 	
 	public static void _initializeTest(){
