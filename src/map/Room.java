@@ -368,11 +368,18 @@ public class Room {
 			doorPositions.add(pos3);
 			doorPositions.add(pos4);
 		}
+		ArrayList<Tuple<Integer, Integer>> dangerousPositions = new ArrayList<Tuple<Integer, Integer>>();
 		 
-		while (this.getInsidecolumns().size() <= numberColumns && this.getInsidePositions().size() > 0 && tries <= 10) {
+		while (this.getInsidecolumns().size() <= numberColumns && this.getInsidePositions().size() > 0 && tries <= 15) {
 			int randomNumber = RandUtil.RandomNumber(0, this.getInsidePositions().size());
 			Tuple<Integer, Integer> columnPosition = this.getInsidePositions().get(randomNumber);
-			if (!RandUtil.containsTuple(columnPosition, this.getInsidecolumns()) && !RandUtil.containsTuple(columnPosition, doorPositions)){
+			if (!RandUtil.containsTuple(columnPosition, this.getInsidecolumns()) && 
+					!RandUtil.containsTuple(columnPosition, doorPositions) &&
+					!RandUtil.containsTuple(columnPosition, dangerousPositions)){
+				dangerousPositions.add(new Tuple<Integer, Integer>(columnPosition.x - 1, columnPosition.y));
+				dangerousPositions.add(new Tuple<Integer, Integer>(columnPosition.x + 1, columnPosition.y));
+				dangerousPositions.add(new Tuple<Integer, Integer>(columnPosition.x, columnPosition.y - 1));
+				dangerousPositions.add(new Tuple<Integer, Integer>(columnPosition.x, columnPosition.y + 1));
 				this.getInsidecolumns().add(columnPosition);
 			}
 			tries++;

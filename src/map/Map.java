@@ -558,7 +558,9 @@ public class Map {
 		
 		fixUnreachableRooms();
 		for(Room room : this.rooms){
-			room.initializeColumns();
+			if (Math.abs(room.ini_x - room.fin_x) > 4 && Math.abs(room.ini_y - room.fin_y) > 4) {
+				room.initializeColumns();
+			}
 		}
 	}
 	
