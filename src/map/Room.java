@@ -264,7 +264,10 @@ public class Room {
 	}
 	
 	public Tuple<Integer, Integer> getRandomInsidePosition(){
-		return this.getInsidePositions().get(RandUtil.RandomNumber(0, this.getInsidePositions().size()));
+		if (this.getInsidePositions().size() > 0) {
+			return this.getInsidePositions().get(RandUtil.RandomNumber(0, this.getInsidePositions().size()));
+		}
+		return null;
 	}
 	
 	public void initializeInsidePositions(){	
@@ -278,13 +281,16 @@ public class Room {
 	public boolean initializePortals() {
 		int initialNumberPortals = this.getPortals().size();
 		int tries = 0;
-		int maxTries = 20;
+		int maxTries = 10;
 		while (this.getPortals().size() <= initialNumberPortals && tries < maxTries) {
+			System.out.println("tries: " + tries);
 			Tuple<Integer, Integer> pos = this.getRandomInsidePosition();
-			if (!RandUtil.containsTuple(pos, this.getInsidecolumns()) && this.getItemsPosition(pos).size() <= 0
-					&& this.getDoorsPosition(pos).size() <= 0){
-				this.getPortals().add(pos);
-				return true;
+			if (pos != null) {
+				if (!RandUtil.containsTuple(pos, this.getInsidecolumns()) && this.getItemsPosition(pos).size() <= 0
+						&& this.getDoorsPosition(pos).size() <= 0){
+					this.getPortals().add(pos);
+					return true;
+				}
 			}
 			tries++;
 		}
@@ -362,11 +368,18 @@ public class Room {
 			doorPositions.add(pos3);
 			doorPositions.add(pos4);
 		}
+		ArrayList<Tuple<Integer, Integer>> dangerousPositions = new ArrayList<Tuple<Integer, Integer>>();
 		 
-		while (this.getInsidecolumns().size() <= numberColumns && this.getInsidePositions().size() > 0 && tries <= 10) {
+		while (this.getInsidecolumns().size() <= numberColumns && this.getInsidePositions().size() > 0 && tries <= 15) {
 			int randomNumber = RandUtil.RandomNumber(0, this.getInsidePositions().size());
 			Tuple<Integer, Integer> columnPosition = this.getInsidePositions().get(randomNumber);
-			if (!RandUtil.containsTuple(columnPosition, this.getInsidecolumns()) && !RandUtil.containsTuple(columnPosition, doorPositions)){
+			if (!RandUtil.containsTuple(columnPosition, this.getInsidecolumns()) && 
+					!RandUtil.containsTuple(columnPosition, doorPositions) &&
+					!RandUtil.containsTuple(columnPosition, dangerousPositions)){
+				dangerousPositions.add(new Tuple<Integer, Integer>(columnPosition.x - 1, columnPosition.y));
+				dangerousPositions.add(new Tuple<Integer, Integer>(columnPosition.x + 1, columnPosition.y));
+				dangerousPositions.add(new Tuple<Integer, Integer>(columnPosition.x, columnPosition.y - 1));
+				dangerousPositions.add(new Tuple<Integer, Integer>(columnPosition.x, columnPosition.y + 1));
 				this.getInsidecolumns().add(columnPosition);
 			}
 			tries++;

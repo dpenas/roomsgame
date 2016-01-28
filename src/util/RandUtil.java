@@ -17,8 +17,11 @@ public class RandUtil {
 	
 	public static int RandomNumber(int minValue, int maxValue){
 		Random randomGenerator = new Random();
-		int randomIntValue = randomGenerator.nextInt(maxValue - minValue) + minValue;
-		return randomIntValue;
+		if (maxValue - minValue > 0) {
+			int randomIntValue = randomGenerator.nextInt(maxValue - minValue) + minValue;
+			return randomIntValue;
+		}
+		return -1;
 	}
 	
 	public static boolean isNumeric(String str){
