@@ -21,6 +21,7 @@ import com.google.gson.JsonSyntaxException;
 
 import characters.active.ActiveCharacter;
 import characters.active.enemies.Goblin;
+import config.ChangeKeyBinding;
 import grammars.grammars.GrammarIndividual;
 import grammars.grammars.GrammarSelectorNP;
 import grammars.grammars.GrammarSelectorS;
@@ -941,6 +942,11 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
+//		try {
+//			ChangeKeyBinding.editPropertiesFile(j);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		rootObj = parser.parse(new FileReader("./src/grammars/english/sentenceGrammar.json")).getAsJsonObject();
 		rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsEnglish.json")).getAsJsonObject();
 		JsonObject objectAttack = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();

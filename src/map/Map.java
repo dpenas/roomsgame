@@ -411,7 +411,6 @@ public class Map {
 		int number_rooms = 0;
 		Tuple<Integer, Integer> initialPoint;
 		Tuple<Integer, Integer> finalPoint;
-		//int total_number_rooms = this.obtainNumberRooms();
 		int [] possibleNumberRooms = {3,4,5,6};
 		int total_number_rooms = possibleNumberRooms[RandUtil.RandomNumber(0, possibleNumberRooms.length)];
 		
