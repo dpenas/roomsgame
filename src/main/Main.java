@@ -59,7 +59,7 @@ public class Main {
 	public static boolean canUsePronoun = false;
 	public static char[] usedSymbols = {'.', 'P', 'G', 'A'};
 	static Tuple<Integer, Integer> initial_point = new Tuple<Integer, Integer>(0, 0);
-	static Tuple<Integer, Integer> final_point = new Tuple<Integer, Integer>(20, 20);
+	static Tuple<Integer, Integer> final_point = new Tuple<Integer, Integer>(35, 35);
 	static ArrayList<Tuple<Integer, Integer>> portals = new ArrayList<Tuple<Integer, Integer>>(); 
 	static Integer[] movementInput;
 	static Integer[] inventoryInput;
