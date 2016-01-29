@@ -924,6 +924,7 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
+		ChangeKeyBinding a = new ChangeKeyBinding(j);
 //		try {
 //			ChangeKeyBinding.editPropertiesFile(j);
 //		} catch (IOException e) {
