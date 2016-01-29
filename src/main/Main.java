@@ -82,6 +82,7 @@ public class Main {
 	static char previousPositionChar = '.';
 	static char previousPositionChar2 = '.';
 	static char deepnessScore = 0;
+	static boolean hasUsedPortal = false;
 	static JsonParser parser = new JsonParser();
 	static JsonObject rootObj;
 	static JsonObject rootObjWords;
@@ -184,6 +185,7 @@ public class Main {
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
+		j.cls();
 		countElements = 2;
 		map.printBorders(j, user);
 		map.printInside(j, user);
@@ -198,6 +200,8 @@ public class Main {
 			System.out.println("I need to paint ground objects");
 			_printGroundObjects();
 		}
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+		j.refresh();
 	}
 	
 	public static void _moveCharacterAction(int i) throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException{
@@ -206,45 +210,24 @@ public class Main {
 		if (user.move(newPosition)){
 			hasMoved = true;
         	user.setVisiblePositions();
-        	printEverything(false);
+        	printEverything(true);
         	previousPositionChar = previousPositionChar2;
         	previousPositionChar2 = j.peekChar(newPosition.y, newPosition.x);
         	if (RandUtil.containsString(usedSymbols, j.peekChar(newPosition.y, newPosition.x))){
-        		j.print(newPosition.y, newPosition.x, user.getSymbolRepresentation(), 12);
-            	j.print(previousPosition.y, previousPosition.x, previousPositionChar, 12);
             	if (hasChanged){
             		if (debug) {
             			System.out.println(map.getSymbolPosition(previousPosition));
             		}
-	            	j.print(previousPosition.y, previousPosition.x, map.getSymbolPosition(previousPosition), 12);
 	            	hasChanged = false;
             	}
-            	
-        	} else{
-        		if (firstTime) {
-        			j.print(newPosition.y, newPosition.x, user.getSymbolRepresentation(), 12);
-	            	j.print(previousPosition.y, previousPosition.x, previousPositionChar, 12);
-        			firstTime = false;
-        		} else {
-        			j.print(newPosition.y, newPosition.x, user.getSymbolRepresentation(), 12);
-	            	j.print(previousPosition.y, previousPosition.x, previousPositionChar2, 12);
-        			firstTime = true;
-        		} 
         	}
         } else {
         	_messageUnvalid();
         	printEverything(true);
-        	j.print(previousPosition.y, previousPosition.x, user.getSymbolRepresentation(), 12);
         	hasMoved = false;
         }
 		if (user.getRoom().isPortal(user.getPosition())) {
-			PrintableObject portal = new PrintableObject("portal", "", null, null);
-			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-			names.add(user);
-			names.add(portal);
-			GrammarIndividual grammarIndividual = grammarSimpleDescription.getRandomGrammar();
-			printMessage(_getMessage(grammarIndividual, names, "DESCGOESTHROUGH", false, false));
-			deepnessScore++;
+			hasUsedPortal = true;
 			gameFlow();
 		}
 	}
@@ -439,8 +422,9 @@ public class Main {
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);
 			names.add(item);
-			generatePrintMessage(names, grammarUseItem, "USE", usePronoun(), false);
 			user.useItem(item);
+			printEverything(false);
+			generatePrintMessage(names, grammarUseItem, "USE", usePronoun(), false);
 		}
 		if (debug) {
 			System.out.println(user.getWeaponsEquipped().size());
@@ -713,15 +697,12 @@ public class Main {
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);
 			names.add(item);
+			printEverything(true);
 			generatePrintMessage(names, grammarPickItem, "PICK", usePronoun(), false);
 			hasChanged = false;
 		} else {
 			_messageUnvalid();
 		}
-		j.cls();
-		printEverything(true);
-		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
-		j.refresh();
 	}
 	
 	public static void _attackAction(){
@@ -734,6 +715,7 @@ public class Main {
 		} else {
 			if (map.getMonstersPosition(user).size() > 0) {
 				Pair<Boolean, ActiveCharacter> monster = user.weaponAttack();
+				printEverything(true);
 				ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 				names.add(user);
 				names.add(monster.getB());
@@ -768,7 +750,7 @@ public class Main {
 	public static void _spellAction(int keyPressed){
 		int itemNumber = keyPressed % keysMap.get("spell1");
 		user.attackSpell(itemNumber);
-		printEverything(true);	
+		printEverything(true);
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	}
 	
@@ -777,6 +759,7 @@ public class Main {
 		if (itemNumber + 1 <= user.getInventory().size()) {
 			Item item = user.getInventory().get(itemNumber);
 			if (user.throwItem(item)) {
+				printEverything(true);
 				ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 				names.add(user);
 				names.add(item);
@@ -791,6 +774,7 @@ public class Main {
 	public static void _unequipItem(Item item){
 		//TODO: Working here
 		if (user.unequipItem(item)) {
+			printEverything(true);
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);
 			names.add(item);
@@ -807,18 +791,28 @@ public class Main {
 	public static void gameFlow() throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 		boolean doMonstersTurn = false;
 		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);
-		j.cls();
 		if (deepnessScore == 0){
 			_initialize();
 		} else {
 			_initializeMap();
 		}
-		j.refresh();
+		if (hasUsedPortal) {
+			printEverything(true);
+			PrintableObject portal = new PrintableObject("portal", "", null, null);
+			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+			names.add(user);
+			names.add(portal);
+			GrammarIndividual grammarIndividual = grammarSimpleDescription.getRandomGrammar();
+			printMessage(_getMessage(grammarIndividual, names, "DESCGOESTHROUGH", false, false));
+			deepnessScore++;
+			hasUsedPortal = false;
+		}
 		for (;;) {
 			if (user.getLife() > 0) {
 				GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
 				if (doMonstersTurn) {
 					Pair<Boolean, String> message = user.getRoom().monsterTurn(user, grammarIndividual, rootObjWords);
+					printEverything(true);
 					if (message.getA() && !message.getB().isEmpty()) {
 						printMessage(message.getB());
 					} else if (!message.getB().isEmpty()){
@@ -831,22 +825,12 @@ public class Main {
 						String messageMiss = _getMessage(grammarIndividualMiss, namesMiss, "MISS", true, false);
 						user.setPrepositions(null);
 						printMessage(message.getB() + messageMiss);
-						j.cls();
-						printEverything(true);
-						j.refresh();
-						j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
-					}	
-				}
-				
-				if (hasMoved) {
-					printEverything(true);
-					j.refresh();
-					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
-		            hasMoved = false;
+					}
+					
+					
 				}
 				int i = j.inkey().code;
 				System.out.println("Code" + i);
-				j.cls();
 				
 	            if (isMovementInput(i)){
 	            	doMonstersTurn = true;
@@ -856,30 +840,36 @@ public class Main {
 	            	doMonstersTurn = true;
 	            	_inventoryAction(i);
 	            	canUsePronoun = true;
+	            	printEverything(false);
 	            }
 	            else if (isPickItemInput(i)) {
 	            	doMonstersTurn = true;
 	            	_pickItemAction();
 	            	canUsePronoun = true;
+	            	printEverything(false);
 	            }
 	            else if (isAttackInput(i)) {
 	            	doMonstersTurn = true;
 	            	_attackAction();
 	            	canUsePronoun = true;
+	            	printEverything(true);
 	            } 
 	            else if (isSpellInput(i)) {
 	            	doMonstersTurn = true;
 	            	_spellAction(i);
 	            	canUsePronoun = true;
+	            	printEverything(true);
 	            } else if (isDescriptionInput(i) || isDescriptionWereableInput(i)) {
 	            	doMonstersTurn = false;
 	            	_descriptionAction(i);
 	            	canUsePronoun = true;
+	            	printEverything(false);
 	            } else if (isThrowItemInput(i)) {
 	            	int itemCode = j.inkey().code;
 	            	if (isInventoryInput(itemCode)) {
 	            		_throwItem(itemCode);
 	            		canUsePronoun = true;
+	            		printEverything(true);
 	            	}
 	            } else if (isUnequipItemInput(i)) {
 	            	int itemCode = j.inkey().code;
@@ -914,18 +904,10 @@ public class Main {
 	            				_unequipItem(user.getWeaponsEquipped().get(0));
 	            			}
 	            		}
+	            		printEverything(false);
 	            		canUsePronoun = true;
 	            	}
 	            }
-	            else {
-	            	printEverything(true);
-					j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
-	            }
-	            
-	            j.cls();
-	            printEverything(true);
-				j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
-				j.refresh();
 			}
 			else {
 				JLabel message = new JLabel();
