@@ -48,7 +48,6 @@ public class ChangeKeyBinding extends JFrame {
 					doSomething(keyCode);
 					if (allProperties.size() < count) {
 						newProperties.store(newPropertiesFile, null);
-						System.out.println("HEY :)");
 						try {
 							setVisible(false);
 							dispose();
@@ -72,7 +71,6 @@ public class ChangeKeyBinding extends JFrame {
     		if (i == count) {
     			String key = (String)k;
     			jLab.setText(key);
-    			System.out.println(keyCode);
     			this.newProperties.setProperty(key, String.valueOf(keyCode));
     		}
     		i++;
