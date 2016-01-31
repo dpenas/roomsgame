@@ -6,7 +6,6 @@ import java.util.Properties;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.event.*;
-
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 
 public class ChangeKeyBinding extends JFrame {
@@ -17,9 +16,25 @@ public class ChangeKeyBinding extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JLabel jLab;
 	private WSwingConsoleInterface swingBinding;
-    public ChangeKeyBinding(WSwingConsoleInterface swingBinding) {
+	private Properties allProperties;
+	private Properties newProperties = new Properties();
+	private FileOutputStream newPropertiesFile;
+	int count = 0;
+    public ChangeKeyBinding(WSwingConsoleInterface swingBinding) throws FileNotFoundException {
     	this.swingBinding = swingBinding;
-        jLab = new JLabel("Example");
+    	FileInputStream in;
+    	this.allProperties = new Properties();
+		try {
+			in = new FileInputStream("src/config/keys.properties");
+			this.allProperties.load(in);
+	    	in.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+    	this.newPropertiesFile = new FileOutputStream("src/config/keys.properties");
+    	jLab = new JLabel("Press key to start");
+    	
         addKeyListener(new KeyListener() {
         	@Override
             public void keyPressed(KeyEvent ke) {}
@@ -28,7 +43,19 @@ public class ChangeKeyBinding extends JFrame {
             @Override
             public void keyTyped(KeyEvent ke) {
             	try {
-					doSomething();
+            		int keyCode = ke.getKeyChar();
+            		count++;
+					doSomething(keyCode);
+					if (allProperties.size() < count) {
+						newProperties.store(newPropertiesFile, null);
+						System.out.println("HEY :)");
+						try {
+							setVisible(false);
+							dispose();
+						} catch (Throwable e) {
+							e.printStackTrace();
+						}
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -39,25 +66,16 @@ public class ChangeKeyBinding extends JFrame {
         setVisible(true);
     }
 	
-    private void doSomething() throws IOException {
-    	
-    	FileInputStream in = new FileInputStream("src/config/keys.properties");
-    	Properties props = new Properties();
-    	props.load(in);
-    	in.close();
-
-    	FileOutputStream out = new FileOutputStream("src/config/keys.properties");
-    	PressedKeyListener listener = new PressedKeyListener();
-    	this.swingBinding.addKeyListener(listener);
-  
-        for(Object k: props.keySet()) {
-        	String key = (String)k;
-        	this.swingBinding.cls();
-        	this.swingBinding.print(0, 0, key, 12);
-        	this.swingBinding.refresh();
-    		props.setProperty(key, String.valueOf(this.swingBinding.inkey().code));
-        }
-        props.store(out, null);
-        out.close();
+    private void doSomething(int keyCode) throws IOException {
+    	int i = 1;
+    	for(Object k: this.allProperties.keySet()) {
+    		if (i == count) {
+    			String key = (String)k;
+    			jLab.setText(key);
+    			System.out.println(keyCode);
+    			this.newProperties.setProperty(key, String.valueOf(keyCode));
+    		}
+    		i++;
+    	}
     }
 }
