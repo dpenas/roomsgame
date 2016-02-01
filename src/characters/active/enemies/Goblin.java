@@ -22,6 +22,7 @@ public class Goblin extends ActiveCharacter {
 				50, 100, 100, new ArrayList<WereableWeapon>(), new ArrayList<WereableArmor>(), 0,
 				0, 0, new ArrayList<Item>(), 0, 0, 100, 0, 0, "G", 3, 2, adjectives);
 		System.out.println("Adj: " + this.getAdjectives().size());
+		this.setTirenessTotal(5);
 		this.putItemInventory(oneHandSword);
 		this.equipWeapon(oneHandSword);
 	}

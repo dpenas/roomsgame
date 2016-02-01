@@ -59,6 +59,8 @@ public class ActiveCharacter extends Character {
 	private ArrayList<WereableArmor> armorsEquipped;
 	private ArrayList<Tuple<Integer, Integer>> visiblePositions = new ArrayList<Tuple<Integer, Integer>>();
 	private ArrayList<Spell> spells = new ArrayList<Spell>();
+	private int tirenessTotal = 0;
+	private int tirenessCurrent = 0;
 
 	public ActiveCharacter(String name, String description,
 			Map map, Room room, Tuple<Integer, Integer> position, int damage,
@@ -601,9 +603,14 @@ public class ActiveCharacter extends Character {
 				Pair<Boolean, String> returnValue = new Pair<Boolean, String>(this.attack(user), selector.getRandomSentence());
 				return returnValue;
 			} else {
-				Tuple<Integer, Integer> pos = Movement.moveCharacter(this, user);
-				if (pos != null) {
-					this.move(pos);
+				if (this.tirenessTotal <= 0 || this.tirenessCurrent != this.tirenessTotal) {
+					Tuple<Integer, Integer> pos = Movement.moveCharacter(this, user);
+					if (pos != null) {
+						this.move(pos);
+						this.tirenessCurrent++;
+					}
+				} else {
+					this.tirenessCurrent = 0;
 				}
 			}
 		}
@@ -802,6 +809,22 @@ public class ActiveCharacter extends Character {
 
 	public void setVisiblePositions(ArrayList<Tuple<Integer, Integer>> visiblePositions) {
 		this.visiblePositions = visiblePositions;
+	}
+
+	public int getTirenessTotal() {
+		return tirenessTotal;
+	}
+
+	public void setTirenessTotal(int tirenessTotal) {
+		this.tirenessTotal = tirenessTotal;
+	}
+
+	public int getTirenessCurrent() {
+		return tirenessCurrent;
+	}
+
+	public void setTirenessCurrent(int tirenessCurrent) {
+		this.tirenessCurrent = tirenessCurrent;
 	}
 
 }
