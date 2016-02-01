@@ -242,28 +242,34 @@ public class ActiveCharacter extends Character {
 		this.setCharacterDead(defender);
 	}
 	
-	public boolean attackSpell(int itemNumber) {
+	public ArrayList<ActiveCharacter> attackSpell(int itemNumber, ActiveCharacter user) {
+		ArrayList<ActiveCharacter> hurtCharacters = new ArrayList<ActiveCharacter>();
 		if (this.getSpells().size() > itemNumber) {
 			Spell spell = this.getSpells().get(itemNumber);
 			Room room = this.getRoom();
 			if (this.generateSpell(spell)) {
 				ArrayList<Tuple<Integer, Integer>> spellDamagedPositions = spell.getDamagedPositions(this);
-				ArrayList<Tuple<Integer, Integer>> monstersPositions = room.getPositionsOfMonsters();
+				ArrayList<Tuple<Integer, Integer>> charactersPositions = room.getPositionsOfMonsters();
+				charactersPositions.add(user.getPosition());
 				if (spellDamagedPositions.size() > 0) {
 					for (Tuple<Integer, Integer> pos : spellDamagedPositions) {
-						if (RandUtil.containsTuple(pos, monstersPositions)) {
+						if (RandUtil.sameTuple(pos, user.getPosition())) {
+							hurtCharacters.add(user);
+							this.attackWithSpell(user, spell);
+						}
+						if (RandUtil.containsTuple(pos, charactersPositions)) {
 							for (ActiveCharacter monsterDamaged : room.getMonstersPosition(pos)) {
+								hurtCharacters.add(monsterDamaged);
 								this.attackWithSpell(monsterDamaged, spell);
 							}
 						}
 					}
-					return true;
 				}
 			}
 		} else {
 			System.out.println("No spells");
 		}
-		return false;
+		return hurtCharacters;
 	}
 	
 	private boolean generateSpell(Spell spell) {
@@ -587,10 +593,28 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public Pair<Boolean, String> doTurn(ActiveCharacter user, GrammarIndividual grammarAttack, JsonObject rootObjWords){
-		if (this.getRoom().equals(user.getRoom()) && !this.isDead() && this.getWeaponsEquipped().size() > 0){
-			if (RandUtil.sameTuple(this.getPosition(), user.getPosition())){
-				ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-				names.add(this);
+		if (this.getRoom().equals(user.getRoom()) && !this.isDead()){
+			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+			names.add(this);
+			for (int i = 0; i < this.getSpells().size(); i++) {
+					if (RandUtil.containsTuple(user.getPosition(), this.getSpells().get(i).getDamagedPositions(this))
+							&& this.getSpells().get(i).getManaCost() <= this.getMagic()) {
+						names.add(this.getSpells().get(i));
+						names.add(user);
+						GrammarSelectorS selector = null;
+						try {
+							selector = new GrammarSelectorS(grammarAttack, rootObjWords, names, "SPELLS");
+						} catch (JsonIOException | JsonSyntaxException | FileNotFoundException | InstantiationException
+								| IllegalAccessException e) {
+							e.printStackTrace();
+						}
+						boolean hasWorked = false; 
+						if (this.attackSpell(i, user).size() > 0) hasWorked = true;
+						Pair<Boolean, String> returnValue = new Pair<Boolean, String>(hasWorked, selector.getRandomSentence());
+						return returnValue;
+					}
+			}
+			if (this.getWeaponsEquipped().size() > 0 && RandUtil.sameTuple(this.getPosition(), user.getPosition())) {
 				names.add(user);
 				names.add(this.getWeaponsEquipped().get(0));
 				GrammarSelectorS selector = null;
