@@ -175,7 +175,7 @@ public class Main {
 				keysMap.get("item5"), keysMap.get("item6")};
 		pickItemInput = new Integer[] {keysMap.get("pickItem")};
 		attackInput = new Integer[] {keysMap.get("attack")};
-		spellInput = new Integer[] {keysMap.get("spell1"), keysMap.get("spell2")};
+		spellInput = new Integer[] {keysMap.get("spell")};
 		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descLife"), keysMap.get("descMana"), 
 				keysMap.get("descMonster"), keysMap.get("descEnv"), keysMap.get("descWalkablePositions")};
 		descriptionWereableInput = new Integer[] {keysMap.get("descHead"), keysMap.get("descHands"), keysMap.get("descChest"),
@@ -747,7 +747,7 @@ public class Main {
 	}
 	
 	public static void _spellAction(int keyPressed){
-		int itemNumber = keyPressed % keysMap.get("spell1");
+		int itemNumber = keyPressed % keysMap.get("item1");
 		for (ActiveCharacter monsterAffected : user.attackSpell(itemNumber, user)) {
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);
@@ -865,7 +865,12 @@ public class Main {
 	            } 
 	            else if (isSpellInput(i)) {
 	            	doMonstersTurn = true;
-	            	_spellAction(i);
+	            	int itemCode = j.inkey().code;
+	            	if (isInventoryInput(itemCode)) {
+	            		_spellAction(itemCode);
+	            		canUsePronoun = true;
+	            		printEverything(true);
+	            	}
 	            	canUsePronoun = true;
 	            	printEverything(true);
 	            } else if (isDescriptionInput(i) || isDescriptionWereableInput(i)) {
