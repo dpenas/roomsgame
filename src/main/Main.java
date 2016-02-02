@@ -748,6 +748,15 @@ public class Main {
 	
 	public static void _spellAction(int keyPressed){
 		int itemNumber = keyPressed % keysMap.get("spell1");
+		if (user.getSpells().get(itemNumber).getManaCost() > user.getMagic()) {
+			GrammarIndividual grammarIndividualUnvalid = grammarUnvalidDescription.getRandomGrammar();
+			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+			PrintableObject mana = new PrintableObject("mana", "", null, null);
+			names.add(user);
+			names.add(mana);
+			String message = _getMessage(grammarIndividualUnvalid, names, "NOTHAVE", true, false);
+			printMessage(message);
+		}
 		for (ActiveCharacter monsterAffected : user.attackSpell(itemNumber, user)) {
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);

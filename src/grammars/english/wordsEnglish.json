@@ -597,7 +597,19 @@
 	            {"translation": "don't have"},
 	            {"numopposite": "doesn't have"},
 	            {"gender": ""}
-	        ]
+	        ],
+            "lacks": [
+                {"num": "sing"},
+                {"translation": "lacks"},
+                {"numopposite": "lack"},
+                {"gender": ""}
+            ],
+            "lack": [
+                {"num": "plural"},
+                {"translation": "lack"},
+                {"numopposite": "lacks"},
+                {"gender": ""}
+            ]
     	},
         "SPELLS": {
             "casts": [
