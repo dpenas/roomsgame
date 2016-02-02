@@ -19,5 +19,6 @@ public class Dragon extends ActiveCharacter {
 				50, 500, 1000, new ArrayList<WereableWeapon>(), new ArrayList<WereableArmor>(), 0,
 				0, 0, inventory, 0,
 				0, 100, 0, 0, "D", 2, 2, adjectives);
+		this.setTirenessTotal(3);
 	}
 }

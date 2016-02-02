@@ -23,6 +23,12 @@
             {"translation": "but"},
             {"numopposite": "but"},
             {"gender": ""}
+        ],
+        "against": [
+            {"num": ""},
+            {"translation": "against"},
+            {"numopposite": "against"},
+            {"gender": ""}
         ]
     },
     "DET": {
@@ -524,6 +530,20 @@
             {"translation": "that"}, 
             {"numopposite": "that"}, 
             {"gender": ""}
+        ],
+        "spell":
+            [
+            {"num": "sing"},
+            {"translation": "spell"}, 
+            {"numopposite": "spells"}, 
+            {"gender": ""}
+        ],
+        "spells":
+            [
+            {"num": "plural"},
+            {"translation": "spells"}, 
+            {"numopposite": "spell"}, 
+            {"gender": ""}
         ]
     },
     "V": {
@@ -579,6 +599,20 @@
 	            {"gender": ""}
 	        ]
     	},
+        "SPELLS": {
+            "casts": [
+                {"num": "sing"},
+                {"translation": "casts"},
+                {"numopposite": "cast"},
+                {"gender": ""}
+            ],
+            "cast": [
+                {"num": "plural"},
+                {"translation": "cast"},
+                {"numopposite": "casts"},
+                {"gender": ""}
+            ]
+        },
     	"PICK": {
     		"picks": [
 	            {"num": "sing"},

@@ -10,6 +10,8 @@ public class FireRing extends Spell {
 
 	public FireRing() {
 		super(10, 10);
+		adjectives.add("magic");
+		this.setAdjectives(adjectives);
 	}
 
 	@Override

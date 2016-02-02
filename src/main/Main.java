@@ -738,7 +738,6 @@ public class Main {
 					user.setPrepositions(preposition);
 					namesMiss.add(user);
 					String messageMiss = _getMessage(grammarIndividualMiss, namesMiss, "MISS", true, false);
-					user.setPrepositions(null);
 					printMessage(message+ messageMiss);
 				}
 	    	}
@@ -749,7 +748,16 @@ public class Main {
 	
 	public static void _spellAction(int keyPressed){
 		int itemNumber = keyPressed % keysMap.get("spell1");
-		user.attackSpell(itemNumber);
+		for (ActiveCharacter monsterAffected : user.attackSpell(itemNumber, user)) {
+			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+			names.add(user);
+			names.add(user.getSpells().get(itemNumber));
+			names.add(monsterAffected);
+			generatePrintMessage(names, grammarAttack, "SPELLS", usePronoun(), false);
+			if (monsterAffected.isDead()) {
+				_messageDescriptionDead(monsterAffected);
+			}
+		}
 		printEverything(true);
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
 	}
@@ -819,11 +827,12 @@ public class Main {
 						GrammarIndividual grammarIndividualMiss = grammarMissDescription.getRandomGrammar();
 						ArrayList<PrintableObject> namesMiss = new ArrayList<PrintableObject>();
 						ArrayList<String> preposition = new ArrayList<String>();
+						ArrayList<String> prepositionBefore = user.getPrepositions();
 						preposition.add("but");
 						user.setPrepositions(preposition);
 						namesMiss.add(user);
 						String messageMiss = _getMessage(grammarIndividualMiss, namesMiss, "MISS", true, false);
-						user.setPrepositions(null);
+						user.setPrepositions(prepositionBefore);
 						printMessage(message.getB() + messageMiss);
 					}
 					

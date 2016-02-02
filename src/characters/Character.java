@@ -34,6 +34,9 @@ public abstract class Character extends PrintableObject {
 		this.actualCarryWeight = actualCarryWeight;
 		this.inventory = inventory;
 		this.symbolRepresentation = symbolRepresentation;
+		ArrayList<String> newPrepositions = new ArrayList<String>();
+		newPrepositions.add("against");
+		this.setPrepositions(newPrepositions);
 	}
 
 	public String getName() {

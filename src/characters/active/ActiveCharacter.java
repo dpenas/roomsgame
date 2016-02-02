@@ -59,6 +59,8 @@ public class ActiveCharacter extends Character {
 	private ArrayList<WereableArmor> armorsEquipped;
 	private ArrayList<Tuple<Integer, Integer>> visiblePositions = new ArrayList<Tuple<Integer, Integer>>();
 	private ArrayList<Spell> spells = new ArrayList<Spell>();
+	private int tirenessTotal = 0;
+	private int tirenessCurrent = 0;
 
 	public ActiveCharacter(String name, String description,
 			Map map, Room room, Tuple<Integer, Integer> position, int damage,
@@ -240,28 +242,34 @@ public class ActiveCharacter extends Character {
 		this.setCharacterDead(defender);
 	}
 	
-	public boolean attackSpell(int itemNumber) {
+	public ArrayList<ActiveCharacter> attackSpell(int itemNumber, ActiveCharacter user) {
+		ArrayList<ActiveCharacter> hurtCharacters = new ArrayList<ActiveCharacter>();
 		if (this.getSpells().size() > itemNumber) {
 			Spell spell = this.getSpells().get(itemNumber);
 			Room room = this.getRoom();
 			if (this.generateSpell(spell)) {
 				ArrayList<Tuple<Integer, Integer>> spellDamagedPositions = spell.getDamagedPositions(this);
-				ArrayList<Tuple<Integer, Integer>> monstersPositions = room.getPositionsOfMonsters();
+				ArrayList<Tuple<Integer, Integer>> charactersPositions = room.getPositionsOfMonsters();
+				charactersPositions.add(user.getPosition());
 				if (spellDamagedPositions.size() > 0) {
 					for (Tuple<Integer, Integer> pos : spellDamagedPositions) {
-						if (RandUtil.containsTuple(pos, monstersPositions)) {
+						if (RandUtil.sameTuple(pos, user.getPosition())) {
+							hurtCharacters.add(user);
+							this.attackWithSpell(user, spell);
+						}
+						if (RandUtil.containsTuple(pos, charactersPositions)) {
 							for (ActiveCharacter monsterDamaged : room.getMonstersPosition(pos)) {
+								hurtCharacters.add(monsterDamaged);
 								this.attackWithSpell(monsterDamaged, spell);
 							}
 						}
 					}
-					return true;
 				}
 			}
 		} else {
 			System.out.println("No spells");
 		}
-		return false;
+		return hurtCharacters;
 	}
 	
 	private boolean generateSpell(Spell spell) {
@@ -585,10 +593,28 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public Pair<Boolean, String> doTurn(ActiveCharacter user, GrammarIndividual grammarAttack, JsonObject rootObjWords){
-		if (this.getRoom().equals(user.getRoom()) && !this.isDead() && this.getWeaponsEquipped().size() > 0){
-			if (RandUtil.sameTuple(this.getPosition(), user.getPosition())){
-				ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-				names.add(this);
+		if (this.getRoom().equals(user.getRoom()) && !this.isDead()){
+			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+			names.add(this);
+			for (int i = 0; i < this.getSpells().size(); i++) {
+					if (RandUtil.containsTuple(user.getPosition(), this.getSpells().get(i).getDamagedPositions(this))
+							&& this.getSpells().get(i).getManaCost() <= this.getMagic()) {
+						names.add(this.getSpells().get(i));
+						names.add(user);
+						GrammarSelectorS selector = null;
+						try {
+							selector = new GrammarSelectorS(grammarAttack, rootObjWords, names, "SPELLS");
+						} catch (JsonIOException | JsonSyntaxException | FileNotFoundException | InstantiationException
+								| IllegalAccessException e) {
+							e.printStackTrace();
+						}
+						boolean hasWorked = false; 
+						if (this.attackSpell(i, user).size() > 0) hasWorked = true;
+						Pair<Boolean, String> returnValue = new Pair<Boolean, String>(hasWorked, selector.getRandomSentence());
+						return returnValue;
+					}
+			}
+			if (this.getWeaponsEquipped().size() > 0 && RandUtil.sameTuple(this.getPosition(), user.getPosition())) {
 				names.add(user);
 				names.add(this.getWeaponsEquipped().get(0));
 				GrammarSelectorS selector = null;
@@ -601,9 +627,14 @@ public class ActiveCharacter extends Character {
 				Pair<Boolean, String> returnValue = new Pair<Boolean, String>(this.attack(user), selector.getRandomSentence());
 				return returnValue;
 			} else {
-				Tuple<Integer, Integer> pos = Movement.moveCharacter(this, user);
-				if (pos != null) {
-					this.move(pos);
+				if (this.tirenessTotal <= 0 || this.tirenessCurrent != this.tirenessTotal) {
+					Tuple<Integer, Integer> pos = Movement.moveCharacter(this, user);
+					if (pos != null) {
+						this.move(pos);
+						this.tirenessCurrent++;
+					}
+				} else {
+					this.tirenessCurrent = 0;
 				}
 			}
 		}
@@ -802,6 +833,22 @@ public class ActiveCharacter extends Character {
 
 	public void setVisiblePositions(ArrayList<Tuple<Integer, Integer>> visiblePositions) {
 		this.visiblePositions = visiblePositions;
+	}
+
+	public int getTirenessTotal() {
+		return tirenessTotal;
+	}
+
+	public void setTirenessTotal(int tirenessTotal) {
+		this.tirenessTotal = tirenessTotal;
+	}
+
+	public int getTirenessCurrent() {
+		return tirenessCurrent;
+	}
+
+	public void setTirenessCurrent(int tirenessCurrent) {
+		this.tirenessCurrent = tirenessCurrent;
 	}
 
 }

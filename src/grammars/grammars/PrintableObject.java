@@ -28,6 +28,9 @@ public class PrintableObject {
 		this.adjectives = adjectives;
 		this.position = position;
 		this.printableName = "";
+		ArrayList<String> prepositions = new ArrayList<String>();
+		prepositions.add("with");
+		this.setPrepositions(prepositions);
 	}
 	
 	public String getPositionDirections(Tuple<Integer, Integer> characterPos) {

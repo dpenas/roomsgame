@@ -10,6 +10,9 @@ public class Fireball extends Spell {
 
 	public Fireball() {
 		super(5, 5);
+		ArrayList<String> adjectives = new ArrayList<String>();
+		adjectives.add("magic");
+		this.setAdjectives(adjectives);
 	}
 
 	@Override
