@@ -381,7 +381,7 @@ public class ActiveCharacter extends Character {
 					type.add(freeSlots.get(0));
 					weapon.setWeaponType(type);
 				}
-				this.weaponsEquipped.add(weapon);
+				this.getWeaponsEquipped().add(weapon);
 				weapon.setCharacter(this);
 				this.getInventory().remove(weapon);
 				return true;
