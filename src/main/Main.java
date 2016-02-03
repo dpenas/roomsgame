@@ -70,6 +70,7 @@ public class Main {
 	static Integer[] descriptionWereableInput;
 	static Integer[] throwItemInput;
 	static Integer[] unequipItemInput;
+	static Integer[] changeNumericDescInput;
 	static Map map;
 	static Tuple<Integer, Integer> pos = new Tuple<Integer, Integer>(1,1);
 	static Room roomEnemy;
@@ -82,6 +83,7 @@ public class Main {
 	static char previousPositionChar = '.';
 	static char previousPositionChar2 = '.';
 	static char deepnessScore = 0;
+	static boolean isNumericDescription = false;
 	static boolean hasUsedPortal = false;
 	static JsonParser parser = new JsonParser();
 	static JsonObject rootObj;
@@ -136,6 +138,10 @@ public class Main {
 		return Arrays.asList(unequipItemInput).contains(key);
 	}
 	
+	public static boolean isChangeNumericDescInput(int key){
+		return Arrays.asList(changeNumericDescInput).contains(key);
+	}
+	
 	public static boolean usePronoun() {
 		if (canUsePronoun) {
 			if (RandUtil.RandomNumber(0, 2) > 0) {
@@ -182,6 +188,7 @@ public class Main {
 				keysMap.get("descPants"), keysMap.get("descGloves")};
 		throwItemInput = new Integer[] {keysMap.get("throwItem")};
 		unequipItemInput = new Integer[] {keysMap.get("unequipItem")};
+		changeNumericDescInput = new Integer[] {keysMap.get("changeNumericDesc")};
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
@@ -452,7 +459,7 @@ public class Main {
 		generatePrintMessage(names, grammarAdjectiveDescription, "DESCGENERAL", false, false);
 	}
 	
-	private static String _messageDescriptionLife(ActiveCharacter character, boolean numerical, boolean usePronoun) {
+	private static String _messageDescriptionLife(ActiveCharacter character, boolean usePronoun) {
 		ArrayList<String> adjectives = new ArrayList<String>();
 		adjectives.add(character.getLifeAdjective());
 		PrintableObject life = new PrintableObject("life", "", adjectives, null);
@@ -461,14 +468,14 @@ public class Main {
 		names.add(life);
 		GrammarIndividual grammarIndividual = grammarDescribePersonal.getRandomGrammar();
 		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL", usePronoun, usePronoun);
-		if (numerical) {
+		if (isNumericDescription) {
 			String valueToChange = JSONParsing.getElement(WordsGrammar.getAdjectives(rootObjWords, adjectives).get(0).getB(), "translation");
 			message = message.replaceAll(valueToChange, String.valueOf(character.getLife()));
 		}
 		return message;
 	}
 	
-	private static String _messageDescriptionMana(ActiveCharacter character, boolean numerical, boolean usePronoun) {
+	private static String _messageDescriptionMana(ActiveCharacter character, boolean usePronoun) {
 		ArrayList<String> adjectives = new ArrayList<String>();
 		adjectives.add(character.getManaAdjective());
 		PrintableObject mana = new PrintableObject("mana", "", adjectives, null);
@@ -477,18 +484,18 @@ public class Main {
 		names.add(mana);
 		GrammarIndividual grammarIndividual = grammarDescribePersonal.getRandomGrammar();
 		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL", usePronoun, usePronoun);
-		if (numerical) {
+		if (isNumericDescription) {
 			String valueToChange = JSONParsing.getElement(WordsGrammar.getAdjectives(rootObjWords, adjectives).get(0).getB(), "translation");
 			message = message.replaceAll(valueToChange, String.valueOf(character.getMagic()));
 		}
 		return message;
 	}
 	
-	private static void _messageDescriptionMonster(boolean numerical) {
+	private static void _messageDescriptionMonster() {
 		for (ActiveCharacter monster : map.getMonstersPosition(user)) {
 			String message = ""; 
-			message += _messageDescriptionLife(monster, numerical, false);
-			message += " " + _messageDescriptionMana(monster, numerical, true);
+			message += _messageDescriptionLife(monster, false);
+			message += " " + _messageDescriptionMana(monster, isNumericDescription);
 			printMessage(message);
 		}
 	}
@@ -585,11 +592,10 @@ public class Main {
 	
 	private static void _messageDescriptionEnvironment() {
 		String message = "<html>";
-		boolean withNumbers = true;
 		ArrayList<Door> alreadyPrintedDoors = new ArrayList<Door>();
 		for (Tuple<Integer, Integer> pos : user.getVisiblePositions()) {
 			for (ActiveCharacter enemy : user.getRoom().getMonstersPosition(pos)) {
-				if (withNumbers) {
+				if (isNumericDescription) {
 					String messagePosition = enemy.getPositionDirectionsWithNumbers(user.getPosition()).getA();
 					String messageNumbers = enemy.getPositionDirectionsWithNumbers(user.getPosition()).getB();
 					message += _messageDescriptionEnvironment(enemy, messagePosition) + messageNumbers;
@@ -599,7 +605,7 @@ public class Main {
 			}
 			message += "<br>";
 			for (Item item : user.getRoom().getItemsPosition(pos)) {
-				if (withNumbers) {
+				if (isNumericDescription) {
 					String messagePosition = item.getPositionDirectionsWithNumbers(user.getPosition()).getA();
 					String messageNumbers = item.getPositionDirectionsWithNumbers(user.getPosition()).getB();
 					message += _messageDescriptionEnvironment(item, messagePosition) + messageNumbers;
@@ -612,7 +618,7 @@ public class Main {
 				Tuple<Integer, Integer> position = door.getPositionRoom(user);
 				if (position != null && !alreadyPrintedDoors.contains(door)) {
 					PrintableObject doorPrintable = new PrintableObject("door", "", door.getAdjectives(), position);
-					if (withNumbers) {
+					if (isNumericDescription) {
 						String messagePosition = doorPrintable.getPositionDirectionsWithNumbers(user.getPosition()).getA();
 						String messageNumbers = doorPrintable.getPositionDirectionsWithNumbers(user.getPosition()).getB();
 						message += _messageDescriptionEnvironment(doorPrintable, messagePosition) + messageNumbers;
@@ -626,7 +632,7 @@ public class Main {
 			for (Tuple<Integer, Integer> portal : user.getRoom().getPortalsPosition(pos)) {
 				if (portal != null) {
 					PrintableObject portablePrintable = new PrintableObject("portal", "", null, portal);
-					if (withNumbers) {
+					if (isNumericDescription) {
 						String messagePosition = portablePrintable.getPositionDirectionsWithNumbers(user.getPosition()).getA();
 						String messageNumbers = portablePrintable.getPositionDirectionsWithNumbers(user.getPosition()).getB();
 						message += _messageSimpleEnvironment(portablePrintable, messagePosition) + messageNumbers;
@@ -647,13 +653,13 @@ public class Main {
 			_messageDescriptionInventory();
 		}
 		if (i == keysMap.get("descLife")) {
-			printMessage(_messageDescriptionLife(user, usePronoun(), false));
+			printMessage(_messageDescriptionLife(user, usePronoun()));
 		}
 		if (i == keysMap.get("descMana")) {
-			printMessage(_messageDescriptionMana(user, usePronoun(), false));
+			printMessage(_messageDescriptionMana(user, usePronoun()));
 		}
 		if (i == keysMap.get("descMonster")) {
-			_messageDescriptionMonster(false);
+			_messageDescriptionMonster();
 		}
 		if (i == keysMap.get("descEnv")) {
 			_messageDescriptionEnvironment();
@@ -834,9 +840,7 @@ public class Main {
 						String messageMiss = _getMessage(grammarIndividualMiss, namesMiss, "MISS", true, false);
 						user.setPrepositions(prepositionBefore);
 						printMessage(message.getB() + messageMiss);
-					}
-					
-					
+					}	
 				}
 				int i = j.inkey().code;
 				System.out.println("Code" + i);
@@ -921,6 +925,8 @@ public class Main {
 	            		printEverything(false);
 	            		canUsePronoun = true;
 	            	}
+	            } else if (isChangeNumericDescInput(i)) {
+	            	isNumericDescription = !isNumericDescription;
 	            }
 			}
 			else {
