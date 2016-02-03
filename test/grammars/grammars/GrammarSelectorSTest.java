@@ -18,6 +18,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
 import characters.active.ActiveCharacter;
+import characters.active.enemies.Goblin;
 import grammars.parsing.JSONParsing;
 import items.Item;
 import items.ItemEnumerate;
