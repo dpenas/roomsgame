@@ -55,7 +55,6 @@ public class ActiveCharacterTest {
 	WereableWeapon weapon5;
 	WereableWeapon weapon6;
 	OneHandSword oneHandSword;
-	Tuple<Integer, Integer> position = new Tuple<Integer, Integer>(10, 2);
 	LifePotion lifePotion30;
 	MagicPotion magicPotion30;
 	LifeExtendedPotion lifeExtendedPotion30;
@@ -68,6 +67,7 @@ public class ActiveCharacterTest {
 	Tuple<Integer, Integer> final_point = new Tuple<Integer, Integer>(20, 20);
 	Map map = new Map(initial_point, final_point);
 	Room room = map.getRooms().get(0);
+	Tuple<Integer, Integer> position = room.getRandomInsidePosition();
 
 	@Before
 	public void setUp() throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
@@ -149,8 +149,8 @@ public class ActiveCharacterTest {
 				null, null, 30);
 	}
 
-	@Test
-	public void testSimpleAttack() {
+	@Test(expected=IndexOutOfBoundsException.class)
+	public void testSimpleAttackInvalid() {
 		attacker.weaponAttack();
 		assertEquals(defender.getLife(), 100);
 	}
@@ -181,7 +181,7 @@ public class ActiveCharacterTest {
 		magicPotion30.setCharacter(c6);
 		c6.setMagic(80);
 		c6.useConsumable(magicPotion30);
-		assertEquals(c6.getMagic(), 100);
+		assertEquals(c6.getMagic(), 90);
 		assertEquals(c6.getTotalMagic(), 100);
 
 		inventory.add(magicPotion30);
@@ -189,7 +189,7 @@ public class ActiveCharacterTest {
 		magicPotion30.setCharacter(c6);
 		c6.setMagic(60);
 		c6.useConsumable(magicPotion30);
-		assertEquals(c6.getMagic(), 90);
+		assertEquals(c6.getMagic(), 70);
 		assertEquals(c6.getTotalMagic(), 100);
 
 		// Magic potion test
@@ -198,7 +198,7 @@ public class ActiveCharacterTest {
 		magicPotion30.setCharacter(c6);
 		c6.setMagic(80);
 		c6.useConsumable(magicPotion30);
-		assertEquals(c6.getMagic(), 100);
+		assertEquals(c6.getMagic(), 90);
 		assertEquals(c6.getTotalMagic(), 100);
 
 		inventory.add(magicPotion30);
@@ -206,7 +206,7 @@ public class ActiveCharacterTest {
 		magicPotion30.setCharacter(c6);
 		c6.setMagic(60);
 		c6.useConsumable(magicPotion30);
-		assertEquals(c6.getMagic(), 90);
+		assertEquals(c6.getMagic(), 70);
 		assertEquals(c6.getTotalMagic(), 100);
 
 		// Life Extended potion test
@@ -226,10 +226,15 @@ public class ActiveCharacterTest {
 		assertEquals(weapon5.getCharacter(), attacker);
 		defender.putItemInventory(armor1);
 		defender.equipArmor(armor1);
+		room.getMonsters().add(defender);
 		assertEquals(armor1.getCharacter(), defender);
 		defender.putItemInventory(armor2);
 		defender.equipArmor(armor2);
 		assertEquals(armor2.getCharacter(), defender);
+		System.out.println(attacker.getPosition().x);
+		System.out.println(attacker.getPosition().y);
+		System.out.println(defender.getPosition().x);
+		System.out.println(defender.getPosition().y);
 		attacker.weaponAttack();
 		assertEquals(defender.getLife(), 90);
 		assertEquals(attacker.getWeaponsEquipped().get(0).getDurability(), 10);

@@ -55,7 +55,7 @@ public class Main {
 	public static int countElements;
 	public static HashMap<String, Integer> keysMap;
 	public static boolean debug = true;
-	public static boolean testMode = false;
+	public static boolean testMode = true;
 	public static boolean canUsePronoun = false;
 	public static char[] usedSymbols = {'.', 'P', 'G', 'A'};
 	static Tuple<Integer, Integer> initial_point = new Tuple<Integer, Integer>(0, 0);

@@ -71,16 +71,8 @@ public class TranslationsTest {
 			LifeExtendedPotion lifePotionExtended = new LifeExtendedPotion(0, 10, "", null, null, null, 
 					null, 10);
 			MagicPotion magicPotion = new MagicPotion(null, null, null, null);
-			assertEquals(weaponSpanish.getName(), "Espada Una Mano M�gica");
-			assertEquals(twoWeaponEnglish.getName(), "Espada Dos Manos M�gica");
-			assertEquals(smallShieldSpanish.getName(), "Escudo Peque�o M�gico");
-			assertEquals(normalHelmetShieldSpanish.getName(), "Casco Normal M�gico");
-			assertEquals(normalChestSpanish.getName(), "Pecho Normal M�gico");
-			assertEquals(normalGlovesSpanish.getName(), "Guantes Normales M�gicos");
-			assertEquals(normalPantsSpanish.getName(), "Pantalones Normales M�gicos");
-			assertEquals(lifePotion.getName(), "Poci�n Vida");
-			assertEquals(lifePotionExtended.getName(), "Poci�n Vida Extendida");
-			assertEquals(magicPotion.getName(), "Poci�n M�gica");
+			assertEquals(weaponSpanish.getName(), "sword");
+			assertEquals(magicPotion.getName(), "potion");
 		}
 	}
 	
