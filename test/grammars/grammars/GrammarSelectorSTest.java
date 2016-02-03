@@ -85,8 +85,14 @@ public class GrammarSelectorSTest {
 		return "";
 	}
 	
+	public static String generatePrintMessage(ArrayList<PrintableObject> names, GrammarsGeneral grammar, String type, boolean usePronoun,
+			boolean useAnd) {
+		GrammarIndividual grammarIndividual = grammar.getRandomGrammar();
+		return _getMessage(grammarIndividual, names, type, usePronoun, useAnd);
+	}
+	
 	@Test
-	public void testGrammarSelector() {
+	public void testGrammarSelectorDescWears() {
 		ArrayList<Item> hands = user.getWearHandsAttack();
 		String message = "<html>";
 		for (Item itemhand : hands) {
@@ -106,6 +112,35 @@ public class GrammarSelectorSTest {
 				message.equals("<html>  he wears the sword in the hand<br>") || 
 				message.equals("<html>  he wears the one hand sword in the hand<br>")|| 
 				message.equals("<html>  he wears the magic sword in the hand<br>")) {
+			assertTrue("", true);
+		} else {
+			assertTrue("", false);
+		}
+	}
+	
+	@Test
+	public void testGrammarSelectorDescInventory() {
+		WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, user, null, null,
+				null, 0, 0, true);
+		user.putItemInventory(oneHandSword);
+		GrammarsGeneral grammarDescribeItem;
+		JsonObject objectDescribeItem = JSONParsing.getElement(rootObj, "DESCITEM").getAsJsonObject();
+		grammarDescribeItem = new GrammarsGeneral(objectDescribeItem);
+		String message = ""; 
+		if (user.getInventory().size() > 0) {
+			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+			names.add(user);
+			for (Item item : user.getInventory()) {
+				names.add(item);
+			}
+			message += generatePrintMessage(names, grammarDescribeItem, "DESCITEM", false, false);
+		}
+		System.out.println(message);
+		if (
+				message.equals(" the small hero has the one hand sword") || 
+				message.equals(" the hero has the one hand sword") || 
+				message.equals(" the small hero has the magic sword") || 
+		 		message.equals(" the hero has the magic sword")){
 			assertTrue("", true);
 		} else {
 			assertTrue("", false);
