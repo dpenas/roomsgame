@@ -144,6 +144,41 @@
             {"translation": "dead"}, 
             {"numopposite": "dead"}, 
             {"gender": ""}
+        ],
+        "brave": 
+            [
+            {"num": "sing"},
+            {"translation": "brave"}, 
+            {"numopposite": "brave"}, 
+            {"gender": ""}
+        ],
+        "glorious": 
+            [
+            {"num": "sing"},
+            {"translation": "glorious"}, 
+            {"numopposite": "glorious"}, 
+            {"gender": ""}
+        ],
+        "scared": 
+            [
+            {"num": "sing"},
+            {"translation": "scared"},
+            {"numopposite": "scared"}, 
+            {"gender": ""}
+        ],
+        "scary": 
+            [
+            {"num": "sing"},
+            {"translation": "scary"},
+            {"numopposite": "scary"}, 
+            {"gender": ""}
+        ],
+        "grey": 
+            [
+            {"num": "sing"},
+            {"translation": "grey"},
+            {"numopposite": "grey"}, 
+            {"gender": ""}
         ]
     },
     "N": {

@@ -55,7 +55,7 @@ public class Main {
 	public static int countElements;
 	public static HashMap<String, Integer> keysMap;
 	public static boolean debug = true;
-	public static boolean testMode = true;
+	public static boolean testMode = false;
 	public static boolean canUsePronoun = false;
 	public static char[] usedSymbols = {'.', 'P', 'G', 'A'};
 	static Tuple<Integer, Integer> initial_point = new Tuple<Integer, Integer>(0, 0);
@@ -300,7 +300,9 @@ public class Main {
 	
 	public static void _initialize(){
 		ArrayList<String> adjectives = new ArrayList<String>();
-		adjectives.add("small");
+		adjectives.add("big");
+		adjectives.add("brave");
+		adjectives.add("glorious");
 		user = new ActiveCharacter("hero", "", null, null, null, 
 				40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
@@ -822,6 +824,31 @@ public class Main {
 			hasUsedPortal = false;
 		}
 		for (;;) {
+			ArrayList<String> adjectivesMonsters = new ArrayList<String>();
+			for (ActiveCharacter monster : user.getRoom().getMonsters()) {
+				if (user.getLife() >= 70 && monster.getLife() <= 20) {
+					adjectivesMonsters.add("small");
+					adjectivesMonsters.add("scared");
+				} else if (user.getLife() <= 30 && monster.getLife() >= 50){
+					adjectivesMonsters.add("scary");
+					adjectivesMonsters.add("big");
+				}
+				for (String adjective : adjectivesMonsters) {
+					monster.getAdjectives().add(adjective);
+				}
+			}
+			ArrayList<String> adjectivesUser = new ArrayList<String>();
+			if (user.getLife() >= 70) {
+				adjectivesUser.add("big");
+				adjectivesUser.add("brave");
+				adjectivesUser.add("glorious");
+			} else if (user.getLife() <= 30){
+				adjectivesUser.add("small");
+				adjectivesUser.add("scared");
+			} else {
+				adjectivesUser.add("average");
+			}
+			user.setAdjectives(adjectivesUser);
 			if (user.getLife() > 0) {
 				GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
 				if (doMonstersTurn) {
