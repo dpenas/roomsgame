@@ -824,31 +824,14 @@ public class Main {
 			hasUsedPortal = false;
 		}
 		for (;;) {
-			ArrayList<String> adjectivesMonsters = new ArrayList<String>();
 			for (ActiveCharacter monster : user.getRoom().getMonsters()) {
-				if (user.getLife() >= 70 && monster.getLife() <= 20) {
-					adjectivesMonsters.add("small");
-					adjectivesMonsters.add("scared");
-				} else if (user.getLife() <= 30 && monster.getLife() >= 50){
-					adjectivesMonsters.add("scary");
-					adjectivesMonsters.add("big");
-				}
-				for (String adjective : adjectivesMonsters) {
-					monster.getAdjectives().add(adjective);
-				}
+				monster.setAdjectivesMonster(user);
 			}
-			ArrayList<String> adjectivesUser = new ArrayList<String>();
-			if (user.getLife() >= 70) {
-				adjectivesUser.add("big");
-				adjectivesUser.add("brave");
-				adjectivesUser.add("glorious");
-			} else if (user.getLife() <= 30){
-				adjectivesUser.add("small");
-				adjectivesUser.add("scared");
-			} else {
-				adjectivesUser.add("average");
+			user.setAdjectivesUser();
+			System.out.println("Adjectives main: ");
+			for (String adjective : user.getAdjectives()) {
+				System.out.println(adjective);
 			}
-			user.setAdjectives(adjectivesUser);
 			if (user.getLife() > 0) {
 				GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
 				if (doMonstersTurn) {

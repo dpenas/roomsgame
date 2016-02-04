@@ -28,5 +28,12 @@ public class Goblin extends ActiveCharacter {
 		this.putItemInventory(oneHandSword);
 		this.equipWeapon(oneHandSword);
 	}
+	
+	@Override
+	public ArrayList<String> getAdjectives() {
+		ArrayList<String> adjectives = new ArrayList<String>();
+		adjectives.add("grey");
+		return adjectives;
+	}
 
 }

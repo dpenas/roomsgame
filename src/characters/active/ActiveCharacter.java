@@ -814,6 +814,44 @@ public class ActiveCharacter extends Character {
 			return false;
 		}
 	}
+	
+	public ArrayList<String> getAdjectivesIndividual() {
+		ArrayList<String> adjectives = new ArrayList<String>();
+		adjectives.add("good");
+		return adjectives;
+	}
+	
+	public void setAdjectivesMonster(ActiveCharacter user) {
+		ArrayList<String> adjectives = this.getAdjectivesIndividual();
+		if (user.getLife() >= 70 && this.getLife() <= 20) {
+			adjectives.add("small");
+			adjectives.add("scared");
+		} else if (user.getLife() <= 30 && this.getLife() >= 50){
+			adjectives.add("scary");
+			adjectives.add("big");
+		}
+		this.setAdjectives(adjectives);
+	}
+	
+	public void setAdjectivesUser() {
+		ArrayList<String> adjectivesUser = this.getAdjectivesIndividual();
+		if (this.getLife() >= 70) {
+			adjectivesUser.add("big");
+			adjectivesUser.add("brave");
+			adjectivesUser.add("glorious");
+		} else if (this.getLife() <= 30){
+			adjectivesUser.add("small");
+			adjectivesUser.add("scared");
+		} else {
+			adjectivesUser.add("average");
+		}
+		System.out.println("Adjectives non main: ");
+		for (String adjective : adjectivesUser) {
+			System.out.println(adjective);
+		}
+		this.setAdjectives(adjectivesUser);
+	}
+	
 
 	public ArrayList<Spell> getSpells() {
 		return spells;

@@ -47,6 +47,13 @@
             {"numopposite": "red"},
             {"gender": ""}
         ],
+        "good": 
+            [
+            {"num": ""},
+            {"translation": "good"},
+            {"numopposite": "good"},
+            {"gender": ""}
+        ],
         "normal": 
             [
             {"num": ""},

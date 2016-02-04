@@ -409,13 +409,11 @@ public class Room {
 	}
 	
 	public void putRandomGoblins() {
-		ArrayList<String> adjectives = new ArrayList<String>();
-		adjectives.add("grey");
 		if (RandUtil.RandomNumber(0, 2) == 1) {
 			if (this.checkFreePositions().size() > 0) {
 				int number = RandUtil.RandomNumber(0, this.checkFreePositions().size());
 				Tuple<Integer, Integer> position = this.getFreePositions().get(number);
-				Goblin goblin = new Goblin(this.getMap(), this, position, adjectives);
+				Goblin goblin = new Goblin(this.getMap(), this, position, new ArrayList<String>());
 				this.getMonsters().add(goblin);
 			}
 		}
