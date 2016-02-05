@@ -269,7 +269,7 @@ public class GrammarSelectorS extends GrammarSelector {
 			for (Pair<String, JsonArray> word : this.getGrammarsNPPair().get(0)) {
 				if (!this.getGrammarsNP().get(0).isPreposition(word.getA())) {
 					System.out.println("Word: " + word.getA());
-					NPToDelete += word.getA() + " ";
+					NPToDelete += JSONParsing.getElement(word.getB(), "translation") + " ";
 				}
 			}
 			System.out.println("NPToDelete: " + NPToDelete);
