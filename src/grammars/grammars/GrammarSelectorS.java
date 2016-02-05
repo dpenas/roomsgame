@@ -238,17 +238,17 @@ public class GrammarSelectorS extends GrammarSelector {
 				JsonObject others = JSONParsing.getElement(this.getWordsGrammar(), "OTHERS").getAsJsonObject();
 				JsonArray and = JSONParsing.getElement(others, "and").getAsJsonArray();
 				String translationAnd = JSONParsing.getElement(and, "translation");
-				sentence += " " + translationAnd + " " + pair.getA();
+				sentence += " " + translationAnd + " " + JSONParsing.getElement(pair.getB(), "translation");
 				changed = false;
 			} else {
 				if (values.contains(i)) {
-					sentence += ", " + pair.getA() + " ";
+					sentence += ", " + JSONParsing.getElement(pair.getB(), "translation") + " ";
 					changed = true;
 				} else {
 					if (changed) {
-						sentence += pair.getA();
+						sentence += JSONParsing.getElement(pair.getB(), "translation");
 					} else {
-						sentence += " " + pair.getA();
+						sentence += " " + JSONParsing.getElement(pair.getB(), "translation");
 					}
 					changed = false;
 				}

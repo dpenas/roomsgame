@@ -956,7 +956,7 @@ public class Main {
 	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 //		ChangeKeyBinding a = new ChangeKeyBinding(j);
 		rootObj = parser.parse(new FileReader("./src/grammars/english/sentenceGrammar.json")).getAsJsonObject();
-		rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsEnglish.json")).getAsJsonObject();
+		rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsES.json")).getAsJsonObject();
 		JsonObject objectAttack = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
 		JsonObject objectPickItem = JSONParsing.getElement(rootObj, "PICK").getAsJsonObject();
 		JsonObject objectUseItem = JSONParsing.getElement(rootObj, "USE").getAsJsonObject();
