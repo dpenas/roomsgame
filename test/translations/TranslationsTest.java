@@ -11,9 +11,9 @@ import items.wereables.NormalArmor;
 import items.wereables.NormalGloves;
 import items.wereables.NormalHelmet;
 import items.wereables.NormalPants;
-import items.wereables.OneHandSword;
+import items.wereables.ShortSword;
 import items.wereables.SmallShield;
-import items.wereables.TwoHandSword;
+import items.wereables.LongSword;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -43,7 +43,7 @@ public class TranslationsTest {
 	@Test
 	public void testNames() {
 		if (main.Main.currentLocale.toString().equals("en_US")){
-			OneHandSword weaponEnglish = new OneHandSword("", 10, 0, 0, null, null, null, 
+			ShortSword weaponEnglish = new ShortSword("", 10, 0, 0, null, null, null, 
 					null, 0, 1, true);
 			assertEquals(weaponEnglish.getName(), "One Hand Magic Sword");
 			LifeExtendedPotion lifePotionExtended = new LifeExtendedPotion(0, 10, "", null, null, null, 
@@ -53,9 +53,9 @@ public class TranslationsTest {
 		
 		if (main.Main.currentLocale.toString().equals("es_ES")){
 			
-			OneHandSword weaponSpanish = new OneHandSword("", 10, 0, 0, null, null, null, 
+			ShortSword weaponSpanish = new ShortSword("", 10, 0, 0, null, null, null, 
 					null, 0, 1, true);
-			TwoHandSword twoWeaponEnglish = new TwoHandSword("", 10, 0, 0, null, null, null, 
+			LongSword twoWeaponEnglish = new LongSword("", 10, 0, 0, null, null, null, 
 					null, 0, 1, true);
 			SmallShield smallShieldSpanish = new SmallShield("", 10, 0, 0, null, null, null, 
 					null, 0, 1, true);

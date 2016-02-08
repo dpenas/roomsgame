@@ -110,18 +110,18 @@
             {"numopposite": "magic"}, 
             {"gender": ""}
         ],
-        "one hand":
+        "short":
             [
             {"num": "sing"},
-            {"translation": "one hand"}, 
-            {"numopposite": "one hand"}, 
+            {"translation": "short"}, 
+            {"numopposite": "short"}, 
             {"gender": ""}
         ],
-        "two hand":
+        "long":
             [
             {"num": "sing"},
-            {"translation": "two hand"}, 
-            {"numopposite": "two hand"}, 
+            {"translation": "long"}, 
+            {"numopposite": "long"},
             {"gender": ""}
         ],
         "some": 

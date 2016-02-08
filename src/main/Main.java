@@ -34,7 +34,7 @@ import items.wereables.NormalArmor;
 import items.wereables.NormalGloves;
 import items.wereables.NormalHelmet;
 import items.wereables.NormalPants;
-import items.wereables.OneHandSword;
+import items.wereables.ShortSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 import magic.FireRing;
@@ -243,7 +243,7 @@ public class Main {
 		JsonObject grammarObjNames = null;
 		JsonObject rootObjNames = null;
 		try {
-			grammarObjNames = parser.parse(new FileReader("./src/grammars/english/objectGrammar.json")).getAsJsonObject();
+			grammarObjNames = parser.parse(new FileReader("./src/grammars/english/objectGrammarES.json")).getAsJsonObject();
 			rootObjNames = JSONParsing.getElement(grammarObjNames, "GENERAL").getAsJsonObject();
 		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
 			e.printStackTrace();
@@ -253,7 +253,7 @@ public class Main {
 			if (user.getInventory().get(i).getPrintableName().isEmpty()) {
 				GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObjNames);
 				GrammarSelectorNP grammarIndividual = new GrammarSelectorNP(grammarGeneral.getRandomGrammar(), rootObjWords, user.getInventory().get(i), "GENERAL");
-				user.getInventory().get(i).setPrintableName(grammarIndividual.getRandomSentence());
+				user.getInventory().get(i).setPrintableName(grammarIndividual.getRandomSentenceTranslated());
 			}
 			j.print(0, map.global_fin().x + 1 + i, i + 1 + " - " + user.getInventory().get(i).getPrintableName());
 		}
@@ -307,9 +307,9 @@ public class Main {
 				40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
-		WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, user, null, null,
+		WereableWeapon oneHandSword = new ShortSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
-		WereableWeapon oneHandSword2 = new OneHandSword("", 0, 0, 100, user, null, null,
+		WereableWeapon oneHandSword2 = new ShortSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
 		NormalHelmet helmet = new NormalHelmet("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
@@ -374,9 +374,9 @@ public class Main {
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
 		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
-		WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, user, null, null,
+		WereableWeapon oneHandSword = new ShortSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
-		WereableWeapon oneHandSword2 = new OneHandSword("", 0, 0, 100, user, null, null,
+		WereableWeapon oneHandSword2 = new ShortSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
 		Goblin goblin = new Goblin(map, map.obtainRoomByPosition(pos), pos, adjectives);
 		Goblin goblin2 = new Goblin(map, map.obtainRoomByPosition(pos), pos, adjectives);
@@ -818,7 +818,7 @@ public class Main {
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);
 			names.add(portal);
-			GrammarIndividual grammarIndividual = grammarSimpleDescription.getRandomGrammar();
+			GrammarIndividual grammarIndividual = grammarGeneralDescription.getRandomGrammar();
 			printMessage(_getMessage(grammarIndividual, names, "DESCGOESTHROUGH", false, false));
 			deepnessScore++;
 			hasUsedPortal = false;
@@ -955,7 +955,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 //		ChangeKeyBinding a = new ChangeKeyBinding(j);
-		rootObj = parser.parse(new FileReader("./src/grammars/english/sentenceGrammar.json")).getAsJsonObject();
+		rootObj = parser.parse(new FileReader("./src/grammars/english/sentenceGrammarES.json")).getAsJsonObject();
 		rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsES.json")).getAsJsonObject();
 		JsonObject objectAttack = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
 		JsonObject objectPickItem = JSONParsing.getElement(rootObj, "PICK").getAsJsonObject();

@@ -4,31 +4,31 @@
             {"num": ""},
             {"translation": "en"},
             {"numopposite": "en"},
-            {"gender": ""}
+            {"gen": ""}
         ],
         "on": [
             {"num": ""},
             {"translation": "en"},
             {"numopposite": "en"},
-            {"gender": ""}
+            {"gen": ""}
         ],
         "with": [
             {"num": ""},
             {"translation": "con"},
             {"numopposite": "con"},
-            {"gender": ""}
+            {"gen": ""}
         ],
         "but": [
             {"num": ""},
             {"translation": "pero"},
             {"numopposite": "pero"},
-            {"gender": ""}
+            {"gen": ""}
         ],
         "against": [
             {"num": ""},
             {"translation": "contra"},
             {"numopposite": "contra"},
-            {"gender": ""}
+            {"gen": ""}
         ]
     },
     "DET": {
@@ -37,28 +37,28 @@
             {"translation": "el"},
             {"numopposite": "los"},
             {"genopposite": "la"},
-            {"gender": "mas"}
+            {"gen": "mas"}
         ],
         "la": [
             {"num": "sing"},
             {"translation": "la"},
             {"numopposite": "las"},
             {"genopposite": "the"},
-            {"gender": "fem"}
+            {"gen": "fem"}
         ],
         "los": [
             {"num": "plural"},
             {"translation": "los"},
             {"numopposite": "the"},
             {"genopposite": "las"},
-            {"gender": "mas"}
+            {"gen": "mas"}
         ],
         "las": [
             {"num": "plural"},
             {"translation": "las"},
             {"numopposite": "la"},
             {"genopposite": "los"},
-            {"gender": "fem"}
+            {"gen": "fem"}
         ]
     },
     "ADJ": {
@@ -68,7 +68,7 @@
             {"translation": "rojo"},
             {"numopposite": "rojos"},
             {"genopposite": "roja"},
-            {"gender": "mas"}
+            {"gen": "mas"}
         ],
         "roja": 
             [
@@ -76,7 +76,7 @@
             {"translation": "roja"},
             {"numopposite": "rojas"},
             {"genopposite": "red"},
-            {"gender": "fem"}
+            {"gen": "fem"}
         ],
         "rojos": 
             [
@@ -84,7 +84,7 @@
             {"translation": "rojos"},
             {"numopposite": "red"},
             {"genopposite": "rojas"},
-            {"gender": "mas"}
+            {"gen": "mas"}
         ],
         "rojas": 
             [
@@ -92,7 +92,7 @@
             {"translation": "rojas"},
             {"numopposite": "roja"},
             {"genopposite": "rojos"},
-            {"gender": "fem"}
+            {"gen": "fem"}
         ],
         "good": 
             [
@@ -100,7 +100,7 @@
             {"translation": "bueno"},
             {"numopposite": "buenos"},
             {"genopposite": "buena"},
-            {"gender": "mas"}
+            {"gen": "mas"}
         ],
         "buena": 
             [
@@ -108,7 +108,7 @@
             {"translation": "buena"},
             {"numopposite": "buenas"},
             {"genopposite": "good"},
-            {"gender": "fem"}
+            {"gen": "fem"}
         ],
         "buenos": 
             [
@@ -116,7 +116,7 @@
             {"translation": "buenos"},
             {"numopposite": "good"},
             {"genopposite": "buenas"},
-            {"gender": "mas"}
+            {"gen": "mas"}
         ],
         "buenas": 
             [
@@ -124,42 +124,42 @@
             {"translation": "buenas"},
             {"numopposite": "buena"},
             {"genopposite": "buenos"},
-            {"gender": "fem"}
+            {"gen": "fem"}
         ],
         "normal": 
             [
             {"num": "sing"},
             {"translation": "normal"},
             {"numopposite": "normales"},
-            {"gender": ""}
+            {"gen": ""}
         ],
         "average": 
             [
             {"num": "sing"},
             {"translation": "normal"},
             {"numopposite": "normales"},
-            {"gender": ""}
+            {"gen": ""}
         ],
         "normales": 
             [
             {"num": "plural"},
             {"translation": "normales"},
             {"numopposite": "average"},
-            {"gender": ""}
+            {"gen": ""}
         ],
       	"big":
       		[
       		{"num": ""},
             {"translation": "grande"},
             {"numopposite": "grandes"}, 
-            {"gender": ""}
+            {"gen": ""}
         ],
         "grandes":
             [
             {"num": "plural"},
             {"translation": "grandes"},
             {"numopposite": "big"}, 
-            {"gender": ""}
+            {"gen": ""}
         ],
         "small":
       		[
@@ -167,7 +167,7 @@
             {"translation": "pequeño"}, 
             {"numopposite": "pequeños"}, 
             {"genopposite": "pequeña"},
-            {"gender": "mas"}
+            {"gen": "mas"}
         ],
         "pequeños": 
             [
@@ -175,7 +175,7 @@
             {"translation": "pequeños"},
             {"numopposite": "small"},
             {"genopposite": "pequeñas"},
-            {"gender": "mas"}
+            {"gen": "mas"}
         ],
         "pequeñas": 
             [
@@ -183,7 +183,7 @@
             {"translation": "pequeñas"},
             {"numopposite": "pequeña"},
             {"genopposite": "pequeños"},
-            {"gender": "fem"}
+            {"gen": "fem"}
         ],
         "pequeña": 
             [
@@ -191,7 +191,7 @@
             {"translation": "pequeña"},
             {"numopposite": "pequeñas"},
             {"genopposite": "small"},
-            {"gender": "fem"}
+            {"gen": "fem"}
         ],
         "old":
             [
@@ -199,7 +199,7 @@
             {"translation": "viejo"}, 
             {"numopposite": "vieja"}, 
             {"genopposite": "vieja"},
-            {"gender": "mas"}
+            {"gen": "mas"}
         ],
         "vieja":
             [
@@ -207,7 +207,7 @@
             {"translation": "vieja"}, 
             {"numopposite": "viejas"}, 
             {"genopposite": "old"},
-            {"gender": "fem"}
+            {"gen": "fem"}
         ],
         "viejos":
             [
@@ -215,7 +215,7 @@
             {"translation": "viejos"}, 
             {"numopposite": "old"}, 
             {"genopposite": "viejas"},
-            {"gender": ""}
+            {"gen": "mas"}
         ],
         "viejas":
             [
@@ -223,7 +223,7 @@
             {"translation": "viejas"}, 
             {"numopposite": "vieja"},
             {"genopposite": "viejos"},
-            {"gender": ""}
+            {"gen": "fem"}
         ],
         "creepy":
             [
@@ -231,7 +231,7 @@
             {"translation": "asqueroso"}, 
             {"numopposite": "asquerosos"}, 
             {"genopposite": "asquerosa"},
-            {"gender": "mas"}
+            {"gen": "mas"}
         ],
         "asquerosos":
             [
@@ -239,7 +239,7 @@
             {"translation": "asquerosos"}, 
             {"numopposite": "creepy"}, 
             {"genopposite": "asquerosas"},
-            {"gender": "mas"}
+            {"gen": "mas"}
         ],
         "asquerosas":
             [
@@ -247,7 +247,7 @@
             {"translation": "asquerosas"}, 
             {"numopposite": "asquerosa"}, 
             {"genopposite": "asquerosos"},
-            {"gender": "mas"}
+            {"gen": "mas"}
         ],
         "asquerosa":
             [
@@ -255,56 +255,149 @@
             {"translation": "asquerosa"}, 
             {"numopposite": "asquerosas"}, 
             {"genopposite": "creepy"},
-            {"gender": "fem"}
+            {"gen": "fem"}
         ],
         "life":
         	[
             {"num": "sing"},
             {"translation": "vida"}, 
             {"numopposite": "life"}, 
-            {"gender": ""}
+            {"gen": "fem"}
         ],
         "magic":
         	[
             {"num": "sing"},
-            {"translation": "magia"}, 
-            {"numopposite": "magic"}, 
-            {"gender": ""}
+            {"translation": "mágico"}, 
+            {"numopposite": "mágicos"},
+            {"genopposite": "mágica"},
+            {"gen": "mas"}
         ],
-        "one hand":
+        "mágica":
             [
             {"num": "sing"},
-            {"translation": "una mano"}, 
-            {"numopposite": "one hand"}, 
-            {"gender": ""}
+            {"translation": "mágica"}, 
+            {"numopposite": "mágicas"},
+            {"genopposite": "magic"},
+            {"gen": "fem"}
         ],
-        "two hand":
+        "mágicos":
+            [
+            {"num": "plural"},
+            {"translation": "mágicos"}, 
+            {"numopposite": "magic"},
+            {"genopposite": "mágicas"},
+            {"gen": "mas"}
+        ],
+        "mágicas":
+            [
+            {"num": "plural"},
+            {"translation": "mágicas"},
+            {"numopposite": "mágica"},
+            {"genopposite": "mágicos"},
+            {"gen": "fem"}
+        ],
+        "short":
             [
             {"num": "sing"},
-            {"translation": "dos manos"}, 
-            {"numopposite": "two hand"}, 
-            {"gender": ""}
+            {"translation": "corta"}, 
+            {"numopposite": "cortas"},
+            {"genopposite": "corto"},
+            {"gen": "fem"}
+        ],
+        "corto":
+            [
+            {"num": "sing"},
+            {"translation": "corto"}, 
+            {"numopposite": "cortos"},
+            {"genopposite": "corta"},
+            {"gen": "mas"}
+        ],
+        "cortos":
+            [
+            {"num": "plural"},
+            {"translation": "cortos"}, 
+            {"numopposite": "corto"},
+            {"genopposite": "cortas"},
+            {"gen": "mas"}
+        ],
+        "cortas":
+            [
+            {"num": "plural"},
+            {"translation": "cortas"}, 
+            {"numopposite": "corta"},
+            {"genopposite": "cortos"},
+            {"gen": "fem"}
+        ],
+        "long":
+            [
+            {"num": "sing"},
+            {"translation": "larga"}, 
+            {"numopposite": "largas"},
+            {"genopposite": "largo"},
+            {"gen": "fem"}
+        ],
+        "largo":
+            [
+            {"num": "sing"},
+            {"translation": "larga"}, 
+            {"numopposite": "largos"},
+            {"genopposite": "larga"},
+            {"gen": "mas"}
+        ],
+        "largas":
+            [
+            {"num": "plural"},
+            {"translation": "largas"}, 
+            {"numopposite": "larga"}, 
+            {"genopposite": "largos"},
+            {"gen": "fem"}
+        ],
+        "largos":
+            [
+            {"num": "plural"},
+            {"translation": "largos"}, 
+            {"numopposite": "largo"},
+            {"genopposite": "largas"},
+            {"gen": "mas"}
         ],
         "some": 
             [
             {"num": "sing"},
             {"translation": "algo"}, 
             {"numopposite": "some"}, 
-            {"gender": ""}
+            {"gen": ""}
         ],
         "a lot of": 
             [
             {"num": "sing"},
             {"translation": "mucho"}, 
             {"numopposite": "a lot of"}, 
-            {"gender": ""}
+            {"genopposite": "mucha"}, 
+            {"gen": "mas"}
+        ],
+        "mucha": 
+            [
+            {"num": "sing"},
+            {"translation": "mucho"}, 
+            {"numopposite": "mucha"},
+            {"genopposite": "a lot of"},
+            {"gen": "fem"}
         ],
         "a little": 
             [
             {"num": "sing"},
             {"translation": "un poco"}, 
-            {"numopposite": "a little"}, 
-            {"gender": ""}
+            {"numopposite": "a little"},
+            {"genopposite": "una poca"},
+            {"gen": "mas"}
+        ],
+        "una poca": 
+            [
+            {"num": "sing"},
+            {"translation": "una poca"}, 
+            {"numopposite": "una poca"},
+            {"genopposite": "a little"},
+            {"gen": "fem"}
         ],
         "dead": 
             [
@@ -312,21 +405,38 @@
             {"translation": "muerto"}, 
             {"numopposite": "dead"},
             {"genopposite": "muerta"},
-            {"gender": ""}
+            {"gen": "mas"}
         ],
         "muerta": 
             [
             {"num": "sing"},
             {"translation": "muerta"}, 
-            {"numopposite": "dead"}, 
-            {"gender": ""}
+            {"numopposite": "muertas"},
+            {"genopposite": "dead"},
+            {"gen": "fem"}
+        ],
+        "muertas": 
+            [
+            {"num": "plural"},
+            {"translation": "muertas"}, 
+            {"numopposite": "muerta"},
+            {"genopposite": "muertos"},
+            {"gen": "fem"}
+        ],
+        "muertos": 
+            [
+            {"num": "plural"},
+            {"translation": "muertos"}, 
+            {"numopposite": "dead"},
+            {"genopposite": "muertas"},
+            {"gen": "mas"}
         ],
         "brave": 
             [
             {"num": "sing"},
             {"translation": "valiente"}, 
             {"numopposite": "brave"}, 
-            {"gender": ""}
+            {"gen": ""}
         ],
         "glorious": 
             [
@@ -334,7 +444,7 @@
             {"translation": "glorioso"}, 
             {"numopposite": "gloriosos"},
             {"genopposite": "gloriosa"},
-            {"gender": ""}
+            {"gen": "mas"}
         ],
         "gloriosa": 
             [
@@ -342,7 +452,7 @@
             {"translation": "gloriosa"}, 
             {"numopposite": "gloriosas"},
             {"genopposite": "glorious"},
-            {"gender": ""}
+            {"gen": "fem"}
         ],
         "gloriosos": 
             [
@@ -350,7 +460,7 @@
             {"translation": "gloriosos"}, 
             {"numopposite": "gloriosas"},
             {"genopposite": "gloriosas"},
-            {"gender": ""}
+            {"gen": "mas"}
         ],
         "gloriosas": 
             [
@@ -358,35 +468,28 @@
             {"translation": "gloriosas"}, 
             {"numopposite": "gloriosa"},
             {"genopposite": "gloriosos"},
-            {"gender": ""}
-        ],
-        "gloriosos": 
-            [
-            {"num": "sing"},
-            {"translation": "gloriosos"}, 
-            {"numopposite": "glorious"}, 
-            {"gender": ""}
+            {"gen": "fem"}
         ],
         "scared": 
             [
             {"num": "sing"},
             {"translation": "tiene miedo"},
             {"numopposite": "scared"}, 
-            {"gender": ""}
+            {"gen": ""}
         ],
         "scary": 
             [
             {"num": "sing"},
             {"translation": "escalofriante"},
             {"numopposite": "scary"}, 
-            {"gender": ""}
+            {"gen": ""}
         ],
         "grey": 
             [
             {"num": "sing"},
             {"translation": "gris"},
             {"numopposite": "grey"}, 
-            {"gender": ""}
+            {"gen": ""}
         ]
     },
     "N": {
@@ -394,161 +497,161 @@
         	{"num": "sing"},
             {"translation": "escudo"},
             {"numopposite": "shields"},
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "shields": [
         	{"num": "plural"},
             {"translation": "escudos"},
             {"numopposite": "shield"},
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "weapon": [
         	{"num": "sing"},
             {"translation": "arma"},
             {"numopposite": "weapons"},
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "weapons": [
         	{"num": "plural"},
             {"translation": "armas"},
             {"numopposite": "weapon"},
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "chest": [
             {"num": "sing"},
             {"translation": "pecho"},
             {"numopposite": "chests"},
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "chests": [
             {"num": "plural"},
             {"translation": "pechos"},
             {"numopposite": "chest"},
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "glove": [
             {"num": "sing"},
             {"translation": "guante"},
             {"numopposite": "gloves"},
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "gloves": [
             {"num": "plural"},
             {"translation": "guantes"},
             {"numopposite": "glove"},
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "pants": [
-            {"num": "sing"},
+            {"num": "plural"},
             {"translation": "pantalones"},
             {"numopposite": "pants"},
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "sword": [
             {"num": "sing"},
             {"translation": "espada"},
             {"numopposite": "swords"},
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "swords": [
             {"num": "plural"},
             {"translation": "espadas"},
             {"numopposite": "sword"},
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "potion": [
             {"num": "sing"},
             {"translation": "poción"},
             {"numopposite": "potions"},
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "potions": [
             {"num": "plural"},
             {"translation": "pociones"},
             {"numopposite": "potion"},
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "hero": [
             {"num": "sing"},
             {"translation": "héroe"},
             {"numopposite": "heroes"},
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": "él"}
         ],
         "heroes": [
             {"num": "plural"},
             {"translation": "héroes"},
             {"numopposite": "hero"},
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": "ellos"}
         ],
         "dragon": [
             {"num": "sing"},
             {"translation": "dragón"},
             {"numopposite": "dragons"},
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "dragons": [
             {"num": "plural"},
             {"translation": "dragones"},
             {"numopposite": "dragon"},
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "goblin": [
             {"num": "sing"},
             {"translation": "goblin"},
             {"numopposite": "goblins"},
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "goblins": [
             {"num": "plural"},
             {"translation": "goblins"},
             {"numopposite": "goblin"},
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "rat": [
             {"num": "sing"},
             {"translation": "rata"},
             {"numopposite": "rats"},
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "rats": [
             {"num": "plural"},
             {"translation": "ratas"},
             {"numopposite": "rat"},
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "life": [
             {"num": "sing"},
             {"translation": "vida"},
             {"numopposite": "lives"},
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "lives": [
             {"num": "plural"},
             {"translation": "vidas"},
             {"numopposite": "life"},
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "mana":
@@ -556,7 +659,7 @@
             {"num": "sing"},
             {"translation": "maná"}, 
             {"numopposite": "mana"}, 
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "east":
@@ -564,7 +667,7 @@
             {"num": "sing"},
             {"translation": "este"}, 
             {"numopposite": "east"}, 
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "northeast":
@@ -572,7 +675,7 @@
             {"num": "sing"},
             {"translation": "noreste"}, 
             {"numopposite": "northeast"}, 
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "southeast":
@@ -580,7 +683,7 @@
             {"num": "sing"},
             {"translation": "sureste"}, 
             {"numopposite": "southeast"}, 
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "west":
@@ -588,7 +691,7 @@
             {"num": "sing"},
             {"translation": "oeste"}, 
             {"numopposite": "west"}, 
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "northwest":
@@ -596,7 +699,7 @@
             {"num": "sing"},
             {"translation": "noroeste"}, 
             {"numopposite": "northwest"}, 
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "southwest":
@@ -604,7 +707,7 @@
             {"num": "sing"},
             {"translation": "suroeste"}, 
             {"numopposite": "southwest"}, 
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "north":
@@ -612,7 +715,7 @@
             {"num": "sing"},
             {"translation": "norte"}, 
             {"numopposite": "north"}, 
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "south":
@@ -620,7 +723,7 @@
             {"num": "sing"},
             {"translation": "sur"}, 
             {"numopposite": "south"}, 
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "door":
@@ -628,15 +731,15 @@
             {"num": "sing"},
             {"translation": "puerta"}, 
             {"numopposite": "doors"}, 
-            {"gender": "fem"},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "doors":
             [
-            {"num": "sing"},
+            {"num": "plural"},
             {"translation": "puertas"}, 
             {"numopposite": "door"}, 
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "in the same position":
@@ -644,7 +747,7 @@
             {"num": "sing"},
             {"translation": "en la misma posición"}, 
             {"numopposite": "in the same position"}, 
-            {"gender": ""},
+            {"gen": ""},
             {"pronoun": "it"}
         ],
         "portal":
@@ -652,7 +755,7 @@
             {"num": "sing"},
             {"translation": "portal"}, 
             {"numopposite": "portals"}, 
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "portals":
@@ -660,7 +763,7 @@
             {"num": "plural"},
             {"translation": "portales"}, 
             {"numopposite": "portal"}, 
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "head":
@@ -668,7 +771,7 @@
             {"num": "sing"},
             {"translation": "cabeza"}, 
             {"numopposite": "heads"}, 
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "heads":
@@ -676,7 +779,7 @@
             {"num": "plural"},
             {"translation": "cabezas"}, 
             {"numopposite": "head"}, 
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": "they"}
         ],
         "hand":
@@ -684,7 +787,7 @@
             {"num": "sing"},
             {"translation": "mano"}, 
             {"numopposite": "hands"}, 
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "hands":
@@ -692,7 +795,7 @@
             {"num": "plural"},
             {"translation": "manos"}, 
             {"numopposite": "hand"}, 
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": "they"}
         ],
         "helmet":
@@ -700,7 +803,7 @@
             {"num": "sing"},
             {"translation": "casco"}, 
             {"numopposite": "helmets"}, 
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "helmets":
@@ -708,7 +811,7 @@
             {"num": "plural"},
             {"translation": "cascos"}, 
             {"numopposite": "helmet"}, 
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "armor":
@@ -716,7 +819,7 @@
             {"num": "sing"},
             {"translation": "armadura"}, 
             {"numopposite": "armors"}, 
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "armors":
@@ -724,7 +827,7 @@
             {"num": "sing"},
             {"translation": "armaduras"}, 
             {"numopposite": "armor"}, 
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "leg":
@@ -732,7 +835,7 @@
             {"num": "sing"},
             {"translation": "pierna"}, 
             {"numopposite": "piernas"}, 
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "legs":
@@ -740,7 +843,7 @@
             {"num": "plural"},
             {"translation": "piernas"}, 
             {"numopposite": "leg"}, 
-            {"gender": ""},
+            {"gen": "fem"},
             {"pronoun": ""}
         ],
         "glove":
@@ -748,7 +851,7 @@
             {"num": "sing"},
             {"translation": "guante"}, 
             {"numopposite": "guantes"}, 
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "gloves":
@@ -756,7 +859,7 @@
             {"num": "plural"},
             {"translation": "guantes"}, 
             {"numopposite": "glove"}, 
-            {"gender": ""},
+            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "that":
@@ -764,21 +867,21 @@
             {"num": "sing"},
             {"translation": "ese"}, 
             {"numopposite": "that"}, 
-            {"gender": ""}
+            {"gen": ""}
         ],
         "spell":
             [
             {"num": "sing"},
             {"translation": "hechizo"}, 
             {"numopposite": "hechizos"}, 
-            {"gender": ""}
+            {"gen": "mas"}
         ],
         "spells":
             [
             {"num": "plural"},
             {"translation": "hechizos"}, 
             {"numopposite": "hechizo"}, 
-            {"gender": ""}
+            {"gen": "mas"}
         ]
     },
     "V": {
@@ -787,37 +890,37 @@
 	            {"num": "sing"},
 	            {"translation": "ataca"},
 	            {"numopposite": "attack"},
-	            {"gender": ""}
+	            {"gen": ""}
         	],
 	        "attack": [
 	            {"num": "plural"},
 	            {"translation": "atacan"},
 	            {"numopposite": "attacks"},
-	            {"gender": ""}
+	            {"gen": ""}
 	        ],
 	        "hurts": [
 	            {"num": "sing"},
 	            {"translation": "hiere"},
 	            {"numopposite": "hurt"},
-	            {"gender": ""}
+	            {"gen": ""}
         	],
 	        "hurt": [
 	            {"num": "plural"},
 	            {"translation": "hieren"},
 	            {"numopposite": "hurts"},
-	            {"gender": ""}
+	            {"gen": ""}
 	        ],
 	        "charges against": [
 	            {"num": "sing"},
 	            {"translation": "se lanza contra"},
 	            {"numopposite": "charge against"},
-	            {"gender": ""}
+	            {"gen": ""}
 	        ],
 	        "charge against": [
 	            {"num": "plural"},
 	            {"translation": "se lanzan contra"},
 	            {"numopposite": "charges against"},
-	            {"gender": ""}
+	            {"gen": ""}
 	        ]
     	},
     	"NOTHAVE": {
@@ -825,13 +928,13 @@
 	            {"num": "sing"},
 	            {"translation": "no tiene"},
 	            {"numopposite": "don't have"},
-	            {"gender": ""}
+	            {"gen": ""}
         	],
 	        "don't have": [
 	            {"num": "plural"},
 	            {"translation": "no tienen"},
 	            {"numopposite": "doesn't have"},
-	            {"gender": ""}
+	            {"gen": ""}
 	        ]
     	},
         "SPELLS": {
@@ -839,13 +942,13 @@
                 {"num": "sing"},
                 {"translation": "lanza"},
                 {"numopposite": "cast"},
-                {"gender": ""}
+                {"gen": ""}
             ],
             "cast": [
                 {"num": "plural"},
                 {"translation": "lanzan"},
                 {"numopposite": "casts"},
-                {"gender": ""}
+                {"gen": ""}
             ]
         },
     	"PICK": {
@@ -853,37 +956,37 @@
 	            {"num": "sing"},
 	            {"translation": "agarra"},
 	            {"numopposite": "pick"},
-	            {"gender": ""}
+	            {"gen": ""}
         	],
 	        "pick": [
 	            {"num": "plural"},
 	            {"translation": "agarran"},
 	            {"numopposite": "picks"},
-	            {"gender": ""}
+	            {"gen": ""}
 	        ],
 	        "gets": [
 	            {"num": "sing"},
 	            {"translation": "recoge"},
 	            {"numopposite": "get"},
-	            {"gender": ""}
+	            {"gen": ""}
 	        ],
 	        "get": [
 	            {"num": "plural"},
 	            {"translation": "recogen"},
 	            {"numopposite": "gets"},
-	            {"gender": ""}
+	            {"gen": ""}
 	        ],
 	        "takes": [
 	            {"num": "sing"},
 	            {"translation": "coge"},
 	            {"numopposite": "take"},
-	            {"gender": ""}
+	            {"gen": ""}
 	        ],
 	        "take": [
 	            {"num": "plural"},
 	            {"translation": "cogen"},
 	            {"numopposite": "takes"},
-	            {"gender": ""}
+	            {"gen": ""}
 	        ]
     	},
         "THROW": {
@@ -891,37 +994,37 @@
                 {"num": "sing"},
                 {"translation": "tira"},
                 {"numopposite": "throw"},
-                {"gender": ""}
+                {"gen": ""}
             ],
             "throw": [
                 {"num": "plural"},
                 {"translation": "tiran"},
                 {"numopposite": "throws"},
-                {"gender": ""}
+                {"gen": ""}
             ],
             "gets rid of": [
                 {"num": "sing"},
                 {"translation": "se deshace de"},
                 {"numopposite": "get rid of"},
-                {"gender": ""}
+                {"gen": ""}
             ],
             "get rid of": [
                 {"num": "plural"},
                 {"translation": "se deshacen de"},
                 {"numopposite": "gets rid of"},
-                {"gender": ""}
+                {"gen": ""}
             ],
             "leaves": [
                 {"num": "sing"},
                 {"translation": "deja"},
                 {"numopposite": "leave"},
-                {"gender": ""}
+                {"gen": ""}
             ],
             "leave": [
                 {"num": "plural"},
                 {"translation": "dejan"},
                 {"numopposite": "leaves"},
-                {"gender": ""}
+                {"gen": ""}
             ]
         },
         "UNEQUIP": {
@@ -929,13 +1032,13 @@
                 {"num": "sing"},
                 {"translation": "desequipa"},
                 {"numopposite": "unequip"},
-                {"gender": ""}
+                {"gen": ""}
             ],
             "unequip": [
                 {"num": "plural"},
                 {"translation": "desequipan"},
                 {"numopposite": "unequips"},
-                {"gender": ""}
+                {"gen": ""}
             ]
         },
         "DESCUNVALID": {
@@ -943,25 +1046,25 @@
                 {"num": "sing"},
                 {"translation": "no puede hacer"},
                 {"numopposite": "no pueden hacer"},
-                {"gender": ""}
+                {"gen": ""}
             ],
             "no pueden hacer": [
                 {"num": "sing"},
                 {"translation": "no pueden hacer"},
                 {"numopposite": "can't do"},
-                {"gender": ""}
+                {"gen": ""}
             ],
             "is not allowed to do": [
                 {"num": "sing"},
                 {"translation": "no tiene permitido hacer"},
                 {"numopposite": "are not allowed to do"},
-                {"gender": ""}
+                {"gen": ""}
             ],
             "are not allowed to do": [
                 {"num": "plural"},
                 {"translation": "no tienen permitido hacer"},
                 {"numopposite": "is not allowed to do"},
-                {"gender": ""}
+                {"gen": ""}
             ]
         },
         "USE": {
@@ -969,13 +1072,13 @@
                 {"num": "sing"},
                 {"translation": "usa"},
                 {"numopposite": "use"},
-                {"gender": ""}
+                {"gen": ""}
             ],
             "use": [
                 {"num": "plural"},
                 {"translation": "usan"},
                 {"numopposite": "uses"},
-                {"gender": ""}
+                {"gen": ""}
             ]
         },
         "MISS": {
@@ -983,13 +1086,13 @@
                 {"num": "sing"},
                 {"translation": "falla"},
                 {"numopposite": "miss"},
-                {"gender": ""}
+                {"gen": ""}
             ],
             "miss": [
                 {"num": "plural"},
                 {"translation": "fallan"},
                 {"numopposite": "misses"},
-                {"gender": ""}
+                {"gen": ""}
             ]
         },
         "DESCITEM": {
@@ -997,13 +1100,13 @@
                 {"num": "sing"},
                 {"translation": "tiene"},
                 {"numopposite": "have"},
-                {"gender": ""}
+                {"gen": ""}
             ],
             "have": [
                 {"num": "plural"},
                 {"translation": "tienen"},
                 {"numopposite": "has"},
-                {"gender": ""}
+                {"gen": ""}
             ]
         },
         "DESCPERSONAL": {
@@ -1011,13 +1114,13 @@
                 {"num": "sing"},
                 {"translation": "tiene"},
                 {"numopposite": "have"},
-                {"gender": ""}
+                {"gen": ""}
             ],
             "have": [
                 {"num": "plural"},
                 {"translation": "tienen"},
                 {"numopposite": "has"},
-                {"gender": ""}
+                {"gen": ""}
             ]
         },
         "DESCGENERAL": {
@@ -1025,13 +1128,13 @@
                 {"num": "sing"},
                 {"translation": "es"},
                 {"numopposite": "are"},
-                {"gender": ""}
+                {"gen": ""}
             ],
             "are": [
                 {"num": "plural"},
                 {"translation": "son"},
                 {"numopposite": "is"},
-                {"gender": ""}
+                {"gen": ""}
             ]
         },
         "DESCWEARS": {
@@ -1039,13 +1142,13 @@
                 {"num": "sing"},
                 {"translation": "viste"},
                 {"numopposite": "wear"},
-                {"gender": ""}
+                {"gen": ""}
             ],
             "wear": [
                 {"num": "plural"},
                 {"translation": "visten"},
                 {"numopposite": "wears"},
-                {"gender": ""}
+                {"gen": ""}
             ]
         },
         "DESCGOESTHROUGH": {
@@ -1053,13 +1156,13 @@
                 {"num": "sing"},
                 {"translation": "camina por"},
                 {"numopposite": "go through"},
-                {"gender": ""}
+                {"gen": ""}
             ],
             "go through": [
                 {"num": "plural"},
                 {"translation": "caminan por"},
                 {"numopposite": "goes through"},
-                {"gender": ""}
+                {"gen": ""}
             ]
         }
     },
@@ -1067,19 +1170,19 @@
         "and": [
             {
                 "translation": "y",
-                "gender": ""
+                "gen": ""
             }
         ],
         "or": [
             {
                 "translation": "o",
-                "gender": ""
+                "gen": ""
             }
         ],
         "reachable positions": [
             {
                 "translation": "Posiciones alcanzables",
-                "gender": ""
+                "gen": ""
             }
         ]
     }

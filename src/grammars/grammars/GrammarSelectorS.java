@@ -71,7 +71,7 @@ public class GrammarSelectorS extends GrammarSelector {
 		JsonParser parser = new JsonParser();
 		JsonObject rootObj = null;
 		try {
-			rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammar.json")).getAsJsonObject();
+			rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammarES.json")).getAsJsonObject();
 		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -338,14 +338,28 @@ public class GrammarSelectorS extends GrammarSelector {
 			int dotPointA = restriction.getA().indexOf(".");
 			int dotPointB = restriction.getB().indexOf(".");
 			String restrictionType = restriction.getA().substring(dotPointA + 1, restriction.getA().length());
+			String elementA = "";
+			String elementB = "";
+			Pair<String, String> pair = null;
 			switch (restrictionType) {
 				case "num": 
-					String elementA = restriction.getA().substring(0, dotPointA);
-					String elementB = restriction.getB().substring(0, dotPointB);
+					elementA = restriction.getA().substring(0, dotPointA);
+					elementB = restriction.getB().substring(0, dotPointB);
 					System.out.println("ElementA: " + elementA);
-					System.out.println("ElementA: " + elementB);
-					Pair<String, String> pair = new Pair<String, String>(elementA, elementB);
-					newSentenceArray = applyNumRestrictions(pair, newSentenceArray, numItems);
+					System.out.println("ElementB: " + elementB);
+					pair = new Pair<String, String>(elementA, elementB);
+					newSentenceArray = applyRestrictions(pair, newSentenceArray, numItems, "num");
+					for (Pair<String, JsonArray> finalPair : newSentenceArray) {
+						System.out.println("finalPair: " + finalPair.getA());
+					}
+					break;
+				case "gen": 
+					elementA = restriction.getA().substring(0, dotPointA);
+					elementB = restriction.getB().substring(0, dotPointB);
+					System.out.println("ElementA: " + elementA);
+					System.out.println("ElementB: " + elementB);
+					pair = new Pair<String, String>(elementA, elementB);
+					newSentenceArray = applyRestrictions(pair, newSentenceArray, numItems, "gen");
 					for (Pair<String, JsonArray> finalPair : newSentenceArray) {
 						System.out.println("finalPair: " + finalPair.getA());
 					}

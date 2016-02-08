@@ -10,11 +10,11 @@ import translations.Translations;
 import util.Tuple;
 import characters.Character;
 
-public class TwoHandSword extends WereableWeapon {
+public class LongSword extends WereableWeapon {
 	
 	ArrayList<String> attributes = new ArrayList<String>();
 	
-	public TwoHandSword (String description, int weight,
+	public LongSword (String description, int weight,
 			int space, int durability, Character character, Map map, Room room,
 			Tuple<Integer, Integer> position, int erosion,
 			int level, boolean isMagic) {
@@ -40,7 +40,7 @@ public class TwoHandSword extends WereableWeapon {
 	}
 	
 	public ArrayList<String> getTwoHandSwordAttributes(){
-		attributes.add("two hand");
+		attributes.add("long");
 		return attributes;
 	}
 
