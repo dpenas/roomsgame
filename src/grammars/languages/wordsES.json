@@ -197,7 +197,7 @@
             [
             {"num": "sing"},
             {"translation": "viejo"}, 
-            {"numopposite": "vieja"}, 
+            {"numopposite": "viejos"}, 
             {"genopposite": "vieja"},
             {"gen": "mas"}
         ],
@@ -339,16 +339,16 @@
         "largo":
             [
             {"num": "sing"},
-            {"translation": "larga"}, 
+            {"translation": "largo"}, 
             {"numopposite": "largos"},
-            {"genopposite": "larga"},
+            {"genopposite": "long"},
             {"gen": "mas"}
         ],
         "largas":
             [
             {"num": "plural"},
             {"translation": "largas"}, 
-            {"numopposite": "larga"}, 
+            {"numopposite": "long"}, 
             {"genopposite": "largos"},
             {"gen": "fem"}
         ],
@@ -371,16 +371,32 @@
             [
             {"num": "sing"},
             {"translation": "mucho"}, 
-            {"numopposite": "a lot of"}, 
+            {"numopposite": "muchos"}, 
             {"genopposite": "mucha"}, 
             {"gen": "mas"}
         ],
         "mucha": 
             [
             {"num": "sing"},
-            {"translation": "mucho"}, 
-            {"numopposite": "mucha"},
+            {"translation": "mucha"}, 
+            {"numopposite": "muchas"},
             {"genopposite": "a lot of"},
+            {"gen": "fem"}
+        ],
+        "muchos": 
+            [
+            {"num": "sing"},
+            {"translation": "muchos"}, 
+            {"numopposite": "a lot of"},
+            {"genopposite": "muchas"},
+            {"gen": "fem"}
+        ],
+        "muchas": 
+            [
+            {"num": "sing"},
+            {"translation": "muchas"}, 
+            {"numopposite": "mucha"},
+            {"genopposite": "muchos"},
             {"gen": "fem"}
         ],
         "a little": 
@@ -873,14 +889,14 @@
             [
             {"num": "sing"},
             {"translation": "hechizo"}, 
-            {"numopposite": "hechizos"}, 
+            {"numopposite": "spells"}, 
             {"gen": "mas"}
         ],
         "spells":
             [
             {"num": "plural"},
             {"translation": "hechizos"}, 
-            {"numopposite": "hechizo"}, 
+            {"numopposite": "spell"}, 
             {"gen": "mas"}
         ]
     },

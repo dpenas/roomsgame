@@ -6,7 +6,10 @@
                 {"DET_1": ""},
                 {"N_1": ""}
             ],
-            "restrictions": []
+            "restrictions": [
+                {"DET_1.num": "N_1.num"},
+                {"DET_1.gen": "N_1.gen"}
+            ]
         }
     },
     "GENERALPREP": {
@@ -14,12 +17,14 @@
             "S": [
                 {"PREP_1": ""},
                 {"DET_1": ""},
-                {"ADJ_N": "array"},
-                {"N_1": ""}
+                {"N_1": ""},
+                {"ADJ_N": "array"}
             ],
             "restrictions": [
                 {"DET_1.num": "N_1.num"},
-                {"N_1.num": "ADJ_N.num"}
+                {"DET_1.gen": "N_1.gen"},
+                {"ADJ_N.num": "N_1.num"},
+                {"ADJ_N.gen": "N_1.gen"}
             ]
         }
     },
@@ -34,11 +39,12 @@
     "SIMPLENODET": {
         "GM_1": {
             "S": [
-                {"ADJ_1": "array"},
-                {"N_1": ""}
+                {"N_1": ""},
+                {"ADJ_1": "array"}
             ],
             "restrictions": [
-                {"N_1.num": "ADJ_1.num"}
+                {"ADJ_1.num": "N_1.num"},
+                {"ADJ_1.gen": "N_1.gen"}
             ]
         }
     },
@@ -49,7 +55,8 @@
                 {"N_1": ""}
             ],
             "restrictions": [
-                {"DET_1.num": "N_1.num"}
+                {"DET_1.num": "N_1.num"},
+                {"DET_1.gen": "N_1.gen"}
             ]
         }
     },
@@ -66,12 +73,14 @@
             "S": 
                 [
                 {"DET_1": ""}, 
-                {"ADJ_N": "array"}, 
-                {"N_1": ""}
+                {"N_1": ""},
+                {"ADJ_N": "array"}
             ],
             "restrictions": [
                 {"DET_1.num": "N_1.num"},
-                {"N_1.num": "ADJ_N.num"}
+                {"DET_1.gen": "N_1.gen"},
+                {"ADJ_N.num": "N_1.num"},
+                {"ADJ_N.gen": "N_1.gen"}
             ]
         }
     }
