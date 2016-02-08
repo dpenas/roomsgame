@@ -68,16 +68,9 @@ public class GrammarSelectorS extends GrammarSelector {
 		if (namePos > this.getNames().size() - 1) {
 			namePos = this.getNames().size() - 1;
 		}
-		JsonParser parser = new JsonParser();
 		JsonObject rootObj = null;
-		try {
-			rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammarES.json")).getAsJsonObject();
-		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		System.out.println(rootObj);
 		System.out.println(type);
-		rootObj = JSONParsing.getElement(rootObj, type).getAsJsonObject();
+		rootObj = JSONParsing.getElement(main.Main.rootObjGrammar, type).getAsJsonObject();
 		System.out.println("namePos is this: !: " + namePos);
 		System.out.println("We are going to use this item: !: " + this.getNames().get(namePos).getName());
 		for (PrintableObject name : this.getNames()) {

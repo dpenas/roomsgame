@@ -49,7 +49,7 @@ import util.Tuple;
 
 public class Main {
 	public static String language = new String("es");
-	public static String country = new String("ES");
+	public static String country = new String("EN");
 	public static Locale currentLocale = new Locale(language, country);
 	public static ResourceBundle messagesWereables, keyBinding;
 	public static int countElements;
@@ -88,6 +88,7 @@ public class Main {
 	static JsonParser parser = new JsonParser();
 	static JsonObject rootObj;
 	static JsonObject rootObjWords;
+	public static JsonObject rootObjGrammar;
 	static GrammarsGeneral grammarAttack;
 	static GrammarsGeneral grammarPickItem;
 	static GrammarsGeneral grammarUseItem;
@@ -240,14 +241,9 @@ public class Main {
 	}
 	
 	public static void _printInventoryUser(){
-		JsonObject grammarObjNames = null;
 		JsonObject rootObjNames = null;
-		try {
-			grammarObjNames = parser.parse(new FileReader("./src/grammars/english/objectGrammarES.json")).getAsJsonObject();
-			rootObjNames = JSONParsing.getElement(grammarObjNames, "GENERAL").getAsJsonObject();
-		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		rootObjNames = JSONParsing.getElement(rootObjGrammar, "GENERAL").getAsJsonObject();
+		
 //		user.printInventory(user.getInventory(), j, map.global_fin().x + 1, 0);
 		for (int i = 0; i < user.getInventory().size(); i++){
 			if (user.getInventory().get(i).getPrintableName().isEmpty()) {
@@ -959,8 +955,9 @@ public class Main {
 
 	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 //		ChangeKeyBinding a = new ChangeKeyBinding(j);
-		rootObj = parser.parse(new FileReader("./src/grammars/english/sentenceGrammarES.json")).getAsJsonObject();
-		rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsES.json")).getAsJsonObject();
+		rootObj = parser.parse(new FileReader("./src/grammars/english/sentenceGrammar" + country + ".json")).getAsJsonObject();
+		rootObjWords = parser.parse(new FileReader("./src/grammars/english/words" + country + ".json")).getAsJsonObject();
+		rootObjGrammar = parser.parse(new FileReader("./src/grammars/english/objectGrammar" + country + ".json")).getAsJsonObject();
 		JsonObject objectAttack = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
 		JsonObject objectPickItem = JSONParsing.getElement(rootObj, "PICK").getAsJsonObject();
 		JsonObject objectUseItem = JSONParsing.getElement(rootObj, "USE").getAsJsonObject();

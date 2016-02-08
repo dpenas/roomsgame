@@ -1,0 +1,78 @@
+{
+    "SIMPLEPREP": {
+        "GM_1": {
+            "S": [
+                {"PREP_1": ""},
+                {"DET_1": ""},
+                {"N_1": ""}
+            ],
+            "restrictions": []
+        }
+    },
+    "GENERALPREP": {
+        "GM_1": {
+            "S": [
+                {"PREP_1": ""},
+                {"DET_1": ""},
+                {"ADJ_N": "array"},
+                {"N_1": ""}
+            ],
+            "restrictions": [
+                {"DET_1.num": "N_1.num"},
+                {"N_1.num": "ADJ_N.num"}
+            ]
+        }
+    },
+    "SIMPLEONLYNAME": {
+        "GM_1": {
+            "S": [
+                {"N_1": ""}
+            ],
+            "restrictions": []
+        }
+    },
+    "SIMPLENODET": {
+        "GM_1": {
+            "S": [
+                {"ADJ_1": "array"},
+                {"N_1": ""}
+            ],
+            "restrictions": [
+                {"N_1.num": "ADJ_1.num"}
+            ]
+        }
+    },
+    "SIMPLE": {
+        "GM_1": {
+            "S": [
+                {"DET_1": ""}, 
+                {"N_1": ""}
+            ],
+            "restrictions": [
+                {"DET_1.num": "N_1.num"}
+            ]
+        }
+    },
+    "ADJECTIVE": {
+        "GM_2": {
+            "S": [
+                {"ADJ_N": ""}
+            ],
+            "restrictions": []
+        }
+    },
+    "GENERAL": {
+        "GM_3": {
+            "S": 
+                [
+                {"DET_1": ""}, 
+                {"ADJ_N": "array"}, 
+                {"N_1": ""}
+            ],
+            "restrictions": [
+                {"DET_1.num": "N_1.num"},
+                {"N_1.num": "ADJ_N.num"}
+            ]
+        }
+    }
+}
