@@ -717,6 +717,20 @@
                 {"gender": ""}
             ]
         },
+        "EQUIP": {
+            "equips": [
+                {"num": "sing"},
+                {"translation": "equips"},
+                {"numopposite": "equip"},
+                {"gender": ""}
+            ],
+            "equip": [
+                {"num": "plural"},
+                {"translation": "equip"},
+                {"numopposite": "equips"},
+                {"gender": ""}
+            ]
+        },
         "UNEQUIP": {
             "unequips": [
                 {"num": "sing"},

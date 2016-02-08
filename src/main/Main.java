@@ -433,7 +433,11 @@ public class Main {
 			names.add(item);
 			user.useItem(item);
 			printEverything(false);
-			generatePrintMessage(names, grammarUseItem, "USE", usePronoun(), false);
+			if (item.isWereableItem()) {
+				generatePrintMessage(names, grammarUseItem, "EQUIP", usePronoun(), false);
+			} else {
+				generatePrintMessage(names, grammarUseItem, "USE", usePronoun(), false);
+			}
 		}
 		if (debug) {
 			System.out.println(user.getWeaponsEquipped().size());

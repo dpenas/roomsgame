@@ -83,7 +83,7 @@ public abstract class GrammarSelector {
 			for (int i = 0; i < grammar.indexOf(secondType); i++) {
 				totalSecondItem += numItems.get(i);
 				restrictions2 = sentenceArray.get(totalSecondItem).getB();
-				restrictions2Value = sentenceArray.get(totalFirstItem).getA();
+				restrictions2Value = sentenceArray.get(totalSecondItem).getA();
 			}
 			if (grammar.indexOf(secondType) == 0) {
 				restrictions2 = sentenceArray.get(0).getB();

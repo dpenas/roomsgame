@@ -97,33 +97,33 @@
         "good": 
             [
             {"num": "sing"},
-            {"translation": "bueno"},
-            {"numopposite": "buenos"},
-            {"genopposite": "buena"},
+            {"translation": "bondadoso"},
+            {"numopposite": "bondadosos"},
+            {"genopposite": "bondadosa"},
             {"gen": "mas"}
         ],
-        "buena": 
+        "bondadosa": 
             [
             {"num": "sing"},
-            {"translation": "buena"},
-            {"numopposite": "buenas"},
+            {"translation": "bondadosa"},
+            {"numopposite": "bondadosas"},
             {"genopposite": "good"},
             {"gen": "fem"}
         ],
-        "buenos": 
+        "bondadosos": 
             [
             {"num": "plural"},
-            {"translation": "buenos"},
-            {"numopposite": "good"},
-            {"genopposite": "buenas"},
+            {"translation": "bondadosos"},
+            {"numopposite": "bondadoso"},
+            {"genopposite": "bondadosas"},
             {"gen": "mas"}
         ],
-        "buenas": 
+        "bondadosas": 
             [
             {"num": "plural"},
-            {"translation": "buenas"},
-            {"numopposite": "buena"},
-            {"genopposite": "buenos"},
+            {"translation": "bondadosas"},
+            {"numopposite": "bondadosa"},
+            {"genopposite": "bondadosos"},
             {"gen": "fem"}
         ],
         "normal": 
@@ -865,7 +865,7 @@
         "that":
             [
             {"num": "sing"},
-            {"translation": "ese"}, 
+            {"translation": "eso"}, 
             {"numopposite": "that"}, 
             {"gen": ""}
         ],
@@ -1049,7 +1049,7 @@
                 {"gen": ""}
             ],
             "no pueden hacer": [
-                {"num": "sing"},
+                {"num": "plural"},
                 {"translation": "no pueden hacer"},
                 {"numopposite": "can't do"},
                 {"gen": ""}
@@ -1079,6 +1079,20 @@
                 {"translation": "usan"},
                 {"numopposite": "uses"},
                 {"gen": ""}
+            ]
+        },
+        "EQUIP": {
+            "equips": [
+                {"num": "sing"},
+                {"translation": "equipa"},
+                {"numopposite": "equip"},
+                {"gender": ""}
+            ],
+            "equip": [
+                {"num": "plural"},
+                {"translation": "equipan"},
+                {"numopposite": "equips"},
+                {"gender": ""}
             ]
         },
         "MISS": {
