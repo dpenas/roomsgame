@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.JLabel;
@@ -48,9 +47,7 @@ import util.Tuple;
 
 
 public class Main {
-	public static String language = new String("es");
-	public static String country = new String("EN");
-	public static Locale currentLocale = new Locale(language, country);
+	public static String language = new String("EN");
 	public static ResourceBundle messagesWereables, keyBinding;
 	public static int countElements;
 	public static HashMap<String, Integer> keysMap;
@@ -153,7 +150,7 @@ public class Main {
 	}
 	
 	public static void _setKeyMap() {
-		keyBinding = ResourceBundle.getBundle("config.keys", currentLocale);
+		keyBinding = ResourceBundle.getBundle("config.keys");
 		Enumeration <String> keys = keyBinding.getKeys();
 		keysMap = new HashMap<String, Integer>();
 		while (keys.hasMoreElements()) {
@@ -162,6 +159,16 @@ public class Main {
 			keysMap.put(key, Integer.parseInt(value));
 		}
 		_bindKeys();
+	}
+	
+	public static void _setLanguage() {
+		keyBinding = ResourceBundle.getBundle("config.language");
+		Enumeration <String> keys = keyBinding.getKeys();
+		keysMap = new HashMap<String, Integer>();
+		while (keys.hasMoreElements()) {
+			String key = keys.nextElement();
+			language = keyBinding.getString(key);
+		}
 	}
 	
 	public static void printMessage(String message){
@@ -806,7 +813,7 @@ public class Main {
 	
 	public static void gameFlow() throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 		boolean doMonstersTurn = false;
-		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);
+		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable");
 		if (deepnessScore == 0){
 			_initialize();
 		} else {
@@ -955,9 +962,10 @@ public class Main {
 
 	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 //		ChangeKeyBinding a = new ChangeKeyBinding(j);
-		rootObj = parser.parse(new FileReader("./src/grammars/english/sentenceGrammar" + country + ".json")).getAsJsonObject();
-		rootObjWords = parser.parse(new FileReader("./src/grammars/english/words" + country + ".json")).getAsJsonObject();
-		rootObjGrammar = parser.parse(new FileReader("./src/grammars/english/objectGrammar" + country + ".json")).getAsJsonObject();
+		_setLanguage();
+		rootObj = parser.parse(new FileReader("./src/grammars/english/sentenceGrammar" + language + ".json")).getAsJsonObject();
+		rootObjWords = parser.parse(new FileReader("./src/grammars/english/words" + language + ".json")).getAsJsonObject();
+		rootObjGrammar = parser.parse(new FileReader("./src/grammars/english/objectGrammar" + language + ".json")).getAsJsonObject();
 		JsonObject objectAttack = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
 		JsonObject objectPickItem = JSONParsing.getElement(rootObj, "PICK").getAsJsonObject();
 		JsonObject objectUseItem = JSONParsing.getElement(rootObj, "USE").getAsJsonObject();

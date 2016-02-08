@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import map.Map;
 import map.Room;
-import translations.Translations;
 import util.Tuple;
 import characters.Character;
 
