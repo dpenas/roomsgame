@@ -29,8 +29,7 @@ public class Goblin extends ActiveCharacter {
 		this.equipWeapon(oneHandSword);
 	}
 	
-	@Override
-	public ArrayList<String> getAdjectives() {
+	public ArrayList<String> getAdjectivesIndividual() {
 		ArrayList<String> adjectives = new ArrayList<String>();
 		adjectives.add("grey");
 		return adjectives;
