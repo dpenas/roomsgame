@@ -29,6 +29,12 @@
             {"translation": "contra"},
             {"numopposite": "contra"},
             {"gen": ""}
+        ],
+        "to": [
+            {"num": ""},
+            {"translation": "a"},
+            {"numopposite": "to"},
+            {"gen": ""}
         ]
     },
     "DET": {

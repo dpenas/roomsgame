@@ -29,6 +29,12 @@
             {"translation": "against"},
             {"numopposite": "against"},
             {"gender": ""}
+        ],
+        "to": [
+            {"num": ""},
+            {"translation": "to"},
+            {"numopposite": "to"},
+            {"gen": ""}
         ]
     },
     "DET": {

@@ -207,7 +207,7 @@
             "S": [
                 {"GENERAL_1": ""},
                 {"V_1": ""},
-                {"SIMPLEONLYNAME_1": ""}
+                {"SIMPLEPREP_1": ""}
             ],
             "restrictions": [
                 {"GENERAL_1.num": "V_1.num"}
@@ -219,7 +219,7 @@
             "S": [
                 {"SIMPLE_1": ""},
                 {"V_1": ""},
-                {"SIMPLEONLYNAME_1": ""}
+                {"SIMPLEPREP_1": ""}
             ],
             "restrictions": [
                 {"SIMPLE_1.num": "V_1.num"}
