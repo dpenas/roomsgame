@@ -104,7 +104,7 @@ public class Room {
 	public void printItems(WSwingConsoleInterface j, ArrayList<Tuple<Integer, Integer>> visiblePositions){
 		for (Item item : getItemsRoom()){
 			if (RandUtil.containsTuple(item.getPosition(), visiblePositions)){
-				j.print(item.getPosition().y, item.getPosition().x, item.getSymbolRepresentation(), 12);
+				j.print(item.getPosition().y, item.getPosition().x, item.getSymbolRepresentation(), main.Main.arrayColors[main.Main.selectedColor][5]);
 			}
 		}
 	}
@@ -112,7 +112,7 @@ public class Room {
 	public void printMonsters(WSwingConsoleInterface j, ArrayList<Tuple<Integer, Integer>> visiblePositions){
 		for (ActiveCharacter monster : getMonsters()){
 			if (RandUtil.containsTuple(monster.getPosition(), visiblePositions) && !monster.isDead()){
-				j.print(monster.getPosition().y, monster.getPosition().x, monster.getSymbolRepresentation(), 12);
+				j.print(monster.getPosition().y, monster.getPosition().x, monster.getSymbolRepresentation(), main.Main.arrayColors[main.Main.selectedColor][6]);
 			}
 		}
 	}

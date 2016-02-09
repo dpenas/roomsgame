@@ -616,17 +616,17 @@ public class Map {
 				for (Tuple<Integer, Integer> pos: room.getBorders()){
 					// System.out.println("Borders: (" + pos.x + "," + pos.y + ")");
 					if (RandUtil.containsTuple(pos, user.getVisiblePositions())){
-						j.print(pos.y, pos.x, '#', 12);
+						j.print(pos.y, pos.x, '#', main.Main.arrayColors[main.Main.selectedColor][1]);
 					}
 				}
 				for (Door d : room.getDoors()){
 					tuple1 = new Tuple<Integer, Integer>(d.getPositionRoom1().x, d.getPositionRoom1().y);
 					tuple2 = new Tuple<Integer, Integer>(d.getPositionRoom2().x, d.getPositionRoom2().y);
 					if (RandUtil.containsTuple(tuple1, user.getVisiblePositions())){
-						j.print(d.getPositionRoom1().y, d.getPositionRoom1().x, 'O', 12);
+						j.print(d.getPositionRoom1().y, d.getPositionRoom1().x, 'O', main.Main.arrayColors[main.Main.selectedColor][2]);
 					} 
 					if (RandUtil.containsTuple(tuple2, user.getVisiblePositions())){
-						j.print(d.getPositionRoom2().y, d.getPositionRoom2().x, 'O', 12);
+						j.print(d.getPositionRoom2().y, d.getPositionRoom2().x, 'O', main.Main.arrayColors[main.Main.selectedColor][2]);
 					}
 				}
 			}
@@ -650,13 +650,13 @@ public class Map {
 				for (Tuple<Integer, Integer> pos: room.getInsidePositions()) {
 					if (RandUtil.containsTuple(pos, user.getVisiblePositions())) {
 						if (RandUtil.containsTuple(pos, room.getInsidecolumns())) {
-							j.print(pos.y, pos.x, '#', 12);
+							j.print(pos.y, pos.x, '#', main.Main.arrayColors[main.Main.selectedColor][1]);
 						} 
 						else if (RandUtil.containsTuple(pos, room.getPortals())) {
-							j.print(pos.y, pos.x, 'T', 12);
+							j.print(pos.y, pos.x, 'T', main.Main.arrayColors[main.Main.selectedColor][3]);
 						}
 						else {
-							j.print(pos.y, pos.x, '.', 12);
+							j.print(pos.y, pos.x, '.', main.Main.arrayColors[main.Main.selectedColor][4]);
 						}
 					}
 				}

@@ -68,6 +68,11 @@ public class Main {
 	static Integer[] throwItemInput;
 	static Integer[] unequipItemInput;
 	static Integer[] changeNumericDescInput;
+	static Integer[] changeColorsInput;
+	static Integer[] arrayColors1 = new Integer[]{12,2,3,4,5,15,7};
+	static Integer[] arrayColors2 = new Integer[]{8,4,3,11,15,6,14};
+	public static Integer[][] arrayColors = {arrayColors1, arrayColors2};
+	public static int selectedColor = 0;
 	static Map map;
 	static Tuple<Integer, Integer> pos = new Tuple<Integer, Integer>(1,1);
 	static Room roomEnemy;
@@ -140,6 +145,10 @@ public class Main {
 		return Arrays.asList(changeNumericDescInput).contains(key);
 	}
 	
+	public static boolean isChangingColors(int key){
+		return Arrays.asList(changeColorsInput).contains(key);
+	}
+	
 	public static boolean usePronoun() {
 		if (canUsePronoun) {
 			if (RandUtil.RandomNumber(0, 2) > 0) {
@@ -197,6 +206,7 @@ public class Main {
 		throwItemInput = new Integer[] {keysMap.get("throwItem")};
 		unequipItemInput = new Integer[] {keysMap.get("unequipItem")};
 		changeNumericDescInput = new Integer[] {keysMap.get("changeNumericDesc")};
+		changeColorsInput = new Integer[] {keysMap.get("changeColors")};
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
@@ -215,7 +225,7 @@ public class Main {
 			System.out.println("I need to paint ground objects");
 			_printGroundObjects();
 		}
-		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
 		j.refresh();
 	}
 	
@@ -332,7 +342,7 @@ public class Main {
 		user.addSpell(fireRing);
 		_initializeMap();
 		_setKeyMap();
-		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
 	}
 	
 	public static void _initializeMap() {
@@ -358,7 +368,7 @@ public class Main {
 					room.putRandomGoblins();
 				}
 				printEverything(true);
-				j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+				j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
 				j.refresh();
 				notDone = false;
 			}
@@ -376,7 +386,7 @@ public class Main {
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
 		_setKeyMap();
-		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
 		WereableWeapon oneHandSword = new ShortSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
 		WereableWeapon oneHandSword2 = new ShortSword("", 0, 0, 100, user, null, null,
@@ -393,7 +403,7 @@ public class Main {
 		user.setInventory(inventory);
 		user.setLife(80);
 		printEverything(true);
-		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
 		j.refresh();
 	}
 	
@@ -758,7 +768,7 @@ public class Main {
 	    	}
 		}
 		printEverything(true);
-		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
 	}
 	
 	public static void _spellAction(int keyPressed){
@@ -774,7 +784,7 @@ public class Main {
 			}
 		}
 		printEverything(true);
-		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
 	}
 	
 	public static void _throwItem(int keyPressed){
@@ -791,7 +801,7 @@ public class Main {
 			hasChanged = false;
 		}
 		printEverything(true);	
-		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
 	}
 	
 	public static void _unequipItem(Item item){
@@ -808,7 +818,7 @@ public class Main {
 			_messageUnvalid();
 		}
 		printEverything(true);	
-		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
 	}
 	
 	public static void gameFlow() throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
@@ -944,6 +954,13 @@ public class Main {
 	            	}
 	            } else if (isChangeNumericDescInput(i)) {
 	            	isNumericDescription = !isNumericDescription;
+	            } else if (isChangingColors(i)) {
+	            	if (selectedColor == arrayColors.length - 1) {
+	            		selectedColor = 0;
+	            	} else {
+	            		selectedColor++;
+	            	}
+	            	printEverything(true);
 	            }
 			}
 			else {
