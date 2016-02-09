@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import grammars.parsing.JSONParsing;
 import net.slashie.util.Pair;
 import util.RandUtil;
 
@@ -112,6 +113,16 @@ public class GrammarSelectorNP extends GrammarSelector {
 		sentenceArray = this.applyRestrictions(sentenceArray);
 		for(int i = 0; i < sentenceArray.size(); i++) {
 			sentence += sentenceArray.get(i).getA() + " ";
+		}
+		return sentence;
+	}
+	
+	public String getRandomSentenceTranslated() {
+		String sentence = "";
+		ArrayList<Pair<String, JsonArray>> sentenceArray = this.fillWords();
+		sentenceArray = this.applyRestrictions(sentenceArray);
+		for(int i = 0; i < sentenceArray.size(); i++) {
+			sentence += JSONParsing.getElement(sentenceArray.get(i).getB(), "translation") + " ";
 		}
 		return sentence;
 	}

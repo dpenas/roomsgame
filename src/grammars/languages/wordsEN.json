@@ -29,6 +29,12 @@
             {"translation": "against"},
             {"numopposite": "against"},
             {"gender": ""}
+        ],
+        "to": [
+            {"num": ""},
+            {"translation": "to"},
+            {"numopposite": "to"},
+            {"gen": ""}
         ]
     },
     "DET": {
@@ -110,18 +116,18 @@
             {"numopposite": "magic"}, 
             {"gender": ""}
         ],
-        "one hand":
+        "short":
             [
             {"num": "sing"},
-            {"translation": "one hand"}, 
-            {"numopposite": "one hand"}, 
+            {"translation": "short"}, 
+            {"numopposite": "short"}, 
             {"gender": ""}
         ],
-        "two hand":
+        "long":
             [
             {"num": "sing"},
-            {"translation": "two hand"}, 
-            {"numopposite": "two hand"}, 
+            {"translation": "long"}, 
+            {"numopposite": "long"},
             {"gender": ""}
         ],
         "some": 
@@ -214,20 +220,6 @@
         	{"num": "plural"},
             {"translation": "weapons"},
             {"numopposite": "weapon"},
-            {"gender": ""},
-            {"pronoun": "it"}
-        ],
-        "chest": [
-            {"num": "sing"},
-            {"translation": "chest"},
-            {"numopposite": "chests"},
-            {"gender": ""},
-            {"pronoun": "it"}
-        ],
-        "chests": [
-            {"num": "plural"},
-            {"translation": "chests"},
-            {"numopposite": "chest"},
             {"gender": ""},
             {"pronoun": "it"}
         ],
@@ -338,7 +330,7 @@
         ],
         "life": [
             {"num": "sing"},
-            {"translation": "lige"},
+            {"translation": "life"},
             {"numopposite": "lives"},
             {"gender": ""},
             {"pronoun": "it"}
@@ -505,8 +497,8 @@
         "helmets":
             [
             {"num": "plural"},
-            {"translation": "helmet"}, 
-            {"numopposite": "helmets"}, 
+            {"translation": "helmets"}, 
+            {"numopposite": "helmet"}, 
             {"gender": ""},
             {"pronoun": "they"}
         ],
@@ -731,6 +723,20 @@
                 {"gender": ""}
             ]
         },
+        "EQUIP": {
+            "equips": [
+                {"num": "sing"},
+                {"translation": "equips"},
+                {"numopposite": "equip"},
+                {"gender": ""}
+            ],
+            "equip": [
+                {"num": "plural"},
+                {"translation": "equip"},
+                {"numopposite": "equips"},
+                {"gender": ""}
+            ]
+        },
         "UNEQUIP": {
             "unequips": [
                 {"num": "sing"},
@@ -822,6 +828,20 @@
             ]
         },
         "DESCGENERAL": {
+            "is": [
+                {"num": "sing"},
+                {"translation": "is"},
+                {"numopposite": "are"},
+                {"gender": ""}
+            ],
+            "are": [
+                {"num": "plural"},
+                {"translation": "are"},
+                {"numopposite": "is"},
+                {"gender": ""}
+            ]
+        },
+        "DESCTOBE": {
             "is": [
                 {"num": "sing"},
                 {"translation": "is"},

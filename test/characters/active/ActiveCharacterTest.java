@@ -15,7 +15,7 @@ import items.ItemEnumerate.WeaponType;
 import items.consumables.LifeExtendedPotion;
 import items.consumables.LifePotion;
 import items.consumables.MagicPotion;
-import items.wereables.OneHandSword;
+import items.wereables.ShortSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 import map.Map;
@@ -54,7 +54,7 @@ public class ActiveCharacterTest {
 	WereableWeapon weapon3;
 	WereableWeapon weapon5;
 	WereableWeapon weapon6;
-	OneHandSword oneHandSword;
+	ShortSword oneHandSword;
 	LifePotion lifePotion30;
 	MagicPotion magicPotion30;
 	LifeExtendedPotion lifeExtendedPotion30;
@@ -141,7 +141,7 @@ public class ActiveCharacterTest {
 				itemTypeWeapon, null, null, null, 30, 1, true, 0, 1, false);
 		weapon6 = new WereableWeapon("", null, "", "", 10, 95, 0, null,
 				itemTypeWeapon2, null, null, null, 0, 0, true, 0, 1, false);
-		oneHandSword = new OneHandSword("", 0, 0, 0, attacker, null, null,
+		oneHandSword = new ShortSword("", 0, 0, 0, attacker, null, null,
 				position, 0, 0, false);
 		lifePotion30 = new LifePotion(null, null, null, null);
 		magicPotion30 = new MagicPotion(null, null, null, null);

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.JLabel;
@@ -34,7 +33,7 @@ import items.wereables.NormalArmor;
 import items.wereables.NormalGloves;
 import items.wereables.NormalHelmet;
 import items.wereables.NormalPants;
-import items.wereables.OneHandSword;
+import items.wereables.ShortSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 import magic.FireRing;
@@ -48,9 +47,7 @@ import util.Tuple;
 
 
 public class Main {
-	public static String language = new String("es");
-	public static String country = new String("ES");
-	public static Locale currentLocale = new Locale(language, country);
+	public static String language = new String("EN");
 	public static ResourceBundle messagesWereables, keyBinding;
 	public static int countElements;
 	public static HashMap<String, Integer> keysMap;
@@ -88,6 +85,7 @@ public class Main {
 	static JsonParser parser = new JsonParser();
 	static JsonObject rootObj;
 	static JsonObject rootObjWords;
+	public static JsonObject rootObjGrammar;
 	static GrammarsGeneral grammarAttack;
 	static GrammarsGeneral grammarPickItem;
 	static GrammarsGeneral grammarUseItem;
@@ -152,7 +150,7 @@ public class Main {
 	}
 	
 	public static void _setKeyMap() {
-		keyBinding = ResourceBundle.getBundle("config.keys", currentLocale);
+		keyBinding = ResourceBundle.getBundle("config.keys");
 		Enumeration <String> keys = keyBinding.getKeys();
 		keysMap = new HashMap<String, Integer>();
 		while (keys.hasMoreElements()) {
@@ -161,6 +159,16 @@ public class Main {
 			keysMap.put(key, Integer.parseInt(value));
 		}
 		_bindKeys();
+	}
+	
+	public static void _setLanguage() {
+		keyBinding = ResourceBundle.getBundle("config.language");
+		Enumeration <String> keys = keyBinding.getKeys();
+		keysMap = new HashMap<String, Integer>();
+		while (keys.hasMoreElements()) {
+			String key = keys.nextElement();
+			language = keyBinding.getString(key);
+		}
 	}
 	
 	public static void printMessage(String message){
@@ -240,20 +248,15 @@ public class Main {
 	}
 	
 	public static void _printInventoryUser(){
-		JsonObject grammarObjNames = null;
 		JsonObject rootObjNames = null;
-		try {
-			grammarObjNames = parser.parse(new FileReader("./src/grammars/english/objectGrammar.json")).getAsJsonObject();
-			rootObjNames = JSONParsing.getElement(grammarObjNames, "GENERAL").getAsJsonObject();
-		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		rootObjNames = JSONParsing.getElement(rootObjGrammar, "GENERAL").getAsJsonObject();
+		
 //		user.printInventory(user.getInventory(), j, map.global_fin().x + 1, 0);
 		for (int i = 0; i < user.getInventory().size(); i++){
 			if (user.getInventory().get(i).getPrintableName().isEmpty()) {
 				GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObjNames);
 				GrammarSelectorNP grammarIndividual = new GrammarSelectorNP(grammarGeneral.getRandomGrammar(), rootObjWords, user.getInventory().get(i), "GENERAL");
-				user.getInventory().get(i).setPrintableName(grammarIndividual.getRandomSentence());
+				user.getInventory().get(i).setPrintableName(grammarIndividual.getRandomSentenceTranslated());
 			}
 			j.print(0, map.global_fin().x + 1 + i, i + 1 + " - " + user.getInventory().get(i).getPrintableName());
 		}
@@ -307,9 +310,9 @@ public class Main {
 				40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
-		WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, user, null, null,
+		WereableWeapon oneHandSword = new ShortSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
-		WereableWeapon oneHandSword2 = new OneHandSword("", 0, 0, 100, user, null, null,
+		WereableWeapon oneHandSword2 = new ShortSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
 		NormalHelmet helmet = new NormalHelmet("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
@@ -374,9 +377,9 @@ public class Main {
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
 		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), 12);
-		WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, user, null, null,
+		WereableWeapon oneHandSword = new ShortSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
-		WereableWeapon oneHandSword2 = new OneHandSword("", 0, 0, 100, user, null, null,
+		WereableWeapon oneHandSword2 = new ShortSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
 		Goblin goblin = new Goblin(map, map.obtainRoomByPosition(pos), pos, adjectives);
 		Goblin goblin2 = new Goblin(map, map.obtainRoomByPosition(pos), pos, adjectives);
@@ -433,7 +436,11 @@ public class Main {
 			names.add(item);
 			user.useItem(item);
 			printEverything(false);
-			generatePrintMessage(names, grammarUseItem, "USE", usePronoun(), false);
+			if (item.isWereableItem()) {
+				generatePrintMessage(names, grammarUseItem, "EQUIP", usePronoun(), false);
+			} else {
+				generatePrintMessage(names, grammarUseItem, "USE", usePronoun(), false);
+			}
 		}
 		if (debug) {
 			System.out.println(user.getWeaponsEquipped().size());
@@ -458,7 +465,7 @@ public class Main {
 		adjectives.add("dead");
 		character.setAdjectives(adjectives);
 		names.add(character);
-		generatePrintMessage(names, grammarAdjectiveDescription, "DESCGENERAL", false, false);
+		generatePrintMessage(names, grammarAdjectiveDescription, "DESCTOBE", false, false);
 	}
 	
 	private static String _messageDescriptionLife(ActiveCharacter character, boolean usePronoun) {
@@ -509,7 +516,7 @@ public class Main {
 		names.add(object);
 		names.add(direction);
 		GrammarIndividual grammarIndividual = grammarDescribeEnvironment.getRandomGrammar();
-		return _getMessage(grammarIndividual, names, "DESCGENERAL", false, false);
+		return _getMessage(grammarIndividual, names, "DESCTOBE", false, false);
 	}
 	
 	private static String _messageSimpleEnvironment(PrintableObject object, String directions) {
@@ -518,7 +525,7 @@ public class Main {
 		names.add(object);
 		names.add(direction);
 		GrammarIndividual grammarIndividual = grammarDescribeEnvironmentSimple.getRandomGrammar();
-		return _getMessage(grammarIndividual, names, "DESCGENERAL", false, false);
+		return _getMessage(grammarIndividual, names, "DESCTOBE", false, false);
 	}
 	
 	private static void _messageDescriptionWalkablePositions() {
@@ -806,7 +813,7 @@ public class Main {
 	
 	public static void gameFlow() throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 		boolean doMonstersTurn = false;
-		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable", currentLocale);
+		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable");
 		if (deepnessScore == 0){
 			_initialize();
 		} else {
@@ -818,7 +825,7 @@ public class Main {
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);
 			names.add(portal);
-			GrammarIndividual grammarIndividual = grammarSimpleDescription.getRandomGrammar();
+			GrammarIndividual grammarIndividual = grammarGeneralDescription.getRandomGrammar();
 			printMessage(_getMessage(grammarIndividual, names, "DESCGOESTHROUGH", false, false));
 			deepnessScore++;
 			hasUsedPortal = false;
@@ -955,8 +962,10 @@ public class Main {
 
 	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 //		ChangeKeyBinding a = new ChangeKeyBinding(j);
-		rootObj = parser.parse(new FileReader("./src/grammars/english/sentenceGrammar.json")).getAsJsonObject();
-		rootObjWords = parser.parse(new FileReader("./src/grammars/english/wordsEnglish.json")).getAsJsonObject();
+		_setLanguage();
+		rootObj = parser.parse(new FileReader("./src/grammars/languages/sentenceGrammar" + language + ".json")).getAsJsonObject();
+		rootObjWords = parser.parse(new FileReader("./src/grammars/languages/words" + language + ".json")).getAsJsonObject();
+		rootObjGrammar = parser.parse(new FileReader("./src/grammars/languages/objectGrammar" + language + ".json")).getAsJsonObject();
 		JsonObject objectAttack = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
 		JsonObject objectPickItem = JSONParsing.getElement(rootObj, "PICK").getAsJsonObject();
 		JsonObject objectUseItem = JSONParsing.getElement(rootObj, "USE").getAsJsonObject();

@@ -29,7 +29,7 @@ public class PrintableObject {
 		this.position = position;
 		this.printableName = "";
 		ArrayList<String> prepositions = new ArrayList<String>();
-		prepositions.add("with");
+		prepositions.add("to");
 		this.setPrepositions(prepositions);
 	}
 	

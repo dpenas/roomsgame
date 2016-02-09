@@ -23,7 +23,7 @@ import grammars.parsing.JSONParsing;
 import items.Item;
 import items.ItemEnumerate;
 import items.ItemEnumerate.WeaponType;
-import items.wereables.OneHandSword;
+import items.wereables.ShortSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 import map.Map;
@@ -58,7 +58,7 @@ public class GrammarSelectorSTest {
 		ArrayList<ItemEnumerate.WeaponType> itemTypeWeapon;
 		itemTypeWeapon = new ArrayList<ItemEnumerate.WeaponType>();
 		itemTypeWeapon.add(WeaponType.LEFTHAND);
-		WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, user, null, null,
+		WereableWeapon oneHandSword = new ShortSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
 		oneHandSword.setWeaponType(itemTypeWeapon);
 		user.putItemInventory(oneHandSword);
@@ -121,7 +121,7 @@ public class GrammarSelectorSTest {
 	
 	@Test
 	public void testGrammarSelectorDescInventory() {
-		WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, user, null, null,
+		WereableWeapon oneHandSword = new ShortSword("", 0, 0, 100, user, null, null,
 				null, 0, 0, true);
 		user.putItemInventory(oneHandSword);
 		GrammarsGeneral grammarDescribeItem;

@@ -68,16 +68,9 @@ public class GrammarSelectorS extends GrammarSelector {
 		if (namePos > this.getNames().size() - 1) {
 			namePos = this.getNames().size() - 1;
 		}
-		JsonParser parser = new JsonParser();
 		JsonObject rootObj = null;
-		try {
-			rootObj = parser.parse(new FileReader("./src/grammars/english/objectGrammar.json")).getAsJsonObject();
-		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		System.out.println(rootObj);
 		System.out.println(type);
-		rootObj = JSONParsing.getElement(rootObj, type).getAsJsonObject();
+		rootObj = JSONParsing.getElement(main.Main.rootObjGrammar, type).getAsJsonObject();
 		System.out.println("namePos is this: !: " + namePos);
 		System.out.println("We are going to use this item: !: " + this.getNames().get(namePos).getName());
 		for (PrintableObject name : this.getNames()) {
@@ -238,17 +231,17 @@ public class GrammarSelectorS extends GrammarSelector {
 				JsonObject others = JSONParsing.getElement(this.getWordsGrammar(), "OTHERS").getAsJsonObject();
 				JsonArray and = JSONParsing.getElement(others, "and").getAsJsonArray();
 				String translationAnd = JSONParsing.getElement(and, "translation");
-				sentence += " " + translationAnd + " " + pair.getA();
+				sentence += " " + translationAnd + " " + JSONParsing.getElement(pair.getB(), "translation");
 				changed = false;
 			} else {
 				if (values.contains(i)) {
-					sentence += ", " + pair.getA() + " ";
+					sentence += ", " + JSONParsing.getElement(pair.getB(), "translation") + " ";
 					changed = true;
 				} else {
 					if (changed) {
-						sentence += pair.getA();
+						sentence += JSONParsing.getElement(pair.getB(), "translation");
 					} else {
-						sentence += " " + pair.getA();
+						sentence += " " + JSONParsing.getElement(pair.getB(), "translation");
 					}
 					changed = false;
 				}
@@ -269,7 +262,7 @@ public class GrammarSelectorS extends GrammarSelector {
 			for (Pair<String, JsonArray> word : this.getGrammarsNPPair().get(0)) {
 				if (!this.getGrammarsNP().get(0).isPreposition(word.getA())) {
 					System.out.println("Word: " + word.getA());
-					NPToDelete += word.getA() + " ";
+					NPToDelete += JSONParsing.getElement(word.getB(), "translation") + " ";
 				}
 			}
 			System.out.println("NPToDelete: " + NPToDelete);
@@ -338,14 +331,28 @@ public class GrammarSelectorS extends GrammarSelector {
 			int dotPointA = restriction.getA().indexOf(".");
 			int dotPointB = restriction.getB().indexOf(".");
 			String restrictionType = restriction.getA().substring(dotPointA + 1, restriction.getA().length());
+			String elementA = "";
+			String elementB = "";
+			Pair<String, String> pair = null;
 			switch (restrictionType) {
 				case "num": 
-					String elementA = restriction.getA().substring(0, dotPointA);
-					String elementB = restriction.getB().substring(0, dotPointB);
+					elementA = restriction.getA().substring(0, dotPointA);
+					elementB = restriction.getB().substring(0, dotPointB);
 					System.out.println("ElementA: " + elementA);
-					System.out.println("ElementA: " + elementB);
-					Pair<String, String> pair = new Pair<String, String>(elementA, elementB);
-					newSentenceArray = applyNumRestrictions(pair, newSentenceArray, numItems);
+					System.out.println("ElementB: " + elementB);
+					pair = new Pair<String, String>(elementA, elementB);
+					newSentenceArray = applyRestrictions(pair, newSentenceArray, numItems, "num");
+					for (Pair<String, JsonArray> finalPair : newSentenceArray) {
+						System.out.println("finalPair: " + finalPair.getA());
+					}
+					break;
+				case "gen": 
+					elementA = restriction.getA().substring(0, dotPointA);
+					elementB = restriction.getB().substring(0, dotPointB);
+					System.out.println("ElementA: " + elementA);
+					System.out.println("ElementB: " + elementB);
+					pair = new Pair<String, String>(elementA, elementB);
+					newSentenceArray = applyRestrictions(pair, newSentenceArray, numItems, "gen");
 					for (Pair<String, JsonArray> finalPair : newSentenceArray) {
 						System.out.println("finalPair: " + finalPair.getA());
 					}

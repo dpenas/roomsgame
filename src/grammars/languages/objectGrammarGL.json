@@ -1,0 +1,87 @@
+{
+    "SIMPLEPREP": {
+        "GM_1": {
+            "S": [
+                {"PREP_1": ""},
+                {"DET_1": ""},
+                {"N_1": ""}
+            ],
+            "restrictions": [
+                {"DET_1.num": "N_1.num"},
+                {"DET_1.gen": "N_1.gen"}
+            ]
+        }
+    },
+    "GENERALPREP": {
+        "GM_1": {
+            "S": [
+                {"PREP_1": ""},
+                {"DET_1": ""},
+                {"N_1": ""},
+                {"ADJ_N": "array"}
+            ],
+            "restrictions": [
+                {"DET_1.num": "N_1.num"},
+                {"DET_1.gen": "N_1.gen"},
+                {"ADJ_N.num": "N_1.num"},
+                {"ADJ_N.gen": "N_1.gen"}
+            ]
+        }
+    },
+    "SIMPLEONLYNAME": {
+        "GM_1": {
+            "S": [
+                {"N_1": ""}
+            ],
+            "restrictions": []
+        }
+    },
+    "SIMPLENODET": {
+        "GM_1": {
+            "S": [
+                {"N_1": ""},
+                {"ADJ_1": "array"}
+            ],
+            "restrictions": [
+                {"ADJ_1.num": "N_1.num"},
+                {"ADJ_1.gen": "N_1.gen"}
+            ]
+        }
+    },
+    "SIMPLE": {
+        "GM_1": {
+            "S": [
+                {"DET_1": ""}, 
+                {"N_1": ""}
+            ],
+            "restrictions": [
+                {"DET_1.num": "N_1.num"},
+                {"DET_1.gen": "N_1.gen"}
+            ]
+        }
+    },
+    "ADJECTIVE": {
+        "GM_2": {
+            "S": [
+                {"ADJ_N": ""}
+            ],
+            "restrictions": []
+        }
+    },
+    "GENERAL": {
+        "GM_3": {
+            "S": 
+                [
+                {"DET_1": ""}, 
+                {"N_1": ""},
+                {"ADJ_N": "array"}
+            ],
+            "restrictions": [
+                {"DET_1.num": "N_1.num"},
+                {"DET_1.gen": "N_1.gen"},
+                {"ADJ_N.num": "N_1.num"},
+                {"ADJ_N.gen": "N_1.gen"}
+            ]
+        }
+    }
+}

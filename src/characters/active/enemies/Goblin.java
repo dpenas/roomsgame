@@ -1,7 +1,7 @@
 package characters.active.enemies;
 
 import items.Item;
-import items.wereables.OneHandSword;
+import items.wereables.ShortSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 import magic.Fireball;
@@ -15,7 +15,7 @@ import util.Tuple;
 
 public class Goblin extends ActiveCharacter {
 	
-	WereableWeapon oneHandSword = new OneHandSword("", 0, 0, 100, this, null, null,
+	WereableWeapon oneHandSword = new ShortSword("", 0, 0, 100, this, null, null,
 			null, 0, 0, true);
 
 	public Goblin(Map map, Room room, Tuple<Integer, Integer> position, ArrayList<String> adjectives) {
@@ -29,8 +29,7 @@ public class Goblin extends ActiveCharacter {
 		this.equipWeapon(oneHandSword);
 	}
 	
-	@Override
-	public ArrayList<String> getAdjectives() {
+	public ArrayList<String> getAdjectivesIndividual() {
 		ArrayList<String> adjectives = new ArrayList<String>();
 		adjectives.add("grey");
 		return adjectives;

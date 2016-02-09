@@ -38,8 +38,8 @@ public abstract class GrammarSelector {
 		return "";
 	}
 	
-	protected ArrayList<Pair<String, JsonArray>> applyNumRestrictions(Pair<String, String> restriction, 
-			ArrayList<Pair<String, JsonArray>> sentenceArray, ArrayList<Integer> numItems) {
+	protected ArrayList<Pair<String, JsonArray>> applyRestrictions(Pair<String, String> restriction, 
+			ArrayList<Pair<String, JsonArray>> sentenceArray, ArrayList<Integer> numItems, String type) {
 		
 		ArrayList<String> grammar = this.getGrammar().getGrammar().get("keys");
 		System.out.println("GRAMMAR: " + grammar);
@@ -59,7 +59,11 @@ public abstract class GrammarSelector {
 		System.out.println("secondType: " + secondType);
 		JsonArray restrictions1 = null;
 		JsonArray restrictions2 = null;
+		String restrictions1Value = "";
+		String restrictions2Value = "";
 		if (numItems == null) {
+			restrictions1Value = sentenceArray.get(grammar.indexOf(firstType)).getA();
+			restrictions2Value = sentenceArray.get(grammar.indexOf(secondType)).getA();
 			restrictions1 = sentenceArray.get(grammar.indexOf(firstType)).getB();
 			restrictions2 = sentenceArray.get(grammar.indexOf(secondType)).getB();
 			System.out.println("restriction1 inside numitems: " + restrictions1);
@@ -70,37 +74,34 @@ public abstract class GrammarSelector {
 				totalFirstItem += numItems.get(i);
 				System.out.println("TotalFirstItem: " + totalFirstItem);
 				restrictions1 = sentenceArray.get(totalFirstItem - 1).getB();
+				restrictions1Value = sentenceArray.get(totalFirstItem - 1).getA();
 			}
 			System.out.println("This is the problem: R1 " + restrictions1);
-//			if (grammar.indexOf(firstType) == 0) {
-//				for (int i = 0; i < sentenceArray.size(); i++) {
-//					if (JSONParsing.getElement(sentenceArray.get(i).getB(), "translation") != "") {
-//						restrictions1 = sentenceArray.get(i).getB();
-//					}
-//				}
-//			}
 			for (Integer integer: numItems) {
 				System.out.println("integer: " + integer);
 			}
 			for (int i = 0; i < grammar.indexOf(secondType); i++) {
 				totalSecondItem += numItems.get(i);
 				restrictions2 = sentenceArray.get(totalSecondItem).getB();
+				restrictions2Value = sentenceArray.get(totalSecondItem).getA();
 			}
 			if (grammar.indexOf(secondType) == 0) {
 				restrictions2 = sentenceArray.get(0).getB();
+				restrictions2Value = sentenceArray.get(0).getA();
 			}
 		}
-		System.out.println("restrictions1: " + restrictions1);
-		System.out.println("restrictions2: " + restrictions2);
-		String value1 = JSONParsing.getElement(restrictions1, "translation");
-		String value2 = JSONParsing.getElement(restrictions2, "translation");
-		String value1Num = JSONParsing.getElement(restrictions1, "num");
-		String value2Num = JSONParsing.getElement(restrictions2, "num");
+		System.out.println("restrictions1!: " + restrictions1Value);
+		System.out.println("restrictions2!: " + restrictions2Value);
+		String value1 = restrictions1Value;
+		String value2 = restrictions2Value;
+		String value1Num = JSONParsing.getElement(restrictions1, type);
+		String value2Num = JSONParsing.getElement(restrictions2, type);
 		System.out.println("Value1Num: " + value1Num);
 		System.out.println("Value2Num: " + value2Num);
 		System.out.println("Value1: " + value1);
 		System.out.println("Value2: " + value2);
-		if (!value1Num.equals(value2Num) && value1Num.length() > 0 && value2Num.length() > 0) {
+		if (value1Num != null && value2Num != null && !value1Num.equals(value2Num) 
+				&& value1Num.length() > 0 && value2Num.length() > 0) {
 			String changeToValue = "";
 			String typeFirstRestriction = firstType.substring(0, firstType.indexOf("_"));
 			String typeSecondRestriction = secondType.substring(0, secondType.indexOf("_"));
@@ -111,11 +112,15 @@ public abstract class GrammarSelector {
 			String typeChangeToValue = "";
 			if (toChange.equals(value1)) {
 //				System.out.println(restrictions1);
-				changeToValue = JSONParsing.getElement(restrictions1, "numopposite");
+				changeToValue = JSONParsing.getElement(restrictions1, type + "opposite");
+				System.out.println("opposite thing: " + type+ "opposite");
+				System.out.println("change to value shenanigangs: " + changeToValue);
 				typeChangeToValue = typeFirstRestriction; 
 				 
 			} else {
-				changeToValue = JSONParsing.getElement(restrictions2, "numopposite");
+				changeToValue = JSONParsing.getElement(restrictions2, type + "opposite");
+				System.out.println("opposite thing: " + type+ "opposite");
+				System.out.println("change to value shenanigangs: " + changeToValue);
 				typeChangeToValue = typeSecondRestriction;
 			}
 //			System.out.println("ChangeToValue: " + changeToValue);
@@ -134,13 +139,30 @@ public abstract class GrammarSelector {
 			int dotPointA = restriction.getA().indexOf(".");
 			int dotPointB = restriction.getB().indexOf(".");
 			String restrictionType = restriction.getA().substring(dotPointA + 1, restriction.getA().length());
+			String elementA = "";
+			String elementB = "";
+			Pair<String, String> pair = null;
+			System.out.println("BEFORE!!!");
+			for (Pair<String, JsonArray> a : sentenceArray) {
+				System.out.println(a.getA() + " ");
+			}
 			switch (restrictionType) {
 				case "num": 
-					String elementA = restriction.getA().substring(0, dotPointA);
-					String elementB = restriction.getB().substring(0, dotPointB);
-					Pair<String, String> pair = new Pair<String, String>(elementA, elementB);
-					sentenceArray = applyNumRestrictions(pair, sentenceArray, null);
+					elementA = restriction.getA().substring(0, dotPointA);
+					elementB = restriction.getB().substring(0, dotPointB);
+					pair = new Pair<String, String>(elementA, elementB);
+					sentenceArray = applyRestrictions(pair, sentenceArray, null, "num");
 					break;
+				case "gen": 
+					elementA = restriction.getA().substring(0, dotPointA);
+					elementB = restriction.getB().substring(0, dotPointB);
+					pair = new Pair<String, String>(elementA, elementB);
+					sentenceArray = applyRestrictions(pair, sentenceArray, null, "gen");
+					break;
+			}
+			System.out.println("After!!!");
+			for (Pair<String, JsonArray> a : sentenceArray) {
+				System.out.println(a + " ");
 			}
 		}
 		return sentenceArray;

@@ -1,0 +1,319 @@
+{
+    "ATTACK": {
+        "S1": {
+            "S": [
+                {"SIMPLE_1": ""},
+                {"V_1": ""},
+                {"SIMPLE_2": ""},
+                {"SIMPLEPREP_1": ""}
+            ],
+            "restrictions": [
+                {"SIMPLE_1.num": "V_1.num"}
+            ]
+        },
+        "S2": {
+            "S": [
+                {"GENERAL_1": ""},
+                {"V_1": ""},
+                {"SIMPLE_2": ""},
+                {"SIMPLEPREP_1": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        },
+        "S3": {
+            "S": [
+                {"GENERAL_1": ""},
+                {"V_1": ""},
+                {"GENERAL_2": ""},
+                {"SIMPLEPREP_1": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        },
+        "S4": {
+            "S": [
+                {"GENERAL_1": ""},
+                {"V_1": ""},
+                {"GENERAL_2": ""},
+                {"SIMPLEPREP_1": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        },
+        "S5": {
+            "S": [
+                {"GENERAL_1": ""},
+                {"V_1": ""},
+                {"GENERAL_2": ""},
+                {"GENERALPREP_1": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        },
+        "S6": {
+            "S": [
+                {"SIMPLE_1": ""},
+                {"V_1": ""},
+                {"GENERAL_2": ""},
+                {"GENERALPREP_1": ""}
+            ],
+            "restrictions": [
+                {"SIMPLE_1.num": "V_1.num"}
+            ]
+        },
+        "S7": {
+            "S": [
+                {"SIMPLE_1": ""},
+                {"V_1": ""},
+                {"SIMPLE_2": ""},
+                {"GENERALPREP_1": ""}
+            ],
+            "restrictions": [
+                {"SIMPLE_1.num": "V_1.num"}
+            ]
+        }
+    },
+    "GENERAL": {
+        "S1": {
+            "S": [
+            	{"GENERAL_1": ""},
+                {"V_1": ""},
+                {"SIMPLE_1": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        },
+        "S2": {
+            "S": [
+            	{"SIMPLE_1": ""},
+                {"V_1": ""},
+                {"SIMPLE_2": ""}
+            ],
+            "restrictions": [
+                {"SIMPLE_1.num": "V_1.num"}
+            ]
+        }
+    },
+    "ATTACKMISS": {
+        "S1": {
+            "S": [
+            	{"SIMPLEPREP_1": ""},
+                {"V_1": ""}
+            ],
+            "restrictions": [
+                {"SIMPLEPREP_1.num": "V_1.num"}
+            ]
+        }
+    },
+    "DESCRIPTIONADJECTIVE": {
+        "S1": {
+            "S": [
+                {"SIMPLE_1": ""},
+                {"V_1": ""},
+                {"ADJECTIVE_1": ""}
+            ],
+            "restrictions": [
+                {"SIMPLE_1.num": "V_1.num"},
+                {"ADJECTIVE_1.num": "V_1.num"}
+            ]
+        }
+    },
+    "PICK": {
+        "S1": {
+            "S": [
+                {"GENERAL_1": ""},
+                {"V_1": ""},
+                {"GENERAL_1": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        },
+        "S2": {
+            "S": [
+                {"SIMPLE_1": ""},
+                {"V_1": ""},
+                {"GENERAL_2": ""}
+            ],
+            "restrictions": [
+                {"SIMPLE_1.num": "V_1.num"}
+            ]
+        }
+    },
+    "USE": {
+        "S1": {
+            "S": [
+                {"GENERAL_1": ""},
+                {"V_1": ""},
+                {"GENERAL_N": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        },
+        "S2": {
+            "S": [
+                {"SIMPLE_1": ""},
+                {"V_1": ""},
+                {"GENERAL_N": ""}
+            ],
+            "restrictions": [
+                {"SIMPLE_1.num": "V_1.num"}
+            ]
+        }
+    },
+    "DESCITEM": {
+        "S1": {
+            "S": [
+                {"GENERAL_1": ""},
+                {"V_1": ""},
+                {"GENERAL_N": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        },
+        "S2": {
+            "S": [
+                {"SIMPLE_1": ""},
+                {"V_1": ""},
+                {"GENERAL_N": ""}
+            ],
+            "restrictions": [
+                {"SIMPLE_1.num": "V_1.num"}
+            ]
+        }
+    },
+    "DESCPERSONAL": {
+        "S1": {
+            "S": [
+                {"GENERAL_1": ""},
+                {"V_1": ""},
+                {"SIMPLENODET_1": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        }
+    },
+    "DESCENV": {
+        "S1": {
+            "S": [
+                {"GENERAL_1": ""},
+                {"V_1": ""},
+                {"SIMPLEPREP_1": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        }
+    },
+    "DESCENVSIMPLE": {
+        "S1": {
+            "S": [
+                {"SIMPLE_1": ""},
+                {"V_1": ""},
+                {"SIMPLEPREP_1": ""}
+            ],
+            "restrictions": [
+                {"SIMPLE_1.num": "V_1.num"}
+            ]
+        }
+    },
+    "DESCUNVALID": {
+        "S1": {
+            "S": [
+                {"SIMPLE_1": ""},
+                {"V_1": ""},
+                {"SIMPLEONLYNAME_1": ""}
+            ],
+            "restrictions": [
+                {"SIMPLE_1.num": "V_1.num"}
+            ]
+        },
+        "S2": {
+            "S": [
+                {"GENERAL_1": ""},
+                {"V_1": ""},
+                {"SIMPLEONLYNAME_1": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        }
+    },
+    "DESCSIMPLE": {
+        "S1": {
+            "S": [
+                {"SIMPLE_1": ""},
+                {"V_1": ""},
+                {"SIMPLEONLYNAME_1": ""}
+            ],
+            "restrictions": [
+                {"SIMPLE_1.num": "V_1.num"}
+            ]
+        },
+        "S2": {
+            "S": [
+                {"GENERAL_1": ""},
+                {"V_1": ""},
+                {"SIMPLEONLYNAME_1": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        }
+    },
+    "DESCCHAWEARS": {
+        "S1": {
+            "S": [
+                {"GENERAL_1": ""},
+                {"V_1": ""},
+                {"GENERAL_2": ""},
+                {"SIMPLEPREP_1": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        },
+        "S2": {
+            "S": [
+                {"GENERAL_1": ""},
+                {"V_1": ""},
+                {"SIMPLE_2": ""},
+                {"SIMPLEPREP_1": ""}
+            ],
+            "restrictions": [
+                {"GENERAL_1.num": "V_1.num"}
+            ]
+        },
+        "S3": {
+            "S": [
+                {"SIMPLE_1": ""},
+                {"V_1": ""},
+                {"GENERAL_2": ""},
+                {"SIMPLEPREP_1": ""}
+            ],
+            "restrictions": [
+                {"SIMPLE_1.num": "V_1.num"}
+            ]
+        },
+        "S4": {
+            "S": [
+                {"SIMPLE_1": ""},
+                {"V_1": ""},
+                {"SIMPLE_2": ""},
+                {"SIMPLEPREP_1": ""}
+            ],
+            "restrictions": [
+                {"SIMPLE_1.num": "V_1.num"}
+            ]
+        }
+    }
+}
