@@ -124,6 +124,17 @@
             ]
         }
     },
+    "SIMPLEVERB": {
+        "S1": {
+            "S": [
+                {"SIMPLE_1": ""},
+                {"V_1": ""}
+            ],
+            "restrictions": [
+                {"SIMPLE_1.num": "V_1.num"}
+            ]
+        }
+    },
     "PICK": {
         "S1": {
             "S": [
