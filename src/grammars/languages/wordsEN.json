@@ -835,6 +835,20 @@
                 {"gender": ""}
             ]
         },
+        "DESCTOBE": {
+            "is": [
+                {"num": "sing"},
+                {"translation": "is"},
+                {"numopposite": "are"},
+                {"gender": ""}
+            ],
+            "are": [
+                {"num": "plural"},
+                {"translation": "are"},
+                {"numopposite": "is"},
+                {"gender": ""}
+            ]
+        },
         "DESCWEARS": {
             "wears": [
                 {"num": "sing"},

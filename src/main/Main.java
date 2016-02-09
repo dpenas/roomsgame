@@ -465,7 +465,7 @@ public class Main {
 		adjectives.add("dead");
 		character.setAdjectives(adjectives);
 		names.add(character);
-		generatePrintMessage(names, grammarAdjectiveDescription, "DESCGENERAL", false, false);
+		generatePrintMessage(names, grammarAdjectiveDescription, "DESCTOBE", false, false);
 	}
 	
 	private static String _messageDescriptionLife(ActiveCharacter character, boolean usePronoun) {
@@ -516,7 +516,7 @@ public class Main {
 		names.add(object);
 		names.add(direction);
 		GrammarIndividual grammarIndividual = grammarDescribeEnvironment.getRandomGrammar();
-		return _getMessage(grammarIndividual, names, "DESCGENERAL", false, false);
+		return _getMessage(grammarIndividual, names, "DESCTOBE", false, false);
 	}
 	
 	private static String _messageSimpleEnvironment(PrintableObject object, String directions) {
@@ -525,7 +525,7 @@ public class Main {
 		names.add(object);
 		names.add(direction);
 		GrammarIndividual grammarIndividual = grammarDescribeEnvironmentSimple.getRandomGrammar();
-		return _getMessage(grammarIndividual, names, "DESCGENERAL", false, false);
+		return _getMessage(grammarIndividual, names, "DESCTOBE", false, false);
 	}
 	
 	private static void _messageDescriptionWalkablePositions() {

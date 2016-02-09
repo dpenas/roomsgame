@@ -1167,6 +1167,20 @@
                 {"gen": ""}
             ]
         },
+        "DESCTOBE": {
+            "is": [
+                {"num": "sing"},
+                {"translation": "está"},
+                {"numopposite": "are"},
+                {"gen": ""}
+            ],
+            "are": [
+                {"num": "plural"},
+                {"translation": "están"},
+                {"numopposite": "is"},
+                {"gen": ""}
+            ]
+        },
         "DESCWEARS": {
             "wears": [
                 {"num": "sing"},
