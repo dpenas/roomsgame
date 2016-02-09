@@ -10,6 +10,7 @@ public class FireRing extends Spell {
 
 	public FireRing() {
 		super(10, 10);
+		this.setName("firering");
 		adjectives.add("magic");
 		this.setAdjectives(adjectives);
 	}

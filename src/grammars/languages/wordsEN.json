@@ -74,16 +74,16 @@
             {"numopposite": "average"},
             {"gender": ""}
         ],
-      	"big":
-      		[
-      		{"num": ""},
+        "big":
+            [
+            {"num": ""},
             {"translation": "big"},
             {"numopposite": "big"}, 
             {"gender": ""}
         ],
         "small":
-      		[
-      		{"num": "sing"},
+            [
+            {"num": "sing"},
             {"translation": "small"}, 
             {"numopposite": "small"}, 
             {"gender": ""}
@@ -103,14 +103,14 @@
             {"gender": ""}
         ],
         "life":
-        	[
+            [
             {"num": "sing"},
             {"translation": "life"}, 
             {"numopposite": "life"}, 
             {"gender": ""}
         ],
         "magic":
-        	[
+            [
             {"num": "sing"},
             {"translation": "magic"}, 
             {"numopposite": "magic"}, 
@@ -196,28 +196,28 @@
     },
     "N": {
         "shield": [
-        	{"num": "sing"},
+            {"num": "sing"},
             {"translation": "shield"},
             {"numopposite": "shields"},
             {"gender": ""},
             {"pronoun": "it"}
         ],
         "shields": [
-        	{"num": "plural"},
+            {"num": "plural"},
             {"translation": "shields"},
             {"numopposite": "shield"},
             {"gender": ""},
             {"pronoun": "it"}
         ],
         "weapon": [
-        	{"num": "sing"},
+            {"num": "sing"},
             {"translation": "weapon"},
             {"numopposite": "weapons"},
             {"gender": ""},
             {"pronoun": "it"}
         ],
         "weapons": [
-        	{"num": "plural"},
+            {"num": "plural"},
             {"translation": "weapons"},
             {"numopposite": "weapon"},
             {"gender": ""},
@@ -578,61 +578,75 @@
             {"translation": "spells"}, 
             {"numopposite": "spell"}, 
             {"gender": ""}
+        ],
+        "fireball":
+            [
+            {"num": "sing"},
+            {"translation": "fireball"}, 
+            {"numopposite": "fireball"}, 
+            {"gen": ""}
+        ],
+        "firering":
+            [
+            {"num": "sing"},
+            {"translation": "firering"}, 
+            {"numopposite": "firering"}, 
+            {"gen": ""}
         ]
     },
     "V": {
-    	"ATTACK": {
-    		"attacks": [
-	            {"num": "sing"},
-	            {"translation": "attacks"},
-	            {"numopposite": "attack"},
-	            {"gender": ""}
-        	],
-	        "attack": [
-	            {"num": "plural"},
-	            {"translation": "attack"},
-	            {"numopposite": "attacks"},
-	            {"gender": ""}
-	        ],
-	        "hurts": [
-	            {"num": "sing"},
-	            {"translation": "hurts"},
-	            {"numopposite": "hurt"},
-	            {"gender": ""}
-        	],
-	        "hurt": [
-	            {"num": "plural"},
-	            {"translation": "hurt"},
-	            {"numopposite": "hurts"},
-	            {"gender": ""}
-	        ],
-	        "charges against": [
-	            {"num": "sing"},
-	            {"translation": "charges against"},
-	            {"numopposite": "charge against"},
-	            {"gender": ""}
-	        ],
-	        "charge against": [
-	            {"num": "plural"},
-	            {"translation": "charge against"},
-	            {"numopposite": "charges against"},
-	            {"gender": ""}
-	        ]
-    	},
-    	"NOTHAVE": {
-    		"doesn't have": [
-	            {"num": "sing"},
-	            {"translation": "doesn't have"},
-	            {"numopposite": "don't have"},
-	            {"gender": ""}
-        	],
-	        "don't have": [
-	            {"num": "plural"},
-	            {"translation": "don't have"},
-	            {"numopposite": "doesn't have"},
-	            {"gender": ""}
-	        ]
-    	},
+        "ATTACK": {
+            "attacks": [
+                {"num": "sing"},
+                {"translation": "attacks"},
+                {"numopposite": "attack"},
+                {"gender": ""}
+            ],
+            "attack": [
+                {"num": "plural"},
+                {"translation": "attack"},
+                {"numopposite": "attacks"},
+                {"gender": ""}
+            ],
+            "hurts": [
+                {"num": "sing"},
+                {"translation": "hurts"},
+                {"numopposite": "hurt"},
+                {"gender": ""}
+            ],
+            "hurt": [
+                {"num": "plural"},
+                {"translation": "hurt"},
+                {"numopposite": "hurts"},
+                {"gender": ""}
+            ],
+            "charges against": [
+                {"num": "sing"},
+                {"translation": "charges against"},
+                {"numopposite": "charge against"},
+                {"gender": ""}
+            ],
+            "charge against": [
+                {"num": "plural"},
+                {"translation": "charge against"},
+                {"numopposite": "charges against"},
+                {"gender": ""}
+            ]
+        },
+        "NOTHAVE": {
+            "doesn't have": [
+                {"num": "sing"},
+                {"translation": "doesn't have"},
+                {"numopposite": "don't have"},
+                {"gender": ""}
+            ],
+            "don't have": [
+                {"num": "plural"},
+                {"translation": "don't have"},
+                {"numopposite": "doesn't have"},
+                {"gender": ""}
+            ]
+        },
         "SPELLS": {
             "casts": [
                 {"num": "sing"},
@@ -647,44 +661,44 @@
                 {"gender": ""}
             ]
         },
-    	"PICK": {
-    		"picks": [
-	            {"num": "sing"},
-	            {"translation": "picks"},
-	            {"numopposite": "pick"},
-	            {"gender": ""}
-        	],
-	        "pick": [
-	            {"num": "plural"},
-	            {"translation": "pick"},
-	            {"numopposite": "picks"},
-	            {"gender": ""}
-	        ],
-	        "gets": [
-	            {"num": "sing"},
-	            {"translation": "gets"},
-	            {"numopposite": "get"},
-	            {"gender": ""}
-	        ],
-	        "get": [
-	            {"num": "plural"},
-	            {"translation": "get"},
-	            {"numopposite": "gets"},
-	            {"gender": ""}
-	        ],
-	        "takes": [
-	            {"num": "sing"},
-	            {"translation": "takes"},
-	            {"numopposite": "take"},
-	            {"gender": ""}
-	        ],
-	        "take": [
-	            {"num": "plural"},
-	            {"translation": "take"},
-	            {"numopposite": "takes"},
-	            {"gender": ""}
-	        ]
-    	},
+        "PICK": {
+            "picks": [
+                {"num": "sing"},
+                {"translation": "picks"},
+                {"numopposite": "pick"},
+                {"gender": ""}
+            ],
+            "pick": [
+                {"num": "plural"},
+                {"translation": "pick"},
+                {"numopposite": "picks"},
+                {"gender": ""}
+            ],
+            "gets": [
+                {"num": "sing"},
+                {"translation": "gets"},
+                {"numopposite": "get"},
+                {"gender": ""}
+            ],
+            "get": [
+                {"num": "plural"},
+                {"translation": "get"},
+                {"numopposite": "gets"},
+                {"gender": ""}
+            ],
+            "takes": [
+                {"num": "sing"},
+                {"translation": "takes"},
+                {"numopposite": "take"},
+                {"gender": ""}
+            ],
+            "take": [
+                {"num": "plural"},
+                {"translation": "take"},
+                {"numopposite": "takes"},
+                {"gender": ""}
+            ]
+        },
         "THROW": {
             "throws": [
                 {"num": "sing"},

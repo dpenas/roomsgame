@@ -37,6 +37,7 @@ import items.wereables.ShortSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 import magic.FireRing;
+import magic.Spell;
 import map.Door;
 import map.Map;
 import map.Room;
@@ -69,6 +70,7 @@ public class Main {
 	static Integer[] unequipItemInput;
 	static Integer[] changeNumericDescInput;
 	static Integer[] changeColorsInput;
+	static Integer[] descSpellsInput;
 	static Integer[] arrayColors1 = new Integer[]{12,2,3,4,5,15,7};
 	static Integer[] arrayColors2 = new Integer[]{8,4,3,11,15,6,14};
 	public static Integer[][] arrayColors = {arrayColors1, arrayColors2};
@@ -104,6 +106,7 @@ public class Main {
 	static GrammarsGeneral grammarAdjectiveDescription;
 	static GrammarsGeneral grammarMissDescription;
 	static GrammarsGeneral grammarGeneralDescription;
+	static GrammarsGeneral grammarSimpleVerb;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -147,6 +150,10 @@ public class Main {
 	
 	public static boolean isChangingColors(int key){
 		return Arrays.asList(changeColorsInput).contains(key);
+	}
+	
+	public static boolean isDescSpellsInput(int key){
+		return Arrays.asList(descSpellsInput).contains(key);
 	}
 	
 	public static boolean usePronoun() {
@@ -207,6 +214,7 @@ public class Main {
 		unequipItemInput = new Integer[] {keysMap.get("unequipItem")};
 		changeNumericDescInput = new Integer[] {keysMap.get("changeNumericDesc")};
 		changeColorsInput = new Integer[] {keysMap.get("changeColors")};
+		descSpellsInput = new Integer[] {keysMap.get("descSpells")};
 	}
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
@@ -805,7 +813,6 @@ public class Main {
 	}
 	
 	public static void _unequipItem(Item item){
-		//TODO: Working here
 		if (user.unequipItem(item)) {
 			printEverything(true);
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
@@ -817,6 +824,25 @@ public class Main {
 		} else {
 			_messageUnvalid();
 		}
+		printEverything(true);	
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
+	}
+	
+	public static void describeSpells(){
+		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+		PrintableObject spells = new PrintableObject("spells", "", null, null);
+		names.add(spells);
+		GrammarIndividual grammarIndividual = grammarSimpleVerb.getRandomGrammar();
+		String message = _getMessage(grammarIndividual, names, "DESCGENERAL", false, false) + ": ";
+		
+		JsonObject namesWords = JSONParsing.getElement(rootObjWords, "N").getAsJsonObject();
+		for (Spell spell : user.getSpells()) {
+			System.out.println(namesWords);
+			JsonArray spellName = JSONParsing.getElement(namesWords, spell.getName()).getAsJsonArray();
+			message += JSONParsing.getElement(spellName, "translation") + " ";
+		}
+		printMessage(message);
+		hasChanged = false;
 		printEverything(true);	
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
 	}
@@ -961,6 +987,8 @@ public class Main {
 	            		selectedColor++;
 	            	}
 	            	printEverything(true);
+	            } else if (isDescSpellsInput(i)) {
+	            	describeSpells();
 	            }
 			}
 			else {
@@ -996,6 +1024,7 @@ public class Main {
 		JsonObject adjectiveDescription = JSONParsing.getElement(rootObj, "DESCRIPTIONADJECTIVE").getAsJsonObject();
 		JsonObject missDescription = JSONParsing.getElement(rootObj, "ATTACKMISS").getAsJsonObject();
 		JsonObject generalDescription = JSONParsing.getElement(rootObj, "GENERAL").getAsJsonObject();
+		JsonObject simpleVerbDescription = JSONParsing.getElement(rootObj, "SIMPLEVERB").getAsJsonObject();
 		grammarAttack = new GrammarsGeneral(objectAttack);
 		grammarPickItem = new GrammarsGeneral(objectPickItem);
 		grammarUseItem = new GrammarsGeneral(objectUseItem);
@@ -1009,6 +1038,7 @@ public class Main {
 		grammarAdjectiveDescription = new GrammarsGeneral(adjectiveDescription);
 		grammarMissDescription = new GrammarsGeneral(missDescription);
 		grammarGeneralDescription = new GrammarsGeneral(generalDescription);
+		grammarSimpleVerb = new GrammarsGeneral(simpleVerbDescription);
 		if (!testMode){
 			gameFlow();
 		}

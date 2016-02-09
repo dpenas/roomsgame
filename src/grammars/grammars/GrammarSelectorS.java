@@ -204,24 +204,26 @@ public class GrammarSelectorS extends GrammarSelector {
 		int grammarNP = 0;
 		int iniIndefiniteNP = 0;
 		for (int i = 0; i < grammarsTotal.size(); i++) {
-			int sizeNPPair = this.getGrammarsNPPair().get(grammarNP).size();
-			int numberWordIndefinite = this.numberWordIndefiniteNP(sentenceArray);
-			if (this.containsArray(this.getGrammar().getTypeWordGrammar().get(i), typesNPGrammar)) {
-				if (this.getGrammar().getNumberGrammar().get(i).equals("N")) {
-					int sizeDivision = numberWordIndefinite / sizeNPPair;
-					for (int j = 0; j < sizeDivision; j++) {
-						if (values.size() == 0) {
-							values.add(iniIndefiniteNP + this.getGrammarsNPPair().get(grammarNP).size());
-						} else {
-							values.add(values.get(values.size() - 1) + sizeNPPair);
+			if (this.getGrammarsNPPair().size() - 1 >= grammarNP) {
+				int sizeNPPair = this.getGrammarsNPPair().get(grammarNP).size();
+				int numberWordIndefinite = this.numberWordIndefiniteNP(sentenceArray);
+				if (this.containsArray(this.getGrammar().getTypeWordGrammar().get(i), typesNPGrammar)) {
+					if (this.getGrammar().getNumberGrammar().get(i).equals("N")) {
+						int sizeDivision = numberWordIndefinite / sizeNPPair;
+						for (int j = 0; j < sizeDivision; j++) {
+							if (values.size() == 0) {
+								values.add(iniIndefiniteNP + this.getGrammarsNPPair().get(grammarNP).size());
+							} else {
+								values.add(values.get(values.size() - 1) + sizeNPPair);
+							}
 						}
+					} else {
+						iniIndefiniteNP += this.getGrammarsNPPair().get(grammarNP).size();
 					}
+					grammarNP++;
 				} else {
-					iniIndefiniteNP += this.getGrammarsNPPair().get(grammarNP).size();
+					iniIndefiniteNP++;
 				}
-				grammarNP++;
-			} else {
-				iniIndefiniteNP++;
 			}
 		}
 		boolean changed = false;

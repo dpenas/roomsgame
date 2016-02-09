@@ -153,9 +153,9 @@
             {"numopposite": "average"},
             {"gen": ""}
         ],
-      	"big":
-      		[
-      		{"num": ""},
+        "big":
+            [
+            {"num": ""},
             {"translation": "grande"},
             {"numopposite": "grandes"}, 
             {"gen": ""}
@@ -168,8 +168,8 @@
             {"gen": ""}
         ],
         "small":
-      		[
-      		{"num": "sing"},
+            [
+            {"num": "sing"},
             {"translation": "pequeño"}, 
             {"numopposite": "pequeños"}, 
             {"genopposite": "pequeña"},
@@ -264,14 +264,14 @@
             {"gen": "fem"}
         ],
         "life":
-        	[
+            [
             {"num": "sing"},
             {"translation": "vida"}, 
             {"numopposite": "life"}, 
             {"gen": "fem"}
         ],
         "magic":
-        	[
+            [
             {"num": "sing"},
             {"translation": "mágico"}, 
             {"numopposite": "mágicos"},
@@ -516,28 +516,28 @@
     },
     "N": {
         "shield": [
-        	{"num": "sing"},
+            {"num": "sing"},
             {"translation": "escudo"},
             {"numopposite": "shields"},
             {"gen": "mas"},
             {"pronoun": ""}
         ],
         "shields": [
-        	{"num": "plural"},
+            {"num": "plural"},
             {"translation": "escudos"},
             {"numopposite": "shield"},
             {"gen": "mas"},
             {"pronoun": ""}
         ],
         "weapon": [
-        	{"num": "sing"},
+            {"num": "sing"},
             {"translation": "arma"},
             {"numopposite": "weapons"},
             {"gen": "fem"},
             {"pronoun": ""}
         ],
         "weapons": [
-        	{"num": "plural"},
+            {"num": "plural"},
             {"translation": "armas"},
             {"numopposite": "weapon"},
             {"gen": "fem"},
@@ -904,61 +904,75 @@
             {"translation": "hechizos"}, 
             {"numopposite": "spell"}, 
             {"gen": "mas"}
+        ],
+        "fireball":
+            [
+            {"num": "sing"},
+            {"translation": "bola de fuego"}, 
+            {"numopposite": "fireball"}, 
+            {"gen": "fem"}
+        ],
+        "firering":
+            [
+            {"num": "sing"},
+            {"translation": "anillo de fuego"}, 
+            {"numopposite": "firering"}, 
+            {"gen": "mas"}
         ]
     },
     "V": {
-    	"ATTACK": {
-    		"attacks": [
-	            {"num": "sing"},
-	            {"translation": "ataca"},
-	            {"numopposite": "attack"},
-	            {"gen": ""}
-        	],
-	        "attack": [
-	            {"num": "plural"},
-	            {"translation": "atacan"},
-	            {"numopposite": "attacks"},
-	            {"gen": ""}
-	        ],
-	        "hurts": [
-	            {"num": "sing"},
-	            {"translation": "hiere"},
-	            {"numopposite": "hurt"},
-	            {"gen": ""}
-        	],
-	        "hurt": [
-	            {"num": "plural"},
-	            {"translation": "hieren"},
-	            {"numopposite": "hurts"},
-	            {"gen": ""}
-	        ],
-	        "charges against": [
-	            {"num": "sing"},
-	            {"translation": "se lanza contra"},
-	            {"numopposite": "charge against"},
-	            {"gen": ""}
-	        ],
-	        "charge against": [
-	            {"num": "plural"},
-	            {"translation": "se lanzan contra"},
-	            {"numopposite": "charges against"},
-	            {"gen": ""}
-	        ]
-    	},
-    	"NOTHAVE": {
-    		"doesn't have": [
-	            {"num": "sing"},
-	            {"translation": "no tiene"},
-	            {"numopposite": "don't have"},
-	            {"gen": ""}
-        	],
-	        "don't have": [
-	            {"num": "plural"},
-	            {"translation": "no tienen"},
-	            {"numopposite": "doesn't have"},
-	            {"gen": ""}
-	        ]
-    	},
+        "ATTACK": {
+            "attacks": [
+                {"num": "sing"},
+                {"translation": "ataca"},
+                {"numopposite": "attack"},
+                {"gen": ""}
+            ],
+            "attack": [
+                {"num": "plural"},
+                {"translation": "atacan"},
+                {"numopposite": "attacks"},
+                {"gen": ""}
+            ],
+            "hurts": [
+                {"num": "sing"},
+                {"translation": "hiere"},
+                {"numopposite": "hurt"},
+                {"gen": ""}
+            ],
+            "hurt": [
+                {"num": "plural"},
+                {"translation": "hieren"},
+                {"numopposite": "hurts"},
+                {"gen": ""}
+            ],
+            "charges against": [
+                {"num": "sing"},
+                {"translation": "se lanza contra"},
+                {"numopposite": "charge against"},
+                {"gen": ""}
+            ],
+            "charge against": [
+                {"num": "plural"},
+                {"translation": "se lanzan contra"},
+                {"numopposite": "charges against"},
+                {"gen": ""}
+            ]
+        },
+        "NOTHAVE": {
+            "doesn't have": [
+                {"num": "sing"},
+                {"translation": "no tiene"},
+                {"numopposite": "don't have"},
+                {"gen": ""}
+            ],
+            "don't have": [
+                {"num": "plural"},
+                {"translation": "no tienen"},
+                {"numopposite": "doesn't have"},
+                {"gen": ""}
+            ]
+        },
         "SPELLS": {
             "casts": [
                 {"num": "sing"},
@@ -973,44 +987,44 @@
                 {"gen": ""}
             ]
         },
-    	"PICK": {
-    		"picks": [
-	            {"num": "sing"},
-	            {"translation": "agarra"},
-	            {"numopposite": "pick"},
-	            {"gen": ""}
-        	],
-	        "pick": [
-	            {"num": "plural"},
-	            {"translation": "agarran"},
-	            {"numopposite": "picks"},
-	            {"gen": ""}
-	        ],
-	        "gets": [
-	            {"num": "sing"},
-	            {"translation": "recoge"},
-	            {"numopposite": "get"},
-	            {"gen": ""}
-	        ],
-	        "get": [
-	            {"num": "plural"},
-	            {"translation": "recogen"},
-	            {"numopposite": "gets"},
-	            {"gen": ""}
-	        ],
-	        "takes": [
-	            {"num": "sing"},
-	            {"translation": "coge"},
-	            {"numopposite": "take"},
-	            {"gen": ""}
-	        ],
-	        "take": [
-	            {"num": "plural"},
-	            {"translation": "cogen"},
-	            {"numopposite": "takes"},
-	            {"gen": ""}
-	        ]
-    	},
+        "PICK": {
+            "picks": [
+                {"num": "sing"},
+                {"translation": "agarra"},
+                {"numopposite": "pick"},
+                {"gen": ""}
+            ],
+            "pick": [
+                {"num": "plural"},
+                {"translation": "agarran"},
+                {"numopposite": "picks"},
+                {"gen": ""}
+            ],
+            "gets": [
+                {"num": "sing"},
+                {"translation": "recoge"},
+                {"numopposite": "get"},
+                {"gen": ""}
+            ],
+            "get": [
+                {"num": "plural"},
+                {"translation": "recogen"},
+                {"numopposite": "gets"},
+                {"gen": ""}
+            ],
+            "takes": [
+                {"num": "sing"},
+                {"translation": "coge"},
+                {"numopposite": "take"},
+                {"gen": ""}
+            ],
+            "take": [
+                {"num": "plural"},
+                {"translation": "cogen"},
+                {"numopposite": "takes"},
+                {"gen": ""}
+            ]
+        },
         "THROW": {
             "throws": [
                 {"num": "sing"},
