@@ -414,12 +414,10 @@ public class Room {
 	}
 	
 	public void generateRandomEnemies() {
-		if (this.getFreePositions().size() > 0 && this.getMonsters().size() == 0) {
-//		if (RandUtil.RandomNumber(0, 2) == 1) {
-			int positionNumber = RandUtil.RandomNumber(0, this.checkFreePositions().size() - 1);
+		if (RandUtil.RandomNumber(0, 2) == 1 && this.getFreePositions().size() > 0 && this.getMonsters().size() == 0) {
+			int positionNumber = RandUtil.RandomNumber(0, this.checkFreePositions().size());
 			Tuple<Integer, Integer> position = this.getFreePositions().get(positionNumber);
 			int number = RandUtil.RandomNumber(0, 3);
-			System.out.println("numberSelected: " + number);
 			switch(number) {
 				case 0: 
 					Rat rat = new Rat(this.getMap(), this, position, new ArrayList<String>());
@@ -435,7 +433,6 @@ public class Room {
 					break;
 			}
 		}
-//		}
 	}
 	
 	public Tuple<Integer, Integer> getRandomPosition(){

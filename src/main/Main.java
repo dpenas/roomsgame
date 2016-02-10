@@ -71,7 +71,7 @@ public class Main {
 	static Integer[] changeNumericDescInput;
 	static Integer[] changeColorsInput;
 	static Integer[] descSpellsInput;
-	static Integer[] arrayColors1 = new Integer[]{12,2,3,4,5,15,7};
+	static Integer[] arrayColors1 = new Integer[]{12,2,3,11,5,15,7};
 	static Integer[] arrayColors2 = new Integer[]{8,4,3,11,15,6,14};
 	public static Integer[][] arrayColors = {arrayColors1, arrayColors2};
 	public static int selectedColor = 0;
