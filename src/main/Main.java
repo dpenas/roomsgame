@@ -373,7 +373,7 @@ public class Main {
 				user.setVisiblePositions();
 				for (Room room: map.getRooms()) {
 					room.putRandomPotions();
-					room.putRandomGoblins();
+					room.generateRandomEnemies();
 				}
 				printEverything(true);
 				j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);

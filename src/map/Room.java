@@ -4,12 +4,15 @@ import items.Item;
 import items.consumables.LifePotion;
 import items.consumables.MagicPotion;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import com.google.gson.JsonObject;
 
 import characters.active.ActiveCharacter;
+import characters.active.enemies.Dragon;
 import characters.active.enemies.Goblin;
+import characters.active.enemies.Rat;
 import grammars.grammars.GrammarIndividual;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import net.slashie.util.Pair;
@@ -396,11 +399,13 @@ public class Room {
 	}
 	
 	public void putRandomPotions() {
-		if (this.checkFreePositions().size() > 0) {
+		if (this.checkFreePositions().size() > 0 && RandUtil.RandomNumber(0, 5) == 1) {
 			int numberLife = RandUtil.RandomNumber(0, this.checkFreePositions().size());
 			Tuple<Integer, Integer> positionLife = this.getFreePositions().get(numberLife);
 			LifePotion lifePotion = new LifePotion(null, map, this, positionLife);
 			this.getItemsRoom().add(lifePotion);
+		}
+		if (this.checkFreePositions().size() > 0 && RandUtil.RandomNumber(0, 5) == 1) {
 			int numberMagic = RandUtil.RandomNumber(0, this.checkFreePositions().size());
 			Tuple<Integer, Integer> positionMagic = this.getFreePositions().get(numberMagic);
 			MagicPotion magicPotion = new MagicPotion(null, map, this, positionMagic);
@@ -408,15 +413,29 @@ public class Room {
 		}
 	}
 	
-	public void putRandomGoblins() {
-		if (RandUtil.RandomNumber(0, 2) == 1) {
-			if (this.checkFreePositions().size() > 0) {
-				int number = RandUtil.RandomNumber(0, this.checkFreePositions().size());
-				Tuple<Integer, Integer> position = this.getFreePositions().get(number);
-				Goblin goblin = new Goblin(this.getMap(), this, position, new ArrayList<String>());
-				this.getMonsters().add(goblin);
+	public void generateRandomEnemies() {
+		if (this.getFreePositions().size() > 0 && this.getMonsters().size() == 0) {
+//		if (RandUtil.RandomNumber(0, 2) == 1) {
+			int positionNumber = RandUtil.RandomNumber(0, this.checkFreePositions().size() - 1);
+			Tuple<Integer, Integer> position = this.getFreePositions().get(positionNumber);
+			int number = RandUtil.RandomNumber(0, 3);
+			System.out.println("numberSelected: " + number);
+			switch(number) {
+				case 0: 
+					Rat rat = new Rat(this.getMap(), this, position, new ArrayList<String>());
+					this.getMonsters().add(rat);
+					break;
+				case 1: 
+					Goblin goblin = new Goblin(this.getMap(), this, position, new ArrayList<String>());
+					this.getMonsters().add(goblin);
+					break;
+				case 2: 
+					Dragon dragon = new Dragon(this.getMap(), this, position, new ArrayList<String>());
+					this.getMonsters().add(dragon);
+					break;
 			}
 		}
+//		}
 	}
 	
 	public Tuple<Integer, Integer> getRandomPosition(){
