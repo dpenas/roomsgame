@@ -1,5 +1,6 @@
 package main;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import javax.swing.JLabel;
@@ -178,12 +180,17 @@ public class Main {
 	}
 	
 	public static void _setLanguage() {
-		keyBinding = ResourceBundle.getBundle("config.language");
-		Enumeration <String> keys = keyBinding.getKeys();
-		keysMap = new HashMap<String, Integer>();
-		while (keys.hasMoreElements()) {
-			String key = keys.nextElement();
-			language = keyBinding.getString(key);
+		FileInputStream in;
+		Properties languageProperties = new Properties();
+		try {
+			in = new FileInputStream("src/config/language.properties");
+			languageProperties.load(in);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for(Object value: languageProperties.values()) {
+			language = (String)value;
 		}
 	}
 	
