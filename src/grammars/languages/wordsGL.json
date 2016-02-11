@@ -253,7 +253,7 @@
             {"translation": "noxentas"}, 
             {"numopposite": "noxenta"}, 
             {"genopposite": "noxentos"},
-            {"gen": "mas"}
+            {"gen": "fem"}
         ],
         "noxenta":
             [
@@ -346,7 +346,7 @@
             [
             {"num": "sing"},
             {"translation": "longo"}, 
-            {"numopposite": "largos"},
+            {"numopposite": "longos"},
             {"genopposite": "long"},
             {"gen": "mas"}
         ],
@@ -358,7 +358,7 @@
             {"genopposite": "longos"},
             {"gen": "fem"}
         ],
-        "longas":
+        "longos":
             [
             {"num": "plural"},
             {"translation": "longos"}, 
@@ -629,7 +629,7 @@
         ],
         "dragons": [
             {"num": "plural"},
-            {"translation": "dragons"},
+            {"translation": "dragóns"},
             {"numopposite": "dragon"},
             {"gen": "mas"},
             {"pronoun": ""}
@@ -856,7 +856,7 @@
             [
             {"num": "sing"},
             {"translation": "perna"}, 
-            {"numopposite": "pernas"}, 
+            {"numopposite": "legs"}, 
             {"gen": "fem"},
             {"pronoun": ""}
         ],
@@ -899,7 +899,7 @@
         "firering":
             [
             {"num": "sing"},
-            {"translation": "anelo de fogo"}, 
+            {"translation": "anel de fogo"}, 
             {"numopposite": "firering"}, 
             {"gen": "mas"}
         ]
@@ -1004,7 +1004,7 @@
             ],
             "take": [
                 {"num": "plural"},
-                {"translation": "cogllen"},
+                {"translation": "collen"},
                 {"numopposite": "takes"},
                 {"gen": ""}
             ]

@@ -81,7 +81,7 @@ public class Main {
 	static Tuple<Integer, Integer> pos = new Tuple<Integer, Integer>(1,1);
 	static Room roomEnemy;
 	static Room roomCharacter;
-	static WSwingConsoleInterface j = new WSwingConsoleInterface("asdasd");
+	static WSwingConsoleInterface j = new WSwingConsoleInterface("RoomsGame");
 	static ActiveCharacter user;
 	static boolean firstTime = true;
 	static boolean hasChanged = false;

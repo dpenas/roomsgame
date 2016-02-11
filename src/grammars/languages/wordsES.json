@@ -170,39 +170,39 @@
         "small":
             [
             {"num": "sing"},
-            {"translation": "peque√±o"}, 
-            {"numopposite": "peque√±os"}, 
-            {"genopposite": "peque√±a"},
+            {"translation": "pequeÒo"}, 
+            {"numopposite": "pequeÒos"}, 
+            {"genopposite": "pequeÒa"},
             {"gen": "mas"}
         ],
-        "peque√±os": 
+        "pequeÒos": 
             [
             {"num": "plural"},
-            {"translation": "peque√±os"},
+            {"translation": "pequeÒos"},
             {"numopposite": "small"},
-            {"genopposite": "peque√±as"},
+            {"genopposite": "pequeÒas"},
             {"gen": "mas"}
         ],
-        "peque√±as": 
+        "pequeÒas": 
             [
             {"num": "plural"},
-            {"translation": "peque√±as"},
-            {"numopposite": "peque√±a"},
-            {"genopposite": "peque√±os"},
+            {"translation": "pequeÒas"},
+            {"numopposite": "pequeÒa"},
+            {"genopposite": "pequeÒos"},
             {"gen": "fem"}
         ],
-        "peque√±a": 
+        "pequeÒa": 
             [
             {"num": "sing"},
-            {"translation": "peque√±a"},
-            {"numopposite": "peque√±as"},
+            {"translation": "pequeÒa"},
+            {"numopposite": "pequeÒas"},
             {"genopposite": "small"},
             {"gen": "fem"}
         ],
         "old":
             [
             {"num": "sing"},
-            {"translation": "viejo"}, 
+            {"translation": "viejas"}, 
             {"numopposite": "viejos"}, 
             {"genopposite": "vieja"},
             {"gen": "mas"}
@@ -253,7 +253,7 @@
             {"translation": "asquerosas"}, 
             {"numopposite": "asquerosa"}, 
             {"genopposite": "asquerosos"},
-            {"gen": "mas"}
+            {"gen": "fem"}
         ],
         "asquerosa":
             [
@@ -273,33 +273,33 @@
         "magic":
             [
             {"num": "sing"},
-            {"translation": "m√°gico"}, 
-            {"numopposite": "m√°gicos"},
-            {"genopposite": "m√°gica"},
+            {"translation": "m·gico"}, 
+            {"numopposite": "m·gicos"},
+            {"genopposite": "m·gica"},
             {"gen": "mas"}
         ],
-        "m√°gica":
+        "m·gica":
             [
             {"num": "sing"},
-            {"translation": "m√°gica"}, 
-            {"numopposite": "m√°gicas"},
+            {"translation": "m·gica"}, 
+            {"numopposite": "m·gicas"},
             {"genopposite": "magic"},
             {"gen": "fem"}
         ],
-        "m√°gicos":
+        "m·gicos":
             [
             {"num": "plural"},
-            {"translation": "m√°gicos"}, 
+            {"translation": "m·gicos"}, 
             {"numopposite": "magic"},
-            {"genopposite": "m√°gicas"},
+            {"genopposite": "m·gicas"},
             {"gen": "mas"}
         ],
-        "m√°gicas":
+        "m·gicas":
             [
             {"num": "plural"},
-            {"translation": "m√°gicas"},
-            {"numopposite": "m√°gica"},
-            {"genopposite": "m√°gicos"},
+            {"translation": "m·gicas"},
+            {"numopposite": "m·gica"},
+            {"genopposite": "m·gicos"},
             {"gen": "fem"}
         ],
         "short":
@@ -347,7 +347,7 @@
             {"num": "sing"},
             {"translation": "largo"}, 
             {"numopposite": "largos"},
-            {"genopposite": "long"},
+            {"genopposite": "larga"},
             {"gen": "mas"}
         ],
         "largas":
@@ -358,7 +358,7 @@
             {"genopposite": "largos"},
             {"gen": "fem"}
         ],
-        "largos":
+        "largas":
             [
             {"num": "plural"},
             {"translation": "largos"}, 
@@ -594,7 +594,7 @@
         ],
         "potion": [
             {"num": "sing"},
-            {"translation": "poci√≥n"},
+            {"translation": "pociÛn"},
             {"numopposite": "potions"},
             {"gen": "fem"},
             {"pronoun": ""}
@@ -608,26 +608,26 @@
         ],
         "hero": [
             {"num": "sing"},
-            {"translation": "h√©roe"},
+            {"translation": "hÈroe"},
             {"numopposite": "heroes"},
             {"gen": "mas"},
-            {"pronoun": "√©l"}
+            {"pronoun": "Èl"}
         ],
         "heroes": [
             {"num": "plural"},
-            {"translation": "h√©roes"},
+            {"translation": "hÈroes"},
             {"numopposite": "hero"},
             {"gen": "mas"},
             {"pronoun": "ellos"}
         ],
         "dragon": [
             {"num": "sing"},
-            {"translation": "drag√≥n"},
-            {"numopposite": "dragons"},
+            {"translation": "dragÛn"},
+            {"numopposite": "dragones"},
             {"gen": "mas"},
             {"pronoun": ""}
         ],
-        "dragons": [
+        "dragones": [
             {"num": "plural"},
             {"translation": "dragones"},
             {"numopposite": "dragon"},
@@ -679,7 +679,7 @@
         "mana":
             [
             {"num": "sing"},
-            {"translation": "man√°"}, 
+            {"translation": "man·"}, 
             {"numopposite": "mana"}, 
             {"gen": "mas"},
             {"pronoun": ""}
@@ -751,7 +751,7 @@
         "door":
             [
             {"num": "sing"},
-            {"translation": "puerta"}, 
+            {"translation": puerta"}, 
             {"numopposite": "doors"}, 
             {"gen": "fem"},
             {"pronoun": ""}
@@ -767,7 +767,7 @@
         "in the same position":
             [
             {"num": "sing"},
-            {"translation": "en la misma posici√≥n"}, 
+            {"translation": "en la misma posiciÛn"}, 
             {"numopposite": "in the same position"}, 
             {"gen": ""},
             {"pronoun": "it"}
@@ -856,7 +856,7 @@
             [
             {"num": "sing"},
             {"translation": "pierna"}, 
-            {"numopposite": "piernas"}, 
+            {"numopposite": "legs"}, 
             {"gen": "fem"},
             {"pronoun": ""}
         ],
@@ -866,22 +866,6 @@
             {"translation": "piernas"}, 
             {"numopposite": "leg"}, 
             {"gen": "fem"},
-            {"pronoun": ""}
-        ],
-        "glove":
-            [
-            {"num": "sing"},
-            {"translation": "guante"}, 
-            {"numopposite": "guantes"}, 
-            {"gen": "mas"},
-            {"pronoun": ""}
-        ],
-        "gloves":
-            [
-            {"num": "plural"},
-            {"translation": "guantes"}, 
-            {"numopposite": "glove"}, 
-            {"gen": "mas"},
             {"pronoun": ""}
         ],
         "that":
@@ -902,7 +886,7 @@
             [
             {"num": "plural"},
             {"translation": "hechizos"}, 
-            {"numopposite": "spell"}, 
+            {"numopposite": "feitizo"}, 
             {"gen": "mas"}
         ],
         "fireball":
@@ -1052,7 +1036,7 @@
             ],
             "leaves": [
                 {"num": "sing"},
-                {"translation": "deja"},
+                {"translation": "deija"},
                 {"numopposite": "leave"},
                 {"gen": ""}
             ],
@@ -1190,13 +1174,13 @@
         "DESCTOBE": {
             "is": [
                 {"num": "sing"},
-                {"translation": "est√°"},
+                {"translation": "est·"},
                 {"numopposite": "are"},
                 {"gen": ""}
             ],
             "are": [
                 {"num": "plural"},
-                {"translation": "est√°n"},
+                {"translation": "est·n"},
                 {"numopposite": "is"},
                 {"gen": ""}
             ]
