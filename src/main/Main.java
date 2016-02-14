@@ -93,7 +93,7 @@ public class Main {
 	static boolean hasUsedPortal = false;
 	static JsonParser parser = new JsonParser();
 	static JsonObject rootObj;
-	static JsonObject rootObjWords;
+	public static JsonObject rootObjWords;
 	public static JsonObject rootObjGrammar;
 	static GrammarsGeneral grammarAttack;
 	static GrammarsGeneral grammarPickItem;
@@ -288,29 +288,28 @@ public class Main {
 	}
 	
 	public static void _printLifeUser(){
-		user._printLife(j, 0, map.global_fin().y + 1);
+		user._printLife(JSONParsing.getTranslationWord("life", "N", rootObjWords), j, 0, map.global_fin().y + 1);
 	}
 	
 	public static void _printManaUser(){
-		user._printMana(j, 1, map.global_fin().y + 1);
+		user._printMana(JSONParsing.getTranslationWord("mana", "N", rootObjWords), j, 1, map.global_fin().y + 1);
 	}
 	
 	public static void _printScore(){
-		j.print(map.global_fin().y + 1, 2, "Score: " + Integer.toString(deepnessScore));
+		j.print(map.global_fin().y + 1, 2, JSONParsing.getTranslationWord("score", "N", rootObjWords) + ": " + Integer.toString(deepnessScore));
 	}
 	
 	public static void _printInformationMonsters() {
 		int count = 0;
 		for (ActiveCharacter monster : user.getRoom().getMonstersPosition(user.getPosition())) {
-			// TODO: Change this to translation
 			if (!monster.isDead() && count == 0) {
 				countElements += 1;
-				j.print(map.global_fin().y + 1, countElements, "Monsters: ");
+				j.print(map.global_fin().y + 1, countElements, JSONParsing.getTranslationWord("monsters", "N", rootObjWords) + ": ");
 				count++;
 			}
 			if (!monster.isDead()) {
 				countElements += 1;
-				monster.printMonstersInformation(j, map.global_fin().y + 1, countElements);
+				monster.printMonstersInformation(JSONParsing.getTranslationWord("life", "N", rootObjWords), j, map.global_fin().y + 1, countElements);
 			}
 		}
 	}
@@ -318,7 +317,7 @@ public class Main {
 	public static void _printGroundObjects(){
 		if (user.getRoom().getItemsPosition(user.getPosition()).size() > 0) {
 			countElements += 2;
-			j.print(map.global_fin().y + 1, countElements, "Items: ");
+			j.print(map.global_fin().y + 1, countElements, JSONParsing.getTranslationWord("items", "N", rootObjWords) + ": ");
 		}
 		for (Item item : user.getRoom().getItemsPosition(user.getPosition())) {
 			countElements += 1;

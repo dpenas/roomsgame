@@ -592,6 +592,41 @@
             {"translation": "firering"}, 
             {"numopposite": "firering"}, 
             {"gen": ""}
+        ],
+        "score":
+            [
+            {"num": "sing"},
+            {"translation": "score"}, 
+            {"numopposite": "score"}, 
+            {"gen": ""}
+        ],
+        "monster":
+            [
+            {"num": "sing"},
+            {"translation": "monster"}, 
+            {"numopposite": "monsters"}, 
+            {"gen": ""}
+        ],
+        "monsters":
+            [
+            {"num": "sing"},
+            {"translation": "monsters"}, 
+            {"numopposite": "monster"}, 
+            {"gen": ""}
+        ],
+        "item":
+            [
+            {"num": "sing"},
+            {"translation": "item"}, 
+            {"numopposite": "items"}, 
+            {"gen": ""}
+        ],
+        "items":
+            [
+            {"num": "plural"},
+            {"translation": "items"}, 
+            {"numopposite": "item"}, 
+            {"gen": ""}
         ]
     },
     "V": {

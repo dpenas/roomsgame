@@ -54,4 +54,9 @@ public class JSONParsing {
 		    System.out.println(entry.getKey() + ": " + entry.getValue());
 		}
 	}
+	
+	public static String getTranslationWord(String word, String type, JsonObject rootObjWords) {
+		JsonArray elementWord = JSONParsing.getElement(JSONParsing.getElement(rootObjWords, type).getAsJsonObject(), word).getAsJsonArray();
+		return JSONParsing.getElement(elementWord, "translation");
+	}
 }

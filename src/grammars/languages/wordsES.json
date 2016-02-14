@@ -202,7 +202,7 @@
         "old":
             [
             {"num": "sing"},
-            {"translation": "viejas"}, 
+            {"translation": "viejo"}, 
             {"numopposite": "viejos"}, 
             {"genopposite": "vieja"},
             {"gen": "mas"}
@@ -225,7 +225,7 @@
         ],
         "viejas":
             [
-            {"num": "sing"},
+            {"num": "plural"},
             {"translation": "viejas"}, 
             {"numopposite": "vieja"},
             {"genopposite": "viejos"},
@@ -901,6 +901,41 @@
             {"num": "sing"},
             {"translation": "anillo de fuego"}, 
             {"numopposite": "firering"}, 
+            {"gen": "mas"}
+        ],
+        "score":
+            [
+            {"num": "sing"},
+            {"translation": "puntuación"}, 
+            {"numopposite": "score"}, 
+            {"gen": "mas"}
+        ],
+        "monster":
+            [
+            {"num": "sing"},
+            {"translation": "monstruo"}, 
+            {"numopposite": "monsters"}, 
+            {"gen": "mas"}
+        ],
+        "monsters":
+            [
+            {"num": "plural"},
+            {"translation": "monstruos"}, 
+            {"numopposite": "monster"}, 
+            {"gen": "mas"}
+        ],
+        "item":
+            [
+            {"num": "sing"},
+            {"translation": "elemento"}, 
+            {"numopposite": "items"}, 
+            {"gen": "mas"}
+        ],
+        "items":
+            [
+            {"num": "plural"},
+            {"translation": "elementos"}, 
+            {"numopposite": "item"}, 
             {"gen": "mas"}
         ]
     },

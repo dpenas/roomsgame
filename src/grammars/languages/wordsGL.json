@@ -902,6 +902,41 @@
             {"translation": "anel de fogo"}, 
             {"numopposite": "firering"}, 
             {"gen": "mas"}
+        ],
+        "score":
+            [
+            {"num": "sing"},
+            {"translation": "puntuación"}, 
+            {"numopposite": "score"}, 
+            {"gen": "mas"}
+        ],
+        "monster":
+            [
+            {"num": "sing"},
+            {"translation": "monstro"}, 
+            {"numopposite": "monsters"}, 
+            {"gen": "mas"}
+        ],
+        "monsters":
+            [
+            {"num": "plural"},
+            {"translation": "monstros"}, 
+            {"numopposite": "monster"}, 
+            {"gen": "mas"}
+        ],
+        "item":
+            [
+            {"num": "sing"},
+            {"translation": "elemento"}, 
+            {"numopposite": "items"}, 
+            {"gen": "mas"}
+        ],
+        "items":
+            [
+            {"num": "plural"},
+            {"translation": "elementos"}, 
+            {"numopposite": "item"}, 
+            {"gen": "mas"}
         ]
     },
     "V": {

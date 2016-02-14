@@ -27,7 +27,7 @@ public class PrintableObject {
 		this.description = description;
 		this.adjectives = adjectives;
 		this.position = position;
-		this.printableName = "";
+		this.printableName = JSONParsing.getTranslationWord(name, "N", main.Main.rootObjWords);
 		ArrayList<String> prepositions = new ArrayList<String>();
 		prepositions.add("to");
 		this.setPrepositions(prepositions);

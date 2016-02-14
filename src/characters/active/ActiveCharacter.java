@@ -413,13 +413,13 @@ public class ActiveCharacter extends Character {
 		}
 	}
 	
-	public void _printLife(WSwingConsoleInterface j, int initPos_i, int initPos_j){
-		String life = "Life: " + this.getLife() + "/" + this.getTotalLife();
+	public void _printLife(String translation, WSwingConsoleInterface j, int initPos_i, int initPos_j){
+		String life = translation + ": " + this.getLife() + "/" + this.getTotalLife();
 		j.print(initPos_j, initPos_i, life);
 	}
 	
-	public void _printMana(WSwingConsoleInterface j, int initPos_i, int initPos_j){
-		String magic = "Mana: " + this.getMagic() + "/" + this.getTotalMagic();
+	public void _printMana(String translation, WSwingConsoleInterface j, int initPos_i, int initPos_j){
+		String magic = translation + ": " + this.getMagic() + "/" + this.getTotalMagic();
 		j.print(initPos_j, initPos_i, magic);
 	}
 	
@@ -428,10 +428,10 @@ public class ActiveCharacter extends Character {
 		j.print(initPos_j, initPos_i, name);
 	}
 	
-	public void printMonstersInformation(WSwingConsoleInterface j, int initPos_i, int initPos_j){
+	public void printMonstersInformation(String translation, WSwingConsoleInterface j, int initPos_i, int initPos_j){
 		_printName(j, initPos_j, initPos_i);
 		Main.countElements++;
-		_printLife(j, initPos_j + 1, initPos_i);
+		_printLife(translation, j, initPos_j + 1, initPos_i);
 	}
 	
 	public boolean unequipItem(Item item) {

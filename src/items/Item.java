@@ -43,7 +43,7 @@ public abstract class Item extends PrintableObject{
 	}
 	
 	public void printItemsInformation(WSwingConsoleInterface j, int initPos_i, int initPos_j) {
-		j.print(initPos_i, initPos_j, this.getName());
+		j.print(initPos_i, initPos_j, this.getPrintableName());
 	}
 	
 	public boolean isWereableItem(){
