@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonIOException;
@@ -93,6 +94,7 @@ public class Main {
 	static boolean hasUsedPortal = false;
 	static JsonParser parser = new JsonParser();
 	static JsonObject rootObj;
+	static JTextArea messageLabel = new JTextArea();
 	public static JsonObject rootObjWords;
 	public static JsonObject rootObjGrammar;
 	static GrammarsGeneral grammarAttack;
@@ -195,13 +197,8 @@ public class Main {
 	}
 	
 	public static void printMessage(String message){
-//		try {
-//			ChangeKeyBinding.editPropertiesFile(j);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		JLabel messageLabel = new JLabel();
-		messageLabel.setText(message);
+		String previousMessage = messageLabel.getText();
+		messageLabel.setText(message + "\n" + previousMessage);
 		messageLabel.requestFocusInWindow();
 		JOptionPane.showMessageDialog(null, messageLabel, "", JOptionPane.PLAIN_MESSAGE);
 	}
