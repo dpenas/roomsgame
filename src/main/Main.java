@@ -11,9 +11,11 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.text.DefaultCaret;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonIOException;
@@ -23,7 +25,6 @@ import com.google.gson.JsonSyntaxException;
 
 import characters.active.ActiveCharacter;
 import characters.active.enemies.Goblin;
-import config.ChangeKeyBinding;
 import grammars.grammars.GrammarIndividual;
 import grammars.grammars.GrammarSelectorNP;
 import grammars.grammars.GrammarSelectorS;
@@ -46,6 +47,7 @@ import map.Map;
 import map.Room;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import net.slashie.util.Pair;
+import util.JTextAreaWithListener;
 import util.RandUtil;
 import util.Tuple;
 
@@ -82,6 +84,7 @@ public class Main {
 	static Tuple<Integer, Integer> pos = new Tuple<Integer, Integer>(1,1);
 	static Room roomEnemy;
 	static Room roomCharacter;
+	static DefaultCaret caret;
 	static WSwingConsoleInterface j = new WSwingConsoleInterface("RoomsGame");
 	static ActiveCharacter user;
 	static boolean firstTime = true;
@@ -94,7 +97,10 @@ public class Main {
 	static boolean hasUsedPortal = false;
 	static JsonParser parser = new JsonParser();
 	static JsonObject rootObj;
-	static JTextArea messageLabel = new JTextArea();
+	static JTextAreaWithListener messageLabel = new JTextAreaWithListener(j);
+	static int caretPosition = 0;
+	static JScrollPane jScrollPane;
+	static JFrame window;
 	public static JsonObject rootObjWords;
 	public static JsonObject rootObjGrammar;
 	static GrammarsGeneral grammarAttack;
@@ -199,8 +205,8 @@ public class Main {
 	public static void printMessage(String message){
 		String previousMessage = messageLabel.getText();
 		messageLabel.setText(message + "\n" + previousMessage);
-		messageLabel.requestFocusInWindow();
-		JOptionPane.showMessageDialog(null, messageLabel, "", JOptionPane.PLAIN_MESSAGE);
+		messageLabel.moveCaretPosition(0);
+		messageLabel.requestFocus();
 	}
 	
 	public static void _bindKeys() {
@@ -899,6 +905,7 @@ public class Main {
 					}	
 				}
 				int i = j.inkey().code;
+				
 				System.out.println("Code" + i);
 				
 	            if (isMovementInput(i)){
@@ -1011,6 +1018,14 @@ public class Main {
 	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 //		ChangeKeyBinding a = new ChangeKeyBinding(j);
 		_setLanguage();
+		messageLabel.setEditable(false);
+		window = new JFrame();
+		caret = (DefaultCaret)messageLabel.getCaret();
+		jScrollPane = new JScrollPane(messageLabel);
+		window.add(jScrollPane);
+		window.setVisible(true);
+		window.setBounds(0, 0, 300, 200);
+		j.getTargetFrame().requestFocus();
 		rootObj = parser.parse(new FileReader("./src/grammars/languages/sentenceGrammar" + language + ".json")).getAsJsonObject();
 		rootObjWords = parser.parse(new FileReader("./src/grammars/languages/words" + language + ".json")).getAsJsonObject();
 		rootObjGrammar = parser.parse(new FileReader("./src/grammars/languages/objectGrammar" + language + ".json")).getAsJsonObject();

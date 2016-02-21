@@ -155,7 +155,7 @@
         ],
         "big":
             [
-            {"num": ""},
+            {"num": "sing"},
             {"translation": "grande"},
             {"numopposite": "grandes"}, 
             {"gen": ""}
