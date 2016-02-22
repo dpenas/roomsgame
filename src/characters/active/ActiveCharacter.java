@@ -21,6 +21,13 @@ import util.Tuple;
 import magic.Spell;
 import items.consumables.Consumable;
 import items.wereables.WereableWeapon;
+import items.wereables.LongSword;
+import items.wereables.NormalArmor;
+import items.wereables.NormalGloves;
+import items.wereables.NormalHelmet;
+import items.wereables.NormalPants;
+import items.wereables.ShortSword;
+import items.wereables.SmallShield;
 import items.wereables.WereableArmor;
 import items.Item;
 import items.ItemEnumerate;
@@ -61,6 +68,10 @@ public class ActiveCharacter extends Character {
 	private ArrayList<Spell> spells = new ArrayList<Spell>();
 	private int tirenessTotal = 0;
 	private int tirenessCurrent = 0;
+	private int level = 1;
+	private int experience = 0;
+	private int nextLevelExperience = 0;
+	private int experienceGiven = 0;
 
 	public ActiveCharacter(String name, String description,
 			Map map, Room room, Tuple<Integer, Integer> position, int damage,
@@ -69,7 +80,7 @@ public class ActiveCharacter extends Character {
 			ArrayList<WereableArmor> armorsEquipped, int inventorySpace, int carryWeight,
 			int actualCarryWeight, ArrayList<Item> inventory, int actualInventorySpace, int evasion,
 			int totalLife, int magic, int totalMagic, String symbolRepresentation, int vision, int movementType,
-			ArrayList<String> adjectives) {
+			ArrayList<String> adjectives, int level) {
 		super(name, description, map, room, position, weight, length, carryWeight, actualCarryWeight, 
 				inventory, symbolRepresentation, adjectives);
 		this.damage = damage;
@@ -90,6 +101,7 @@ public class ActiveCharacter extends Character {
 		this.movementType = movementType;
 		this.spells = new ArrayList<Spell>();
 		this.maximumItemsInventory = 6;
+		this.level = level;
 	}
 	
 	public void setVisiblePositions(){
@@ -112,6 +124,41 @@ public class ActiveCharacter extends Character {
 				this.visiblePositions.add(new Tuple<Integer, Integer>(i, j));
 			}
 		}
+	}
+	
+	public void putRandomItemInventory() {
+		int itemRandom = RandUtil.RandomNumber(0, 7);
+		int itemLevel = RandUtil.RandomNumber(this.getLevel(), this.getLevel() + 3);
+		boolean isMagic = RandUtil.RandomNumber(0, 2) > 0 ? true : false; 
+		Item item = null;
+		switch(itemRandom) {
+			case 0:
+				item = new LongSword(this, null, null, null, itemLevel, isMagic);
+			break;
+			case 1:
+				item = new ShortSword(this, null, null, null, itemLevel, isMagic);
+			break;
+			case 2:
+				item = new NormalArmor(this, null, null, null, itemLevel, isMagic);
+			break;
+			case 3:
+				item = new NormalGloves(this, null, null, null, itemLevel, isMagic);
+			break;
+			case 4:
+				item = new NormalHelmet(this, null, null, null, itemLevel, isMagic);
+			break;
+			case 5:
+				item = new SmallShield(this, null, null, null, itemLevel, isMagic);
+			break;
+			case 6:
+				item = new NormalPants(this, null, null, null, itemLevel, isMagic);
+			break;
+		}
+		
+		if (item != null) {
+			this.getInventory().add(item);
+		}
+		
 	}
 	
 	public ArrayList<Tuple<Integer, Integer>> getImmediateReachablePositions() {
@@ -137,7 +184,7 @@ public class ActiveCharacter extends Character {
 				if (character.getLuck() <= randNumber){
 					w.setDurability(w.getDurability() - w.getErosion());
 				}
-				damage += w.getAttack();
+				damage += w.getAttack() + this.getLevel();
 			}
 		}
 		return damage;
@@ -151,7 +198,7 @@ public class ActiveCharacter extends Character {
 				if (character.getLuck() <= randNumber){
 					w.setDurability(w.getDurability() - w.getErosion());
 				}
-				defense += w.getDefense();
+				defense += w.getDefense() + this.getLevel();
 			}
 		}
 		return defense;
@@ -661,6 +708,26 @@ public class ActiveCharacter extends Character {
 		}
 	}
 	
+	public void setNextLevelExperience() {
+		int nextExperienceLevel = this.getLevel() * 150;
+		this.setNextLevelExperience(nextExperienceLevel); 
+	}
+	
+	public void setNewLevel(int newLevel) {
+		this.setLevel(newLevel);
+		this.setNextLevelExperience();
+	}
+	
+	public void addNewExperience(int addExperience) {
+		if (this.getExperience() + addExperience > this.getNextLevelExperience()) {
+			int experienceToNextLevel = this.getNextLevelExperience() - this.getExperience();
+			this.setExperience(addExperience - experienceToNextLevel);
+			this.setNewLevel(this.getLevel() + 1);
+		} else {
+			this.setExperience(this.getExperience() + addExperience);
+		}
+	}
+	
 	public int getDamage() {
 		return damage;
 	}
@@ -887,6 +954,38 @@ public class ActiveCharacter extends Character {
 
 	public void setTirenessCurrent(int tirenessCurrent) {
 		this.tirenessCurrent = tirenessCurrent;
+	}
+
+	public int getExperienceGiven() {
+		return experienceGiven;
+	}
+
+	public void setExperienceGiven(int experienceGiven) {
+		this.experienceGiven = experienceGiven;
+	}
+
+	public int getExperience() {
+		return experience;
+	}
+
+	public void setExperience(int experience) {
+		this.experience = experience;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public int getNextLevelExperience() {
+		return nextLevelExperience;
+	}
+
+	public void setNextLevelExperience(int nextLevelExperience) {
+		this.nextLevelExperience = nextLevelExperience;
 	}
 
 }

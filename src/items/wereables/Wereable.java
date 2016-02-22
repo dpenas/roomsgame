@@ -25,6 +25,7 @@ public abstract class Wereable extends Item {
 		this.erosion = erosion;
 		this.isWereable = (this.durability > 0) ? true : false;
 		this.isMagic = isMagic;
+		this.level = level;
 		ArrayList<String> prepositions = new ArrayList<String>();
 		prepositions.add("with");
 		this.setPrepositions(prepositions);

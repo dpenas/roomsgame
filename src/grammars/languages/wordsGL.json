@@ -910,6 +910,34 @@
             {"numopposite": "score"}, 
             {"gen": "mas"}
         ],
+        "experience":
+            [
+            {"num": "sing"},
+            {"translation": "experiencia"}, 
+            {"numopposite": "experiences"}, 
+            {"gen": "fem"}
+        ],
+        "experiences":
+            [
+            {"num": "plural"},
+            {"translation": "experiencias"}, 
+            {"numopposite": "experience"}, 
+            {"gen": "fem"}
+        ],
+        "level":
+            [
+            {"num": "sing"},
+            {"translation": "nivel"}, 
+            {"numopposite": "levels"}, 
+            {"gen": "mas"}
+        ],
+        "levels":
+            [
+            {"num": "plural"},
+            {"translation": "niveis"}, 
+            {"numopposite": "level"}, 
+            {"gen": "mas"}
+        ],
         "monster":
             [
             {"num": "sing"},

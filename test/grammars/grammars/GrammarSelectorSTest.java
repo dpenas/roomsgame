@@ -54,12 +54,11 @@ public class GrammarSelectorSTest {
 		user = new ActiveCharacter("hero", "", map, room, position, 40, 10,
 				100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
+				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 0);
 		ArrayList<ItemEnumerate.WeaponType> itemTypeWeapon;
 		itemTypeWeapon = new ArrayList<ItemEnumerate.WeaponType>();
 		itemTypeWeapon.add(WeaponType.LEFTHAND);
-		WereableWeapon oneHandSword = new ShortSword("", 0, 0, 100, user, null, null,
-				null, 0, 0, true);
+		WereableWeapon oneHandSword = new ShortSword(user, null, null, null, 0, true);
 		oneHandSword.setWeaponType(itemTypeWeapon);
 		user.putItemInventory(oneHandSword);
 		user.equipWeapon(oneHandSword);
@@ -121,8 +120,7 @@ public class GrammarSelectorSTest {
 	
 	@Test
 	public void testGrammarSelectorDescInventory() {
-		WereableWeapon oneHandSword = new ShortSword("", 0, 0, 100, user, null, null,
-				null, 0, 0, true);
+		WereableWeapon oneHandSword = new ShortSword(user, null, null, null, 0, true);
 		user.putItemInventory(oneHandSword);
 		GrammarsGeneral grammarDescribeItem;
 		JsonObject objectDescribeItem = JSONParsing.getElement(rootObj, "DESCITEM").getAsJsonObject();

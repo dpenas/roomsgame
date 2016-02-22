@@ -13,14 +13,12 @@ public class ShortSword extends WereableWeapon {
 	
 	ArrayList<String> attributes = new ArrayList<String>();
 
-	public ShortSword(String description, int weight,
-			int space, int durability, Character character, Map map, Room room,
-			Tuple<Integer, Integer> position, int erosion,
+	public ShortSword(Character character, Map map, Room room, Tuple<Integer, Integer> position,
 			int level, boolean isMagic) {
 		//TODO: Change the 10 (which is the attack of the weapon) to the algorithm based on level
-		super("sword", null, description, "m", 
-				weight, space, durability, character, new ArrayList<WeaponType>(),
-				map, room, position, 10, erosion, true, 0, level, isMagic);
+		super("sword", null, "", "m", 
+				3, 3, 100, character, new ArrayList<WeaponType>(),
+				map, room, position, 4+level, 0, true, 0, level, isMagic);
 		this.setAdjectives(this.getOneHandSwordAttributes());
 		if (isMagic){
 			attributes = this.getAdjectives();

@@ -13,15 +13,13 @@ public class SmallShield extends WereableWeapon {
 
 ArrayList<String> attributes = new ArrayList<String>();
 	
-	public SmallShield (String description, int weight,
-			int space, int durability, Character character, Map map, Room room,
-			Tuple<Integer, Integer> position, int erosion,
+	public SmallShield (Character character, Map map, Room room, Tuple<Integer, Integer> position,
 			int level, boolean isMagic) {
 		//TODO: Change the defense (the 10) to the algorithm based on level
-		super("shield", null, description, "m",
-				weight, space, durability, character, 
+		super("shield", null, "", "m",
+				3, 3, 100, character, 
 				new ArrayList<WeaponType>(),
-				map, room, position, 0, erosion, true, 10, level, isMagic);
+				map, room, position, 0, 0, true, 1+level, level, isMagic);
 		this.setAdjectives(this.getSmallShieldAttributes());
 		//TODO: Change this to be a function
 		if (isMagic){

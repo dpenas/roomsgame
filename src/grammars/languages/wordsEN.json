@@ -600,6 +600,41 @@
             {"numopposite": "score"}, 
             {"gen": ""}
         ],
+        "experience":
+            [
+            {"num": "sing"},
+            {"translation": "experience"}, 
+            {"numopposite": "experiences"}, 
+            {"gen": ""}
+        ],
+        "experiences":
+            [
+            {"num": "plural"},
+            {"translation": "experiences"}, 
+            {"numopposite": "experience"}, 
+            {"gen": ""}
+        ],
+        "level":
+            [
+            {"num": "sing"},
+            {"translation": "level"}, 
+            {"numopposite": "levels"}, 
+            {"gen": ""}
+        ],
+        "levels":
+            [
+            {"num": "plural"},
+            {"translation": "levels"}, 
+            {"numopposite": "level"}, 
+            {"gen": ""}
+        ],
+        "score":
+            [
+            {"num": "sing"},
+            {"translation": "score"}, 
+            {"numopposite": "score"}, 
+            {"gen": ""}
+        ],
         "monster":
             [
             {"num": "sing"},

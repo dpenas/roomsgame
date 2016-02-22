@@ -9,26 +9,30 @@ import magic.Fireball;
 
 import java.util.ArrayList;
 
+import characters.Character;
 import characters.active.ActiveCharacter;
 import map.Map;
 import map.Room;
+import util.RandUtil;
 import util.Tuple;
 
 public class Dragon extends ActiveCharacter {
 	
-	WereableWeapon oneHandSword = new ShortSword("", 0, 0, 100, this, null, null,
-			null, 0, 0, true);
-	
-	public Dragon(Map map, Room room, Tuple<Integer, Integer> position, ArrayList<String> adjectives) {
-		super("dragon", "", map, room, position, 8, 3, 50,
+	public Dragon(Map map, Room room, Tuple<Integer, Integer> position, ArrayList<String> adjectives, int level) {
+		super("dragon", "", map, room, position, 8+level, 3+level, 50+(level*5),
 				50, 500, 1000, new ArrayList<WereableWeapon>(), new ArrayList<WereableArmor>(), 0,
 				0, 0, new ArrayList<Item>(), 0,
-				0, 100, 100, 100, "D", 2, 2, adjectives);
+				0, 100, 100, 100, "D", 2, 2, adjectives, level);
 		this.setTirenessTotal(3);
+		this.setExperienceGiven(100+level*10);
+		WereableWeapon oneHandSword = new ShortSword(this, null, null, null, level, true);
 		this.addSpell(new Fireball());
 		this.addSpell(new FireRing());
 		this.putItemInventory(oneHandSword);
 		this.equipWeapon(oneHandSword);
+		if (RandUtil.RandomNumber(0, 5) == 1) {
+			this.putRandomItemInventory();
+		}
 	}
 	
 	public ArrayList<String> getAdjectivesIndividual() {
