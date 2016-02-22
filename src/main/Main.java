@@ -101,6 +101,7 @@ public class Main {
 	static int caretPosition = 0;
 	static JScrollPane jScrollPane;
 	static JFrame window;
+	static boolean newMatch = true;
 	public static JsonObject rootObjWords;
 	public static JsonObject rootObjGrammar;
 	static GrammarsGeneral grammarAttack;
@@ -273,6 +274,7 @@ public class Main {
         }
 		if (user.getRoom().isPortal(user.getPosition())) {
 			hasUsedPortal = true;
+			newMatch = false;
 			gameFlow();
 		}
 	}
@@ -341,13 +343,13 @@ public class Main {
 	}
 	
 	public static void _initialize(){
-		if (user == null) {
+		if (user == null || newMatch) {
 			ArrayList<String> adjectives = new ArrayList<String>();
 			adjectives.add("big");
 			adjectives.add("brave");
 			adjectives.add("glorious");
 			user = new ActiveCharacter("hero", "", null, null, null, 
-					40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
+					40, 0, 1, 100, 100, 100, new ArrayList<WereableWeapon>(),
 					new ArrayList<WereableArmor>(), 100, 100, 0,
 					new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 1);
 			user.setNextLevelExperience();
@@ -366,6 +368,7 @@ public class Main {
 			FireRing fireRing = new FireRing();
 			user.addSpell(fireRing);
 		}
+		newMatch = false;
 		_initializeMap();
 		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
@@ -1018,6 +1021,8 @@ public class Main {
 				message.requestFocusInWindow();
 				JOptionPane.showMessageDialog(null, message, "", JOptionPane.PLAIN_MESSAGE);
 				try {
+					deepnessScore = 0;
+					newMatch = true;
 					main(null);
 				} catch (IOException e) {
 					e.printStackTrace();
