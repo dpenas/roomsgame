@@ -986,6 +986,12 @@
                 "translation": "Reachable positions",
                 "gender": ""
             }
+        ],
+        "out of": [
+            {
+                "translation": "out of",
+                "gender": ""
+            }
         ]
     }
 }

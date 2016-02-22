@@ -1295,6 +1295,12 @@
                 "translation": "Posicións alcanzables",
                 "gen": ""
             }
+        ],
+        "out of": [
+            {
+                "translation": "de",
+                "gender": ""
+            }
         ]
     }
 }

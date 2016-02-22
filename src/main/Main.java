@@ -217,7 +217,7 @@ public class Main {
 		pickItemInput = new Integer[] {keysMap.get("pickItem")};
 		attackInput = new Integer[] {keysMap.get("attack")};
 		spellInput = new Integer[] {keysMap.get("spell")};
-		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descLife"), keysMap.get("descMana"), 
+		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descStats"), keysMap.get("descMana"), 
 				keysMap.get("descMonster"), keysMap.get("descEnv"), keysMap.get("descWalkablePositions")};
 		descriptionWereableInput = new Integer[] {keysMap.get("descHead"), keysMap.get("descHands"), keysMap.get("descChest"),
 				keysMap.get("descPants"), keysMap.get("descGloves")};
@@ -349,7 +349,7 @@ public class Main {
 			adjectives.add("brave");
 			adjectives.add("glorious");
 			user = new ActiveCharacter("hero", "", null, null, null, 
-					40, 0, 1, 100, 100, 100, new ArrayList<WereableWeapon>(),
+					40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 					new ArrayList<WereableArmor>(), 100, 100, 0,
 					new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 1);
 			user.setNextLevelExperience();
@@ -521,7 +521,7 @@ public class Main {
 		return message;
 	}
 	
-	private static String _messageDescriptionMana(ActiveCharacter character, boolean usePronoun) {
+	private static String _messageDescriptionMana(ActiveCharacter character, boolean usePronoun, boolean useAnd) {
 		ArrayList<String> adjectives = new ArrayList<String>();
 		adjectives.add(character.getManaAdjective());
 		PrintableObject mana = new PrintableObject("mana", "", adjectives, null);
@@ -529,19 +529,45 @@ public class Main {
 		names.add(character);
 		names.add(mana);
 		GrammarIndividual grammarIndividual = grammarDescribePersonal.getRandomGrammar();
-		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL", usePronoun, usePronoun);
+		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL", usePronoun, useAnd);
 		if (isNumericDescription) {
 			String valueToChange = JSONParsing.getElement(WordsGrammar.getAdjectives(rootObjWords, adjectives).get(0).getB(), "translation");
 			message = message.replaceAll(valueToChange, String.valueOf(character.getMagic()));
 		}
+
+		return message;
+	}
+	
+	private static String _messageDescriptionStats(ActiveCharacter character, boolean isMonster) {
+		String message = "";
+		message += _messageDescriptionLife(character, false);
+		message += _messageDescriptionMana(character, true, false);
+		
+		PrintableObject level = new PrintableObject("level", "", new ArrayList<String>(), null);
+		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+		names.add(character);
+		names.add(level);
+		GrammarIndividual grammarIndividual = grammarDescribeEnvironmentSimple.getRandomGrammar();
+		message = message + _getMessage(grammarIndividual, names, "DESCPERSONAL", true, isMonster) + " " + character.getLevel();
+		
+		if (!isMonster) {
+			PrintableObject experience = new PrintableObject("experience", "", new ArrayList<String>(), null);
+			ArrayList<PrintableObject> namesExperience = new ArrayList<PrintableObject>();
+			namesExperience.add(character);
+			namesExperience.add(experience);
+			grammarIndividual = grammarDescribeEnvironmentSimple.getRandomGrammar();
+			message = message + _getMessage(grammarIndividual, namesExperience, "DESCPERSONAL", true, true) + " " + user.getExperience();
+			JsonObject others = JSONParsing.getElement(rootObjWords, "OTHERS").getAsJsonObject();
+			JsonArray outOf = JSONParsing.getElement(others, "out of").getAsJsonArray();
+			message += " " + JSONParsing.getElement(outOf, "translation") + " " + user.getNextLevelExperience();
+		}
+		
 		return message;
 	}
 	
 	private static void _messageDescriptionMonster() {
 		for (ActiveCharacter monster : map.getMonstersPosition(user)) {
-			String message = ""; 
-			message += _messageDescriptionLife(monster, false);
-			message += " " + _messageDescriptionMana(monster, isNumericDescription);
+			String message = _messageDescriptionStats(monster, true);
 			printMessage(message);
 		}
 	}
@@ -698,11 +724,8 @@ public class Main {
 		if (i == keysMap.get("descInv")) {
 			_messageDescriptionInventory();
 		}
-		if (i == keysMap.get("descLife")) {
-			printMessage(_messageDescriptionLife(user, usePronoun()));
-		}
-		if (i == keysMap.get("descMana")) {
-			printMessage(_messageDescriptionMana(user, usePronoun()));
+		if (i == keysMap.get("descStats")) {
+			printMessage(_messageDescriptionStats(user, false));
 		}
 		if (i == keysMap.get("descMonster")) {
 			_messageDescriptionMonster();
