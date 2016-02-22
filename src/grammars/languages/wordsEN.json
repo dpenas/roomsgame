@@ -63,8 +63,8 @@
         "normal": 
             [
             {"num": ""},
-            {"translation": "normal"},
-            {"numopposite": "normal"},
+            {"translation": "regular"},
+            {"numopposite": "regular"},
             {"gender": ""}
         ],
         "average": 

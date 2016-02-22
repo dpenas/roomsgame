@@ -283,10 +283,12 @@ public class Main {
 		
 //		user.printInventory(user.getInventory(), j, map.global_fin().x + 1, 0);
 		for (int i = 0; i < user.getInventory().size(); i++){
-			GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObjNames);
-			GrammarSelectorNP grammarIndividual = new GrammarSelectorNP(grammarGeneral.getRandomGrammar(), rootObjWords, user.getInventory().get(i), "GENERAL");
-			user.getInventory().get(i).setPrintableName(grammarIndividual.getRandomSentenceTranslated());
-			j.print(0, map.global_fin().x + 1 + i, i + 1 + " - " + user.getInventory().get(i).getPrintableName());
+			if (user.getInventory().get(i).getPrintableSentence().length() <= 0) {
+				GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObjNames);
+				GrammarSelectorNP grammarIndividual = new GrammarSelectorNP(grammarGeneral.getRandomGrammar(), rootObjWords, user.getInventory().get(i), "GENERAL");
+				user.getInventory().get(i).setPrintableSentence(grammarIndividual.getRandomSentenceTranslated());
+			}
+			j.print(0, map.global_fin().x + 1 + i, i + 1 + " - " + user.getInventory().get(i).getPrintableSentence());
 		}
 	}
 	
