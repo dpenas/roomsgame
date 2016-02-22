@@ -86,7 +86,7 @@ public class Main {
 	static Room roomCharacter;
 	static DefaultCaret caret;
 	static WSwingConsoleInterface j = new WSwingConsoleInterface("RoomsGame");
-	static ActiveCharacter user;
+	static ActiveCharacter user = null;
 	static boolean firstTime = true;
 	static boolean hasChanged = false;
 	static boolean hasMoved = false;
@@ -281,7 +281,6 @@ public class Main {
 		JsonObject rootObjNames = null;
 		rootObjNames = JSONParsing.getElement(rootObjGrammar, "GENERAL").getAsJsonObject();
 		
-//		user.printInventory(user.getInventory(), j, map.global_fin().x + 1, 0);
 		for (int i = 0; i < user.getInventory().size(); i++){
 			if (user.getInventory().get(i).getPrintableSentence().length() <= 0) {
 				GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObjNames);
@@ -342,29 +341,31 @@ public class Main {
 	}
 	
 	public static void _initialize(){
-		ArrayList<String> adjectives = new ArrayList<String>();
-		adjectives.add("big");
-		adjectives.add("brave");
-		adjectives.add("glorious");
-		user = new ActiveCharacter("hero", "", null, null, null, 
-				40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
-				new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 1);
-		user.setNextLevelExperience();
-		WereableWeapon oneHandSword = new ShortSword(user, null, null, null, user.getLevel(), true);
-		WereableWeapon oneHandSword2 = new ShortSword(user, null, null, null, user.getLevel(), true);
-		NormalHelmet helmet = new NormalHelmet(user, null, null, null, user.getLevel(), true);
-		NormalArmor chest = new NormalArmor(user, null, null, null, user.getLevel(), true);
-		NormalPants pants = new NormalPants(user, null, null, null, user.getLevel(), true);
-		NormalGloves gloves = new NormalGloves(user, null, null, null, user.getLevel(), true);
-		user.putItemInventory(oneHandSword);
-		user.putItemInventory(oneHandSword2);
-		user.putItemInventory(helmet);
-		user.putItemInventory(chest);
-		user.putItemInventory(pants);
-		user.putItemInventory(gloves);
-		FireRing fireRing = new FireRing();
-		user.addSpell(fireRing);
+		if (user == null) {
+			ArrayList<String> adjectives = new ArrayList<String>();
+			adjectives.add("big");
+			adjectives.add("brave");
+			adjectives.add("glorious");
+			user = new ActiveCharacter("hero", "", null, null, null, 
+					40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
+					new ArrayList<WereableArmor>(), 100, 100, 0,
+					new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 1);
+			user.setNextLevelExperience();
+			WereableWeapon oneHandSword = new ShortSword(user, null, null, null, user.getLevel(), true);
+			WereableWeapon oneHandSword2 = new ShortSword(user, null, null, null, user.getLevel(), true);
+			NormalHelmet helmet = new NormalHelmet(user, null, null, null, user.getLevel(), true);
+			NormalArmor chest = new NormalArmor(user, null, null, null, user.getLevel(), true);
+			NormalPants pants = new NormalPants(user, null, null, null, user.getLevel(), true);
+			NormalGloves gloves = new NormalGloves(user, null, null, null, user.getLevel(), true);
+			user.putItemInventory(oneHandSword);
+			user.putItemInventory(oneHandSword2);
+			user.putItemInventory(helmet);
+			user.putItemInventory(chest);
+			user.putItemInventory(pants);
+			user.putItemInventory(gloves);
+			FireRing fireRing = new FireRing();
+			user.addSpell(fireRing);
+		}
 		_initializeMap();
 		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
