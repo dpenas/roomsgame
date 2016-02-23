@@ -95,6 +95,8 @@ public class Main {
 	static char deepnessScore = 0;
 	static boolean isNumericDescription = false;
 	static boolean hasUsedPortal = false;
+	static boolean hasEquipedItem = false;
+	static boolean hasUnequipedItem = false;
 	static JsonParser parser = new JsonParser();
 	static JsonObject rootObj;
 	static JTextAreaWithListener messageLabel = new JTextAreaWithListener(j);
@@ -118,6 +120,7 @@ public class Main {
 	static GrammarsGeneral grammarMissDescription;
 	static GrammarsGeneral grammarGeneralDescription;
 	static GrammarsGeneral grammarSimpleVerb;
+	static GrammarsGeneral grammarGeneralObj;
 	
 	public static boolean isMovementInput(int key){
 		return Arrays.asList(movementInput).contains(key);
@@ -474,7 +477,15 @@ public class Main {
 			user.useItem(item);
 			printEverything(false);
 			if (item.isWereableItem()) {
-				generatePrintMessage(names, grammarUseItem, "EQUIP", usePronoun(), false);
+				if (hasEquipedItem) {
+					String message = JSONParsing.getTranslationWord("and", "OTHERS", rootObjWords);
+					GrammarIndividual grammarIndividual = grammarGeneralObj.getRandomGrammar();
+					GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item, "GENERAL");
+					printMessage(message + " " + selector.getRandomSentenceTranslated());
+				} else {
+					generatePrintMessage(names, grammarUseItem, "EQUIP", usePronoun(), false);
+					hasEquipedItem = true;
+				}
 			} else {
 				generatePrintMessage(names, grammarUseItem, "USE", usePronoun(), false);
 			}
@@ -864,7 +875,15 @@ public class Main {
 			names.add(user);
 			names.add(item);
 			System.out.println("Name the name: " + item.getName());
-			generatePrintMessage(names, grammarPickItem, "UNEQUIP", usePronoun(), false);
+			if (hasUnequipedItem) {
+				String message = JSONParsing.getTranslationWord("and", "OTHERS", rootObjWords);
+				GrammarIndividual grammarIndividual = grammarGeneralObj.getRandomGrammar();
+				GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item, "GENERAL");
+				printMessage(message + " " + selector.getRandomSentenceTranslated());
+			} else {
+				generatePrintMessage(names, grammarPickItem, "UNEQUIP", usePronoun(), false);
+				hasUnequipedItem = true;
+			}
 			hasChanged = false;
 		} else {
 			_messageUnvalid();
@@ -947,24 +966,31 @@ public class Main {
 	            if (isMovementInput(i)){
 	            	doMonstersTurn = true;
 	            	_moveCharacterAction(i);
+					hasEquipedItem = false;
+					hasUnequipedItem = false;
 	            }
 	            else if (isInventoryInput(i)) {
 	            	doMonstersTurn = true;
 	            	_inventoryAction(i);
 	            	canUsePronoun = true;
 	            	printEverything(false);
+	            	hasUnequipedItem = false;
 	            }
 	            else if (isPickItemInput(i)) {
 	            	doMonstersTurn = true;
 	            	_pickItemAction();
 	            	canUsePronoun = true;
 	            	printEverything(false);
+	            	hasEquipedItem = false;
+	            	hasUnequipedItem = false;
 	            }
 	            else if (isAttackInput(i)) {
 	            	doMonstersTurn = true;
 	            	_attackAction();
 	            	canUsePronoun = true;
 	            	printEverything(true);
+	            	hasEquipedItem = false;
+	            	hasUnequipedItem = false;
 	            } 
 	            else if (isSpellInput(i)) {
 	            	doMonstersTurn = true;
@@ -973,6 +999,8 @@ public class Main {
 	            		_spellAction(itemCode);
 	            		canUsePronoun = true;
 	            		printEverything(true);
+	            		hasEquipedItem = false;
+	            		hasUnequipedItem = false;
 	            	}
 	            	canUsePronoun = true;
 	            	printEverything(true);
@@ -987,8 +1015,11 @@ public class Main {
 	            		_throwItem(itemCode);
 	            		canUsePronoun = true;
 	            		printEverything(true);
+	            		hasEquipedItem = false;
+	            		hasUnequipedItem = false;
 	            	}
 	            } else if (isUnequipItemInput(i)) {
+	            	hasEquipedItem = false;
 	            	int itemCode = j.inkey().code;
 	            	if (isDescriptionWereableInput(itemCode)) {
 	            		if (itemCode == keysMap.get("descHead")) {
@@ -1081,6 +1112,7 @@ public class Main {
 		JsonObject missDescription = JSONParsing.getElement(rootObj, "ATTACKMISS").getAsJsonObject();
 		JsonObject generalDescription = JSONParsing.getElement(rootObj, "GENERAL").getAsJsonObject();
 		JsonObject simpleVerbDescription = JSONParsing.getElement(rootObj, "SIMPLEVERB").getAsJsonObject();
+		JsonObject generalObjGrammar = JSONParsing.getElement(rootObjGrammar, "GENERAL").getAsJsonObject();
 		grammarAttack = new GrammarsGeneral(objectAttack);
 		grammarPickItem = new GrammarsGeneral(objectPickItem);
 		grammarUseItem = new GrammarsGeneral(objectUseItem);
@@ -1095,6 +1127,7 @@ public class Main {
 		grammarMissDescription = new GrammarsGeneral(missDescription);
 		grammarGeneralDescription = new GrammarsGeneral(generalDescription);
 		grammarSimpleVerb = new GrammarsGeneral(simpleVerbDescription);
+		grammarGeneralObj = new GrammarsGeneral(generalObjGrammar);
 		if (!testMode){
 			gameFlow();
 		}
