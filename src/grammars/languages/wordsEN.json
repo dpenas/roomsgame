@@ -992,6 +992,21 @@
                 "translation": "out of",
                 "gender": ""
             }
-        ]
+        ],
+        "again": {
+            "again": [
+                {"translation": "again"},
+                {"gender": ""}
+            ],
+            "one more time": [
+                {"translation": "one more time"},
+                {"gender": ""}
+            ],
+            "once again": [
+                {"translation": "once again"},
+                {"gender": ""}
+            ]
+        }
+
     }
 }

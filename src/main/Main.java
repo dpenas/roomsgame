@@ -1098,6 +1098,8 @@ public class Main {
 		rootObj = parser.parse(new FileReader("./src/grammars/languages/sentenceGrammar" + language + ".json")).getAsJsonObject();
 		rootObjWords = parser.parse(new FileReader("./src/grammars/languages/words" + language + ".json")).getAsJsonObject();
 		rootObjGrammar = parser.parse(new FileReader("./src/grammars/languages/objectGrammar" + language + ".json")).getAsJsonObject();
+		JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
+		System.exit(1);
 		JsonObject objectAttack = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
 		JsonObject objectPickItem = JSONParsing.getElement(rootObj, "PICK").getAsJsonObject();
 		JsonObject objectUseItem = JSONParsing.getElement(rootObj, "USE").getAsJsonObject();

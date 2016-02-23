@@ -7,6 +7,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import grammars.grammars.GrammarsRetrieval;
+import util.RandUtil;
+
 public class JSONParsing {
 	
 	public static JsonElement getElement(JsonObject object, String element) {
@@ -58,5 +61,13 @@ public class JSONParsing {
 	public static String getTranslationWord(String word, String type, JsonObject rootObjWords) {
 		JsonArray elementWord = JSONParsing.getElement(JSONParsing.getElement(rootObjWords, type).getAsJsonObject(), word).getAsJsonArray();
 		return JSONParsing.getElement(elementWord, "translation");
+	}
+	
+	public static String getRandomWord(String type, String subtype, JsonObject rootObjWords) {
+		JsonObject allTypeElements = JSONParsing.getElement(JSONParsing.getElement(rootObjWords, type).getAsJsonObject(), subtype).getAsJsonObject();
+		int position = RandUtil.RandomNumber(0, allTypeElements.entrySet().size() - 1);
+		JsonArray name = getSpecificValueFromSet(position, allTypeElements).getAsJsonArray();
+		String translation = getElement(name, "translation");
+		return translation;
 	}
 }
