@@ -86,7 +86,7 @@ public class Main {
 	static Room roomCharacter;
 	static DefaultCaret caret;
 	static WSwingConsoleInterface j = new WSwingConsoleInterface("RoomsGame");
-	static ActiveCharacter user;
+	static ActiveCharacter user = null;
 	static boolean firstTime = true;
 	static boolean hasChanged = false;
 	static boolean hasMoved = false;
@@ -101,6 +101,7 @@ public class Main {
 	static int caretPosition = 0;
 	static JScrollPane jScrollPane;
 	static JFrame window;
+	static boolean newMatch = true;
 	public static JsonObject rootObjWords;
 	public static JsonObject rootObjGrammar;
 	static GrammarsGeneral grammarAttack;
@@ -216,7 +217,7 @@ public class Main {
 		pickItemInput = new Integer[] {keysMap.get("pickItem")};
 		attackInput = new Integer[] {keysMap.get("attack")};
 		spellInput = new Integer[] {keysMap.get("spell")};
-		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descLife"), keysMap.get("descMana"), 
+		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descStats"), keysMap.get("descMana"), 
 				keysMap.get("descMonster"), keysMap.get("descEnv"), keysMap.get("descWalkablePositions")};
 		descriptionWereableInput = new Integer[] {keysMap.get("descHead"), keysMap.get("descHands"), keysMap.get("descChest"),
 				keysMap.get("descPants"), keysMap.get("descGloves")};
@@ -229,7 +230,7 @@ public class Main {
 	
 	public static void printEverything(boolean needsToPrintGroundObjects){
 		j.cls();
-		countElements = 2;
+		countElements = 4;
 		map.printBorders(j, user);
 		map.printInside(j, user);
 		map.printItems(j, user);
@@ -238,6 +239,8 @@ public class Main {
 		_printLifeUser();
 		_printManaUser();
 		_printScore();
+		_printLevel();
+		_printExperience();
 		_printInformationMonsters();
 		if (needsToPrintGroundObjects) {
 			System.out.println("I need to paint ground objects");
@@ -271,6 +274,7 @@ public class Main {
         }
 		if (user.getRoom().isPortal(user.getPosition())) {
 			hasUsedPortal = true;
+			newMatch = false;
 			gameFlow();
 		}
 	}
@@ -279,12 +283,13 @@ public class Main {
 		JsonObject rootObjNames = null;
 		rootObjNames = JSONParsing.getElement(rootObjGrammar, "GENERAL").getAsJsonObject();
 		
-//		user.printInventory(user.getInventory(), j, map.global_fin().x + 1, 0);
 		for (int i = 0; i < user.getInventory().size(); i++){
-			GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObjNames);
-			GrammarSelectorNP grammarIndividual = new GrammarSelectorNP(grammarGeneral.getRandomGrammar(), rootObjWords, user.getInventory().get(i), "GENERAL");
-			user.getInventory().get(i).setPrintableName(grammarIndividual.getRandomSentenceTranslated());
-			j.print(0, map.global_fin().x + 1 + i, i + 1 + " - " + user.getInventory().get(i).getPrintableName());
+			if (user.getInventory().get(i).getPrintableSentence().length() <= 0) {
+				GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObjNames);
+				GrammarSelectorNP grammarIndividual = new GrammarSelectorNP(grammarGeneral.getRandomGrammar(), rootObjWords, user.getInventory().get(i), "GENERAL");
+				user.getInventory().get(i).setPrintableSentence(grammarIndividual.getRandomSentenceTranslated());
+			}
+			j.print(0, map.global_fin().x + 1 + i, i + 1 + " - " + user.getInventory().get(i).getPrintableSentence());
 		}
 	}
 	
@@ -297,7 +302,18 @@ public class Main {
 	}
 	
 	public static void _printScore(){
-		j.print(map.global_fin().y + 1, 2, JSONParsing.getTranslationWord("score", "N", rootObjWords) + ": " + Integer.toString(deepnessScore));
+		j.print(map.global_fin().y + 1, 2, JSONParsing.getTranslationWord("score", "N", rootObjWords) + ": " + 
+	Integer.toString(deepnessScore));
+	}
+	
+	public static void _printLevel(){
+		j.print(map.global_fin().y + 1, 3, JSONParsing.getTranslationWord("level", "N", rootObjWords) + ": " + 
+	Integer.toString(user.getLevel()));
+	}
+	
+	public static void _printExperience(){
+		j.print(map.global_fin().y + 1, 4, JSONParsing.getTranslationWord("experience", "N", rootObjWords) + ": " + 
+	Integer.toString(user.getExperience()) + "/" + user.getNextLevelExperience());
 	}
 	
 	public static void _printInformationMonsters() {
@@ -327,34 +343,32 @@ public class Main {
 	}
 	
 	public static void _initialize(){
-		ArrayList<String> adjectives = new ArrayList<String>();
-		adjectives.add("big");
-		adjectives.add("brave");
-		adjectives.add("glorious");
-		user = new ActiveCharacter("hero", "", null, null, null, 
-				40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
-				new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
-		WereableWeapon oneHandSword = new ShortSword("", 0, 0, 100, user, null, null,
-				null, 0, 0, true);
-		WereableWeapon oneHandSword2 = new ShortSword("", 0, 0, 100, user, null, null,
-				null, 0, 0, true);
-		NormalHelmet helmet = new NormalHelmet("", 0, 0, 100, user, null, null,
-				null, 0, 0, true);
-		NormalArmor chest = new NormalArmor("", 0, 0, 100, user, null, null,
-				null, 0, 0, true);
-		NormalPants pants = new NormalPants("", 0, 0, 100, user, null, null,
-				null, 0, 0, true);
-		NormalGloves gloves = new NormalGloves("", 0, 0, 100, user, null, null,
-				null, 0, 0, true);
-		user.putItemInventory(oneHandSword);
-		user.putItemInventory(oneHandSword2);
-		user.putItemInventory(helmet);
-		user.putItemInventory(chest);
-		user.putItemInventory(pants);
-		user.putItemInventory(gloves);
-		FireRing fireRing = new FireRing();
-		user.addSpell(fireRing);
+		if (user == null || newMatch) {
+			ArrayList<String> adjectives = new ArrayList<String>();
+			adjectives.add("big");
+			adjectives.add("brave");
+			adjectives.add("glorious");
+			user = new ActiveCharacter("hero", "", null, null, null, 
+					40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
+					new ArrayList<WereableArmor>(), 100, 100, 0,
+					new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 1);
+			user.setNextLevelExperience();
+			WereableWeapon oneHandSword = new ShortSword(user, null, null, null, user.getLevel(), true);
+			WereableWeapon oneHandSword2 = new ShortSword(user, null, null, null, user.getLevel(), true);
+			NormalHelmet helmet = new NormalHelmet(user, null, null, null, user.getLevel(), true);
+			NormalArmor chest = new NormalArmor(user, null, null, null, user.getLevel(), true);
+			NormalPants pants = new NormalPants(user, null, null, null, user.getLevel(), true);
+			NormalGloves gloves = new NormalGloves(user, null, null, null, user.getLevel(), true);
+			user.putItemInventory(oneHandSword);
+			user.putItemInventory(oneHandSword2);
+			user.putItemInventory(helmet);
+			user.putItemInventory(chest);
+			user.putItemInventory(pants);
+			user.putItemInventory(gloves);
+			FireRing fireRing = new FireRing();
+			user.addSpell(fireRing);
+		}
+		newMatch = false;
 		_initializeMap();
 		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
@@ -380,7 +394,7 @@ public class Main {
 				user.setVisiblePositions();
 				for (Room room: map.getRooms()) {
 					room.putRandomPotions();
-					room.generateRandomEnemies();
+					room.generateRandomEnemies(user);
 				}
 				printEverything(true);
 				j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
@@ -399,15 +413,13 @@ public class Main {
 		user = new ActiveCharacter("heroe", "", map, map.obtainRoomByPosition(pos), pos, 
 				40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives);
+				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 1);
 		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
-		WereableWeapon oneHandSword = new ShortSword("", 0, 0, 100, user, null, null,
-				null, 0, 0, true);
-		WereableWeapon oneHandSword2 = new ShortSword("", 0, 0, 100, user, null, null,
-				null, 0, 0, true);
-		Goblin goblin = new Goblin(map, map.obtainRoomByPosition(pos), pos, adjectives);
-		Goblin goblin2 = new Goblin(map, map.obtainRoomByPosition(pos), pos, adjectives);
+		WereableWeapon oneHandSword = new ShortSword(user, null, null, null, user.getLevel(), true);
+		WereableWeapon oneHandSword2 = new ShortSword(user, null, null, null, user.getLevel(), true);
+		Goblin goblin = new Goblin(map, map.obtainRoomByPosition(pos), pos, adjectives, 1);
+		Goblin goblin2 = new Goblin(map, map.obtainRoomByPosition(pos), pos, adjectives, 1);
 		goblin.putItemInventory(oneHandSword2);
 		goblin.equipWeapon(oneHandSword2);
 		map.obtainRoomByPosition(pos).getMonsters().add(goblin);
@@ -509,7 +521,7 @@ public class Main {
 		return message;
 	}
 	
-	private static String _messageDescriptionMana(ActiveCharacter character, boolean usePronoun) {
+	private static String _messageDescriptionMana(ActiveCharacter character, boolean usePronoun, boolean useAnd) {
 		ArrayList<String> adjectives = new ArrayList<String>();
 		adjectives.add(character.getManaAdjective());
 		PrintableObject mana = new PrintableObject("mana", "", adjectives, null);
@@ -517,19 +529,45 @@ public class Main {
 		names.add(character);
 		names.add(mana);
 		GrammarIndividual grammarIndividual = grammarDescribePersonal.getRandomGrammar();
-		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL", usePronoun, usePronoun);
+		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL", usePronoun, useAnd);
 		if (isNumericDescription) {
 			String valueToChange = JSONParsing.getElement(WordsGrammar.getAdjectives(rootObjWords, adjectives).get(0).getB(), "translation");
 			message = message.replaceAll(valueToChange, String.valueOf(character.getMagic()));
 		}
+
+		return message;
+	}
+	
+	private static String _messageDescriptionStats(ActiveCharacter character, boolean isMonster) {
+		String message = "";
+		message += _messageDescriptionLife(character, false);
+		message += _messageDescriptionMana(character, true, false);
+		
+		PrintableObject level = new PrintableObject("level", "", new ArrayList<String>(), null);
+		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+		names.add(character);
+		names.add(level);
+		GrammarIndividual grammarIndividual = grammarDescribeEnvironmentSimple.getRandomGrammar();
+		message = message + _getMessage(grammarIndividual, names, "DESCPERSONAL", true, isMonster) + " " + character.getLevel();
+		
+		if (!isMonster) {
+			PrintableObject experience = new PrintableObject("experience", "", new ArrayList<String>(), null);
+			ArrayList<PrintableObject> namesExperience = new ArrayList<PrintableObject>();
+			namesExperience.add(character);
+			namesExperience.add(experience);
+			grammarIndividual = grammarDescribeEnvironmentSimple.getRandomGrammar();
+			message = message + _getMessage(grammarIndividual, namesExperience, "DESCPERSONAL", true, true) + " " + user.getExperience();
+			JsonObject others = JSONParsing.getElement(rootObjWords, "OTHERS").getAsJsonObject();
+			JsonArray outOf = JSONParsing.getElement(others, "out of").getAsJsonArray();
+			message += " " + JSONParsing.getElement(outOf, "translation") + " " + user.getNextLevelExperience();
+		}
+		
 		return message;
 	}
 	
 	private static void _messageDescriptionMonster() {
 		for (ActiveCharacter monster : map.getMonstersPosition(user)) {
-			String message = ""; 
-			message += _messageDescriptionLife(monster, false);
-			message += " " + _messageDescriptionMana(monster, isNumericDescription);
+			String message = _messageDescriptionStats(monster, true);
 			printMessage(message);
 		}
 	}
@@ -686,11 +724,8 @@ public class Main {
 		if (i == keysMap.get("descInv")) {
 			_messageDescriptionInventory();
 		}
-		if (i == keysMap.get("descLife")) {
-			printMessage(_messageDescriptionLife(user, usePronoun()));
-		}
-		if (i == keysMap.get("descMana")) {
-			printMessage(_messageDescriptionMana(user, usePronoun()));
+		if (i == keysMap.get("descStats")) {
+			printMessage(_messageDescriptionStats(user, false));
 		}
 		if (i == keysMap.get("descMonster")) {
 			_messageDescriptionMonster();
@@ -764,6 +799,8 @@ public class Main {
 				String message = _getMessage(grammarIndividual, names, "ATTACK", usePronoun(), false);
 				if (monster.getA()) {
 					if (monster.getB().getLife() <= 0) {
+						user.addNewExperience(monster.getB().getExperienceGiven());
+						monster.getB().setExperienceGiven(0);
 						_messageDescriptionDead(monster.getB());
 						hasChanged = true;
 					} else {
@@ -795,6 +832,8 @@ public class Main {
 			names.add(monsterAffected);
 			generatePrintMessage(names, grammarAttack, "SPELLS", usePronoun(), false);
 			if (monsterAffected.isDead()) {
+				user.addNewExperience(monsterAffected.getExperienceGiven());
+				monsterAffected.setExperienceGiven(0);
 				_messageDescriptionDead(monsterAffected);
 			}
 		}
@@ -1005,6 +1044,8 @@ public class Main {
 				message.requestFocusInWindow();
 				JOptionPane.showMessageDialog(null, message, "", JOptionPane.PLAIN_MESSAGE);
 				try {
+					deepnessScore = 0;
+					newMatch = true;
 					main(null);
 				} catch (IOException e) {
 					e.printStackTrace();

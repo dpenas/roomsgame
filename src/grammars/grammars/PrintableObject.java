@@ -1,13 +1,6 @@
 package grammars.grammars;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
-
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 
 import grammars.parsing.JSONParsing;
 import net.slashie.util.Pair;
@@ -17,6 +10,7 @@ public class PrintableObject {
 	
 	private String name;
 	private String printableName;
+	private String printableSentence;
 	private String description;
 	private ArrayList<String> adjectives;
 	private ArrayList<String> prepositions;
@@ -31,6 +25,7 @@ public class PrintableObject {
 		ArrayList<String> prepositions = new ArrayList<String>();
 		prepositions.add("to");
 		this.setPrepositions(prepositions);
+		this.printableSentence = "";
 	}
 	
 	public String getPositionDirections(Tuple<Integer, Integer> characterPos) {
@@ -158,6 +153,14 @@ public class PrintableObject {
 
 	public void setPrintableName(String printableName) {
 		this.printableName = printableName;
+	}
+
+	public String getPrintableSentence() {
+		return printableSentence;
+	}
+
+	public void setPrintableSentence(String printableSentence) {
+		this.printableSentence = printableSentence;
 	}
 
 }

@@ -751,7 +751,7 @@
         "door":
             [
             {"num": "sing"},
-            {"translation": puerta"}, 
+            {"translation": "puerta"}, 
             {"numopposite": "doors"}, 
             {"gen": "fem"},
             {"pronoun": ""}
@@ -908,6 +908,34 @@
             {"num": "sing"},
             {"translation": "puntuación"}, 
             {"numopposite": "score"}, 
+            {"gen": "mas"}
+        ],
+        "experience":
+            [
+            {"num": "sing"},
+            {"translation": "experiencia"}, 
+            {"numopposite": "experiences"}, 
+            {"gen": "fem"}
+        ],
+        "experiences":
+            [
+            {"num": "plural"},
+            {"translation": "experiencias"}, 
+            {"numopposite": "experience"}, 
+            {"gen": "fem"}
+        ],
+        "level":
+            [
+            {"num": "sing"},
+            {"translation": "nivel"}, 
+            {"numopposite": "levels"}, 
+            {"gen": "mas"}
+        ],
+        "levels":
+            [
+            {"num": "plural"},
+            {"translation": "niveles"}, 
+            {"numopposite": "level"}, 
             {"gen": "mas"}
         ],
         "monster":
@@ -1266,6 +1294,12 @@
             {
                 "translation": "Posiciones alcanzables",
                 "gen": ""
+            }
+        ],
+        "out of": [
+            {
+                "translation": "de",
+                "gender": ""
             }
         ]
     }

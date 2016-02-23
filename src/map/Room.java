@@ -7,6 +7,8 @@ import items.consumables.MagicPotion;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
+import org.omg.PortableInterceptor.USER_EXCEPTION;
+
 import com.google.gson.JsonObject;
 
 import characters.active.ActiveCharacter;
@@ -413,22 +415,23 @@ public class Room {
 		}
 	}
 	
-	public void generateRandomEnemies() {
+	public void generateRandomEnemies(ActiveCharacter user) {
 		if (RandUtil.RandomNumber(0, 2) == 1 && this.getFreePositions().size() > 0 && this.getMonsters().size() == 0) {
 			int positionNumber = RandUtil.RandomNumber(0, this.checkFreePositions().size());
 			Tuple<Integer, Integer> position = this.getFreePositions().get(positionNumber);
 			int number = RandUtil.RandomNumber(0, 3);
+			int level = RandUtil.RandomNumber(user.getLevel(), user.getLevel() + 2);
 			switch(number) {
 				case 0: 
-					Rat rat = new Rat(this.getMap(), this, position, new ArrayList<String>());
+					Rat rat = new Rat(this.getMap(), this, position, new ArrayList<String>(), level);
 					this.getMonsters().add(rat);
 					break;
 				case 1: 
-					Goblin goblin = new Goblin(this.getMap(), this, position, new ArrayList<String>());
+					Goblin goblin = new Goblin(this.getMap(), this, position, new ArrayList<String>(), level);
 					this.getMonsters().add(goblin);
 					break;
 				case 2: 
-					Dragon dragon = new Dragon(this.getMap(), this, position, new ArrayList<String>());
+					Dragon dragon = new Dragon(this.getMap(), this, position, new ArrayList<String>(), level);
 					this.getMonsters().add(dragon);
 					break;
 			}
