@@ -16,6 +16,7 @@ import characters.active.enemies.Movement;
 import grammars.grammars.GrammarIndividual;
 import grammars.grammars.GrammarSelectorS;
 import grammars.grammars.PrintableObject;
+import grammars.parsing.JSONParsing;
 import util.RandUtil;
 import util.Tuple;
 import magic.Spell;
@@ -243,10 +244,7 @@ public class ActiveCharacter extends Character {
 	
 	private void setCharacterDead(ActiveCharacter character) {
 		if (character.getLife() <= 0){
-//			ArrayList<String> deadAdjectives = new ArrayList<String>();
-//			deadAdjectives.add("dead");
 			character.setDead(true);
-//			this.setAdjectives(deadAdjectives);
 			this.dropAllItems(character);
 		}
 	}
@@ -647,9 +645,10 @@ public class ActiveCharacter extends Character {
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(this);
 			for (int i = 0; i < this.getSpells().size(); i++) {
-					if (RandUtil.containsTuple(user.getPosition(), this.getSpells().get(i).getDamagedPositions(this))
-							&& this.getSpells().get(i).getManaCost() <= this.getMagic()) {
-						names.add(this.getSpells().get(i));
+				Spell spell = this.getSpells().get(i);
+					if (RandUtil.containsTuple(user.getPosition(), spell.getDamagedPositions(this))
+							&& spell.getManaCost() <= this.getMagic()) {
+						names.add(spell);
 						names.add(user);
 						GrammarSelectorS selector = null;
 						try {
@@ -660,7 +659,13 @@ public class ActiveCharacter extends Character {
 						}
 						boolean hasWorked = false; 
 						if (this.attackSpell(i, user).size() > 0) hasWorked = true;
-						Pair<Boolean, String> returnValue = new Pair<Boolean, String>(hasWorked, selector.getRandomSentence());
+						String message = selector.getRandomSentence();
+						if (spell.isHasBeenUsed()) {
+							message += " " + JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
+						} else {
+							spell.setHasBeenUsed(true);
+						}
+						Pair<Boolean, String> returnValue = new Pair<Boolean, String>(hasWorked, message);
 						return returnValue;
 					}
 			}
