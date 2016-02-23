@@ -630,7 +630,7 @@ public class Main {
 	
 	private static void _messageDescriptionCharacterWearsHands() {
 		ArrayList<Item> hands = user.getWearHandsAttack();
-		String message = "<html>";
+		String message = "";
 		for (Item itemhand : hands) {
 			ArrayList<String> preposition = new ArrayList<String>();
 			preposition.add("in");
@@ -641,10 +641,10 @@ public class Main {
 			names.add(itemhand);
 			names.add(head);
 			GrammarIndividual grammarIndividual = grammarDescribeCharacterWears.getRandomGrammar();
-			message += _getMessage(grammarIndividual, names, "DESCWEARS", usePronoun(), false) + "<br>";
+			message += _getMessage(grammarIndividual, names, "DESCWEARS", usePronoun(), false);
 		}
 		if (message.length() > 10) {
-			message += "</html>";
+			message += "";
 			printMessage(message);
 		}
 	}
@@ -663,10 +663,15 @@ public class Main {
 	}
 	
 	private static void _messageDescriptionEnvironment() {
-		String message = "<html>";
+		String message = "";
 		ArrayList<Door> alreadyPrintedDoors = new ArrayList<Door>();
 		for (Tuple<Integer, Integer> pos : user.getVisiblePositions()) {
 			for (ActiveCharacter enemy : user.getRoom().getMonstersPosition(pos)) {
+				if (enemy.isDead()) {
+					ArrayList<String> adjectives = new ArrayList<String>();
+					adjectives.add("dead");
+					enemy.setAdjectives(adjectives);
+				}
 				if (isNumericDescription) {
 					String messagePosition = enemy.getPositionDirectionsWithNumbers(user.getPosition()).getA();
 					String messageNumbers = enemy.getPositionDirectionsWithNumbers(user.getPosition()).getB();
@@ -675,7 +680,6 @@ public class Main {
 					message += _messageDescriptionEnvironment(enemy, enemy.getPositionDirections(user.getPosition())) + " ";
 				}
 			}
-			message += "<br>";
 			for (Item item : user.getRoom().getItemsPosition(pos)) {
 				if (isNumericDescription) {
 					String messagePosition = item.getPositionDirectionsWithNumbers(user.getPosition()).getA();
@@ -685,7 +689,6 @@ public class Main {
 					message += _messageDescriptionEnvironment(item, item.getPositionDirections(user.getPosition())) + " ";
 				}
 			}
-			message += "<br>";
 			for (Door door : user.getRoom().getDoorsPosition(pos)) {
 				Tuple<Integer, Integer> position = door.getPositionRoom(user);
 				if (position != null && !alreadyPrintedDoors.contains(door)) {
@@ -700,7 +703,6 @@ public class Main {
 					alreadyPrintedDoors.add(door);
 				}
 			}
-			message += "<br>";
 			for (Tuple<Integer, Integer> portal : user.getRoom().getPortalsPosition(pos)) {
 				if (portal != null) {
 					PrintableObject portablePrintable = new PrintableObject("portal", "", null, portal);
@@ -713,10 +715,7 @@ public class Main {
 					}
 				}
 			}
-			message += "<br>";
 		}
-		message = message.replaceAll("(<br>)+", "<br>");
-		message += "</html>";
 		printMessage(message);
 	}
 	

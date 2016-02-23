@@ -243,7 +243,10 @@ public class ActiveCharacter extends Character {
 	
 	private void setCharacterDead(ActiveCharacter character) {
 		if (character.getLife() <= 0){
+//			ArrayList<String> deadAdjectives = new ArrayList<String>();
+//			deadAdjectives.add("dead");
 			character.setDead(true);
+//			this.setAdjectives(deadAdjectives);
 			this.dropAllItems(character);
 		}
 	}
