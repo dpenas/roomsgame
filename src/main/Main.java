@@ -814,6 +814,11 @@ public class Main {
 						_messageDescriptionDead(monster.getB());
 						hasChanged = true;
 					} else {
+						if (monster.getB().isHasBeenAttackedByHeroe() && RandUtil.RandomNumber(0, 3) == 1) {
+							message += " " + JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
+						} else {
+							monster.getB().setHasBeenAttackedByHeroe(true);
+						}
 						// We only print the message if the enemy is alive
 						printMessage(message);
 					}
@@ -824,8 +829,14 @@ public class Main {
 					preposition.add("but");
 					user.setPrepositions(preposition);
 					namesMiss.add(user);
+					String messageAgain = "";
 					String messageMiss = _getMessage(grammarIndividualMiss, namesMiss, "MISS", true, false);
-					printMessage(message+ messageMiss);
+					if (monster.getB().isHasBeenAttackedByHeroe() && RandUtil.RandomNumber(0, 3) == 1) {
+						messageAgain += " " + JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
+					} else {
+						monster.getB().setHasBeenAttackedByHeroe(true);
+					}
+					printMessage(message + messageAgain + messageMiss);
 				}
 	    	}
 		}

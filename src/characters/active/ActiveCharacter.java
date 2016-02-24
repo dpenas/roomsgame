@@ -62,6 +62,7 @@ public class ActiveCharacter extends Character {
 	private int movementType;
 	private boolean isDead;
 	private boolean isFirstTimeDead;
+	private boolean hasAttackedHeroe;
 	private int maximumItemsInventory;
 	private ArrayList<WereableWeapon> weaponsEquipped;
 	private ArrayList<WereableArmor> armorsEquipped;
@@ -73,6 +74,7 @@ public class ActiveCharacter extends Character {
 	private int experience = 0;
 	private int nextLevelExperience = 0;
 	private int experienceGiven = 0;
+	private boolean hasBeenAttackedByHeroe = false;
 
 	public ActiveCharacter(String name, String description,
 			Map map, Room room, Tuple<Integer, Integer> position, int damage,
@@ -660,7 +662,7 @@ public class ActiveCharacter extends Character {
 						boolean hasWorked = false; 
 						if (this.attackSpell(i, user).size() > 0) hasWorked = true;
 						String message = selector.getRandomSentence();
-						if (spell.isHasBeenUsed()) {
+						if (spell.isHasBeenUsed() && RandUtil.RandomNumber(0, 2) == 1) {
 							message += " " + JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
 						} else {
 							spell.setHasBeenUsed(true);
@@ -679,7 +681,13 @@ public class ActiveCharacter extends Character {
 						| IllegalAccessException e) {
 					e.printStackTrace();
 				}
-				Pair<Boolean, String> returnValue = new Pair<Boolean, String>(this.attack(user), selector.getRandomSentence());
+				String message = selector.getRandomSentence();
+				if (hasAttackedHeroe && RandUtil.RandomNumber(0, 2) == 1) {
+					message += " " + JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
+				} else {
+					hasAttackedHeroe = true;
+				}
+				Pair<Boolean, String> returnValue = new Pair<Boolean, String>(this.attack(user), message);
 				return returnValue;
 			} else {
 				if (this.tirenessTotal <= 0 || this.tirenessCurrent != this.tirenessTotal) {
@@ -994,6 +1002,22 @@ public class ActiveCharacter extends Character {
 
 	public void setNextLevelExperience(int nextLevelExperience) {
 		this.nextLevelExperience = nextLevelExperience;
+	}
+	
+	public boolean isHasAttackedHeroe() {
+		return hasAttackedHeroe;
+	}
+
+	public void setHasAttackedHeroe(boolean hasAttackedHeroe) {
+		this.hasAttackedHeroe = hasAttackedHeroe;
+	}
+
+	public boolean isHasBeenAttackedByHeroe() {
+		return hasBeenAttackedByHeroe;
+	}
+
+	public void setHasBeenAttackedByHeroe(boolean hasBeenAttackedByHeroe) {
+		this.hasBeenAttackedByHeroe = hasBeenAttackedByHeroe;
 	}
 
 }
