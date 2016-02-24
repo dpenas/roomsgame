@@ -13,16 +13,15 @@ public class JTextAreaWithListener extends JTextArea implements KeyListener{
 	private WSwingConsoleInterface j;
 
 	@Override
-	public void keyPressed(KeyEvent arg0) {}
+	public void keyPressed(KeyEvent arg0) {
+		j.getTargetFrame().requestFocus();
+	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {}
 
 	@Override
-	public void keyTyped(KeyEvent arg0) {
-		System.out.println("sdoijergjo");
-		j.getTargetFrame().requestFocus();
-	}
+	public void keyTyped(KeyEvent arg0) {}
 	
 	public JTextAreaWithListener(WSwingConsoleInterface j) {
 		this.j = j;
