@@ -10,6 +10,7 @@ public abstract class Spell extends PrintableObject{
 	
 	int damage;
 	int manaCost;
+	boolean hasBeenUsed = false;
 	ArrayList<String> adjectives = new ArrayList<String>();
 	public Spell (int damage, int manaCost) {
 		super("spell", "", new ArrayList<String>(), new Tuple<Integer, Integer>(0, 0));
@@ -44,6 +45,14 @@ public abstract class Spell extends PrintableObject{
 
 	public void setAdjectives(ArrayList<String> adjectives) {
 		this.adjectives = adjectives;
+	}
+
+	public boolean isHasBeenUsed() {
+		return hasBeenUsed;
+	}
+
+	public void setHasBeenUsed(boolean hasBeenUsed) {
+		this.hasBeenUsed = hasBeenUsed;
 	}
 
 }

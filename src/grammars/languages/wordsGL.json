@@ -1301,6 +1301,20 @@
                 "translation": "de",
                 "gender": ""
             }
-        ]
+        ],
+        "again": {
+            "again": [
+                {"translation": "outra vez"},
+                {"gender": ""}
+            ],
+            "one more time": [
+                {"translation": "unha vez máis"},
+                {"gender": ""}
+            ],
+            "once again": [
+                {"translation": "novamente"},
+                {"gender": ""}
+            ]
+        }
     }
 }

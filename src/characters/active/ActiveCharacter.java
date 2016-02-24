@@ -16,6 +16,7 @@ import characters.active.enemies.Movement;
 import grammars.grammars.GrammarIndividual;
 import grammars.grammars.GrammarSelectorS;
 import grammars.grammars.PrintableObject;
+import grammars.parsing.JSONParsing;
 import util.RandUtil;
 import util.Tuple;
 import magic.Spell;
@@ -61,6 +62,7 @@ public class ActiveCharacter extends Character {
 	private int movementType;
 	private boolean isDead;
 	private boolean isFirstTimeDead;
+	private boolean hasAttackedHeroe;
 	private int maximumItemsInventory;
 	private ArrayList<WereableWeapon> weaponsEquipped;
 	private ArrayList<WereableArmor> armorsEquipped;
@@ -72,6 +74,7 @@ public class ActiveCharacter extends Character {
 	private int experience = 0;
 	private int nextLevelExperience = 0;
 	private int experienceGiven = 0;
+	private boolean hasBeenAttackedByHeroe = false;
 
 	public ActiveCharacter(String name, String description,
 			Map map, Room room, Tuple<Integer, Integer> position, int damage,
@@ -243,10 +246,7 @@ public class ActiveCharacter extends Character {
 	
 	private void setCharacterDead(ActiveCharacter character) {
 		if (character.getLife() <= 0){
-//			ArrayList<String> deadAdjectives = new ArrayList<String>();
-//			deadAdjectives.add("dead");
 			character.setDead(true);
-//			this.setAdjectives(deadAdjectives);
 			this.dropAllItems(character);
 		}
 	}
@@ -647,9 +647,10 @@ public class ActiveCharacter extends Character {
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(this);
 			for (int i = 0; i < this.getSpells().size(); i++) {
-					if (RandUtil.containsTuple(user.getPosition(), this.getSpells().get(i).getDamagedPositions(this))
-							&& this.getSpells().get(i).getManaCost() <= this.getMagic()) {
-						names.add(this.getSpells().get(i));
+				Spell spell = this.getSpells().get(i);
+					if (RandUtil.containsTuple(user.getPosition(), spell.getDamagedPositions(this))
+							&& spell.getManaCost() <= this.getMagic()) {
+						names.add(spell);
 						names.add(user);
 						GrammarSelectorS selector = null;
 						try {
@@ -660,7 +661,13 @@ public class ActiveCharacter extends Character {
 						}
 						boolean hasWorked = false; 
 						if (this.attackSpell(i, user).size() > 0) hasWorked = true;
-						Pair<Boolean, String> returnValue = new Pair<Boolean, String>(hasWorked, selector.getRandomSentence());
+						String message = selector.getRandomSentence();
+						if (spell.isHasBeenUsed() && RandUtil.RandomNumber(0, 2) == 1) {
+							message += " " + JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
+						} else {
+							spell.setHasBeenUsed(true);
+						}
+						Pair<Boolean, String> returnValue = new Pair<Boolean, String>(hasWorked, message);
 						return returnValue;
 					}
 			}
@@ -674,7 +681,13 @@ public class ActiveCharacter extends Character {
 						| IllegalAccessException e) {
 					e.printStackTrace();
 				}
-				Pair<Boolean, String> returnValue = new Pair<Boolean, String>(this.attack(user), selector.getRandomSentence());
+				String message = selector.getRandomSentence();
+				if (hasAttackedHeroe && RandUtil.RandomNumber(0, 2) == 1) {
+					message += " " + JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
+				} else {
+					hasAttackedHeroe = true;
+				}
+				Pair<Boolean, String> returnValue = new Pair<Boolean, String>(this.attack(user), message);
 				return returnValue;
 			} else {
 				if (this.tirenessTotal <= 0 || this.tirenessCurrent != this.tirenessTotal) {
@@ -989,6 +1002,22 @@ public class ActiveCharacter extends Character {
 
 	public void setNextLevelExperience(int nextLevelExperience) {
 		this.nextLevelExperience = nextLevelExperience;
+	}
+	
+	public boolean isHasAttackedHeroe() {
+		return hasAttackedHeroe;
+	}
+
+	public void setHasAttackedHeroe(boolean hasAttackedHeroe) {
+		this.hasAttackedHeroe = hasAttackedHeroe;
+	}
+
+	public boolean isHasBeenAttackedByHeroe() {
+		return hasBeenAttackedByHeroe;
+	}
+
+	public void setHasBeenAttackedByHeroe(boolean hasBeenAttackedByHeroe) {
+		this.hasBeenAttackedByHeroe = hasBeenAttackedByHeroe;
 	}
 
 }
