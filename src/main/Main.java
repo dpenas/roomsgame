@@ -352,7 +352,7 @@ public class Main {
 			adjectives.add("brave");
 			adjectives.add("glorious");
 			user = new ActiveCharacter("hero", "", null, null, null, 
-					40, 0, 1, 100, 100, 100, new ArrayList<WereableWeapon>(),
+					40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 					new ArrayList<WereableArmor>(), 100, 100, 0,
 					new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 1);
 			user.setNextLevelExperience();
@@ -1087,6 +1087,7 @@ public class Main {
 				try {
 					deepnessScore = 0;
 					newMatch = true;
+					messageLabel.setText("");
 					main(null);
 				} catch (IOException e) {
 					e.printStackTrace();
