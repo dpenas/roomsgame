@@ -735,7 +735,7 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public void addNewExperience(int addExperience) {
-		if (this.getExperience() + addExperience > this.getNextLevelExperience()) {
+		if (this.getExperience() + addExperience >= this.getNextLevelExperience()) {
 			int experienceToNextLevel = this.getNextLevelExperience() - this.getExperience();
 			this.setExperience(addExperience - experienceToNextLevel);
 			this.setNewLevel(this.getLevel() + 1);

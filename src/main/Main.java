@@ -352,7 +352,7 @@ public class Main {
 			adjectives.add("brave");
 			adjectives.add("glorious");
 			user = new ActiveCharacter("hero", "", null, null, null, 
-					40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
+					40, 0, 1, 100, 100, 100, new ArrayList<WereableWeapon>(),
 					new ArrayList<WereableArmor>(), 100, 100, 0,
 					new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 1);
 			user.setNextLevelExperience();
@@ -1104,7 +1104,7 @@ public class Main {
 		jScrollPane = new JScrollPane(messageLabel);
 		window.add(jScrollPane);
 		window.setVisible(true);
-		window.setBounds(0, 0, 300, 200);
+		window.setBounds(0, 0, 600, 350);
 		j.getTargetFrame().requestFocus();
 		rootObj = parser.parse(new FileReader("./src/grammars/languages/sentenceGrammar" + language + ".json")).getAsJsonObject();
 		rootObjWords = parser.parse(new FileReader("./src/grammars/languages/words" + language + ".json")).getAsJsonObject();
