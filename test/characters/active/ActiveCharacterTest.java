@@ -80,35 +80,35 @@ public class ActiveCharacterTest {
 		ArrayList<String> adjectives = new ArrayList<String>();
 		adjectives.add("small");
 
-		attacker = new ActiveCharacter("", "", map, room, position, 40, 10,
+		attacker = new ActiveCharacter("hero", "", map, room, position, 40, 10,
 				100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 0);
-		defender = new ActiveCharacter("", "", map, room, position, 40, 10,
+		defender = new ActiveCharacter("goblin", "", map, room, position, 40, 10,
 				100, 0, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 0);
-		c1 = new ActiveCharacter("", "", map, room, position, 40, 10, 100,
+		c1 = new ActiveCharacter("goblin", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 0);
-		c2 = new ActiveCharacter("", "", map, room, position, 40, 10, 100, 50,
+		c2 = new ActiveCharacter("goblin", "", map, room, position, 40, 10, 100, 50,
 				100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 95,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 0);
-		c3 = new ActiveCharacter("", "", map, room, position, 40, 10, 100,
+		c3 = new ActiveCharacter("goblin", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 0);
-		c4 = new ActiveCharacter("", "", map, room, position, 40, 10, 100,
+		c4 = new ActiveCharacter("goblin", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 0);
-		c5 = new ActiveCharacter("", "", map, room, position, 40, 10, 100,
+		c5 = new ActiveCharacter("goblin", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 0);
-		c6 = new ActiveCharacter("", "", map, room, position, 40, 10, 100,
+		c6 = new ActiveCharacter("goblin", "", map, room, position, 40, 10, 100,
 				50, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 0);
@@ -122,24 +122,24 @@ public class ActiveCharacterTest {
 		itemTypeWeapon.add(WeaponType.LEFTHAND);
 		itemTypeWeapon2 = new ArrayList<ItemEnumerate.WeaponType>();
 		itemTypeWeapon.add(WeaponType.LEFTHAND);
-		armor1 = new WereableArmor("", null, "", "", 10, 0, itemTypeArmor1, 10,
+		armor1 = new WereableArmor("gloves", null, "", "", 10, 0, itemTypeArmor1, 10,
 				null, 10, null, null, null, 1, 1, false);
-		armor2 = new WereableArmor("", null, "", "", 10, 0, itemTypeArmor2, 10,
+		armor2 = new WereableArmor("gloves", null, "", "", 10, 0, itemTypeArmor2, 10,
 				null, 10, null, null, null, 1, 1, false);
-		armor3 = new WereableArmor("", null, "", "", 10, 0, itemTypeArmor, 0,
+		armor3 = new WereableArmor("gloves", null, "", "", 10, 0, itemTypeArmor, 0,
 				null, 10, null, null, null, 0, 1, false);
-		armor4 = new WereableArmor("", null, "", "", 10, 20, itemTypeArmor, 0,
+		armor4 = new WereableArmor("gloves", null, "", "", 10, 20, itemTypeArmor, 0,
 				null, 10, null, null, null, 0, 1, false);
-		weapon1 = new WereableWeapon("", null, "", "", 10, 0, 0, null,
+		weapon1 = new WereableWeapon("gloves", null, "", "", 10, 0, 0, null,
 				itemTypeWeapon2, null, null, null, 0, 0, true, 0, 1, false);
-		weapon2 = new WereableWeapon("", null, "", "", 10, 0, 0, null,
+		weapon2 = new WereableWeapon("gloves", null, "", "", 10, 0, 0, null,
 				itemTypeWeapon2, null, null, null, 0, 0, true, 0, 1, false);
-		weapon3 = new WereableWeapon("", null, "", "", 10, 0, 0, null,
+		weapon3 = new WereableWeapon("gloves", null, "", "", 10, 0, 0, null,
 				new ArrayList<WeaponType>(), null, null, null, 0, 0, true, 0,
 				1, false);
-		weapon5 = new WereableWeapon("", null, "", "", 10, 10, 10, null,
+		weapon5 = new WereableWeapon("gloves", null, "", "", 10, 10, 10, null,
 				itemTypeWeapon, null, null, null, 30, 1, true, 0, 1, false);
-		weapon6 = new WereableWeapon("", null, "", "", 10, 95, 0, null,
+		weapon6 = new WereableWeapon("gloves", null, "", "", 10, 95, 0, null,
 				itemTypeWeapon2, null, null, null, 0, 0, true, 0, 1, false);
 		oneHandSword = new ShortSword(attacker, null, null, null, 0, true);
 		lifePotion30 = new LifePotion(null, null, null, null);
