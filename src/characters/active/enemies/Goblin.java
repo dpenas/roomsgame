@@ -19,7 +19,7 @@ public class Goblin extends ActiveCharacter {
 	public Goblin(Map map, Room room, Tuple<Integer, Integer> position, ArrayList<String> adjectives, int level) {
 		super("goblin", "", map, room, position, 2, 1, 30,
 				30, 100, 100, new ArrayList<WereableWeapon>(), new ArrayList<WereableArmor>(), 60,
-				70, 0, new ArrayList<Item>(), 0, 0, 100, 50, 0, "G", 3, 2, adjectives, level);
+				70, 0, new ArrayList<Item>(), 0, 0, 100, 50, 0, "G", 3, new FollowingMove(), adjectives, level);
 		WereableWeapon oneHandSword = new ShortSword(this, null, null, null, level, false);
 		System.out.println("Adj: " + this.getAdjectives().size());
 		this.setTirenessTotal(5);

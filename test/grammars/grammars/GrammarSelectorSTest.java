@@ -54,7 +54,7 @@ public class GrammarSelectorSTest {
 		user = new ActiveCharacter("hero", "", map, room, position, 40, 10,
 				100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 0);
+				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, null, adjectives, 0);
 		ArrayList<ItemEnumerate.WeaponType> itemTypeWeapon;
 		itemTypeWeapon = new ArrayList<ItemEnumerate.WeaponType>();
 		itemTypeWeapon.add(WeaponType.LEFTHAND);

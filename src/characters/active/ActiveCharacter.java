@@ -59,7 +59,7 @@ public class ActiveCharacter extends Character {
 	private int actualInventorySpace;
 	private int evasion;
 	private int vision;
-	private int movementType;
+	private Movement movementType;
 	private boolean isDead;
 	private boolean isFirstTimeDead;
 	private boolean hasAttackedHeroe;
@@ -82,7 +82,7 @@ public class ActiveCharacter extends Character {
 			ArrayList<WereableWeapon> weaponsEquipped,
 			ArrayList<WereableArmor> armorsEquipped, int inventorySpace, int carryWeight,
 			int actualCarryWeight, ArrayList<Item> inventory, int actualInventorySpace, int evasion,
-			int totalLife, int magic, int totalMagic, String symbolRepresentation, int vision, int movementType,
+			int totalLife, int magic, int totalMagic, String symbolRepresentation, int vision, Movement movementType,
 			ArrayList<String> adjectives, int level) {
 		super(name, description, map, room, position, weight, length, carryWeight, actualCarryWeight, 
 				inventory, symbolRepresentation, adjectives);
@@ -691,7 +691,7 @@ public class ActiveCharacter extends Character {
 				return returnValue;
 			} else {
 				if (this.tirenessTotal <= 0 || this.tirenessCurrent != this.tirenessTotal) {
-					Tuple<Integer, Integer> pos = Movement.moveCharacter(this, user);
+					Tuple<Integer, Integer> pos = this.movementType.moveCharacter(this, user);
 					if (pos != null) {
 						this.move(pos);
 						this.tirenessCurrent++;
@@ -860,11 +860,11 @@ public class ActiveCharacter extends Character {
 		this.isDead = isDead;
 	}
 
-	public int getMovementType() {
+	public Movement getMovementType() {
 		return movementType;
 	}
 
-	public void setMovementType(int movementType) {
+	public void setMovementType(Movement movementType) {
 		this.movementType = movementType;
 	}
 

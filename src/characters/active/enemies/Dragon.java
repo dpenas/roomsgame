@@ -21,7 +21,7 @@ public class Dragon extends ActiveCharacter {
 	public Dragon(Map map, Room room, Tuple<Integer, Integer> position, ArrayList<String> adjectives, int level) {
 		super("dragon", "", map, room, position, 8+level, 3+level, 50+(level*5),
 				30, 100, 100, new ArrayList<WereableWeapon>(), new ArrayList<WereableArmor>(), 60,
-				70, 0, new ArrayList<Item>(), 0, 0, 100, 50, 0, "D", 2, 2, adjectives, level);
+				70, 0, new ArrayList<Item>(), 0, 0, 100, 50, 0, "D", 2, new FollowingMove(), adjectives, level);
 		this.setTirenessTotal(3);
 		this.setExperienceGiven(100+level*10);
 		WereableWeapon oneHandSword = new ShortSword(this, null, null, null, level, true);

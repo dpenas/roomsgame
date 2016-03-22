@@ -354,7 +354,7 @@ public class Main {
 			user = new ActiveCharacter("hero", "", null, null, null, 
 					40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 					new ArrayList<WereableArmor>(), 100, 100, 0,
-					new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 1);
+					new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, null, adjectives, 1);
 			user.setNextLevelExperience();
 			WereableWeapon oneHandSword = new ShortSword(user, null, null, null, user.getLevel(), true);
 			WereableWeapon oneHandSword2 = new ShortSword(user, null, null, null, user.getLevel(), true);
@@ -416,7 +416,7 @@ public class Main {
 		user = new ActiveCharacter("heroe", "", map, map.obtainRoomByPosition(pos), pos, 
 				40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, 0, adjectives, 1);
+				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, null, adjectives, 1);
 		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
 		WereableWeapon oneHandSword = new ShortSword(user, null, null, null, user.getLevel(), true);
@@ -970,6 +970,7 @@ public class Main {
 						printMessage(message.getB() + messageMiss);
 					}	
 				}
+				System.out.println("Attack from weapons: " + user.getAttackFromWeapons(user));
 				int i = j.inkey().code;
 				
 				System.out.println("Code" + i);
