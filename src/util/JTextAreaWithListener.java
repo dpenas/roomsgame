@@ -19,13 +19,18 @@ public class JTextAreaWithListener extends JTextArea implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
+		int lengthBefore = main.Main.messageLabel.getText().length();
+		int lengthAfter = lengthBefore;
 		StrokeInformer strokeInformer = new StrokeInformer();
 		try {
 			main.Main.makeMovement(strokeInformer.charCode(arg0), true);
+			lengthAfter = main.Main.messageLabel.getText().length();
 		} catch (JsonIOException | JsonSyntaxException | InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
-		j.getTargetFrame().requestFocus();
+		if (lengthAfter == lengthBefore) {
+			j.getTargetFrame().requestFocus();
+		}
 	}
 
 	@Override
