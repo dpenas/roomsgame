@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Font;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -1096,11 +1097,18 @@ public class Main {
 			}
 		}
 	}
+	
+	public static void configureTextArea() {
+		float sizeIncrease = 3.0f;
+		Font font = messageLabel.getFont();
+		float size = font.getSize() + sizeIncrease;
+		messageLabel.setEditable(false);
+		messageLabel.setFont(font.deriveFont(size));
+	}
 
 	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 //		ChangeKeyBinding a = new ChangeKeyBinding(j);
 		_setLanguage();
-		messageLabel.setEditable(false);
 		window = new JFrame();
 		caret = (DefaultCaret)messageLabel.getCaret();
 		jScrollPane = new JScrollPane(messageLabel);
