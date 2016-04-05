@@ -923,6 +923,113 @@ public class Main {
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
 	}
 	
+	public static void makeMovement(int i, boolean doMonstersTurn) throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
+		if (isMovementInput(i)){
+        	doMonstersTurn = true;
+        	_moveCharacterAction(i);
+			hasEquipedItem = false;
+			hasUnequipedItem = false;
+        }
+        else if (isInventoryInput(i)) {
+        	doMonstersTurn = true;
+        	_inventoryAction(i);
+        	canUsePronoun = true;
+        	printEverything(false);
+        	hasUnequipedItem = false;
+        }
+        else if (isPickItemInput(i)) {
+        	doMonstersTurn = true;
+        	_pickItemAction();
+        	canUsePronoun = true;
+        	printEverything(false);
+        	hasEquipedItem = false;
+        	hasUnequipedItem = false;
+        }
+        else if (isAttackInput(i)) {
+        	doMonstersTurn = true;
+        	_attackAction();
+        	canUsePronoun = true;
+        	printEverything(true);
+        	hasEquipedItem = false;
+        	hasUnequipedItem = false;
+        } 
+        else if (isSpellInput(i)) {
+        	doMonstersTurn = true;
+        	int itemCode = j.inkey().code;
+        	if (isInventoryInput(itemCode)) {
+        		_spellAction(itemCode);
+        		canUsePronoun = true;
+        		printEverything(true);
+        		hasEquipedItem = false;
+        		hasUnequipedItem = false;
+        	}
+        	canUsePronoun = true;
+        	printEverything(true);
+        } else if (isDescriptionInput(i) || isDescriptionWereableInput(i)) {
+        	doMonstersTurn = false;
+        	_descriptionAction(i);
+        	canUsePronoun = true;
+        	printEverything(false);
+        } else if (isThrowItemInput(i)) {
+        	int itemCode = j.inkey().code;
+        	if (isInventoryInput(itemCode)) {
+        		_throwItem(itemCode);
+        		canUsePronoun = true;
+        		printEverything(true);
+        		hasEquipedItem = false;
+        		hasUnequipedItem = false;
+        	}
+        } else if (isUnequipItemInput(i)) {
+        	hasEquipedItem = false;
+        	int itemCode = j.inkey().code;
+        	if (isDescriptionWereableInput(itemCode)) {
+        		if (itemCode == keysMap.get("descHead")) {
+        			Item helmet = user.getWearHelmet();
+        			if (helmet != null) {
+        				_unequipItem(helmet);
+        			}
+        		}
+        		if (itemCode == keysMap.get("descChest")) {
+        			Item chest = user.getWearChest();
+        			if (chest != null) {
+        				_unequipItem(chest);
+        			}
+        		}
+        		if (itemCode == keysMap.get("descPants")) {
+        			System.out.println("Hello mister");
+        			Item pants = user.getWearPants();
+        			if (pants != null) {
+        				_unequipItem(pants);
+        			}
+        		}
+        		if (itemCode == keysMap.get("descGloves")) {
+        			Item gloves = user.getWearGloves();
+        			if (gloves != null) {
+        				_unequipItem(gloves);
+        			}
+        		}
+        		if (itemCode == keysMap.get("descHands")) {
+        			if (user.getWeaponsEquipped().size() > 0) {
+        				_unequipItem(user.getWeaponsEquipped().get(0));
+        			}
+        		}
+        		printEverything(false);
+        		canUsePronoun = true;
+        	}
+        } else if (isChangeNumericDescInput(i)) {
+        	isNumericDescription = !isNumericDescription;
+        } else if (isChangingColors(i)) {
+        	if (selectedColor == arrayColors.length - 1) {
+        		selectedColor = 0;
+        	} else {
+        		selectedColor++;
+        	}
+        	printEverything(true);
+        } else if (isDescSpellsInput(i)) {
+        	describeSpells();
+        }
+	}
+	
 	public static void gameFlow() throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 		boolean doMonstersTurn = false;
 		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable");
@@ -975,111 +1082,8 @@ public class Main {
 				int i = j.inkey().code;
 				
 				System.out.println("Code" + i);
+				makeMovement(i, doMonstersTurn);
 				
-	            if (isMovementInput(i)){
-	            	doMonstersTurn = true;
-	            	_moveCharacterAction(i);
-					hasEquipedItem = false;
-					hasUnequipedItem = false;
-	            }
-	            else if (isInventoryInput(i)) {
-	            	doMonstersTurn = true;
-	            	_inventoryAction(i);
-	            	canUsePronoun = true;
-	            	printEverything(false);
-	            	hasUnequipedItem = false;
-	            }
-	            else if (isPickItemInput(i)) {
-	            	doMonstersTurn = true;
-	            	_pickItemAction();
-	            	canUsePronoun = true;
-	            	printEverything(false);
-	            	hasEquipedItem = false;
-	            	hasUnequipedItem = false;
-	            }
-	            else if (isAttackInput(i)) {
-	            	doMonstersTurn = true;
-	            	_attackAction();
-	            	canUsePronoun = true;
-	            	printEverything(true);
-	            	hasEquipedItem = false;
-	            	hasUnequipedItem = false;
-	            } 
-	            else if (isSpellInput(i)) {
-	            	doMonstersTurn = true;
-	            	int itemCode = j.inkey().code;
-	            	if (isInventoryInput(itemCode)) {
-	            		_spellAction(itemCode);
-	            		canUsePronoun = true;
-	            		printEverything(true);
-	            		hasEquipedItem = false;
-	            		hasUnequipedItem = false;
-	            	}
-	            	canUsePronoun = true;
-	            	printEverything(true);
-	            } else if (isDescriptionInput(i) || isDescriptionWereableInput(i)) {
-	            	doMonstersTurn = false;
-	            	_descriptionAction(i);
-	            	canUsePronoun = true;
-	            	printEverything(false);
-	            } else if (isThrowItemInput(i)) {
-	            	int itemCode = j.inkey().code;
-	            	if (isInventoryInput(itemCode)) {
-	            		_throwItem(itemCode);
-	            		canUsePronoun = true;
-	            		printEverything(true);
-	            		hasEquipedItem = false;
-	            		hasUnequipedItem = false;
-	            	}
-	            } else if (isUnequipItemInput(i)) {
-	            	hasEquipedItem = false;
-	            	int itemCode = j.inkey().code;
-	            	if (isDescriptionWereableInput(itemCode)) {
-	            		if (itemCode == keysMap.get("descHead")) {
-	            			Item helmet = user.getWearHelmet();
-	            			if (helmet != null) {
-	            				_unequipItem(helmet);
-	            			}
-	            		}
-	            		if (itemCode == keysMap.get("descChest")) {
-	            			Item chest = user.getWearChest();
-	            			if (chest != null) {
-	            				_unequipItem(chest);
-	            			}
-	            		}
-	            		if (itemCode == keysMap.get("descPants")) {
-	            			System.out.println("Hello mister");
-	            			Item pants = user.getWearPants();
-	            			if (pants != null) {
-	            				_unequipItem(pants);
-	            			}
-	            		}
-	            		if (itemCode == keysMap.get("descGloves")) {
-	            			Item gloves = user.getWearGloves();
-	            			if (gloves != null) {
-	            				_unequipItem(gloves);
-	            			}
-	            		}
-	            		if (itemCode == keysMap.get("descHands")) {
-	            			if (user.getWeaponsEquipped().size() > 0) {
-	            				_unequipItem(user.getWeaponsEquipped().get(0));
-	            			}
-	            		}
-	            		printEverything(false);
-	            		canUsePronoun = true;
-	            	}
-	            } else if (isChangeNumericDescInput(i)) {
-	            	isNumericDescription = !isNumericDescription;
-	            } else if (isChangingColors(i)) {
-	            	if (selectedColor == arrayColors.length - 1) {
-	            		selectedColor = 0;
-	            	} else {
-	            		selectedColor++;
-	            	}
-	            	printEverything(true);
-	            } else if (isDescSpellsInput(i)) {
-	            	describeSpells();
-	            }
 			}
 			else {
 				JLabel message = new JLabel();
@@ -1104,17 +1108,18 @@ public class Main {
 		float size = font.getSize() + sizeIncrease;
 		messageLabel.setEditable(false);
 		messageLabel.setFont(font.deriveFont(size));
-	}
-
-	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
-//		ChangeKeyBinding a = new ChangeKeyBinding(j);
-		_setLanguage();
 		window = new JFrame();
 		caret = (DefaultCaret)messageLabel.getCaret();
 		jScrollPane = new JScrollPane(messageLabel);
 		window.add(jScrollPane);
 		window.setVisible(true);
 		window.setBounds(0, 0, 600, 350);
+	}
+
+	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
+//		ChangeKeyBinding a = new ChangeKeyBinding(j);
+		_setLanguage();
+		configureTextArea();
 		j.getTargetFrame().requestFocus();
 		rootObj = parser.parse(new FileReader("./src/grammars/languages/sentenceGrammar" + language + ".json")).getAsJsonObject();
 		rootObjWords = parser.parse(new FileReader("./src/grammars/languages/words" + language + ".json")).getAsJsonObject();
