@@ -55,7 +55,7 @@ public class StrokeInformer implements KeyListener, java.io.Serializable {
      * @param x pressing of a key
      * @return CharKey encoded value
      */
-    private int charCode(KeyEvent x) {
+    public int charCode(KeyEvent x) {
         int code = x.getKeyCode();
         if (x.isControlDown()) {
             return CharKey.CTRL;

@@ -5,6 +5,11 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JTextArea;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+
+import net.slashie.libjcsi.CharKey;
+import net.slashie.libjcsi.wswing.StrokeInformer;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 
 @SuppressWarnings("serial")
@@ -14,6 +19,12 @@ public class JTextAreaWithListener extends JTextArea implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
+		StrokeInformer strokeInformer = new StrokeInformer();
+		try {
+			main.Main.makeMovement(strokeInformer.charCode(arg0), true);
+		} catch (JsonIOException | JsonSyntaxException | InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
 		j.getTargetFrame().requestFocus();
 	}
 

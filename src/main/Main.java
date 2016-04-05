@@ -101,6 +101,7 @@ public class Main {
 	static JsonParser parser = new JsonParser();
 	static JsonObject rootObj;
 	static JTextAreaWithListener messageLabel = new JTextAreaWithListener(j);
+	static JTextAreaWithListener gameListener = new JTextAreaWithListener(j);
 	static int caretPosition = 0;
 	static JScrollPane jScrollPane;
 	static JFrame window;
