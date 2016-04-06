@@ -643,7 +643,6 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public Pair<Boolean, String> doTurn(ActiveCharacter user, GrammarIndividual grammarAttack, JsonObject rootObjWords){
-		System.out.println("asdasdasd");
 		if (this.getRoom().equals(user.getRoom()) && !this.isDead()){
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(this);
@@ -664,7 +663,7 @@ public class ActiveCharacter extends Character {
 						if (this.attackSpell(i, user).size() > 0) hasWorked = true;
 						String message = selector.getRandomSentence();
 						if (spell.isHasBeenUsed() && RandUtil.RandomNumber(0, 2) == 1) {
-							message += " " + JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
+							message += ", " + JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
 						} else {
 							spell.setHasBeenUsed(true);
 						}
@@ -684,7 +683,7 @@ public class ActiveCharacter extends Character {
 				}
 				String message = selector.getRandomSentence();
 				if (hasAttackedHeroe && RandUtil.RandomNumber(0, 2) == 1) {
-					message += " " + JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
+					message += ", " + JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
 				} else {
 					hasAttackedHeroe = true;
 				}

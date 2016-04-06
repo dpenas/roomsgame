@@ -354,7 +354,7 @@ public class Main {
 			adjectives.add("brave");
 			adjectives.add("glorious");
 			user = new ActiveCharacter("hero", "", null, null, null, 
-					40, 0, 1, 100, 100, 100, new ArrayList<WereableWeapon>(),
+					40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 					new ArrayList<WereableArmor>(), 100, 100, 0,
 					new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, null, adjectives, 1);
 			user.setNextLevelExperience();
@@ -837,7 +837,7 @@ public class Main {
 					String messageAgain = "";
 					String messageMiss = ", " + _getMessage(grammarIndividualMiss, namesMiss, "MISS", true, false);
 					if (monster.getB().isHasBeenAttackedByHeroe() && RandUtil.RandomNumber(0, 3) == 1) {
-						messageAgain += " " + JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
+						messageAgain += ", " + JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
 					} else {
 						monster.getB().setHasBeenAttackedByHeroe(true);
 					}
@@ -1076,7 +1076,7 @@ public class Main {
 						preposition.add("but");
 						user.setPrepositions(preposition);
 						namesMiss.add(user);
-						String messageMiss = _getMessage(grammarIndividualMiss, namesMiss, "MISS", true, false);
+						String messageMiss = ", " + _getMessage(grammarIndividualMiss, namesMiss, "MISS", true, false);
 						user.setPrepositions(prepositionBefore);
 						printMessage(message.getB() + messageMiss);
 					}	
