@@ -200,7 +200,6 @@ public class Main {
 			in = new FileInputStream("src/config/language.properties");
 			languageProperties.load(in);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		for(Object value: languageProperties.values()) {
@@ -553,7 +552,7 @@ public class Main {
 	
 	private static String _messageDescriptionStats(ActiveCharacter character, boolean isMonster) {
 		String message = "";
-		message += _messageDescriptionLife(character, false);
+		message += _messageDescriptionLife(character, false) + ". ";
 		message += _messageDescriptionMana(character, true, false);
 		
 		PrintableObject level = new PrintableObject("level", "", new ArrayList<String>(), null);
@@ -692,6 +691,7 @@ public class Main {
 				} else {
 					message += _messageDescriptionEnvironment(enemy, enemy.getPositionDirections(user.getPosition())) + " ";
 				}
+				message += ". ";
 			}
 			for (Item item : user.getRoom().getItemsPosition(pos)) {
 				if (isNumericDescription) {
@@ -701,6 +701,7 @@ public class Main {
 				} else {
 					message += _messageDescriptionEnvironment(item, item.getPositionDirections(user.getPosition())) + " ";
 				}
+				message += ". ";
 			}
 			for (Door door : user.getRoom().getDoorsPosition(pos)) {
 				Tuple<Integer, Integer> position = door.getPositionRoom(user);
@@ -715,6 +716,7 @@ public class Main {
 					}
 					alreadyPrintedDoors.add(door);
 				}
+				message += ". ";
 			}
 			for (Tuple<Integer, Integer> portal : user.getRoom().getPortalsPosition(pos)) {
 				if (portal != null) {
@@ -832,7 +834,7 @@ public class Main {
 					user.setPrepositions(preposition);
 					namesMiss.add(user);
 					String messageAgain = "";
-					String messageMiss = _getMessage(grammarIndividualMiss, namesMiss, "MISS", true, false);
+					String messageMiss = ", " + _getMessage(grammarIndividualMiss, namesMiss, "MISS", true, false);
 					if (monster.getB().isHasBeenAttackedByHeroe() && RandUtil.RandomNumber(0, 3) == 1) {
 						messageAgain += " " + JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
 					} else {

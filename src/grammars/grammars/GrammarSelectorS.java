@@ -181,18 +181,12 @@ public class GrammarSelectorS extends GrammarSelector {
 			e.printStackTrace();
 		}
 		String sentence = "";
-		System.out.println("GrammarsNP!!!");
 		for (int j = 0; j < this.getGrammarsNP().size(); j++) {
 			System.out.println(this.getGrammarsNP().get(j));
 		}
-		System.out.println("GrammarsNP Pair!!!");
 		for (int j = 0; j < this.getGrammarsNPPair().size(); j++) {
 			System.out.println(this.getGrammarsNPPair().get(j));
 		}
-		
-		System.out.println("this.getGrammar(): " + this.getGrammar().getTypeWordGrammar());
-		
-		System.out.println("this.getGrammar2(): " + this.getGrammar().getGrammar().get("keys"));
 		
 		ArrayList<String> grammarsTotal = this.getGrammar().getGrammar().get("keys");
 		ArrayList<Integer> values = new ArrayList<Integer>();
