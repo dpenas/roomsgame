@@ -354,7 +354,7 @@ public class Main {
 			adjectives.add("brave");
 			adjectives.add("glorious");
 			user = new ActiveCharacter("hero", "", null, null, null, 
-					40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
+					40, 0, 1, 100, 100, 100, new ArrayList<WereableWeapon>(),
 					new ArrayList<WereableArmor>(), 100, 100, 0,
 					new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, null, adjectives, 1);
 			user.setNextLevelExperience();
@@ -509,12 +509,20 @@ public class Main {
 		}
 	}
 	
-	private static void _messageDescriptionDead(ActiveCharacter character) {
+	private static void _messageDescriptionDead(ActiveCharacter character, boolean popup) {
 		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 		ArrayList<String> adjectives = new ArrayList<String>();
 		adjectives.add("dead");
 		character.setAdjectives(adjectives);
 		names.add(character);
+		if (popup) {
+			GrammarIndividual grammarIndividual = grammarAdjectiveDescription.getRandomGrammar();
+			String message = _getMessage(grammarIndividual, names, "DESCTOBE", false, false);
+			JLabel label= new JLabel();
+			label.setText(message);
+			label.requestFocusInWindow();
+			JOptionPane.showMessageDialog(null, message, "", JOptionPane.PLAIN_MESSAGE);
+		}
 		generatePrintMessage(names, grammarAdjectiveDescription, "DESCTOBE", false, false);
 	}
 	
@@ -816,7 +824,7 @@ public class Main {
 					if (monster.getB().getLife() <= 0) {
 						user.addNewExperience(monster.getB().getExperienceGiven());
 						monster.getB().setExperienceGiven(0);
-						_messageDescriptionDead(monster.getB());
+						_messageDescriptionDead(monster.getB(), false);
 						hasChanged = true;
 					} else {
 						if (monster.getB().isHasBeenAttackedByHeroe() && RandUtil.RandomNumber(0, 3) == 1) {
@@ -860,7 +868,7 @@ public class Main {
 			if (monsterAffected.isDead()) {
 				user.addNewExperience(monsterAffected.getExperienceGiven());
 				monsterAffected.setExperienceGiven(0);
-				_messageDescriptionDead(monsterAffected);
+				_messageDescriptionDead(monsterAffected, false);
 			}
 		}
 		printEverything(true);
@@ -1088,7 +1096,7 @@ public class Main {
 				
 			}
 			else {
-				_messageDescriptionDead(user);
+				_messageDescriptionDead(user, true);
 				try {
 					deepnessScore = 0;
 					newMatch = true;
