@@ -98,6 +98,7 @@ public class Main {
 	static boolean hasUsedPortal = false;
 	static boolean hasEquipedItem = false;
 	static boolean hasUnequipedItem = false;
+	static boolean doMonstersTurn = false;
 	static JsonParser parser = new JsonParser();
 	static JsonObject rootObj;
 	public static JTextAreaWithListener messageLabel = new JTextAreaWithListener(j);
@@ -353,7 +354,7 @@ public class Main {
 			adjectives.add("brave");
 			adjectives.add("glorious");
 			user = new ActiveCharacter("hero", "", null, null, null, 
-					40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
+					40, 0, 1, 100, 100, 100, new ArrayList<WereableWeapon>(),
 					new ArrayList<WereableArmor>(), 100, 100, 0,
 					new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, null, adjectives, 1);
 			user.setNextLevelExperience();
@@ -415,7 +416,7 @@ public class Main {
 		ArrayList<String> adjectives = new ArrayList<String>();
 		adjectives.add("small");
 		user = new ActiveCharacter("heroe", "", map, map.obtainRoomByPosition(pos), pos, 
-				40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
+				40, 100, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 				new ArrayList<WereableArmor>(), 100, 100, 0,
 				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, null, adjectives, 1);
 		_setKeyMap();
@@ -926,7 +927,7 @@ public class Main {
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
 	}
 	
-	public static void makeMovement(int i, boolean doMonstersTurn) throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
+	public static void makeMovement(int i) throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 		if (isMovementInput(i)){
         	doMonstersTurn = true;
         	_moveCharacterAction(i);
@@ -1034,7 +1035,6 @@ public class Main {
 	}
 	
 	public static void gameFlow() throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
-		boolean doMonstersTurn = false;
 		messagesWereables = ResourceBundle.getBundle("translations.files.MessagesWereable");
 		if (deepnessScore == 0){
 			_initialize();
@@ -1081,18 +1081,14 @@ public class Main {
 						printMessage(message.getB() + messageMiss);
 					}	
 				}
-				System.out.println("Attack from weapons: " + user.getAttackFromWeapons(user));
 				int i = j.inkey().code;
 				
 				System.out.println("Code" + i);
-				makeMovement(i, doMonstersTurn);
+				makeMovement(i);
 				
 			}
 			else {
-				JLabel message = new JLabel();
-				message.setText("You are dead");
-				message.requestFocusInWindow();
-				JOptionPane.showMessageDialog(null, message, "", JOptionPane.PLAIN_MESSAGE);
+				_messageDescriptionDead(user);
 				try {
 					deepnessScore = 0;
 					newMatch = true;

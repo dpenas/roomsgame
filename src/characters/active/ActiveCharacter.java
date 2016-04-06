@@ -643,6 +643,7 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public Pair<Boolean, String> doTurn(ActiveCharacter user, GrammarIndividual grammarAttack, JsonObject rootObjWords){
+		System.out.println("asdasdasd");
 		if (this.getRoom().equals(user.getRoom()) && !this.isDead()){
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(this);

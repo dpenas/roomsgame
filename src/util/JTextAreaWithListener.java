@@ -23,7 +23,7 @@ public class JTextAreaWithListener extends JTextArea implements KeyListener{
 		int lengthAfter = lengthBefore;
 		StrokeInformer strokeInformer = new StrokeInformer();
 		try {
-			main.Main.makeMovement(strokeInformer.charCode(arg0), true);
+			main.Main.makeMovement(strokeInformer.charCode(arg0));
 			lengthAfter = main.Main.messageLabel.getText().length();
 		} catch (JsonIOException | JsonSyntaxException | InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
