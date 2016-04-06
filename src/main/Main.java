@@ -225,7 +225,7 @@ public class Main {
 		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descStats"), keysMap.get("descMana"), 
 				keysMap.get("descMonster"), keysMap.get("descEnv"), keysMap.get("descWalkablePositions")};
 		descriptionWereableInput = new Integer[] {keysMap.get("descHead"), keysMap.get("descHands"), keysMap.get("descChest"),
-				keysMap.get("descPants"), keysMap.get("descGloves")};
+				keysMap.get("descPants"), keysMap.get("descGloves"), keysMap.get("descWereableItems")};
 		throwItemInput = new Integer[] {keysMap.get("throwItem")};
 		unequipItemInput = new Integer[] {keysMap.get("unequipItem")};
 		changeNumericDescInput = new Integer[] {keysMap.get("changeNumericDesc")};
@@ -354,7 +354,7 @@ public class Main {
 			adjectives.add("brave");
 			adjectives.add("glorious");
 			user = new ActiveCharacter("hero", "", null, null, null, 
-					40, 0, 1, 100, 100, 100, new ArrayList<WereableWeapon>(),
+					40, 0, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
 					new ArrayList<WereableArmor>(), 100, 100, 0,
 					new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, null, adjectives, 1);
 			user.setNextLevelExperience();
@@ -633,7 +633,7 @@ public class Main {
 		printMessage(message);
 	}
 	
-	private static void _messageDescriptionCharacterWears(Item item, String usePreposition, String bodyPartString) {
+	private static String _messageDescriptionCharacterWears(Item item, String usePreposition, String bodyPartString) {
 		ArrayList<String> preposition = new ArrayList<String>();
 		preposition.add(usePreposition);
 		PrintableObject bodyPart = new PrintableObject(bodyPartString, "", null, null);
@@ -643,13 +643,10 @@ public class Main {
 		names.add(item);
 		names.add(bodyPart);
 		GrammarIndividual grammarIndividual = grammarDescribeCharacterWears.getRandomGrammar();
-		String message = _getMessage(grammarIndividual, names, "DESCWEARS", usePronoun(), false);
-		if (!message.isEmpty()) {
-			printMessage(message);
-		}
+		return _getMessage(grammarIndividual, names, "DESCWEARS", usePronoun(), false);
 	}
 	
-	private static void _messageDescriptionCharacterWearsHands() {
+	private static String _messageDescriptionCharacterWearsHands() {
 		ArrayList<Item> hands = user.getWearHandsAttack();
 		String message = "";
 		for (Item itemhand : hands) {
@@ -664,10 +661,7 @@ public class Main {
 			GrammarIndividual grammarIndividual = grammarDescribeCharacterWears.getRandomGrammar();
 			message += _getMessage(grammarIndividual, names, "DESCWEARS", usePronoun(), false);
 		}
-		if (message.length() > 10) {
-			message += "";
-			printMessage(message);
-		}
+		return message;
 	}
 	
 	private static void _messageUnvalid() {
@@ -698,7 +692,7 @@ public class Main {
 					String messageNumbers = enemy.getPositionDirectionsWithNumbers(user.getPosition()).getB();
 					message += _messageDescriptionEnvironment(enemy, messagePosition) + messageNumbers;
 				} else {
-					message += _messageDescriptionEnvironment(enemy, enemy.getPositionDirections(user.getPosition())) + " ";
+					message += _messageDescriptionEnvironment(enemy, enemy.getPositionDirections(user.getPosition()));
 				}
 				message += ". ";
 			}
@@ -708,7 +702,7 @@ public class Main {
 					String messageNumbers = item.getPositionDirectionsWithNumbers(user.getPosition()).getB();
 					message += _messageDescriptionEnvironment(item, messagePosition) + messageNumbers;
 				} else {
-					message += _messageDescriptionEnvironment(item, item.getPositionDirections(user.getPosition())) + " ";
+					message += _messageDescriptionEnvironment(item, item.getPositionDirections(user.getPosition()));
 				}
 				message += ". ";
 			}
@@ -721,11 +715,11 @@ public class Main {
 						String messageNumbers = doorPrintable.getPositionDirectionsWithNumbers(user.getPosition()).getB();
 						message += _messageDescriptionEnvironment(doorPrintable, messagePosition) + messageNumbers;
 					} else {
-						message += _messageDescriptionEnvironment(doorPrintable, doorPrintable.getPositionDirections(user.getPosition())) + " ";
+						message += _messageDescriptionEnvironment(doorPrintable, doorPrintable.getPositionDirections(user.getPosition()));
 					}
 					alreadyPrintedDoors.add(door);
+					message += ". ";
 				}
-				message += ". ";
 			}
 			for (Tuple<Integer, Integer> portal : user.getRoom().getPortalsPosition(pos)) {
 				if (portal != null) {
@@ -735,11 +729,34 @@ public class Main {
 						String messageNumbers = portablePrintable.getPositionDirectionsWithNumbers(user.getPosition()).getB();
 						message += _messageSimpleEnvironment(portablePrintable, messagePosition) + messageNumbers;
 					} else {
-						message += _messageSimpleEnvironment(portablePrintable, portablePrintable.getPositionDirections(user.getPosition())) + " ";
+						message += _messageSimpleEnvironment(portablePrintable, portablePrintable.getPositionDirections(user.getPosition()));
 					}
+					message += ". ";
 				}
 			}
 		}
+		printMessage(message);
+	}
+	
+	public static void descriptionWereables() {
+		Item helmet = user.getWearHelmet();
+		String message = "";
+		if (helmet != null) {
+			message += _messageDescriptionCharacterWears(helmet, "on", "head") + ".";
+		}
+		Item chest = user.getWearChest();
+		if (chest != null) {
+			message += _messageDescriptionCharacterWears(chest, "in", "chest")  + ".";
+		}
+		Item pants = user.getWearPants();
+		if (pants != null) {
+			message += _messageDescriptionCharacterWears(pants, "on", "legs") + ".";
+		}
+		Item gloves = user.getWearGloves();
+		if (gloves != null) {
+			message += _messageDescriptionCharacterWears(gloves, "in", "hands") + ".";
+		}
+		message += _messageDescriptionCharacterWearsHands() + ".";
 		printMessage(message);
 	}
 	
@@ -759,32 +776,51 @@ public class Main {
 		if (i == keysMap.get("descWalkablePositions")) {
 			_messageDescriptionWalkablePositions();
 		}
+		if (i == keysMap.get("descWereableItems")) {
+			descriptionWereables();
+		}
 		if (i == keysMap.get("descHead")) {
 			Item helmet = user.getWearHelmet();
 			if (helmet != null) {
-				_messageDescriptionCharacterWears(helmet, "on", "head");
+				String message = _messageDescriptionCharacterWears(helmet, "on", "head");
+				if (!message.isEmpty()) {
+					printMessage(message);
+				}
 			}
 		}
 		if (i == keysMap.get("descChest")) {
 			Item chest = user.getWearChest();
 			if (chest != null) {
-				_messageDescriptionCharacterWears(chest, "in", "chest");
+				String message = _messageDescriptionCharacterWears(chest, "in", "chest");
+				if (!message.isEmpty()) {
+					printMessage(message);
+				}
 			}
 		}
 		if (i == keysMap.get("descPants")) {
 			Item pants = user.getWearPants();
 			if (pants != null) {
-				_messageDescriptionCharacterWears(pants, "on", "legs");
+				String message = _messageDescriptionCharacterWears(pants, "on", "legs");
+				if (!message.isEmpty()) {
+					printMessage(message);
+				}
 			}
 		}
 		if (i == keysMap.get("descGloves")) {
 			Item gloves = user.getWearGloves();
 			if (gloves != null) {
-				_messageDescriptionCharacterWears(gloves, "in", "hands");
+				String message = _messageDescriptionCharacterWears(gloves, "in", "hands");
+				if (!message.isEmpty()) {
+					printMessage(message);
+				}
 			}
 		}
 		if (i == keysMap.get("descHands")) {
-			_messageDescriptionCharacterWearsHands();
+			String message = _messageDescriptionCharacterWearsHands();
+			if (message.length() > 10) {
+				message += "";
+				printMessage(message);
+			}
 		}
 		hasChanged = false;
 	}
