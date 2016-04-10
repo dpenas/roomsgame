@@ -485,7 +485,7 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public boolean unequipItem(Item item) {
-		if (this.getInventory().size() < this.getMaximumItemsInventory()) {
+		if (item != null && this.getInventory().size() < this.getMaximumItemsInventory()) {
 			if (item instanceof WereableArmor) {
 				return this.unEquipArmor((WereableArmor)item);
 			} else if (item instanceof WereableWeapon) {

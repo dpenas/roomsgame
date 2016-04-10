@@ -175,6 +175,13 @@ public class Main {
 		return Arrays.asList(descSpellsInput).contains(key);
 	}
 	
+	public static boolean isTwoKeysInput(int key){
+		if (isUnequipItemInput(key) || isThrowItemInput(key) || isSpellInput(key)) {
+			return true;
+		}
+		return false;
+	}
+	
 	public static boolean usePronoun() {
 		if (canUsePronoun) {
 			if (RandUtil.RandomNumber(0, 2) > 0) {
@@ -469,9 +476,6 @@ public class Main {
 	}
 	
 	public static void _inventoryAction(int i){
-		if (debug) {
-    		System.out.println(user.getWeaponsEquipped().size());
-    	}
 		int itemNumber = i % keysMap.get("item1");
 		if (itemNumber + 1 <= user.getInventory().size()) {
 			Item item = user.getInventory().get(itemNumber);
@@ -650,20 +654,21 @@ public class Main {
 	}
 	
 	private static String _messageDescriptionCharacterWearsHands() {
-		ArrayList<Item> hands = user.getWearHandsAttack();
 		String message = "";
-		for (Item itemhand : hands) {
+		if (user.getWeaponsEquipped().size() > 0) {
+			Item weapon = user.getWeaponsEquipped().get(0);
 			ArrayList<String> preposition = new ArrayList<String>();
 			preposition.add("in");
-			PrintableObject head = new PrintableObject("hand", "", null, null);
-			head.setPrepositions(preposition);
+			PrintableObject hand = new PrintableObject("hand", "", null, null);
+			hand.setPrepositions(preposition);
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);
-			names.add(itemhand);
-			names.add(head);
+			names.add(weapon);
+			names.add(hand);
 			GrammarIndividual grammarIndividual = grammarDescribeCharacterWears.getRandomGrammar();
 			message += _getMessage(grammarIndividual, names, "DESCWEARS", "DESCWEARS", usePronoun(), false);
 		}
+		
 		return message;
 	}
 	
@@ -919,6 +924,7 @@ public class Main {
 	}
 	
 	public static void _throwItem(int keyPressed){
+		System.out.println("Hey!");
 		int itemNumber = keyPressed % keysMap.get("item1");
 		if (itemNumber + 1 <= user.getInventory().size()) {
 			Item item = user.getInventory().get(itemNumber);
@@ -978,6 +984,43 @@ public class Main {
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
 	}
 	
+	public static void unequipItemAction(int itemCode) {
+		hasEquipedItem = false;
+    	if (isDescriptionWereableInput(itemCode)) {
+    		if (itemCode == keysMap.get("descHead")) {
+    			Item helmet = user.getWearHelmet();
+    			if (helmet != null) {
+    				_unequipItem(helmet);
+    			}
+    		}
+    		if (itemCode == keysMap.get("descChest")) {
+    			Item chest = user.getWearChest();
+    			if (chest != null) {
+    				_unequipItem(chest);
+    			}
+    		}
+    		if (itemCode == keysMap.get("descPants")) {
+    			Item pants = user.getWearPants();
+    			if (pants != null) {
+    				_unequipItem(pants);
+    			}
+    		}
+    		if (itemCode == keysMap.get("descGloves")) {
+    			Item gloves = user.getWearGloves();
+    			if (gloves != null) {
+    				_unequipItem(gloves);
+    			}
+    		}
+    		if (itemCode == keysMap.get("descHands")) {
+    			if (user.getWeaponsEquipped().size() > 0) {
+    				_unequipItem(user.getWeaponsEquipped().get(0));
+    			}
+    		}
+    		printEverything(false);
+    		canUsePronoun = true;
+    	}
+	}
+	
 	public static void makeMovement(int i) throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 		if (isMovementInput(i)){
         	doMonstersTurn = true;
@@ -1034,43 +1077,6 @@ public class Main {
         		hasEquipedItem = false;
         		hasUnequipedItem = false;
         	}
-        } else if (isUnequipItemInput(i)) {
-        	hasEquipedItem = false;
-        	int itemCode = j.inkey().code;
-        	if (isDescriptionWereableInput(itemCode)) {
-        		if (itemCode == keysMap.get("descHead")) {
-        			Item helmet = user.getWearHelmet();
-        			if (helmet != null) {
-        				_unequipItem(helmet);
-        			}
-        		}
-        		if (itemCode == keysMap.get("descChest")) {
-        			Item chest = user.getWearChest();
-        			if (chest != null) {
-        				_unequipItem(chest);
-        			}
-        		}
-        		if (itemCode == keysMap.get("descPants")) {
-        			System.out.println("Hello mister");
-        			Item pants = user.getWearPants();
-        			if (pants != null) {
-        				_unequipItem(pants);
-        			}
-        		}
-        		if (itemCode == keysMap.get("descGloves")) {
-        			Item gloves = user.getWearGloves();
-        			if (gloves != null) {
-        				_unequipItem(gloves);
-        			}
-        		}
-        		if (itemCode == keysMap.get("descHands")) {
-        			if (user.getWeaponsEquipped().size() > 0) {
-        				_unequipItem(user.getWeaponsEquipped().get(0));
-        			}
-        		}
-        		printEverything(false);
-        		canUsePronoun = true;
-        	}
         } else if (isChangeNumericDescInput(i)) {
         	isNumericDescription = !isNumericDescription;
         } else if (isChangingColors(i)) {
@@ -1082,6 +1088,9 @@ public class Main {
         	printEverything(true);
         } else if (isDescSpellsInput(i)) {
         	describeSpells();
+        } else if (isUnequipItemInput(i)) {
+        	messageLabel.unequipPressed = true;
+        	messageLabel.requestFocus();
         }
 	}
 	

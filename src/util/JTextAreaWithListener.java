@@ -14,7 +14,7 @@ import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 
 @SuppressWarnings("serial")
 public class JTextAreaWithListener extends JTextArea implements KeyListener{
-	
+	public boolean unequipPressed = false;
 	private WSwingConsoleInterface j;
 
 	@Override
@@ -22,14 +22,23 @@ public class JTextAreaWithListener extends JTextArea implements KeyListener{
 		int lengthBefore = main.Main.messageLabel.getText().length();
 		int lengthAfter = lengthBefore;
 		StrokeInformer strokeInformer = new StrokeInformer();
+		int code = strokeInformer.charCode(arg0);
 		try {
-			main.Main.makeMovement(strokeInformer.charCode(arg0));
+			main.Main.makeMovement(code);
 			lengthAfter = main.Main.messageLabel.getText().length();
 		} catch (JsonIOException | JsonSyntaxException | InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
-		if (lengthAfter == lengthBefore) {
-			j.getTargetFrame().requestFocus();
+		
+		if (unequipPressed) {
+			main.Main.unequipItemAction(code);
+		} else {
+			if (main.Main.isTwoKeysInput(strokeInformer.charCode(arg0))) {
+				unequipPressed = true;
+			}
+			if (lengthAfter == lengthBefore) {
+				j.getTargetFrame().requestFocus();
+			}
 		}
 	}
 
