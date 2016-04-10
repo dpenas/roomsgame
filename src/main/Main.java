@@ -563,15 +563,15 @@ public class Main {
 	
 	private static String _messageDescriptionStats(ActiveCharacter character, boolean isMonster) {
 		String message = "";
-		message += _messageDescriptionLife(character, false) + ". ";
-		message += _messageDescriptionMana(character, true, false);
+		message += _messageDescriptionLife(character, false) + " " + GrammarsOperational.getAndTranslation(rootObjWords);
+		message += _messageDescriptionMana(character, true, false) + ".";
 		
 		PrintableObject level = new PrintableObject("level", "", new ArrayList<String>(), null);
 		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 		names.add(character);
 		names.add(level);
 		GrammarIndividual grammarIndividual = grammarDescribeEnvironmentSimple.getRandomGrammar();
-		message = message + _getMessage(grammarIndividual, names, "DESCPERSONAL", "DESCPERSONAL", true, isMonster) + " " + character.getLevel();
+		message = message + _getMessage(grammarIndividual, names, "DESCGENERAL", "DESCGENERAL", true, isMonster) + " " + character.getLevel();
 		
 		if (!isMonster) {
 			PrintableObject experience = new PrintableObject("experience", "", new ArrayList<String>(), null);
@@ -579,7 +579,8 @@ public class Main {
 			namesExperience.add(character);
 			namesExperience.add(experience);
 			grammarIndividual = grammarDescribeEnvironmentSimple.getRandomGrammar();
-			message = message + _getMessage(grammarIndividual, namesExperience, "DESCPERSONAL", "DESCPERSONAL", true, true) + " " + user.getExperience();
+			message = GrammarsOperational.getAndTranslation(rootObjWords) + message 
+					+ _getMessage(grammarIndividual, namesExperience, "DESCPERSONAL", "DESCPERSONAL", true, true) + " " + user.getExperience();
 			JsonObject others = JSONParsing.getElement(rootObjWords, "OTHERS").getAsJsonObject();
 			JsonArray outOf = JSONParsing.getElement(others, "out of").getAsJsonArray();
 			message += " " + JSONParsing.getElement(outOf, "translation") + " " + user.getNextLevelExperience();
