@@ -654,7 +654,7 @@ public class ActiveCharacter extends Character {
 						names.add(user);
 						GrammarSelectorS selector = null;
 						try {
-							selector = new GrammarSelectorS(grammarAttack, rootObjWords, names, "SPELLS");
+							selector = new GrammarSelectorS(grammarAttack, rootObjWords, names, "SPELLS", "SPELLS");
 						} catch (JsonIOException | JsonSyntaxException | FileNotFoundException | InstantiationException
 								| IllegalAccessException e) {
 							e.printStackTrace();
@@ -676,7 +676,7 @@ public class ActiveCharacter extends Character {
 				names.add(this.getWeaponsEquipped().get(0));
 				GrammarSelectorS selector = null;
 				try {
-					selector = new GrammarSelectorS(grammarAttack, rootObjWords, names, "ATTACK");
+					selector = new GrammarSelectorS(grammarAttack, rootObjWords, names, "ATTACK", "ATTACK");
 				} catch (JsonIOException | JsonSyntaxException | FileNotFoundException | InstantiationException
 						| IllegalAccessException e) {
 					e.printStackTrace();

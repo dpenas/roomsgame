@@ -2,8 +2,10 @@ package grammars.grammars;
 
 import java.util.ArrayList;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import grammars.parsing.JSONParsing;
 import net.slashie.util.Pair;
 import util.RandUtil;
 
@@ -78,5 +80,12 @@ public class GrammarsOperational {
 			probabilities.add(probability);
 		}
 		return probabilities;
+	}
+	
+	public static String getAndTranslation(JsonObject wordsGrammar) {
+		JsonObject others = JSONParsing.getElement(wordsGrammar, "OTHERS").getAsJsonObject();
+		JsonArray and = JSONParsing.getElement(others, "and").getAsJsonArray();
+		String translationAnd = JSONParsing.getElement(and, "translation");
+		return translationAnd;
 	}
 }

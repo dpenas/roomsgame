@@ -22,10 +22,10 @@ public class GrammarSelectorS extends GrammarSelector {
 	private ArrayList<GrammarSelectorNP> grammarsNP = new ArrayList<GrammarSelectorNP>();
 	private ArrayList<ArrayList<Pair<String, JsonArray>>> grammarsNPPair = new ArrayList<ArrayList<Pair<String, JsonArray>>>();
 
-	public GrammarSelectorS(GrammarIndividual grammar, JsonObject wordsGrammar, ArrayList<PrintableObject> names, String type) throws JsonIOException, JsonSyntaxException, FileNotFoundException, InstantiationException, IllegalAccessException {
+	public GrammarSelectorS(GrammarIndividual grammar, JsonObject wordsGrammar, ArrayList<PrintableObject> names, String type, String verbsType) throws JsonIOException, JsonSyntaxException, FileNotFoundException, InstantiationException, IllegalAccessException {
 		super(grammar, wordsGrammar);
 		this.type = type;
-		this.verbs = WordsGrammar.getVerbs(wordsGrammar, type);
+		this.verbs = WordsGrammar.getVerbs(wordsGrammar, verbsType);
 		this.names = names;
 		this.analyseGrammar();
 	}
@@ -222,9 +222,7 @@ public class GrammarSelectorS extends GrammarSelector {
 		for(int i = 0; i < sentenceArray.size(); i++) {
 			Pair<String, JsonArray> pair = sentenceArray.get(i);
 			if (values.contains(i) && (values.get(values.size() - 2)) == i) {
-				JsonObject others = JSONParsing.getElement(this.getWordsGrammar(), "OTHERS").getAsJsonObject();
-				JsonArray and = JSONParsing.getElement(others, "and").getAsJsonArray();
-				String translationAnd = JSONParsing.getElement(and, "translation");
+				String translationAnd = GrammarsOperational.getAndTranslation(this.getWordsGrammar());
 				sentence += " " + translationAnd + " " + JSONParsing.getElement(pair.getB(), "translation");
 				changed = false;
 			} else {
@@ -246,9 +244,7 @@ public class GrammarSelectorS extends GrammarSelector {
 			String toChangeFor = "";
 			String pronoun = JSONParsing.getElement(WordsGrammar.getName(this.getWordsGrammar(), nameToGetPronounFrom).get(0).getB(), "pronoun");
 			if (useAnd) {
-				JsonObject others = JSONParsing.getElement(this.getWordsGrammar(), "OTHERS").getAsJsonObject();
-				JsonArray and = JSONParsing.getElement(others, "and").getAsJsonArray();
-				String translationAnd = JSONParsing.getElement(and, "translation");
+				String translationAnd = GrammarsOperational.getAndTranslation(this.getWordsGrammar());
 				toChangeFor += translationAnd;
 			}
 			toChangeFor += " " + pronoun + " ";

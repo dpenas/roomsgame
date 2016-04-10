@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.channels.Selector;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -30,6 +31,7 @@ import grammars.grammars.GrammarIndividual;
 import grammars.grammars.GrammarSelectorNP;
 import grammars.grammars.GrammarSelectorS;
 import grammars.grammars.GrammarsGeneral;
+import grammars.grammars.GrammarsOperational;
 import grammars.grammars.PrintableObject;
 import grammars.grammars.WordsGrammar;
 import grammars.parsing.JSONParsing;
@@ -439,10 +441,10 @@ public class Main {
 		j.refresh();
 	}
 	
-	public static String _getMessage(GrammarIndividual grammarIndividual, ArrayList<PrintableObject> names, String type, boolean usePronoun, boolean useAnd) {
+	public static String _getMessage(GrammarIndividual grammarIndividual, ArrayList<PrintableObject> names, String type, String verbType, boolean usePronoun, boolean useAnd) {
 		GrammarSelectorS selector = null;
 		try {
-			selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, type);
+			selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, type, verbType);
 		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException | InstantiationException
 				| IllegalAccessException e) {
 			e.printStackTrace();
@@ -460,10 +462,10 @@ public class Main {
 		return "";
 	}
 	
-	public static void generatePrintMessage(ArrayList<PrintableObject> names, GrammarsGeneral grammar, String type, boolean usePronoun,
-			boolean useAnd) {
+	public static void generatePrintMessage(ArrayList<PrintableObject> names, GrammarsGeneral grammar, String type, String verbType, 
+			boolean usePronoun, boolean useAnd) {
 		GrammarIndividual grammarIndividual = grammar.getRandomGrammar();
-		printMessage(_getMessage(grammarIndividual, names, type, usePronoun, useAnd));
+		printMessage(_getMessage(grammarIndividual, names, type, verbType, usePronoun, useAnd));
 	}
 	
 	public static void _inventoryAction(int i){
@@ -485,11 +487,11 @@ public class Main {
 					GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item, "GENERAL");
 					printMessage(message + " " + selector.getRandomSentenceTranslated());
 				} else {
-					generatePrintMessage(names, grammarUseItem, "EQUIP", usePronoun(), false);
+					generatePrintMessage(names, grammarUseItem, "EQUIP", "EQUIP", usePronoun(), false);
 					hasEquipedItem = true;
 				}
 			} else {
-				generatePrintMessage(names, grammarUseItem, "USE", usePronoun(), false);
+				generatePrintMessage(names, grammarUseItem, "USE", "USE", usePronoun(), false);
 			}
 		}
 		if (debug) {
@@ -505,7 +507,7 @@ public class Main {
 			for (Item item : user.getInventory()) {
 				names.add(item);
 			}
-			generatePrintMessage(names, grammarDescribeItem, "DESCITEM", false, false);
+			generatePrintMessage(names, grammarDescribeItem, "DESCITEM", "DESCITEM", false, false);
 		}
 	}
 	
@@ -517,13 +519,13 @@ public class Main {
 		names.add(character);
 		if (popup) {
 			GrammarIndividual grammarIndividual = grammarAdjectiveDescription.getRandomGrammar();
-			String message = _getMessage(grammarIndividual, names, "DESCTOBE", false, false);
+			String message = _getMessage(grammarIndividual, names, "DESCTOBE", "DESCTOBE", false, false);
 			JLabel label= new JLabel();
 			label.setText(message);
 			label.requestFocusInWindow();
 			JOptionPane.showMessageDialog(null, message, "", JOptionPane.PLAIN_MESSAGE);
 		}
-		generatePrintMessage(names, grammarAdjectiveDescription, "DESCTOBE", false, false);
+		generatePrintMessage(names, grammarAdjectiveDescription, "DESCTOBE", "DESCTOBE", false, false);
 	}
 	
 	private static String _messageDescriptionLife(ActiveCharacter character, boolean usePronoun) {
@@ -534,7 +536,7 @@ public class Main {
 		names.add(character);
 		names.add(life);
 		GrammarIndividual grammarIndividual = grammarDescribePersonal.getRandomGrammar();
-		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL", usePronoun, usePronoun);
+		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL", "DESCPERSONAL", usePronoun, usePronoun);
 		if (isNumericDescription) {
 			String valueToChange = JSONParsing.getElement(WordsGrammar.getAdjectives(rootObjWords, adjectives).get(0).getB(), "translation");
 			message = message.replaceAll(valueToChange, String.valueOf(character.getLife()));
@@ -550,7 +552,7 @@ public class Main {
 		names.add(character);
 		names.add(mana);
 		GrammarIndividual grammarIndividual = grammarDescribePersonal.getRandomGrammar();
-		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL", usePronoun, useAnd);
+		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL", "DESCPERSONAL", usePronoun, useAnd);
 		if (isNumericDescription) {
 			String valueToChange = JSONParsing.getElement(WordsGrammar.getAdjectives(rootObjWords, adjectives).get(0).getB(), "translation");
 			message = message.replaceAll(valueToChange, String.valueOf(character.getMagic()));
@@ -569,7 +571,7 @@ public class Main {
 		names.add(character);
 		names.add(level);
 		GrammarIndividual grammarIndividual = grammarDescribeEnvironmentSimple.getRandomGrammar();
-		message = message + _getMessage(grammarIndividual, names, "DESCPERSONAL", true, isMonster) + " " + character.getLevel();
+		message = message + _getMessage(grammarIndividual, names, "DESCPERSONAL", "DESCPERSONAL", true, isMonster) + " " + character.getLevel();
 		
 		if (!isMonster) {
 			PrintableObject experience = new PrintableObject("experience", "", new ArrayList<String>(), null);
@@ -577,7 +579,7 @@ public class Main {
 			namesExperience.add(character);
 			namesExperience.add(experience);
 			grammarIndividual = grammarDescribeEnvironmentSimple.getRandomGrammar();
-			message = message + _getMessage(grammarIndividual, namesExperience, "DESCPERSONAL", true, true) + " " + user.getExperience();
+			message = message + _getMessage(grammarIndividual, namesExperience, "DESCPERSONAL", "DESCPERSONAL", true, true) + " " + user.getExperience();
 			JsonObject others = JSONParsing.getElement(rootObjWords, "OTHERS").getAsJsonObject();
 			JsonArray outOf = JSONParsing.getElement(others, "out of").getAsJsonArray();
 			message += " " + JSONParsing.getElement(outOf, "translation") + " " + user.getNextLevelExperience();
@@ -600,7 +602,7 @@ public class Main {
 		names.add(object);
 		names.add(direction);
 		GrammarIndividual grammarIndividual = grammarDescribeEnvironment.getRandomGrammar();
-		return _getMessage(grammarIndividual, names, "DESCTOBE", false, false);
+		return _getMessage(grammarIndividual, names, "DESCTOBE", "DESCTOBE", false, false);
 	}
 	
 	private static String _messageSimpleEnvironment(PrintableObject object, String directions) {
@@ -609,7 +611,7 @@ public class Main {
 		names.add(object);
 		names.add(direction);
 		GrammarIndividual grammarIndividual = grammarDescribeEnvironmentSimple.getRandomGrammar();
-		return _getMessage(grammarIndividual, names, "DESCTOBE", false, false);
+		return _getMessage(grammarIndividual, names, "DESCTOBE", "DESCTOBE", false, false);
 	}
 	
 	private static void _messageDescriptionWalkablePositions() {
@@ -643,7 +645,7 @@ public class Main {
 		names.add(item);
 		names.add(bodyPart);
 		GrammarIndividual grammarIndividual = grammarDescribeCharacterWears.getRandomGrammar();
-		return _getMessage(grammarIndividual, names, "DESCWEARS", usePronoun(), false);
+		return _getMessage(grammarIndividual, names, "DESCWEARS", "DESCWEARS", usePronoun(), false);
 	}
 	
 	private static String _messageDescriptionCharacterWearsHands() {
@@ -659,7 +661,7 @@ public class Main {
 			names.add(itemhand);
 			names.add(head);
 			GrammarIndividual grammarIndividual = grammarDescribeCharacterWears.getRandomGrammar();
-			message += _getMessage(grammarIndividual, names, "DESCWEARS", usePronoun(), false);
+			message += _getMessage(grammarIndividual, names, "DESCWEARS", "DESCWEARS", usePronoun(), false);
 		}
 		return message;
 	}
@@ -671,7 +673,7 @@ public class Main {
 		names.add(user);
 		names.add(that);
 		GrammarIndividual grammarIndividual = grammarUnvalidDescription.getRandomGrammar();
-		message += _getMessage(grammarIndividual, names, "DESCUNVALID", usePronoun(), false);
+		message += _getMessage(grammarIndividual, names, "DESCUNVALID", "DESCUNVALID", usePronoun(), false);
 		if (!message.isEmpty()) {
 			printMessage(message);
 		}
@@ -739,25 +741,29 @@ public class Main {
 	}
 	
 	public static void descriptionWereables() {
+		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+		names.add(user);
 		Item helmet = user.getWearHelmet();
-		String message = "";
 		if (helmet != null) {
-			message += _messageDescriptionCharacterWears(helmet, "on", "head") + ".";
+			names.add(helmet);
 		}
 		Item chest = user.getWearChest();
 		if (chest != null) {
-			message += _messageDescriptionCharacterWears(chest, "in", "chest")  + ".";
+			names.add(chest);
 		}
 		Item pants = user.getWearPants();
 		if (pants != null) {
-			message += _messageDescriptionCharacterWears(pants, "on", "legs") + ".";
+			names.add(pants);
 		}
 		Item gloves = user.getWearGloves();
 		if (gloves != null) {
-			message += _messageDescriptionCharacterWears(gloves, "in", "hands") + ".";
+			names.add(gloves);
 		}
-		message += _messageDescriptionCharacterWearsHands() + ".";
-		printMessage(message);
+		ArrayList<Item> hands = user.getWearHandsAttack();
+		if (hands.size() > 0) {
+			names.add(hands.get(0));
+		}
+		generatePrintMessage(names, grammarDescribeItem, "DESCITEM", "DESCWEARS", usePronoun(), false);
 	}
 	
 	public static void _descriptionAction(int i){
@@ -832,7 +838,7 @@ public class Main {
 			names.add(user);
 			names.add(item);
 			printEverything(true);
-			generatePrintMessage(names, grammarPickItem, "PICK", usePronoun(), false);
+			generatePrintMessage(names, grammarPickItem, "PICK", "PICK", usePronoun(), false);
 			hasChanged = false;
 		} else {
 			_messageUnvalid();
@@ -845,7 +851,7 @@ public class Main {
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);
 			names.add(weapons);
-			generatePrintMessage(names, grammarGeneralDescription, "NOTHAVE", usePronoun(), false);
+			generatePrintMessage(names, grammarGeneralDescription, "NOTHAVE", "NOTHAVE", usePronoun(), false);
 		} else {
 			if (map.getMonstersPosition(user).size() > 0) {
 				Pair<Boolean, ActiveCharacter> monster = user.weaponAttack();
@@ -855,7 +861,7 @@ public class Main {
 				names.add(monster.getB());
 				names.add(user.getWeaponsEquipped().get(0));
 				GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
-				String message = _getMessage(grammarIndividual, names, "ATTACK", usePronoun(), false);
+				String message = _getMessage(grammarIndividual, names, "ATTACK", "ATTACK", usePronoun(), false);
 				if (monster.getA()) {
 					if (monster.getB().getLife() <= 0) {
 						user.addNewExperience(monster.getB().getExperienceGiven());
@@ -879,7 +885,7 @@ public class Main {
 					user.setPrepositions(preposition);
 					namesMiss.add(user);
 					String messageAgain = "";
-					String messageMiss = ", " + _getMessage(grammarIndividualMiss, namesMiss, "MISS", true, false);
+					String messageMiss = ", " + _getMessage(grammarIndividualMiss, namesMiss, "MISS", "MISS", true, false);
 					if (monster.getB().isHasBeenAttackedByHeroe() && RandUtil.RandomNumber(0, 3) == 1) {
 						messageAgain += ", " + JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
 					} else {
@@ -900,7 +906,7 @@ public class Main {
 			names.add(user);
 			names.add(user.getSpells().get(itemNumber));
 			names.add(monsterAffected);
-			generatePrintMessage(names, grammarAttack, "SPELLS", usePronoun(), false);
+			generatePrintMessage(names, grammarAttack, "SPELLS", "SPELLS", usePronoun(), false);
 			if (monsterAffected.isDead()) {
 				user.addNewExperience(monsterAffected.getExperienceGiven());
 				monsterAffected.setExperienceGiven(0);
@@ -920,7 +926,7 @@ public class Main {
 				ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 				names.add(user);
 				names.add(item);
-				generatePrintMessage(names, grammarPickItem, "THROW", usePronoun(), false);
+				generatePrintMessage(names, grammarPickItem, "THROW", "THROW", usePronoun(), false);
 			}
 			hasChanged = false;
 		}
@@ -941,7 +947,7 @@ public class Main {
 				GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item, "GENERAL");
 				printMessage(message + " " + selector.getRandomSentenceTranslated());
 			} else {
-				generatePrintMessage(names, grammarPickItem, "UNEQUIP", usePronoun(), false);
+				generatePrintMessage(names, grammarPickItem, "UNEQUIP", "UNEQUIP", usePronoun(), false);
 				hasUnequipedItem = true;
 			}
 			hasChanged = false;
@@ -957,7 +963,7 @@ public class Main {
 		PrintableObject spells = new PrintableObject("spells", "", null, null);
 		names.add(spells);
 		GrammarIndividual grammarIndividual = grammarSimpleVerb.getRandomGrammar();
-		String message = _getMessage(grammarIndividual, names, "DESCGENERAL", false, false) + ": ";
+		String message = _getMessage(grammarIndividual, names, "DESCGENERAL", "DESCGENERAL", false, false) + ": ";
 		
 		JsonObject namesWords = JSONParsing.getElement(rootObjWords, "N").getAsJsonObject();
 		for (Spell spell : user.getSpells()) {
@@ -1092,7 +1098,7 @@ public class Main {
 			names.add(user);
 			names.add(portal);
 			GrammarIndividual grammarIndividual = grammarGeneralDescription.getRandomGrammar();
-			printMessage(_getMessage(grammarIndividual, names, "DESCGOESTHROUGH", false, false));
+			printMessage(_getMessage(grammarIndividual, names, "DESCGOESTHROUGH", "DESCGOESTHROUGH", false, false));
 			deepnessScore++;
 			hasUsedPortal = false;
 		}
@@ -1120,7 +1126,7 @@ public class Main {
 						preposition.add("but");
 						user.setPrepositions(preposition);
 						namesMiss.add(user);
-						String messageMiss = ", " + _getMessage(grammarIndividualMiss, namesMiss, "MISS", true, false);
+						String messageMiss = ", " + _getMessage(grammarIndividualMiss, namesMiss, "MISS", "MISS", true, false);
 						user.setPrepositions(prepositionBefore);
 						printMessage(message.getB() + messageMiss);
 					}	

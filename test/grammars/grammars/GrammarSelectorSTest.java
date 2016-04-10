@@ -67,7 +67,7 @@ public class GrammarSelectorSTest {
 	public static String _getMessage(GrammarIndividual grammarIndividual, ArrayList<PrintableObject> names, String type, boolean usePronoun, boolean useAnd) {
 		GrammarSelectorS selector = null;
 		try {
-			selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, type);
+			selector = new GrammarSelectorS(grammarIndividual, rootObjWords, names, type, type);
 		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException | InstantiationException
 				| IllegalAccessException e) {
 			e.printStackTrace();
