@@ -925,7 +925,6 @@ public class Main {
 	}
 	
 	public static void _throwItem(int keyPressed){
-		System.out.println("Hey!");
 		int itemNumber = keyPressed % keysMap.get("item1");
 		if (itemNumber + 1 <= user.getInventory().size()) {
 			Item item = user.getInventory().get(itemNumber);
@@ -1063,7 +1062,7 @@ public class Main {
         	doMonstersTurn = true;
         	_pickItemAction();
         	canUsePronoun = true;
-        	printEverything(false);
+        	printEverything(true);
         	hasEquipedItem = false;
         	hasUnequipedItem = false;
         }
