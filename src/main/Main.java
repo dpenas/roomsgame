@@ -98,7 +98,9 @@ public class Main {
 	static boolean isNumericDescription = false;
 	static boolean hasUsedPortal = false;
 	static boolean hasEquipedItem = false;
+	static boolean hasThrownItem = false;
 	static boolean hasUnequipedItem = false;
+	static boolean hasPickedItem = false;
 	static boolean doMonstersTurn = false;
 	public static boolean unequipPressed = false;
 	public static boolean spellsPressed = false;
@@ -844,8 +846,17 @@ public class Main {
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);
 			names.add(item);
+			if (hasPickedItem) {
+				String message = JSONParsing.getTranslationWord("and", "OTHERS", rootObjWords);
+				GrammarIndividual grammarIndividual = grammarGeneralObj.getRandomGrammar();
+				GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item, "GENERAL");
+				printMessage(message + " " + selector.getRandomSentenceTranslated());
+			} else {
+				hasPickedItem = true;
+				generatePrintMessage(names, grammarPickItem, "PICK", "PICK", usePronoun(), false);
+			}
+			
 			printEverything(true);
-			generatePrintMessage(names, grammarPickItem, "PICK", "PICK", usePronoun(), false);
 			hasChanged = false;
 		} else {
 			_messageUnvalid();
@@ -929,11 +940,19 @@ public class Main {
 		if (itemNumber + 1 <= user.getInventory().size()) {
 			Item item = user.getInventory().get(itemNumber);
 			if (user.throwItem(item)) {
-				printEverything(true);
 				ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 				names.add(user);
 				names.add(item);
-				generatePrintMessage(names, grammarPickItem, "THROW", "THROW", usePronoun(), false);
+				if (hasThrownItem) {
+					String message = JSONParsing.getTranslationWord("and", "OTHERS", rootObjWords);
+					GrammarIndividual grammarIndividual = grammarGeneralObj.getRandomGrammar();
+					GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item, "GENERAL");
+					printMessage(message + " " + selector.getRandomSentenceTranslated());
+				} else {
+					generatePrintMessage(names, grammarPickItem, "THROW", "THROW", usePronoun(), false);
+					hasThrownItem = true;
+				}
+				printEverything(true);
 			}
 			hasChanged = false;
 		}
@@ -1029,6 +1048,8 @@ public class Main {
     		printEverything(true);
     		hasEquipedItem = false;
     		hasUnequipedItem = false;
+    		hasThrownItem = false;
+    		hasPickedItem = false;
     	}
     	canUsePronoun = true;
     	printEverything(true);
@@ -1041,6 +1062,7 @@ public class Main {
     		printEverything(true);
     		hasEquipedItem = false;
     		hasUnequipedItem = false;
+    		hasPickedItem = false;
     	}
 	}
 	
@@ -1050,6 +1072,8 @@ public class Main {
         	_moveCharacterAction(i);
 			hasEquipedItem = false;
 			hasUnequipedItem = false;
+			hasThrownItem = false;
+			hasPickedItem = false;
         }
         else if (isInventoryInput(i)) {
         	doMonstersTurn = true;
@@ -1057,6 +1081,8 @@ public class Main {
         	canUsePronoun = true;
         	printEverything(false);
         	hasUnequipedItem = false;
+        	hasThrownItem = false;
+        	hasPickedItem = false;
         }
         else if (isPickItemInput(i)) {
         	doMonstersTurn = true;
@@ -1065,6 +1091,7 @@ public class Main {
         	printEverything(true);
         	hasEquipedItem = false;
         	hasUnequipedItem = false;
+        	hasThrownItem = false;
         }
         else if (isAttackInput(i)) {
         	doMonstersTurn = true;
@@ -1073,16 +1100,29 @@ public class Main {
         	printEverything(true);
         	hasEquipedItem = false;
         	hasUnequipedItem = false;
+        	hasThrownItem = false;
+        	hasPickedItem = false;
         } 
         else if (isSpellInput(i)) {
         	spellsPressed = true;
+        	hasEquipedItem = false;
+        	hasUnequipedItem = false;
+        	hasThrownItem = false;
+        	hasPickedItem = false;
         	messageLabel.requestFocus();
         } else if (isDescriptionInput(i) || isDescriptionWereableInput(i)) {
+        	hasUnequipedItem = false;
+        	hasEquipedItem = false;
+        	hasThrownItem = false;
+        	hasPickedItem = false;
         	doMonstersTurn = false;
         	_descriptionAction(i);
         	canUsePronoun = true;
         	printEverything(false);
         } else if (isThrowItemInput(i)) {
+        	hasUnequipedItem = false;
+        	hasEquipedItem = false;
+        	hasPickedItem = false;
         	throwPressed = true;
         	messageLabel.requestFocus();
         } else if (isChangeNumericDescInput(i)) {
@@ -1095,6 +1135,9 @@ public class Main {
         	}
         	printEverything(true);
         } else if (isUnequipItemInput(i)) {
+        	hasEquipedItem = false;
+        	hasPickedItem = false;
+        	hasThrownItem = false;
         	unequipPressed = true;
         	messageLabel.requestFocus();
         }
