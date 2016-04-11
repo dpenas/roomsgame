@@ -1006,6 +1006,10 @@
                 {"translation": "once again"},
                 {"gender": ""}
             ]
-        }
+        },
+        "restart": [
+        	{"translation": "Restart the game to apply the changes"},
+        	{"gender": ""}
+        ]
     }
 }

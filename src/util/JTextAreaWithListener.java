@@ -8,7 +8,6 @@ import javax.swing.JTextArea;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
-import net.slashie.libjcsi.CharKey;
 import net.slashie.libjcsi.wswing.StrokeInformer;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 

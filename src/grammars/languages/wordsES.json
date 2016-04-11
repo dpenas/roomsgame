@@ -1315,6 +1315,10 @@
                 {"translation": "de nuevo"},
                 {"gender": ""}
             ]
-        }
+        },
+        "restart": [
+        	{"translation": "Reinicia el juego para aplicar los cambios"},
+        	{"gender": ""}
+        ]
     }
 }

@@ -48,13 +48,8 @@ public class ChangeKeyBinding extends JFrame {
 						newProperties.store(newPropertiesFile, null);
 						newPropertiesFile.flush();
 						newPropertiesFile.close();
-						try {
-							main.Main._setKeyMap();
-							setVisible(false);
-							dispose();
-						} catch (Throwable e) {
-							e.printStackTrace();
-						}
+						main.Main.restartMessage();
+						done = true;
 					}
 				} catch (IOException e) {
 					e.printStackTrace();

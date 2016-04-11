@@ -1236,6 +1236,14 @@ public class Main {
 		window.setBounds(0, 0, 600, 350);
 	}
 	
+	public static void restartMessage() {
+		JLabel message = new JLabel();
+		message.setText(JSONParsing.getTranslationWord("restart", "OTHERS", rootObjWords));
+		message.requestFocusInWindow();
+		JOptionPane.showMessageDialog(null, message, "", JOptionPane.PLAIN_MESSAGE);
+		System.exit(1);
+	}
+	
 	public static void rebindKeys() {
 		try {
 			new ChangeKeyBinding(j);
