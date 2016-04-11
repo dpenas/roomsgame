@@ -26,6 +26,7 @@ import com.google.gson.JsonSyntaxException;
 
 import characters.active.ActiveCharacter;
 import characters.active.enemies.Goblin;
+import config.ChangeKeyBinding;
 import grammars.grammars.GrammarIndividual;
 import grammars.grammars.GrammarSelectorNP;
 import grammars.grammars.GrammarSelectorS;
@@ -1225,44 +1226,49 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
-//		ChangeKeyBinding a = new ChangeKeyBinding(j);
-		_setLanguage();
-		configureTextArea();
-		j.getTargetFrame().requestFocus();
+		ChangeKeyBinding rebindingKeys = null;
+		rebindingKeys = new ChangeKeyBinding(j);
+		if (rebindingKeys == null) {
+			_setLanguage();
+			configureTextArea();
+			j.getTargetFrame().requestFocus();
+		}
 		rootObj = parser.parse(new FileReader("./src/grammars/languages/sentenceGrammar" + language + ".json")).getAsJsonObject();
 		rootObjWords = parser.parse(new FileReader("./src/grammars/languages/words" + language + ".json")).getAsJsonObject();
 		rootObjGrammar = parser.parse(new FileReader("./src/grammars/languages/objectGrammar" + language + ".json")).getAsJsonObject();
-		JsonObject objectAttack = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
-		JsonObject objectPickItem = JSONParsing.getElement(rootObj, "PICK").getAsJsonObject();
-		JsonObject objectUseItem = JSONParsing.getElement(rootObj, "USE").getAsJsonObject();
-		JsonObject objectDescribeItem = JSONParsing.getElement(rootObj, "DESCITEM").getAsJsonObject();
-		JsonObject objectDescribePersonal = JSONParsing.getElement(rootObj, "DESCPERSONAL").getAsJsonObject();
-		JsonObject objectDescribeEnvironment = JSONParsing.getElement(rootObj, "DESCENV").getAsJsonObject();
-		JsonObject objectDescribeEnvironmentSimple = JSONParsing.getElement(rootObj, "DESCENVSIMPLE").getAsJsonObject();
-		JsonObject objectCharacterWears = JSONParsing.getElement(rootObj, "DESCCHAWEARS").getAsJsonObject();
-		JsonObject unvalidDescription = JSONParsing.getElement(rootObj, "DESCUNVALID").getAsJsonObject();
-		JsonObject simpleDescription = JSONParsing.getElement(rootObj, "DESCSIMPLE").getAsJsonObject();
-		JsonObject adjectiveDescription = JSONParsing.getElement(rootObj, "DESCRIPTIONADJECTIVE").getAsJsonObject();
-		JsonObject missDescription = JSONParsing.getElement(rootObj, "ATTACKMISS").getAsJsonObject();
-		JsonObject generalDescription = JSONParsing.getElement(rootObj, "GENERAL").getAsJsonObject();
-		JsonObject simpleVerbDescription = JSONParsing.getElement(rootObj, "SIMPLEVERB").getAsJsonObject();
-		JsonObject generalObjGrammar = JSONParsing.getElement(rootObjGrammar, "GENERAL").getAsJsonObject();
-		grammarAttack = new GrammarsGeneral(objectAttack);
-		grammarPickItem = new GrammarsGeneral(objectPickItem);
-		grammarUseItem = new GrammarsGeneral(objectUseItem);
-		grammarDescribeItem = new GrammarsGeneral(objectDescribeItem);
-		grammarDescribePersonal = new GrammarsGeneral(objectDescribePersonal);
-		grammarDescribeEnvironment = new GrammarsGeneral(objectDescribeEnvironment);
-		grammarDescribeEnvironmentSimple = new GrammarsGeneral(objectDescribeEnvironmentSimple);
-		grammarDescribeCharacterWears = new GrammarsGeneral(objectCharacterWears);
-		grammarUnvalidDescription = new GrammarsGeneral(unvalidDescription);
-		grammarSimpleDescription = new GrammarsGeneral(simpleDescription);
-		grammarAdjectiveDescription = new GrammarsGeneral(adjectiveDescription);
-		grammarMissDescription = new GrammarsGeneral(missDescription);
-		grammarGeneralDescription = new GrammarsGeneral(generalDescription);
-		grammarSimpleVerb = new GrammarsGeneral(simpleVerbDescription);
-		grammarGeneralObj = new GrammarsGeneral(generalObjGrammar);
-		if (!testMode){
+		if (rebindingKeys == null) {
+			JsonObject objectAttack = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
+			JsonObject objectPickItem = JSONParsing.getElement(rootObj, "PICK").getAsJsonObject();
+			JsonObject objectUseItem = JSONParsing.getElement(rootObj, "USE").getAsJsonObject();
+			JsonObject objectDescribeItem = JSONParsing.getElement(rootObj, "DESCITEM").getAsJsonObject();
+			JsonObject objectDescribePersonal = JSONParsing.getElement(rootObj, "DESCPERSONAL").getAsJsonObject();
+			JsonObject objectDescribeEnvironment = JSONParsing.getElement(rootObj, "DESCENV").getAsJsonObject();
+			JsonObject objectDescribeEnvironmentSimple = JSONParsing.getElement(rootObj, "DESCENVSIMPLE").getAsJsonObject();
+			JsonObject objectCharacterWears = JSONParsing.getElement(rootObj, "DESCCHAWEARS").getAsJsonObject();
+			JsonObject unvalidDescription = JSONParsing.getElement(rootObj, "DESCUNVALID").getAsJsonObject();
+			JsonObject simpleDescription = JSONParsing.getElement(rootObj, "DESCSIMPLE").getAsJsonObject();
+			JsonObject adjectiveDescription = JSONParsing.getElement(rootObj, "DESCRIPTIONADJECTIVE").getAsJsonObject();
+			JsonObject missDescription = JSONParsing.getElement(rootObj, "ATTACKMISS").getAsJsonObject();
+			JsonObject generalDescription = JSONParsing.getElement(rootObj, "GENERAL").getAsJsonObject();
+			JsonObject simpleVerbDescription = JSONParsing.getElement(rootObj, "SIMPLEVERB").getAsJsonObject();
+			JsonObject generalObjGrammar = JSONParsing.getElement(rootObjGrammar, "GENERAL").getAsJsonObject();
+			grammarAttack = new GrammarsGeneral(objectAttack);
+			grammarPickItem = new GrammarsGeneral(objectPickItem);
+			grammarUseItem = new GrammarsGeneral(objectUseItem);
+			grammarDescribeItem = new GrammarsGeneral(objectDescribeItem);
+			grammarDescribePersonal = new GrammarsGeneral(objectDescribePersonal);
+			grammarDescribeEnvironment = new GrammarsGeneral(objectDescribeEnvironment);
+			grammarDescribeEnvironmentSimple = new GrammarsGeneral(objectDescribeEnvironmentSimple);
+			grammarDescribeCharacterWears = new GrammarsGeneral(objectCharacterWears);
+			grammarUnvalidDescription = new GrammarsGeneral(unvalidDescription);
+			grammarSimpleDescription = new GrammarsGeneral(simpleDescription);
+			grammarAdjectiveDescription = new GrammarsGeneral(adjectiveDescription);
+			grammarMissDescription = new GrammarsGeneral(missDescription);
+			grammarGeneralDescription = new GrammarsGeneral(generalDescription);
+			grammarSimpleVerb = new GrammarsGeneral(simpleVerbDescription);
+			grammarGeneralObj = new GrammarsGeneral(generalObjGrammar);
+		}
+		if (!testMode && rebindingKeys == null){
 			gameFlow();
 		}
 		

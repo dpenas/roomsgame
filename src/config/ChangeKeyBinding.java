@@ -6,6 +6,8 @@ import java.util.Properties;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.event.*;
+
+import net.slashie.libjcsi.wswing.StrokeInformer;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 
 public class ChangeKeyBinding extends JFrame {
@@ -37,15 +39,12 @@ public class ChangeKeyBinding extends JFrame {
     	
         addKeyListener(new KeyListener() {
         	@Override
-            public void keyPressed(KeyEvent ke) {}
-            @Override
-            public void keyReleased(KeyEvent ke) {}
-            @Override
-            public void keyTyped(KeyEvent ke) {
-            	try {
-            		int keyCode = ke.getKeyChar();
+            public void keyPressed(KeyEvent ke) {
+        		try {
+            		StrokeInformer strokeInformer = new StrokeInformer();
+            		int code = strokeInformer.charCode(ke);
             		count++;
-					doSomething(keyCode);
+					doSomething(code);
 					if (allProperties.size() < count) {
 						newProperties.store(newPropertiesFile, null);
 						try {
@@ -58,7 +57,11 @@ public class ChangeKeyBinding extends JFrame {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-            }
+        	}
+            @Override
+            public void keyReleased(KeyEvent ke) {}
+            @Override
+            public void keyTyped(KeyEvent ke) {}
         });
         add(jLab);
         pack();
