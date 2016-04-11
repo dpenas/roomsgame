@@ -17,13 +17,12 @@ public class ChangeKeyBinding extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel jLab;
-	private WSwingConsoleInterface swingBinding;
 	private Properties allProperties;
 	private Properties newProperties = new Properties();
 	private FileOutputStream newPropertiesFile;
+	public boolean done = false;
 	int count = 0;
     public ChangeKeyBinding(WSwingConsoleInterface swingBinding) throws FileNotFoundException {
-    	this.swingBinding = swingBinding;
     	FileInputStream in;
     	this.allProperties = new Properties();
 		try {
@@ -47,7 +46,10 @@ public class ChangeKeyBinding extends JFrame {
 					doSomething(code);
 					if (allProperties.size() < count) {
 						newProperties.store(newPropertiesFile, null);
+						newPropertiesFile.flush();
+						newPropertiesFile.close();
 						try {
+							main.Main._setKeyMap();
 							setVisible(false);
 							dispose();
 						} catch (Throwable e) {

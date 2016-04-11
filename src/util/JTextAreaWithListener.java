@@ -23,7 +23,6 @@ public class JTextAreaWithListener extends JTextArea implements KeyListener{
 		StrokeInformer strokeInformer = new StrokeInformer();
 		int code = strokeInformer.charCode(arg0);
 		try {
-			System.out.println("unequipPressed: " + main.Main.unequipPressed);
 			if (main.Main.unequipPressed) {
 				main.Main.unequipItemAction(code);
 				main.Main.unequipPressed = false;
