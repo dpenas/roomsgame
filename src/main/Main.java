@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.channels.Selector;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -101,10 +100,12 @@ public class Main {
 	static boolean hasEquipedItem = false;
 	static boolean hasUnequipedItem = false;
 	static boolean doMonstersTurn = false;
+	public static boolean unequipPressed = false;
+	public static boolean spellsPressed = false;
+	public static boolean throwPressed = false;
 	static JsonParser parser = new JsonParser();
 	static JsonObject rootObj;
 	public static JTextAreaWithListener messageLabel = new JTextAreaWithListener(j);
-	static JTextAreaWithListener gameListener = new JTextAreaWithListener(j);
 	static int caretPosition = 0;
 	static JScrollPane jScrollPane;
 	static JFrame window;
@@ -1021,6 +1022,29 @@ public class Main {
     	}
 	}
 	
+	public static void spellAction(int itemCode) {
+		doMonstersTurn = true;
+    	if (isInventoryInput(itemCode)) {
+    		_spellAction(itemCode);
+    		canUsePronoun = true;
+    		printEverything(true);
+    		hasEquipedItem = false;
+    		hasUnequipedItem = false;
+    	}
+    	canUsePronoun = true;
+    	printEverything(true);
+	}
+	
+	public static void throwAction(int itemCode) {
+		if (isInventoryInput(itemCode)) {
+    		_throwItem(itemCode);
+    		canUsePronoun = true;
+    		printEverything(true);
+    		hasEquipedItem = false;
+    		hasUnequipedItem = false;
+    	}
+	}
+	
 	public static void makeMovement(int i) throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 		if (isMovementInput(i)){
         	doMonstersTurn = true;
@@ -1052,31 +1076,16 @@ public class Main {
         	hasUnequipedItem = false;
         } 
         else if (isSpellInput(i)) {
-        	doMonstersTurn = true;
-        	int itemCode = j.inkey().code;
-        	if (isInventoryInput(itemCode)) {
-        		_spellAction(itemCode);
-        		canUsePronoun = true;
-        		printEverything(true);
-        		hasEquipedItem = false;
-        		hasUnequipedItem = false;
-        	}
-        	canUsePronoun = true;
-        	printEverything(true);
+        	spellsPressed = true;
+        	messageLabel.requestFocus();
         } else if (isDescriptionInput(i) || isDescriptionWereableInput(i)) {
         	doMonstersTurn = false;
         	_descriptionAction(i);
         	canUsePronoun = true;
         	printEverything(false);
         } else if (isThrowItemInput(i)) {
-        	int itemCode = j.inkey().code;
-        	if (isInventoryInput(itemCode)) {
-        		_throwItem(itemCode);
-        		canUsePronoun = true;
-        		printEverything(true);
-        		hasEquipedItem = false;
-        		hasUnequipedItem = false;
-        	}
+        	throwPressed = true;
+        	messageLabel.requestFocus();
         } else if (isChangeNumericDescInput(i)) {
         	isNumericDescription = !isNumericDescription;
         } else if (isChangingColors(i)) {
@@ -1086,10 +1095,8 @@ public class Main {
         		selectedColor++;
         	}
         	printEverything(true);
-        } else if (isDescSpellsInput(i)) {
-        	describeSpells();
         } else if (isUnequipItemInput(i)) {
-        	messageLabel.unequipPressed = true;
+        	unequipPressed = true;
         	messageLabel.requestFocus();
         }
 	}
