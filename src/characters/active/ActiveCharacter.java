@@ -501,6 +501,17 @@ public class ActiveCharacter extends Character {
 		_printLife(rootObjWords, j, initPos_j + 1, initPos_i);
 	}
 	
+	public void _printGroundObjects(WSwingConsoleInterface j, JsonObject rootObjWords){
+		if (this.getRoom().getItemsPosition(this.getPosition()).size() > 0) {
+			main.Main.countElements += 2;
+			j.print(this.getMap().global_fin().y + 1, main.Main.countElements, JSONParsing.getTranslationWord("items", "N", rootObjWords) + ": ");
+		}
+		for (Item item : this.getRoom().getItemsPosition(this.getPosition())) {
+			main.Main.countElements += 1;
+			item.printItemsInformation(j, this.getMap().global_fin().y + 1, main.Main.countElements);
+		}
+	}
+	
 	public boolean unequipItem(Item item) {
 		if (item != null && this.getInventory().size() < this.getMaximumItemsInventory()) {
 			if (item instanceof WereableArmor) {

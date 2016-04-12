@@ -5,7 +5,10 @@ import items.Item;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.google.gson.JsonObject;
+
 import characters.active.ActiveCharacter;
+import grammars.parsing.JSONParsing;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import main.Main;
 import util.GenericMatrixFunctions;
@@ -704,6 +707,21 @@ public class Map {
 			}
 		}
 		return null;
+	}
+	
+	public void _printInformationMonsters(WSwingConsoleInterface j, ActiveCharacter user, JsonObject rootObjWords) {
+		int count = 0;
+		for (ActiveCharacter monster : user.getRoom().getMonstersPosition(user.getPosition())) {
+			if (!monster.isDead() && count == 0) {
+				main.Main.countElements += 1;
+				j.print(user.getMap().global_fin().y + 1, main.Main.countElements, JSONParsing.getTranslationWord("monsters", "N", rootObjWords) + ": ");
+				count++;
+			}
+			if (!monster.isDead()) {
+				main.Main.countElements += 1;
+				monster.printMonstersInformation(rootObjWords, j, user.getMap().global_fin().y + 1, main.Main.countElements);
+			}
+		}
 	}
 	
 	public Room getRandomRoom() {

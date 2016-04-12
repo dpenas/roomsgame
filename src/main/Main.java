@@ -223,9 +223,9 @@ public class Main {
 		map.printItems(j, user);
 		map.printMonsters(j, user);
 		printUserInformation();
-		_printInformationMonsters();
+		map._printInformationMonsters(j, user, rootObjWords);
 		if (needsToPrintGroundObjects) {
-			_printGroundObjects();
+			user._printGroundObjects(j, rootObjWords);
 		}
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
 		j.refresh();
@@ -257,32 +257,6 @@ public class Main {
 			hasUsedPortal = true;
 			newMatch = false;
 			gameFlow();
-		}
-	}
-	
-	public static void _printInformationMonsters() {
-		int count = 0;
-		for (ActiveCharacter monster : user.getRoom().getMonstersPosition(user.getPosition())) {
-			if (!monster.isDead() && count == 0) {
-				countElements += 1;
-				j.print(map.global_fin().y + 1, countElements, JSONParsing.getTranslationWord("monsters", "N", rootObjWords) + ": ");
-				count++;
-			}
-			if (!monster.isDead()) {
-				countElements += 1;
-				monster.printMonstersInformation(rootObjWords, j, map.global_fin().y + 1, countElements);
-			}
-		}
-	}
-	
-	public static void _printGroundObjects(){
-		if (user.getRoom().getItemsPosition(user.getPosition()).size() > 0) {
-			countElements += 2;
-			j.print(map.global_fin().y + 1, countElements, JSONParsing.getTranslationWord("items", "N", rootObjWords) + ": ");
-		}
-		for (Item item : user.getRoom().getItemsPosition(user.getPosition())) {
-			countElements += 1;
-			item.printItemsInformation(j, map.global_fin().y + 1, countElements);
 		}
 	}
 	
@@ -959,7 +933,6 @@ public class Main {
 	}
 	
 	public static void makeMovement(int i) throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
-		_setKeyMap();
 		if (isInputType(movementInput, i)){
         	doMonstersTurn = true;
         	_moveCharacterAction(i);
