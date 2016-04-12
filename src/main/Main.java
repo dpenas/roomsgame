@@ -46,6 +46,7 @@ import map.Map;
 import map.Room;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import net.slashie.util.Pair;
+import util.ActionHandler;
 import util.JTextAreaWithListener;
 import util.MessageDescriptionsUtil;
 import util.RandUtil;
@@ -88,7 +89,7 @@ public class Main {
 	static WSwingConsoleInterface j = new WSwingConsoleInterface("RoomsGame");
 	static ActiveCharacter user = null;
 	static boolean firstTime = true;
-	static boolean hasChanged = false;
+	public static boolean hasChanged = false;
 	static boolean hasMoved = false;
 	static char previousPositionChar = '.';
 	static char previousPositionChar2 = '.';
@@ -113,6 +114,7 @@ public class Main {
 	static boolean newMatch = true;
 	public static JsonObject rootObjWords;
 	public static JsonObject rootObjGrammar;
+	static ActionHandler actionHandler;
 	static GrammarsGeneral grammarAttack;
 	static GrammarsGeneral grammarPickItem;
 	static GrammarsGeneral grammarUseItem;
@@ -288,6 +290,7 @@ public class Main {
 		_initializeMap();
 		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
+		actionHandler = new ActionHandler(keysMap, user, grammarUseItem, grammarPickItem);
 	}
 	
 	public static void _initializeMap() {
@@ -329,7 +332,7 @@ public class Main {
 		printMessage(_getMessage(grammarIndividual, names, type, verbType, usePronoun, useAnd));
 	}
 	
-	private static void useAndWithItem(Item item) {
+	public static void useAndWithItem(Item item) {
 		String message = JSONParsing.getTranslationWord("and", "OTHERS", rootObjWords);
 		GrammarIndividual grammarIndividual = grammarGeneralObj.getRandomGrammar();
 		GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item, "GENERAL");
@@ -356,9 +359,6 @@ public class Main {
 				generatePrintMessage(names, grammarUseItem, "USE", "USE", usePronoun(), false);
 			}
 		}
-		if (debug) {
-			System.out.println(user.getWeaponsEquipped().size());
-		}
 		hasChanged = false;
 	}
 	
@@ -370,7 +370,7 @@ public class Main {
 		}
 	}
 	
-	private static void _messageUnvalid() {
+	public static void _messageUnvalid() {
 		String message = "";
 		PrintableObject that = new PrintableObject("that", "", null, null);
 		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
@@ -478,26 +478,6 @@ public class Main {
 			}
 		}
 		hasChanged = false;
-	}
-	
-	public static void _pickItemAction(){
-		Item item = user.pickItem(user.getPosition(), user.getRoom());
-		if (user.getInventory().size() <= user.getMaximumItemsInventory() && item != null ) {
-			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-			names.add(user);
-			names.add(item);
-			if (hasPickedItem) {
-				useAndWithItem(item);
-			} else {
-				hasPickedItem = true;
-				generatePrintMessage(names, grammarPickItem, "PICK", "PICK", usePronoun(), false);
-			}
-			
-			printEverything(true);
-			hasChanged = false;
-		} else {
-			_messageUnvalid();
-		}
 	}
 	
 	public static void _attackAction(){
@@ -698,7 +678,7 @@ public class Main {
         }
         else if (isInputType(pickItemInput, i)) {
         	doMonstersTurn = true;
-        	_pickItemAction();
+        	actionHandler._pickItemAction(usePronoun(), hasPickedItem);
         	canUsePronoun = true;
         	printEverything(true);
         	hasEquipedItem = false;
