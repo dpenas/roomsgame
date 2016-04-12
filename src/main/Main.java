@@ -78,7 +78,6 @@ public class Main {
 	static Integer[] changeNumericDescInput;
 	static Integer[] changeColorsInput;
 	static Integer[] rebindKeysInput;
-	static Integer[] descSpellsInput;
 	static Integer[] arrayColors1 = new Integer[]{12,2,3,11,5,15,7};
 	static Integer[] arrayColors2 = new Integer[]{8,4,3,11,15,6,14};
 	public static Integer[][] arrayColors = {arrayColors1, arrayColors2};
@@ -201,7 +200,6 @@ public class Main {
 		unequipItemInput = new Integer[] {keysMap.get("unequipItem")};
 		changeNumericDescInput = new Integer[] {keysMap.get("changeNumericDesc")};
 		changeColorsInput = new Integer[] {keysMap.get("changeColors")};
-		descSpellsInput = new Integer[] {keysMap.get("descSpells")};
 		rebindKeysInput = new Integer[] {keysMap.get("rebindKeys")};
 	}
 	
