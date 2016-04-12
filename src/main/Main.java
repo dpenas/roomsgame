@@ -290,7 +290,8 @@ public class Main {
 		_initializeMap();
 		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
-		actionHandler = new ActionHandler(keysMap, user, grammarUseItem, grammarPickItem);
+		actionHandler = new ActionHandler(keysMap, user, grammarUseItem, grammarPickItem, grammarMissDescription,
+				grammarAdjectiveDescription, grammarAttack, grammarGeneralDescription, rootObjWords);
 	}
 	
 	public static void _initializeMap() {
@@ -480,60 +481,6 @@ public class Main {
 		hasChanged = false;
 	}
 	
-	public static void _attackAction(){
-		if (user.getWeaponsEquipped().size() <= 0) {
-			PrintableObject weapons = new PrintableObject("weapons", "", null, user.getPosition());
-			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-			names.add(user);
-			names.add(weapons);
-			generatePrintMessage(names, grammarGeneralDescription, "NOTHAVE", "NOTHAVE", usePronoun(), false);
-		} else {
-			if (map.getMonstersPosition(user).size() > 0) {
-				Pair<Boolean, ActiveCharacter> monster = user.weaponAttack();
-				printEverything(true);
-				ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-				names.add(user);
-				names.add(monster.getB());
-				names.add(user.getWeaponsEquipped().get(0));
-				GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
-				String message = _getMessage(grammarIndividual, names, "ATTACK", "ATTACK", usePronoun(), false);
-				if (monster.getA()) {
-					if (monster.getB().getLife() <= 0) {
-						user.addNewExperience(monster.getB().getExperienceGiven());
-						monster.getB().setExperienceGiven(0);
-						MessageDescriptionsUtil._messageDescriptionDead(monster.getB(), false, grammarAdjectiveDescription);
-						hasChanged = true;
-					} else {
-						if (monster.getB().isHasBeenAttackedByHeroe() && RandUtil.RandomNumber(0, 3) == 1) {
-							message += " " + JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
-						} else {
-							monster.getB().setHasBeenAttackedByHeroe(true);
-						}
-						// We only print the message if the enemy is alive
-						printMessage(message);
-					}
-				} else {
-					GrammarIndividual grammarIndividualMiss = grammarMissDescription.getRandomGrammar();
-					ArrayList<PrintableObject> namesMiss = new ArrayList<PrintableObject>();
-					ArrayList<String> preposition = new ArrayList<String>();
-					preposition.add("but");
-					user.setPrepositions(preposition);
-					namesMiss.add(user);
-					String messageAgain = "";
-					String messageMiss = ", " + _getMessage(grammarIndividualMiss, namesMiss, "MISS", "MISS", true, false);
-					if (monster.getB().isHasBeenAttackedByHeroe() && RandUtil.RandomNumber(0, 3) == 1) {
-						messageAgain += ", " + JSONParsing.getRandomWord("OTHERS", "again", rootObjWords);
-					} else {
-						monster.getB().setHasBeenAttackedByHeroe(true);
-					}
-					printMessage(message + messageAgain + messageMiss);
-				}
-	    	}
-		}
-		printEverything(true);
-		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
-	}
-	
 	public static void _spellAction(int keyPressed){
 		int itemNumber = keyPressed % keysMap.get("item1");
 		for (ActiveCharacter monsterAffected : user.attackSpell(itemNumber, user)) {
@@ -687,7 +634,7 @@ public class Main {
         }
         else if (isInputType(attackInput, i)) {
         	doMonstersTurn = true;
-        	_attackAction();
+        	actionHandler._attackAction(usePronoun());
         	canUsePronoun = true;
         	printEverything(true);
         	setFlagsToFalse();
