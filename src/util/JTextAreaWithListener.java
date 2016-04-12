@@ -45,11 +45,11 @@ public class JTextAreaWithListener extends JTextArea implements KeyListener{
 			e.printStackTrace();
 		}
 		
-		if (main.Main.isUnequipItemInput(strokeInformer.charCode(arg0))) {
+		if (main.Main.isInputType(main.Main.unequipItemInput, strokeInformer.charCode(arg0))) {
 			main.Main.unequipPressed = true;
-		} else if (main.Main.isSpellInput(strokeInformer.charCode(arg0))) {
+		} else if (main.Main.isInputType(main.Main.spellInput, strokeInformer.charCode(arg0))) {
 			main.Main.spellsPressed = true;
-		} else if (main.Main.isThrowItemInput(strokeInformer.charCode(arg0))) {
+		} else if (main.Main.isInputType(main.Main.throwItemInput, strokeInformer.charCode(arg0))) {
 			main.Main.throwPressed = true;
 		}
 	}

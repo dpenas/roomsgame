@@ -70,11 +70,11 @@ public class Main {
 	static Integer[] inventoryInput;
 	static Integer[] pickItemInput;
 	static Integer[] attackInput;
-	static Integer[] spellInput;
+	public static Integer[] spellInput;
 	static Integer[] descriptionInput;
 	static Integer[] descriptionWereableInput;
-	static Integer[] throwItemInput;
-	static Integer[] unequipItemInput;
+	public static Integer[] throwItemInput;
+	public static Integer[] unequipItemInput;
 	static Integer[] changeNumericDescInput;
 	static Integer[] changeColorsInput;
 	static Integer[] rebindKeysInput;
@@ -132,60 +132,12 @@ public class Main {
 	static GrammarsGeneral grammarSimpleVerb;
 	static GrammarsGeneral grammarGeneralObj;
 	
-	public static boolean isMovementInput(int key){
-		return Arrays.asList(movementInput).contains(key);
-	}
-	
-	public static boolean isInventoryInput(int key){
-		return Arrays.asList(inventoryInput).contains(key);
-	}
-	
-	public static boolean isPickItemInput(int key){
-		return Arrays.asList(pickItemInput).contains(key);
-	}
-	
-	public static boolean isAttackInput(int key){
-		return Arrays.asList(attackInput).contains(key);
-	}
-	
-	public static boolean isSpellInput(int key){
-		return Arrays.asList(spellInput).contains(key);
-	}
-	
-	public static boolean isDescriptionInput(int key){
-		return Arrays.asList(descriptionInput).contains(key);
-	}
-	
-	public static boolean isDescriptionWereableInput(int key){
-		return Arrays.asList(descriptionWereableInput).contains(key);
-	}
-	
-	public static boolean isThrowItemInput(int key){
-		return Arrays.asList(throwItemInput).contains(key);
-	}
-	
-	public static boolean isUnequipItemInput(int key){
-		return Arrays.asList(unequipItemInput).contains(key);
-	}
-	
-	public static boolean isChangeNumericDescInput(int key){
-		return Arrays.asList(changeNumericDescInput).contains(key);
-	}
-	
-	public static boolean isChangingColors(int key){
-		return Arrays.asList(changeColorsInput).contains(key);
-	}
-	
-	public static boolean isRebindKeys(int key){
-		return Arrays.asList(rebindKeysInput).contains(key);
-	}
-	
-	public static boolean isDescSpellsInput(int key){
-		return Arrays.asList(descSpellsInput).contains(key);
+	public static boolean isInputType(Integer[] type, int key) {
+		return Arrays.asList(type).contains(key);
 	}
 	
 	public static boolean isTwoKeysInput(int key){
-		if (isUnequipItemInput(key) || isThrowItemInput(key) || isSpellInput(key)) {
+		if (isInputType(unequipItemInput, key) || isInputType(throwItemInput, key) || isInputType(spellInput, key)) {
 			return true;
 		}
 		return false;
@@ -973,7 +925,7 @@ public class Main {
 	
 	public static void unequipItemAction(int itemCode) {
 		hasEquipedItem = false;
-    	if (isDescriptionWereableInput(itemCode)) {
+    	if (isInputType(descriptionWereableInput, itemCode)) {
     		if (itemCode == keysMap.get("descHead")) {
     			Item helmet = user.getWearHelmet();
     			if (helmet != null) {
@@ -1010,7 +962,7 @@ public class Main {
 	
 	public static void spellAction(int itemCode) {
 		doMonstersTurn = true;
-    	if (isInventoryInput(itemCode)) {
+    	if (isInputType(inventoryInput, itemCode)) {
     		_spellAction(itemCode);
     		canUsePronoun = true;
     		printEverything(true);
@@ -1021,7 +973,7 @@ public class Main {
 	}
 	
 	public static void throwAction(int itemCode) {
-		if (isInventoryInput(itemCode)) {
+		if (isInputType(inventoryInput, itemCode)) {
     		_throwItem(itemCode);
     		canUsePronoun = true;
     		printEverything(true);
@@ -1040,12 +992,12 @@ public class Main {
 	
 	public static void makeMovement(int i) throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 		_setKeyMap();
-		if (isMovementInput(i)){
+		if (isInputType(movementInput, i)){
         	doMonstersTurn = true;
         	_moveCharacterAction(i);
         	setFlagsToFalse();
         }
-        else if (isInventoryInput(i)) {
+        else if (isInputType(inventoryInput, i)) {
         	doMonstersTurn = true;
         	_inventoryAction(i);
         	canUsePronoun = true;
@@ -1054,7 +1006,7 @@ public class Main {
         	hasThrownItem = false;
         	hasPickedItem = false;
         }
-        else if (isPickItemInput(i)) {
+        else if (isInputType(pickItemInput, i)) {
         	doMonstersTurn = true;
         	_pickItemAction();
         	canUsePronoun = true;
@@ -1063,45 +1015,45 @@ public class Main {
         	hasUnequipedItem = false;
         	hasThrownItem = false;
         }
-        else if (isAttackInput(i)) {
+        else if (isInputType(attackInput, i)) {
         	doMonstersTurn = true;
         	_attackAction();
         	canUsePronoun = true;
         	printEverything(true);
         	setFlagsToFalse();
         } 
-        else if (isSpellInput(i)) {
+        else if (isInputType(spellInput, i)) {
         	spellsPressed = true;
         	setFlagsToFalse();
         	messageLabel.requestFocus();
-        } else if (isDescriptionInput(i) || isDescriptionWereableInput(i)) {
+        } else if (isInputType(descriptionInput, i) || isInputType(descriptionWereableInput, i)) {
         	setFlagsToFalse();
         	doMonstersTurn = false;
         	_descriptionAction(i);
         	canUsePronoun = true;
         	printEverything(false);
-        } else if (isThrowItemInput(i)) {
+        } else if (isInputType(throwItemInput, i)) {
         	hasUnequipedItem = false;
         	hasEquipedItem = false;
         	hasPickedItem = false;
         	throwPressed = true;
         	messageLabel.requestFocus();
-        } else if (isChangeNumericDescInput(i)) {
+        } else if (isInputType(changeNumericDescInput, i)) {
         	isNumericDescription = !isNumericDescription;
-        } else if (isChangingColors(i)) {
+        } else if (isInputType(changeColorsInput, i)) {
         	if (selectedColor == arrayColors.length - 1) {
         		selectedColor = 0;
         	} else {
         		selectedColor++;
         	}
         	printEverything(true);
-        } else if (isUnequipItemInput(i)) {
+        } else if (isInputType(unequipItemInput, i)) {
         	hasEquipedItem = false;
         	hasPickedItem = false;
         	hasThrownItem = false;
         	unequipPressed = true;
         	messageLabel.requestFocus();
-        } else if (isRebindKeys(i)){
+        } else if (isInputType(rebindKeysInput, i)){
         	rebindKeys();
         }
 	}
