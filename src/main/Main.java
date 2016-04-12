@@ -30,9 +30,7 @@ import grammars.grammars.GrammarIndividual;
 import grammars.grammars.GrammarSelectorNP;
 import grammars.grammars.GrammarSelectorS;
 import grammars.grammars.GrammarsGeneral;
-import grammars.grammars.GrammarsOperational;
 import grammars.grammars.PrintableObject;
-import grammars.grammars.WordsGrammar;
 import grammars.parsing.JSONParsing;
 import items.Item;
 import items.wereables.NormalArmor;
@@ -44,12 +42,12 @@ import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 import magic.FireRing;
 import magic.Spell;
-import map.Door;
 import map.Map;
 import map.Room;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import net.slashie.util.Pair;
 import util.JTextAreaWithListener;
+import util.MessageDescriptionsUtil;
 import util.RandUtil;
 import util.Tuple;
 
@@ -380,17 +378,6 @@ public class Main {
 		hasChanged = false;
 	}
 	
-	private static void _messageDescriptionInventory() {
-		if (user.getInventory().size() > 0) {
-			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-			names.add(user);
-			for (Item item : user.getInventory()) {
-				names.add(item);
-			}
-			generatePrintMessage(names, grammarDescribeItem, "DESCITEM", "DESCITEM", false, false);
-		}
-	}
-	
 	private static void _messageDescriptionDead(ActiveCharacter character, boolean popup) {
 		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 		ArrayList<String> adjectives = new ArrayList<String>();
@@ -408,144 +395,12 @@ public class Main {
 		generatePrintMessage(names, grammarAdjectiveDescription, "DESCTOBE", "DESCTOBE", false, false);
 	}
 	
-	private static String _messageDescriptionLife(ActiveCharacter character, boolean usePronoun) {
-		ArrayList<String> adjectives = new ArrayList<String>();
-		adjectives.add(character.getLifeAdjective());
-		PrintableObject life = new PrintableObject("life", "", adjectives, null);
-		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-		names.add(character);
-		names.add(life);
-		GrammarIndividual grammarIndividual = grammarDescribePersonal.getRandomGrammar();
-		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL", "DESCPERSONAL", usePronoun, usePronoun);
-		if (isNumericDescription) {
-			String valueToChange = JSONParsing.getElement(WordsGrammar.getAdjectives(rootObjWords, adjectives).get(0).getB(), "translation");
-			message = message.replaceAll(valueToChange, String.valueOf(character.getLife()));
-		}
-		return message;
-	}
-	
-	private static String _messageDescriptionMana(ActiveCharacter character, boolean usePronoun, boolean useAnd) {
-		ArrayList<String> adjectives = new ArrayList<String>();
-		adjectives.add(character.getManaAdjective());
-		PrintableObject mana = new PrintableObject("mana", "", adjectives, null);
-		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-		names.add(character);
-		names.add(mana);
-		GrammarIndividual grammarIndividual = grammarDescribePersonal.getRandomGrammar();
-		String message = _getMessage(grammarIndividual, names, "DESCPERSONAL", "DESCPERSONAL", usePronoun, useAnd);
-		if (isNumericDescription) {
-			String valueToChange = JSONParsing.getElement(WordsGrammar.getAdjectives(rootObjWords, adjectives).get(0).getB(), "translation");
-			message = message.replaceAll(valueToChange, String.valueOf(character.getMagic()));
-		}
-
-		return message;
-	}
-	
-	private static String _messageDescriptionStats(ActiveCharacter character, boolean isMonster) {
-		String message = "";
-		message += _messageDescriptionLife(character, false) + " " + GrammarsOperational.getAndTranslation(rootObjWords);
-		message += _messageDescriptionMana(character, true, false) + ".";
-		
-		PrintableObject level = new PrintableObject("level", "", new ArrayList<String>(), null);
-		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-		names.add(character);
-		names.add(level);
-		GrammarIndividual grammarIndividual = grammarDescribeEnvironmentSimple.getRandomGrammar();
-		message = message + _getMessage(grammarIndividual, names, "DESCGENERAL", "DESCGENERAL", true, isMonster) + " " + character.getLevel();
-		
-		if (!isMonster) {
-			PrintableObject experience = new PrintableObject("experience", "", new ArrayList<String>(), null);
-			ArrayList<PrintableObject> namesExperience = new ArrayList<PrintableObject>();
-			namesExperience.add(character);
-			namesExperience.add(experience);
-			grammarIndividual = grammarDescribeEnvironmentSimple.getRandomGrammar();
-			message = GrammarsOperational.getAndTranslation(rootObjWords) + message 
-					+ _getMessage(grammarIndividual, namesExperience, "DESCPERSONAL", "DESCPERSONAL", true, true) + " " + user.getExperience();
-			JsonObject others = JSONParsing.getElement(rootObjWords, "OTHERS").getAsJsonObject();
-			JsonArray outOf = JSONParsing.getElement(others, "out of").getAsJsonArray();
-			message += " " + JSONParsing.getElement(outOf, "translation") + " " + user.getNextLevelExperience();
-		}
-		
-		return message;
-	}
-	
 	private static void _messageDescriptionMonster() {
 		for (ActiveCharacter monster : map.getMonstersPosition(user)) {
-			String message = _messageDescriptionStats(monster, true);
+			String message = MessageDescriptionsUtil._messageDescriptionStats(monster, true, isNumericDescription,
+					grammarDescribePersonal, rootObjWords, user, grammarDescribeEnvironmentSimple);
 			printMessage(message);
 		}
-	}
-	
-	private static String _messageDescriptionEnvironment(PrintableObject object, String directions) {
-		ArrayList<String> adjectives = new ArrayList<String>();
-		PrintableObject direction = new PrintableObject(directions, "", adjectives, null);
-		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-		names.add(object);
-		names.add(direction);
-		GrammarIndividual grammarIndividual = grammarDescribeEnvironment.getRandomGrammar();
-		return _getMessage(grammarIndividual, names, "DESCTOBE", "DESCTOBE", false, false);
-	}
-	
-	private static String _messageSimpleEnvironment(PrintableObject object, String directions) {
-		PrintableObject direction = new PrintableObject(directions, "", null, null);
-		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-		names.add(object);
-		names.add(direction);
-		GrammarIndividual grammarIndividual = grammarDescribeEnvironmentSimple.getRandomGrammar();
-		return _getMessage(grammarIndividual, names, "DESCTOBE", "DESCTOBE", false, false);
-	}
-	
-	private static void _messageDescriptionWalkablePositions() {
-		String message = "";
-		JsonObject others = JSONParsing.getElement(rootObjWords, "OTHERS").getAsJsonObject();
-		JsonArray reachablePositionsMessage = JSONParsing.getElement(others, "reachable positions").getAsJsonArray();
-		String translationreachablePositionsMessage = JSONParsing.getElement(reachablePositionsMessage, "translation");
-		message += translationreachablePositionsMessage + ": ";
-		int count = 0;
-		ArrayList<String> reachablePositions = user.getRoom().printableReachablePositionsCharacter(user);
-		JsonObject names = JSONParsing.getElement(rootObjWords, "N").getAsJsonObject();
-		JsonArray reachablePositionMessage;
-		for (String reachablePosition : reachablePositions) {
-			reachablePositionMessage = JSONParsing.getElement(names, reachablePosition).getAsJsonArray();
-			message += JSONParsing.getElement(reachablePositionMessage, "translation");
-			if (count != reachablePositions.size() - 1) {
-				message += ", ";
-			}
-			count++;
-		}
-		printMessage(message);
-	}
-	
-	private static String _messageDescriptionCharacterWears(Item item, String usePreposition, String bodyPartString) {
-		ArrayList<String> preposition = new ArrayList<String>();
-		preposition.add(usePreposition);
-		PrintableObject bodyPart = new PrintableObject(bodyPartString, "", null, null);
-		bodyPart.setPrepositions(preposition);
-		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-		names.add(user);
-		names.add(item);
-		names.add(bodyPart);
-		GrammarIndividual grammarIndividual = grammarDescribeCharacterWears.getRandomGrammar();
-		return _getMessage(grammarIndividual, names, "DESCWEARS", "DESCWEARS", usePronoun(), false);
-	}
-	
-	private static String _messageDescriptionCharacterWearsHands() {
-		String message = "";
-		if (user.getWeaponsEquipped().size() > 0) {
-			Item weapon = user.getWeaponsEquipped().get(0);
-			ArrayList<String> preposition = new ArrayList<String>();
-			preposition.add("in");
-			PrintableObject hand = new PrintableObject("hand", "", null, null);
-			hand.setPrepositions(preposition);
-			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-			names.add(user);
-			names.add(weapon);
-			names.add(hand);
-			GrammarIndividual grammarIndividual = grammarDescribeCharacterWears.getRandomGrammar();
-			message += _getMessage(grammarIndividual, names, "DESCWEARS", "DESCWEARS", usePronoun(), false);
-		}
-		
-		return message;
 	}
 	
 	private static void _messageUnvalid() {
@@ -559,67 +414,6 @@ public class Main {
 		if (!message.isEmpty()) {
 			printMessage(message);
 		}
-	}
-	
-	private static void _messageDescriptionEnvironment() {
-		String message = "";
-		ArrayList<Door> alreadyPrintedDoors = new ArrayList<Door>();
-		for (Tuple<Integer, Integer> pos : user.getVisiblePositions()) {
-			for (ActiveCharacter enemy : user.getRoom().getMonstersPosition(pos)) {
-				if (enemy.isDead()) {
-					ArrayList<String> adjectives = new ArrayList<String>();
-					adjectives.add("dead");
-					enemy.setAdjectives(adjectives);
-				}
-				if (isNumericDescription) {
-					String messagePosition = enemy.getPositionDirectionsWithNumbers(user.getPosition()).getA();
-					String messageNumbers = enemy.getPositionDirectionsWithNumbers(user.getPosition()).getB();
-					message += _messageDescriptionEnvironment(enemy, messagePosition) + messageNumbers;
-				} else {
-					message += _messageDescriptionEnvironment(enemy, enemy.getPositionDirections(user.getPosition()));
-				}
-				message += ". ";
-			}
-			for (Item item : user.getRoom().getItemsPosition(pos)) {
-				if (isNumericDescription) {
-					String messagePosition = item.getPositionDirectionsWithNumbers(user.getPosition()).getA();
-					String messageNumbers = item.getPositionDirectionsWithNumbers(user.getPosition()).getB();
-					message += _messageDescriptionEnvironment(item, messagePosition) + messageNumbers;
-				} else {
-					message += _messageDescriptionEnvironment(item, item.getPositionDirections(user.getPosition()));
-				}
-				message += ". ";
-			}
-			for (Door door : user.getRoom().getDoorsPosition(pos)) {
-				Tuple<Integer, Integer> position = door.getPositionRoom(user);
-				if (position != null && !alreadyPrintedDoors.contains(door)) {
-					PrintableObject doorPrintable = new PrintableObject("door", "", door.getAdjectives(), position);
-					if (isNumericDescription) {
-						String messagePosition = doorPrintable.getPositionDirectionsWithNumbers(user.getPosition()).getA();
-						String messageNumbers = doorPrintable.getPositionDirectionsWithNumbers(user.getPosition()).getB();
-						message += _messageDescriptionEnvironment(doorPrintable, messagePosition) + messageNumbers;
-					} else {
-						message += _messageDescriptionEnvironment(doorPrintable, doorPrintable.getPositionDirections(user.getPosition()));
-					}
-					alreadyPrintedDoors.add(door);
-					message += ". ";
-				}
-			}
-			for (Tuple<Integer, Integer> portal : user.getRoom().getPortalsPosition(pos)) {
-				if (portal != null) {
-					PrintableObject portablePrintable = new PrintableObject("portal", "", null, portal);
-					if (isNumericDescription) {
-						String messagePosition = portablePrintable.getPositionDirectionsWithNumbers(user.getPosition()).getA();
-						String messageNumbers = portablePrintable.getPositionDirectionsWithNumbers(user.getPosition()).getB();
-						message += _messageSimpleEnvironment(portablePrintable, messagePosition) + messageNumbers;
-					} else {
-						message += _messageSimpleEnvironment(portablePrintable, portablePrintable.getPositionDirections(user.getPosition()));
-					}
-					message += ". ";
-				}
-			}
-		}
-		printMessage(message);
 	}
 	
 	public static void descriptionWereables() {
@@ -650,19 +444,21 @@ public class Main {
 	
 	public static void _descriptionAction(int i){
 		if (i == keysMap.get("descInv")) {
-			_messageDescriptionInventory();
+			MessageDescriptionsUtil._messageDescriptionInventory(user, grammarDescribeItem);
 		}
 		if (i == keysMap.get("descStats")) {
-			printMessage(_messageDescriptionStats(user, false));
+			printMessage(MessageDescriptionsUtil._messageDescriptionStats(user, false, isNumericDescription,
+					grammarDescribePersonal, rootObjWords, user, grammarDescribeEnvironmentSimple));
 		}
 		if (i == keysMap.get("descMonster")) {
 			_messageDescriptionMonster();
 		}
 		if (i == keysMap.get("descEnv")) {
-			_messageDescriptionEnvironment();
+			MessageDescriptionsUtil._messageDescriptionEnvironment(user, isNumericDescription, 
+					grammarDescribeEnvironment, grammarDescribeEnvironmentSimple);
 		}
 		if (i == keysMap.get("descWalkablePositions")) {
-			_messageDescriptionWalkablePositions();
+			MessageDescriptionsUtil._messageDescriptionWalkablePositions(user, rootObjWords);
 		}
 		if (i == keysMap.get("descWereableItems")) {
 			descriptionWereables();
@@ -670,7 +466,8 @@ public class Main {
 		if (i == keysMap.get("descHead")) {
 			Item helmet = user.getWearHelmet();
 			if (helmet != null) {
-				String message = _messageDescriptionCharacterWears(helmet, "on", "head");
+				String message = MessageDescriptionsUtil._messageDescriptionCharacterWears(user, helmet, "on", "head", usePronoun(), 
+						grammarDescribeCharacterWears);
 				if (!message.isEmpty()) {
 					printMessage(message);
 				}
@@ -679,7 +476,8 @@ public class Main {
 		if (i == keysMap.get("descChest")) {
 			Item chest = user.getWearChest();
 			if (chest != null) {
-				String message = _messageDescriptionCharacterWears(chest, "in", "chest");
+				String message = MessageDescriptionsUtil._messageDescriptionCharacterWears(user, chest, "in", "chest", usePronoun(), 
+						grammarDescribeCharacterWears);
 				if (!message.isEmpty()) {
 					printMessage(message);
 				}
@@ -688,7 +486,8 @@ public class Main {
 		if (i == keysMap.get("descPants")) {
 			Item pants = user.getWearPants();
 			if (pants != null) {
-				String message = _messageDescriptionCharacterWears(pants, "on", "legs");
+				String message = MessageDescriptionsUtil._messageDescriptionCharacterWears(user, pants, "on", "legs", usePronoun(), 
+						grammarDescribeCharacterWears);
 				if (!message.isEmpty()) {
 					printMessage(message);
 				}
@@ -697,14 +496,15 @@ public class Main {
 		if (i == keysMap.get("descGloves")) {
 			Item gloves = user.getWearGloves();
 			if (gloves != null) {
-				String message = _messageDescriptionCharacterWears(gloves, "in", "hands");
+				String message = MessageDescriptionsUtil._messageDescriptionCharacterWears(user, gloves, "in", "hands", usePronoun(), 
+						grammarDescribeCharacterWears);
 				if (!message.isEmpty()) {
 					printMessage(message);
 				}
 			}
 		}
 		if (i == keysMap.get("descHands")) {
-			String message = _messageDescriptionCharacterWearsHands();
+			String message = MessageDescriptionsUtil._messageDescriptionCharacterWearsHands(user, grammarDescribeCharacterWears, usePronoun());
 			if (message.length() > 10) {
 				message += "";
 				printMessage(message);
