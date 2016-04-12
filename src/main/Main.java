@@ -205,6 +205,18 @@ public class Main {
 		rebindKeysInput = new Integer[] {keysMap.get("rebindKeys")};
 	}
 	
+	private static void printUserInformation() {
+		user._printInventory(j, rootObjGrammar, rootObjWords);
+		user._printLife(rootObjWords, j, 0, map.global_fin().y + 1);
+		user._printMana(rootObjWords, j, 1, map.global_fin().y + 1);
+		j.print(map.global_fin().y + 1, 2, JSONParsing.getTranslationWord("score", "N", rootObjWords) + ": " + 
+				Integer.toString(deepnessScore));
+		j.print(map.global_fin().y + 1, 3, JSONParsing.getTranslationWord("level", "N", rootObjWords) + ": " + 
+				Integer.toString(user.getLevel()));
+		j.print(map.global_fin().y + 1, 4, JSONParsing.getTranslationWord("experience", "N", rootObjWords) + ": " + 
+				Integer.toString(user.getExperience()) + "/" + user.getNextLevelExperience());
+	}
+	
 	public static void printEverything(boolean needsToPrintGroundObjects){
 		j.cls();
 		countElements = 4;
@@ -212,12 +224,7 @@ public class Main {
 		map.printInside(j, user);
 		map.printItems(j, user);
 		map.printMonsters(j, user);
-		_printInventoryUser();
-		_printLifeUser();
-		_printManaUser();
-		_printScore();
-		_printLevel();
-		_printExperience();
+		printUserInformation();
 		_printInformationMonsters();
 		if (needsToPrintGroundObjects) {
 			_printGroundObjects();
@@ -255,43 +262,6 @@ public class Main {
 		}
 	}
 	
-	public static void _printInventoryUser(){
-		JsonObject rootObjNames = null;
-		rootObjNames = JSONParsing.getElement(rootObjGrammar, "GENERAL").getAsJsonObject();
-		
-		for (int i = 0; i < user.getInventory().size(); i++){
-			if (user.getInventory().get(i).getPrintableSentence().length() <= 0) {
-				GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObjNames);
-				GrammarSelectorNP grammarIndividual = new GrammarSelectorNP(grammarGeneral.getRandomGrammar(), rootObjWords, user.getInventory().get(i), "GENERAL");
-				user.getInventory().get(i).setPrintableSentence(grammarIndividual.getRandomSentenceTranslated());
-			}
-			j.print(0, map.global_fin().x + 1 + i, i + 1 + " - " + user.getInventory().get(i).getPrintableSentence());
-		}
-	}
-	
-	public static void _printLifeUser(){
-		user._printLife(JSONParsing.getTranslationWord("life", "N", rootObjWords), j, 0, map.global_fin().y + 1);
-	}
-	
-	public static void _printManaUser(){
-		user._printMana(JSONParsing.getTranslationWord("mana", "N", rootObjWords), j, 1, map.global_fin().y + 1);
-	}
-	
-	public static void _printScore(){
-		j.print(map.global_fin().y + 1, 2, JSONParsing.getTranslationWord("score", "N", rootObjWords) + ": " + 
-	Integer.toString(deepnessScore));
-	}
-	
-	public static void _printLevel(){
-		j.print(map.global_fin().y + 1, 3, JSONParsing.getTranslationWord("level", "N", rootObjWords) + ": " + 
-	Integer.toString(user.getLevel()));
-	}
-	
-	public static void _printExperience(){
-		j.print(map.global_fin().y + 1, 4, JSONParsing.getTranslationWord("experience", "N", rootObjWords) + ": " + 
-	Integer.toString(user.getExperience()) + "/" + user.getNextLevelExperience());
-	}
-	
 	public static void _printInformationMonsters() {
 		int count = 0;
 		for (ActiveCharacter monster : user.getRoom().getMonstersPosition(user.getPosition())) {
@@ -302,7 +272,7 @@ public class Main {
 			}
 			if (!monster.isDead()) {
 				countElements += 1;
-				monster.printMonstersInformation(JSONParsing.getTranslationWord("life", "N", rootObjWords), j, map.global_fin().y + 1, countElements);
+				monster.printMonstersInformation(rootObjWords, j, map.global_fin().y + 1, countElements);
 			}
 		}
 	}
@@ -1158,36 +1128,21 @@ public class Main {
 		rootObj = parser.parse(new FileReader("./src/grammars/languages/sentenceGrammar" + language + ".json")).getAsJsonObject();
 		rootObjWords = parser.parse(new FileReader("./src/grammars/languages/words" + language + ".json")).getAsJsonObject();
 		rootObjGrammar = parser.parse(new FileReader("./src/grammars/languages/objectGrammar" + language + ".json")).getAsJsonObject();
-		JsonObject objectAttack = JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject();
-		JsonObject objectPickItem = JSONParsing.getElement(rootObj, "PICK").getAsJsonObject();
-		JsonObject objectUseItem = JSONParsing.getElement(rootObj, "USE").getAsJsonObject();
-		JsonObject objectDescribeItem = JSONParsing.getElement(rootObj, "DESCITEM").getAsJsonObject();
-		JsonObject objectDescribePersonal = JSONParsing.getElement(rootObj, "DESCPERSONAL").getAsJsonObject();
-		JsonObject objectDescribeEnvironment = JSONParsing.getElement(rootObj, "DESCENV").getAsJsonObject();
-		JsonObject objectDescribeEnvironmentSimple = JSONParsing.getElement(rootObj, "DESCENVSIMPLE").getAsJsonObject();
-		JsonObject objectCharacterWears = JSONParsing.getElement(rootObj, "DESCCHAWEARS").getAsJsonObject();
-		JsonObject unvalidDescription = JSONParsing.getElement(rootObj, "DESCUNVALID").getAsJsonObject();
-		JsonObject simpleDescription = JSONParsing.getElement(rootObj, "DESCSIMPLE").getAsJsonObject();
-		JsonObject adjectiveDescription = JSONParsing.getElement(rootObj, "DESCRIPTIONADJECTIVE").getAsJsonObject();
-		JsonObject missDescription = JSONParsing.getElement(rootObj, "ATTACKMISS").getAsJsonObject();
-		JsonObject generalDescription = JSONParsing.getElement(rootObj, "GENERAL").getAsJsonObject();
-		JsonObject simpleVerbDescription = JSONParsing.getElement(rootObj, "SIMPLEVERB").getAsJsonObject();
-		JsonObject generalObjGrammar = JSONParsing.getElement(rootObjGrammar, "GENERAL").getAsJsonObject();
-		grammarAttack = new GrammarsGeneral(objectAttack);
-		grammarPickItem = new GrammarsGeneral(objectPickItem);
-		grammarUseItem = new GrammarsGeneral(objectUseItem);
-		grammarDescribeItem = new GrammarsGeneral(objectDescribeItem);
-		grammarDescribePersonal = new GrammarsGeneral(objectDescribePersonal);
-		grammarDescribeEnvironment = new GrammarsGeneral(objectDescribeEnvironment);
-		grammarDescribeEnvironmentSimple = new GrammarsGeneral(objectDescribeEnvironmentSimple);
-		grammarDescribeCharacterWears = new GrammarsGeneral(objectCharacterWears);
-		grammarUnvalidDescription = new GrammarsGeneral(unvalidDescription);
-		grammarSimpleDescription = new GrammarsGeneral(simpleDescription);
-		grammarAdjectiveDescription = new GrammarsGeneral(adjectiveDescription);
-		grammarMissDescription = new GrammarsGeneral(missDescription);
-		grammarGeneralDescription = new GrammarsGeneral(generalDescription);
-		grammarSimpleVerb = new GrammarsGeneral(simpleVerbDescription);
-		grammarGeneralObj = new GrammarsGeneral(generalObjGrammar);
+		grammarAttack = new GrammarsGeneral(JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject());
+		grammarPickItem = new GrammarsGeneral(JSONParsing.getElement(rootObj, "PICK").getAsJsonObject());
+		grammarUseItem = new GrammarsGeneral(JSONParsing.getElement(rootObj, "USE").getAsJsonObject());
+		grammarDescribeItem = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCITEM").getAsJsonObject());
+		grammarDescribePersonal = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCPERSONAL").getAsJsonObject());
+		grammarDescribeEnvironment = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCENV").getAsJsonObject());
+		grammarDescribeEnvironmentSimple = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCENVSIMPLE").getAsJsonObject());
+		grammarDescribeCharacterWears = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCCHAWEARS").getAsJsonObject());
+		grammarUnvalidDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCUNVALID").getAsJsonObject());
+		grammarSimpleDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCSIMPLE").getAsJsonObject());
+		grammarAdjectiveDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCRIPTIONADJECTIVE").getAsJsonObject());
+		grammarMissDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "ATTACKMISS").getAsJsonObject());
+		grammarGeneralDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "GENERAL").getAsJsonObject());
+		grammarSimpleVerb = new GrammarsGeneral(JSONParsing.getElement(rootObj, "SIMPLEVERB").getAsJsonObject());
+		grammarGeneralObj = new GrammarsGeneral(JSONParsing.getElement(rootObjGrammar, "GENERAL").getAsJsonObject());
 		if (!testMode){
 			gameFlow();
 		}

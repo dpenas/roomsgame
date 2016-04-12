@@ -14,7 +14,9 @@ import map.Room;
 import characters.Character;
 import characters.active.enemies.Movement;
 import grammars.grammars.GrammarIndividual;
+import grammars.grammars.GrammarSelectorNP;
 import grammars.grammars.GrammarSelectorS;
+import grammars.grammars.GrammarsGeneral;
 import grammars.grammars.PrintableObject;
 import grammars.parsing.JSONParsing;
 import util.RandUtil;
@@ -161,7 +163,6 @@ public class ActiveCharacter extends Character {
 		if (item != null) {
 			this.getInventory().add(item);
 		}
-		
 	}
 	
 	public ArrayList<Tuple<Integer, Integer>> getImmediateReachablePositions() {
@@ -463,12 +464,28 @@ public class ActiveCharacter extends Character {
 		}
 	}
 	
-	public void _printLife(String translation, WSwingConsoleInterface j, int initPos_i, int initPos_j){
+	public void _printInventory(WSwingConsoleInterface j, JsonObject rootObjGrammar, JsonObject rootObjWords){
+		JsonObject rootObjNames = null;
+		rootObjNames = JSONParsing.getElement(rootObjGrammar, "GENERAL").getAsJsonObject();
+		
+		for (int i = 0; i < this.getInventory().size(); i++){
+			if (this.getInventory().get(i).getPrintableSentence().length() <= 0) {
+				GrammarsGeneral grammarGeneral = new GrammarsGeneral(rootObjNames);
+				GrammarSelectorNP grammarIndividual = new GrammarSelectorNP(grammarGeneral.getRandomGrammar(), rootObjWords, this.getInventory().get(i), "GENERAL");
+				this.getInventory().get(i).setPrintableSentence(grammarIndividual.getRandomSentenceTranslated());
+			}
+			j.print(0, this.getMap().global_fin().x + 1 + i, i + 1 + " - " + this.getInventory().get(i).getPrintableSentence());
+		}
+	}
+	
+	public void _printLife(JsonObject rootObjWords, WSwingConsoleInterface j, int initPos_i, int initPos_j){
+		String translation = JSONParsing.getTranslationWord("life", "N", rootObjWords);
 		String life = translation + ": " + this.getLife() + "/" + this.getTotalLife();
 		j.print(initPos_j, initPos_i, life);
 	}
 	
-	public void _printMana(String translation, WSwingConsoleInterface j, int initPos_i, int initPos_j){
+	public void _printMana(JsonObject rootObjWords, WSwingConsoleInterface j, int initPos_i, int initPos_j){
+		String translation = JSONParsing.getTranslationWord("mana", "N", rootObjWords);
 		String magic = translation + ": " + this.getMagic() + "/" + this.getTotalMagic();
 		j.print(initPos_j, initPos_i, magic);
 	}
@@ -478,10 +495,10 @@ public class ActiveCharacter extends Character {
 		j.print(initPos_j, initPos_i, name);
 	}
 	
-	public void printMonstersInformation(String translation, WSwingConsoleInterface j, int initPos_i, int initPos_j){
+	public void printMonstersInformation(JsonObject rootObjWords, WSwingConsoleInterface j, int initPos_i, int initPos_j){
 		_printName(j, initPos_j, initPos_i);
 		Main.countElements++;
-		_printLife(translation, j, initPos_j + 1, initPos_i);
+		_printLife(rootObjWords, j, initPos_j + 1, initPos_i);
 	}
 	
 	public boolean unequipItem(Item item) {
