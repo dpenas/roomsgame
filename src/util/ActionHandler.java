@@ -135,5 +135,41 @@ public class ActionHandler {
 		}
 		main.Main.hasChanged = false;
 	}
+	
+	public void _throwItem(int keyPressed, boolean usePronoun){
+		int itemNumber = keyPressed % keysMap.get("item1");
+		if (itemNumber + 1 <= user.getInventory().size()) {
+			Item item = user.getInventory().get(itemNumber);
+			if (user.throwItem(item)) {
+				ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+				names.add(user);
+				names.add(item);
+				if (main.Main.hasThrownItem) {
+					main.Main.useAndWithItem(item);
+				} else {
+					main.Main.generatePrintMessage(names, grammarPickItem, "THROW", "THROW", usePronoun, false);
+					main.Main.hasThrownItem = true;
+				}
+				main.Main.printEverything(true);
+			}
+			main.Main.hasChanged = false;
+		}
+	}
+	
+	public void _spellAction(int keyPressed, boolean usePronoun){
+		int itemNumber = keyPressed % keysMap.get("item1");
+		for (ActiveCharacter monsterAffected : user.attackSpell(itemNumber, user)) {
+			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+			names.add(user);
+			names.add(user.getSpells().get(itemNumber));
+			names.add(monsterAffected);
+			main.Main.generatePrintMessage(names, grammarAttack, "SPELLS", "SPELLS", usePronoun, false);
+			if (monsterAffected.isDead()) {
+				user.addNewExperience(monsterAffected.getExperienceGiven());
+				monsterAffected.setExperienceGiven(0);
+				MessageDescriptionsUtil._messageDescriptionDead(monsterAffected, false, grammarAdjectiveDescription);
+			}
+		}
+	}
 
 }

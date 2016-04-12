@@ -97,7 +97,7 @@ public class Main {
 	static boolean isNumericDescription = false;
 	static boolean hasUsedPortal = false;
 	public static boolean hasEquipedItem = false;
-	static boolean hasThrownItem = false;
+	public static boolean hasThrownItem = false;
 	static boolean hasUnequipedItem = false;
 	static boolean hasPickedItem = false;
 	static boolean doMonstersTurn = false;
@@ -458,46 +458,6 @@ public class Main {
 		hasChanged = false;
 	}
 	
-	public static void _spellAction(int keyPressed){
-		int itemNumber = keyPressed % keysMap.get("item1");
-		for (ActiveCharacter monsterAffected : user.attackSpell(itemNumber, user)) {
-			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-			names.add(user);
-			names.add(user.getSpells().get(itemNumber));
-			names.add(monsterAffected);
-			generatePrintMessage(names, grammarAttack, "SPELLS", "SPELLS", usePronoun(), false);
-			if (monsterAffected.isDead()) {
-				user.addNewExperience(monsterAffected.getExperienceGiven());
-				monsterAffected.setExperienceGiven(0);
-				MessageDescriptionsUtil._messageDescriptionDead(monsterAffected, false, grammarAdjectiveDescription);
-			}
-		}
-		printEverything(true);
-		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
-	}
-	
-	public static void _throwItem(int keyPressed){
-		int itemNumber = keyPressed % keysMap.get("item1");
-		if (itemNumber + 1 <= user.getInventory().size()) {
-			Item item = user.getInventory().get(itemNumber);
-			if (user.throwItem(item)) {
-				ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-				names.add(user);
-				names.add(item);
-				if (hasThrownItem) {
-					useAndWithItem(item);
-				} else {
-					generatePrintMessage(names, grammarPickItem, "THROW", "THROW", usePronoun(), false);
-					hasThrownItem = true;
-				}
-				printEverything(true);
-			}
-			hasChanged = false;
-		}
-		printEverything(true);	
-		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
-	}
-	
 	public static void _unequipItem(Item item){
 		if (user.unequipItem(item)) {
 			printEverything(true);
@@ -558,7 +518,7 @@ public class Main {
 	public static void spellAction(int itemCode) {
 		doMonstersTurn = true;
     	if (isInputType(inventoryInput, itemCode)) {
-    		_spellAction(itemCode);
+    		actionHandler._spellAction(itemCode, usePronoun());
     		canUsePronoun = true;
     		printEverything(true);
     		setFlagsToFalse();
@@ -569,7 +529,7 @@ public class Main {
 	
 	public static void throwAction(int itemCode) {
 		if (isInputType(inventoryInput, itemCode)) {
-    		_throwItem(itemCode);
+    		actionHandler._throwItem(itemCode, usePronoun());
     		canUsePronoun = true;
     		printEverything(true);
     		hasEquipedItem = false;
