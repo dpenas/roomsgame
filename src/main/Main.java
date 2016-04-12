@@ -296,26 +296,10 @@ public class Main {
 		while (map.getRooms().size() < min_rooms || !map.hasPortals()) {
 			map = new Map(initial_point, final_point);
 		}
-		int number = 0;
-		boolean notDone = true;
-		while (number <= 0 || notDone) {
-			roomCharacter = map.getRandomRoom();
-			number = RandUtil.RandomNumber(0, roomCharacter.checkFreePositions().size());
-			user.setMap(map);
-			user.setRoom(roomCharacter);
-			if (number > 0 && roomCharacter.getFreePositions().size() > number) {
-				user.setPosition(roomCharacter.getFreePositions().get(number));
-				user.setVisiblePositions();
-				for (Room room: map.getRooms()) {
-					room.putRandomPotions();
-					room.generateRandomEnemies(user);
-				}
-				printEverything(true);
-				j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
-				j.refresh();
-				notDone = false;
-			}
-		}
+		map.initialize(user);
+		printEverything(true);
+		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
+		j.refresh();
 	}
 	
 	public static String _getMessage(GrammarIndividual grammarIndividual, ArrayList<PrintableObject> names, String type, String verbType, boolean usePronoun, boolean useAnd) {
@@ -376,23 +360,6 @@ public class Main {
 			System.out.println(user.getWeaponsEquipped().size());
 		}
 		hasChanged = false;
-	}
-	
-	private static void _messageDescriptionDead(ActiveCharacter character, boolean popup) {
-		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-		ArrayList<String> adjectives = new ArrayList<String>();
-		adjectives.add("dead");
-		character.setAdjectives(adjectives);
-		names.add(character);
-		if (popup) {
-			GrammarIndividual grammarIndividual = grammarAdjectiveDescription.getRandomGrammar();
-			String message = _getMessage(grammarIndividual, names, "DESCTOBE", "DESCTOBE", false, false);
-			JLabel label= new JLabel();
-			label.setText(message);
-			label.requestFocusInWindow();
-			JOptionPane.showMessageDialog(null, message, "", JOptionPane.PLAIN_MESSAGE);
-		}
-		generatePrintMessage(names, grammarAdjectiveDescription, "DESCTOBE", "DESCTOBE", false, false);
 	}
 	
 	private static void _messageDescriptionMonster() {
@@ -554,7 +521,7 @@ public class Main {
 					if (monster.getB().getLife() <= 0) {
 						user.addNewExperience(monster.getB().getExperienceGiven());
 						monster.getB().setExperienceGiven(0);
-						_messageDescriptionDead(monster.getB(), false);
+						MessageDescriptionsUtil._messageDescriptionDead(monster.getB(), false, grammarAdjectiveDescription);
 						hasChanged = true;
 					} else {
 						if (monster.getB().isHasBeenAttackedByHeroe() && RandUtil.RandomNumber(0, 3) == 1) {
@@ -598,7 +565,7 @@ public class Main {
 			if (monsterAffected.isDead()) {
 				user.addNewExperience(monsterAffected.getExperienceGiven());
 				monsterAffected.setExperienceGiven(0);
-				_messageDescriptionDead(monsterAffected, false);
+				MessageDescriptionsUtil._messageDescriptionDead(monsterAffected, false, grammarAdjectiveDescription);
 			}
 		}
 		printEverything(true);
@@ -643,24 +610,6 @@ public class Main {
 		} else {
 			_messageUnvalid();
 		}
-		printEverything(true);	
-		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
-	}
-	
-	public static void describeSpells(){
-		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-		PrintableObject spells = new PrintableObject("spells", "", null, null);
-		names.add(spells);
-		GrammarIndividual grammarIndividual = grammarSimpleVerb.getRandomGrammar();
-		String message = _getMessage(grammarIndividual, names, "DESCGENERAL", "DESCGENERAL", false, false) + ": ";
-		
-		JsonObject namesWords = JSONParsing.getElement(rootObjWords, "N").getAsJsonObject();
-		for (Spell spell : user.getSpells()) {
-			JsonArray spellName = JSONParsing.getElement(namesWords, spell.getName()).getAsJsonArray();
-			message += JSONParsing.getElement(spellName, "translation") + " ";
-		}
-		printMessage(message);
-		hasChanged = false;
 		printEverything(true);	
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
 	}
@@ -849,7 +798,7 @@ public class Main {
 				
 			}
 			else {
-				_messageDescriptionDead(user, true);
+				MessageDescriptionsUtil._messageDescriptionDead(user, true, grammarAdjectiveDescription);
 				try {
 					deepnessScore = 0;
 					newMatch = true;

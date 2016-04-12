@@ -55,6 +55,26 @@ public class Map {
 		this.initialize_rooms_map();
 	}
 	
+	public void initialize(ActiveCharacter user) {
+		int number = 0;
+		boolean notDone = true;
+		while (number <= 0 || notDone) {
+			Room roomCharacter = this.getRandomRoom();
+			number = RandUtil.RandomNumber(0, roomCharacter.checkFreePositions().size());
+			user.setMap(this);
+			user.setRoom(roomCharacter);
+			if (number > 0 && roomCharacter.getFreePositions().size() > number) {
+				user.setPosition(roomCharacter.getFreePositions().get(number));
+				user.setVisiblePositions();
+				for (Room room: this.getRooms()) {
+					room.putRandomPotions();
+					room.generateRandomEnemies(user);
+				}
+				notDone = false;
+			}
+		}
+	}
+	
 	/**
 	 * Given the dimensions of the map, it returns the number of rooms
 	 * that the map will have

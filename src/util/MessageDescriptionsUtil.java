@@ -2,6 +2,9 @@ package util;
 
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -13,6 +16,7 @@ import grammars.grammars.PrintableObject;
 import grammars.grammars.WordsGrammar;
 import grammars.parsing.JSONParsing;
 import items.Item;
+import magic.Spell;
 import map.Door;
 
 public class MessageDescriptionsUtil {
@@ -228,5 +232,37 @@ public class MessageDescriptionsUtil {
 			message += " " + JSONParsing.getElement(outOf, "translation") + " " + user.getNextLevelExperience();
 		}
 		return message;
+	}
+	
+	public static void _messageDescriptionDead(ActiveCharacter character, boolean popup, GrammarsGeneral grammarAdjectiveDescription) {
+		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+		ArrayList<String> adjectives = new ArrayList<String>();
+		adjectives.add("dead");
+		character.setAdjectives(adjectives);
+		names.add(character);
+		if (popup) {
+			GrammarIndividual grammarIndividual = grammarAdjectiveDescription.getRandomGrammar();
+			String message = main.Main._getMessage(grammarIndividual, names, "DESCTOBE", "DESCTOBE", false, false);
+			JLabel label= new JLabel();
+			label.setText(message);
+			label.requestFocusInWindow();
+			JOptionPane.showMessageDialog(null, message, "", JOptionPane.PLAIN_MESSAGE);
+		}
+		main.Main.generatePrintMessage(names, grammarAdjectiveDescription, "DESCTOBE", "DESCTOBE", false, false);
+	}
+	
+	public static void describeSpells(ActiveCharacter user, JsonObject rootObjWords, GrammarsGeneral grammarSimpleVerb){
+		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+		PrintableObject spells = new PrintableObject("spells", "", null, null);
+		names.add(spells);
+		GrammarIndividual grammarIndividual = grammarSimpleVerb.getRandomGrammar();
+		String message = main.Main._getMessage(grammarIndividual, names, "DESCGENERAL", "DESCGENERAL", false, false) + ": ";
+		
+		JsonObject namesWords = JSONParsing.getElement(rootObjWords, "N").getAsJsonObject();
+		for (Spell spell : user.getSpells()) {
+			JsonArray spellName = JSONParsing.getElement(namesWords, spell.getName()).getAsJsonArray();
+			message += JSONParsing.getElement(spellName, "translation") + " ";
+		}
+		main.Main.printMessage(message);
 	}
 }
