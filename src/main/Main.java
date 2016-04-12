@@ -96,7 +96,7 @@ public class Main {
 	static char deepnessScore = 0;
 	static boolean isNumericDescription = false;
 	static boolean hasUsedPortal = false;
-	static boolean hasEquipedItem = false;
+	public static boolean hasEquipedItem = false;
 	static boolean hasThrownItem = false;
 	static boolean hasUnequipedItem = false;
 	static boolean hasPickedItem = false;
@@ -338,29 +338,6 @@ public class Main {
 		GrammarIndividual grammarIndividual = grammarGeneralObj.getRandomGrammar();
 		GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item, "GENERAL");
 		printMessage(message + " " + selector.getRandomSentenceTranslated());
-	}
-	
-	public static void _inventoryAction(int i){
-		int itemNumber = i % keysMap.get("item1");
-		if (itemNumber + 1 <= user.getInventory().size()) {
-			Item item = user.getInventory().get(itemNumber);
-			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-			names.add(user);
-			names.add(item);
-			user.useItem(item);
-			printEverything(false);
-			if (item.isWereableItem()) {
-				if (hasEquipedItem) {
-					useAndWithItem(item);
-				} else {
-					generatePrintMessage(names, grammarUseItem, "EQUIP", "EQUIP", usePronoun(), false);
-					hasEquipedItem = true;
-				}
-			} else {
-				generatePrintMessage(names, grammarUseItem, "USE", "USE", usePronoun(), false);
-			}
-		}
-		hasChanged = false;
 	}
 	
 	private static void _messageDescriptionMonster() {
@@ -616,7 +593,7 @@ public class Main {
         }
         else if (isInputType(inventoryInput, i)) {
         	doMonstersTurn = true;
-        	_inventoryAction(i);
+        	actionHandler._inventoryAction(i, usePronoun());
         	canUsePronoun = true;
         	printEverything(false);
         	hasUnequipedItem = false;

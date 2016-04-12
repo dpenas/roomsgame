@@ -112,5 +112,28 @@ public class ActionHandler {
 	    	}
 		}
 	}
+	
+	public void _inventoryAction(int i, boolean usePronoun){
+		int itemNumber = i % keysMap.get("item1");
+		if (itemNumber + 1 <= user.getInventory().size()) {
+			Item item = user.getInventory().get(itemNumber);
+			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+			names.add(user);
+			names.add(item);
+			user.useItem(item);
+			main.Main.printEverything(false);
+			if (item.isWereableItem()) {
+				if (main.Main.hasEquipedItem) {
+					main.Main.useAndWithItem(item);
+				} else {
+					main.Main.generatePrintMessage(names, grammarUseItem, "EQUIP", "EQUIP", usePronoun, false);
+					main.Main.hasEquipedItem = true;
+				}
+			} else {
+				main.Main.generatePrintMessage(names, grammarUseItem, "USE", "USE", usePronoun, false);
+			}
+		}
+		main.Main.hasChanged = false;
+	}
 
 }
