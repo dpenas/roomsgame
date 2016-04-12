@@ -4,8 +4,8 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/Users/dario/Desktop/gson-2.3.1.jar"/>
-	<classpathentry kind="lib" path="/Users/dario/Desktop/jcurses-0.9.5.3.jar"/>
-	<classpathentry kind="lib" path="/Users/dario/Desktop/libjcsi.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Dario/Downloads/PFC/gson-2.3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Dario/Downloads/PFC/jcurses-0.9.5.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Dario/Downloads/PFC/libjcsi.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

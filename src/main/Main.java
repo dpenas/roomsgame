@@ -25,7 +25,6 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
 import characters.active.ActiveCharacter;
-import characters.active.enemies.Goblin;
 import config.ChangeKeyBinding;
 import grammars.grammars.GrammarIndividual;
 import grammars.grammars.GrammarSelectorNP;
@@ -269,7 +268,6 @@ public class Main {
 		_printExperience();
 		_printInformationMonsters();
 		if (needsToPrintGroundObjects) {
-			System.out.println("I need to paint ground objects");
 			_printGroundObjects();
 		}
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
@@ -405,9 +403,7 @@ public class Main {
 		map = new Map(initial_point, final_point);
 		while (map.getRooms().size() < min_rooms || !map.hasPortals()) {
 			map = new Map(initial_point, final_point);
-			System.out.println("Map Rooms Size: " + map.getRooms().size());
 		}
-		System.out.println("Amount of rooms: " + map.getRooms().size());
 		int number = 0;
 		boolean notDone = true;
 		while (number <= 0 || notDone) {
@@ -428,36 +424,6 @@ public class Main {
 				notDone = false;
 			}
 		}
-	}
-	
-	public static void _initializeTest(){
-		map = new Map(initial_point, final_point);
-		roomEnemy = map.getRandomRoom();
-		roomCharacter = map.getRandomRoom();
-		ArrayList<String> adjectives = new ArrayList<String>();
-		adjectives.add("small");
-		user = new ActiveCharacter("heroe", "", map, map.obtainRoomByPosition(pos), pos, 
-				40, 100, 100, 100, 100, 100, new ArrayList<WereableWeapon>(),
-				new ArrayList<WereableArmor>(), 100, 100, 0,
-				new ArrayList<Item>(), 0, 0, 100, 100, 100, "@", 4, null, adjectives, 1);
-		_setKeyMap();
-		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
-		WereableWeapon oneHandSword = new ShortSword(user, null, null, null, user.getLevel(), true);
-		WereableWeapon oneHandSword2 = new ShortSword(user, null, null, null, user.getLevel(), true);
-		Goblin goblin = new Goblin(map, map.obtainRoomByPosition(pos), pos, adjectives, 1);
-		Goblin goblin2 = new Goblin(map, map.obtainRoomByPosition(pos), pos, adjectives, 1);
-		goblin.putItemInventory(oneHandSword2);
-		goblin.equipWeapon(oneHandSword2);
-		map.obtainRoomByPosition(pos).getMonsters().add(goblin);
-		map.obtainRoomByPosition(pos).getMonsters().add(goblin2);
-		
-		ArrayList<Item> inventory = new ArrayList<Item>();
-		inventory.add(oneHandSword);
-		user.setInventory(inventory);
-		user.setLife(80);
-		printEverything(true);
-		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
-		j.refresh();
 	}
 	
 	public static String _getMessage(GrammarIndividual grammarIndividual, ArrayList<PrintableObject> names, String type, String verbType, boolean usePronoun, boolean useAnd) {
@@ -487,6 +453,13 @@ public class Main {
 		printMessage(_getMessage(grammarIndividual, names, type, verbType, usePronoun, useAnd));
 	}
 	
+	private static void useAndWithItem(Item item) {
+		String message = JSONParsing.getTranslationWord("and", "OTHERS", rootObjWords);
+		GrammarIndividual grammarIndividual = grammarGeneralObj.getRandomGrammar();
+		GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item, "GENERAL");
+		printMessage(message + " " + selector.getRandomSentenceTranslated());
+	}
+	
 	public static void _inventoryAction(int i){
 		int itemNumber = i % keysMap.get("item1");
 		if (itemNumber + 1 <= user.getInventory().size()) {
@@ -498,10 +471,7 @@ public class Main {
 			printEverything(false);
 			if (item.isWereableItem()) {
 				if (hasEquipedItem) {
-					String message = JSONParsing.getTranslationWord("and", "OTHERS", rootObjWords);
-					GrammarIndividual grammarIndividual = grammarGeneralObj.getRandomGrammar();
-					GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item, "GENERAL");
-					printMessage(message + " " + selector.getRandomSentenceTranslated());
+					useAndWithItem(item);
 				} else {
 					generatePrintMessage(names, grammarUseItem, "EQUIP", "EQUIP", usePronoun(), false);
 					hasEquipedItem = true;
@@ -856,10 +826,7 @@ public class Main {
 			names.add(user);
 			names.add(item);
 			if (hasPickedItem) {
-				String message = JSONParsing.getTranslationWord("and", "OTHERS", rootObjWords);
-				GrammarIndividual grammarIndividual = grammarGeneralObj.getRandomGrammar();
-				GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item, "GENERAL");
-				printMessage(message + " " + selector.getRandomSentenceTranslated());
+				useAndWithItem(item);
 			} else {
 				hasPickedItem = true;
 				generatePrintMessage(names, grammarPickItem, "PICK", "PICK", usePronoun(), false);
@@ -953,10 +920,7 @@ public class Main {
 				names.add(user);
 				names.add(item);
 				if (hasThrownItem) {
-					String message = JSONParsing.getTranslationWord("and", "OTHERS", rootObjWords);
-					GrammarIndividual grammarIndividual = grammarGeneralObj.getRandomGrammar();
-					GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item, "GENERAL");
-					printMessage(message + " " + selector.getRandomSentenceTranslated());
+					useAndWithItem(item);
 				} else {
 					generatePrintMessage(names, grammarPickItem, "THROW", "THROW", usePronoun(), false);
 					hasThrownItem = true;
@@ -975,12 +939,8 @@ public class Main {
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);
 			names.add(item);
-			System.out.println("Name the name: " + item.getName());
 			if (hasUnequipedItem) {
-				String message = JSONParsing.getTranslationWord("and", "OTHERS", rootObjWords);
-				GrammarIndividual grammarIndividual = grammarGeneralObj.getRandomGrammar();
-				GrammarSelectorNP selector = new GrammarSelectorNP(grammarIndividual, rootObjWords, item, "GENERAL");
-				printMessage(message + " " + selector.getRandomSentenceTranslated());
+				useAndWithItem(item);
 			} else {
 				generatePrintMessage(names, grammarPickItem, "UNEQUIP", "UNEQUIP", usePronoun(), false);
 				hasUnequipedItem = true;
@@ -1002,7 +962,6 @@ public class Main {
 		
 		JsonObject namesWords = JSONParsing.getElement(rootObjWords, "N").getAsJsonObject();
 		for (Spell spell : user.getSpells()) {
-			System.out.println(namesWords);
 			JsonArray spellName = JSONParsing.getElement(namesWords, spell.getName()).getAsJsonArray();
 			message += JSONParsing.getElement(spellName, "translation") + " ";
 		}
@@ -1055,10 +1014,7 @@ public class Main {
     		_spellAction(itemCode);
     		canUsePronoun = true;
     		printEverything(true);
-    		hasEquipedItem = false;
-    		hasUnequipedItem = false;
-    		hasThrownItem = false;
-    		hasPickedItem = false;
+    		setFlagsToFalse();
     	}
     	canUsePronoun = true;
     	printEverything(true);
@@ -1075,15 +1031,19 @@ public class Main {
     	}
 	}
 	
+	private static void setFlagsToFalse() {
+		hasEquipedItem = false;
+		hasUnequipedItem = false;
+		hasThrownItem = false;
+		hasPickedItem = false;
+	}
+	
 	public static void makeMovement(int i) throws JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 		_setKeyMap();
 		if (isMovementInput(i)){
         	doMonstersTurn = true;
         	_moveCharacterAction(i);
-			hasEquipedItem = false;
-			hasUnequipedItem = false;
-			hasThrownItem = false;
-			hasPickedItem = false;
+        	setFlagsToFalse();
         }
         else if (isInventoryInput(i)) {
         	doMonstersTurn = true;
@@ -1108,23 +1068,14 @@ public class Main {
         	_attackAction();
         	canUsePronoun = true;
         	printEverything(true);
-        	hasEquipedItem = false;
-        	hasUnequipedItem = false;
-        	hasThrownItem = false;
-        	hasPickedItem = false;
+        	setFlagsToFalse();
         } 
         else if (isSpellInput(i)) {
         	spellsPressed = true;
-        	hasEquipedItem = false;
-        	hasUnequipedItem = false;
-        	hasThrownItem = false;
-        	hasPickedItem = false;
+        	setFlagsToFalse();
         	messageLabel.requestFocus();
         } else if (isDescriptionInput(i) || isDescriptionWereableInput(i)) {
-        	hasUnequipedItem = false;
-        	hasEquipedItem = false;
-        	hasThrownItem = false;
-        	hasPickedItem = false;
+        	setFlagsToFalse();
         	doMonstersTurn = false;
         	_descriptionAction(i);
         	canUsePronoun = true;
@@ -1178,10 +1129,6 @@ public class Main {
 				monster.setAdjectivesMonster(user);
 			}
 			user.setAdjectivesUser();
-			System.out.println("Adjectives main: ");
-			for (String adjective : user.getAdjectives()) {
-				System.out.println(adjective);
-			}
 			if (user.getLife() > 0) {
 				GrammarIndividual grammarIndividual = grammarAttack.getRandomGrammar();
 				if (doMonstersTurn) {
