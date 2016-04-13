@@ -18,7 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.text.DefaultCaret;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -41,7 +40,6 @@ import items.wereables.ShortSword;
 import items.wereables.WereableArmor;
 import items.wereables.WereableWeapon;
 import magic.FireRing;
-import magic.Spell;
 import map.Map;
 import map.Room;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
@@ -291,7 +289,8 @@ public class Main {
 		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
 		actionHandler = new ActionHandler(keysMap, user, grammarUseItem, grammarPickItem, grammarMissDescription,
-				grammarAdjectiveDescription, grammarAttack, grammarGeneralDescription, rootObjWords);
+				grammarAdjectiveDescription, grammarAttack, grammarGeneralDescription, grammarDescribeCharacterWears, 
+				grammarDescribeEnvironmentSimple, grammarDescribePersonal, grammarDescribeItem, rootObjWords);
 	}
 	
 	public static void _initializeMap() {
@@ -340,14 +339,6 @@ public class Main {
 		printMessage(message + " " + selector.getRandomSentenceTranslated());
 	}
 	
-	private static void _messageDescriptionMonster() {
-		for (ActiveCharacter monster : map.getMonstersPosition(user)) {
-			String message = MessageDescriptionsUtil._messageDescriptionStats(monster, true, isNumericDescription,
-					grammarDescribePersonal, rootObjWords, user, grammarDescribeEnvironmentSimple);
-			printMessage(message);
-		}
-	}
-	
 	public static void _messageUnvalid() {
 		String message = "";
 		PrintableObject that = new PrintableObject("that", "", null, null);
@@ -359,103 +350,6 @@ public class Main {
 		if (!message.isEmpty()) {
 			printMessage(message);
 		}
-	}
-	
-	public static void descriptionWereables() {
-		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-		names.add(user);
-		Item helmet = user.getWearHelmet();
-		if (helmet != null) {
-			names.add(helmet);
-		}
-		Item chest = user.getWearChest();
-		if (chest != null) {
-			names.add(chest);
-		}
-		Item pants = user.getWearPants();
-		if (pants != null) {
-			names.add(pants);
-		}
-		Item gloves = user.getWearGloves();
-		if (gloves != null) {
-			names.add(gloves);
-		}
-		ArrayList<Item> hands = user.getWearHandsAttack();
-		if (hands.size() > 0) {
-			names.add(hands.get(0));
-		}
-		generatePrintMessage(names, grammarDescribeItem, "DESCITEM", "DESCWEARS", usePronoun(), false);
-	}
-	
-	public static void _descriptionAction(int i){
-		if (i == keysMap.get("descInv")) {
-			MessageDescriptionsUtil._messageDescriptionInventory(user, grammarDescribeItem);
-		}
-		if (i == keysMap.get("descStats")) {
-			printMessage(MessageDescriptionsUtil._messageDescriptionStats(user, false, isNumericDescription,
-					grammarDescribePersonal, rootObjWords, user, grammarDescribeEnvironmentSimple));
-		}
-		if (i == keysMap.get("descMonster")) {
-			_messageDescriptionMonster();
-		}
-		if (i == keysMap.get("descEnv")) {
-			MessageDescriptionsUtil._messageDescriptionEnvironment(user, isNumericDescription, 
-					grammarDescribeEnvironment, grammarDescribeEnvironmentSimple);
-		}
-		if (i == keysMap.get("descWalkablePositions")) {
-			MessageDescriptionsUtil._messageDescriptionWalkablePositions(user, rootObjWords);
-		}
-		if (i == keysMap.get("descWereableItems")) {
-			descriptionWereables();
-		}
-		if (i == keysMap.get("descHead")) {
-			Item helmet = user.getWearHelmet();
-			if (helmet != null) {
-				String message = MessageDescriptionsUtil._messageDescriptionCharacterWears(user, helmet, "on", "head", usePronoun(), 
-						grammarDescribeCharacterWears);
-				if (!message.isEmpty()) {
-					printMessage(message);
-				}
-			}
-		}
-		if (i == keysMap.get("descChest")) {
-			Item chest = user.getWearChest();
-			if (chest != null) {
-				String message = MessageDescriptionsUtil._messageDescriptionCharacterWears(user, chest, "in", "chest", usePronoun(), 
-						grammarDescribeCharacterWears);
-				if (!message.isEmpty()) {
-					printMessage(message);
-				}
-			}
-		}
-		if (i == keysMap.get("descPants")) {
-			Item pants = user.getWearPants();
-			if (pants != null) {
-				String message = MessageDescriptionsUtil._messageDescriptionCharacterWears(user, pants, "on", "legs", usePronoun(), 
-						grammarDescribeCharacterWears);
-				if (!message.isEmpty()) {
-					printMessage(message);
-				}
-			}
-		}
-		if (i == keysMap.get("descGloves")) {
-			Item gloves = user.getWearGloves();
-			if (gloves != null) {
-				String message = MessageDescriptionsUtil._messageDescriptionCharacterWears(user, gloves, "in", "hands", usePronoun(), 
-						grammarDescribeCharacterWears);
-				if (!message.isEmpty()) {
-					printMessage(message);
-				}
-			}
-		}
-		if (i == keysMap.get("descHands")) {
-			String message = MessageDescriptionsUtil._messageDescriptionCharacterWearsHands(user, grammarDescribeCharacterWears, usePronoun());
-			if (message.length() > 10) {
-				message += "";
-				printMessage(message);
-			}
-		}
-		hasChanged = false;
 	}
 	
 	public static void _unequipItem(Item item){
@@ -583,7 +477,7 @@ public class Main {
         } else if (isInputType(descriptionInput, i) || isInputType(descriptionWereableInput, i)) {
         	setFlagsToFalse();
         	doMonstersTurn = false;
-        	_descriptionAction(i);
+        	actionHandler._descriptionAction(i, usePronoun(), isNumericDescription);
         	canUsePronoun = true;
         	printEverything(false);
         } else if (isInputType(throwItemInput, i)) {

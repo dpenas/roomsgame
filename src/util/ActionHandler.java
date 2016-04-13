@@ -22,6 +22,11 @@ public class ActionHandler {
 	private GrammarsGeneral grammarAdjectiveDescription;
 	private GrammarsGeneral grammarGeneralDescription;
 	private GrammarsGeneral grammarAttack;
+	private GrammarsGeneral grammarDescribeEnvironment;
+	private GrammarsGeneral grammarDescribeCharacterWears;
+	private GrammarsGeneral grammarDescribeEnvironmentSimple;
+	private GrammarsGeneral grammarDescribePersonal;
+	private GrammarsGeneral grammarDescribeItem;
 	private JsonObject rootObjWords;
 	private ActiveCharacter user;
 	
@@ -29,6 +34,8 @@ public class ActionHandler {
 			GrammarsGeneral grammarUseItem, GrammarsGeneral grammarPickItem,
 			GrammarsGeneral grammarMissDescription, GrammarsGeneral grammarAdjectiveDescription,
 			GrammarsGeneral grammarAttack, GrammarsGeneral grammarGeneralDescription,
+			GrammarsGeneral grammarDescribeCharacterWears, GrammarsGeneral grammarDescribeEnvironmentSimple,
+			GrammarsGeneral grammarDescribePersonal, GrammarsGeneral grammarDescribeItem,
 			JsonObject rootObjWords) {
 		this.keysMap = keysMap;
 		this.grammarUseItem = grammarUseItem;
@@ -36,8 +43,12 @@ public class ActionHandler {
 		this.grammarMissDescription = grammarMissDescription;
 		this.grammarAdjectiveDescription = grammarAdjectiveDescription;
 		this.grammarAttack = grammarAttack;
-		this.rootObjWords = rootObjWords;
 		this.grammarGeneralDescription = grammarGeneralDescription;
+		this.grammarDescribeCharacterWears = grammarDescribeCharacterWears;
+		this.grammarDescribeEnvironmentSimple = grammarDescribeEnvironmentSimple;
+		this.grammarDescribePersonal = grammarDescribePersonal;
+		this.grammarDescribeItem = grammarDescribeEnvironmentSimple;
+		this.rootObjWords = rootObjWords;
 		this.user = user;
 	}
 
@@ -170,6 +181,81 @@ public class ActionHandler {
 				MessageDescriptionsUtil._messageDescriptionDead(monsterAffected, false, grammarAdjectiveDescription);
 			}
 		}
+	}
+	
+	public void _descriptionAction(int i, boolean usePronoun, boolean isNumericDescription){
+		if (i == keysMap.get("descInv")) {
+			MessageDescriptionsUtil._messageDescriptionInventory(user, grammarDescribeItem);
+		}
+		if (i == keysMap.get("descStats")) {
+			main.Main.printMessage(MessageDescriptionsUtil._messageDescriptionStats(user, false, isNumericDescription,
+					grammarDescribePersonal, rootObjWords, user, grammarDescribeEnvironmentSimple));
+		}
+		if (i == keysMap.get("descMonster")) {
+			for (ActiveCharacter monster : user.getMap().getMonstersPosition(user)) {
+				String message = MessageDescriptionsUtil._messageDescriptionStats(monster, true, isNumericDescription,
+						grammarDescribePersonal, rootObjWords, user, grammarDescribeEnvironmentSimple);
+				main.Main.printMessage(message);
+			}
+		}
+		if (i == keysMap.get("descEnv")) {
+			MessageDescriptionsUtil._messageDescriptionEnvironment(user, isNumericDescription, 
+					grammarDescribeEnvironment, grammarDescribeEnvironmentSimple);
+		}
+		if (i == keysMap.get("descWalkablePositions")) {
+			MessageDescriptionsUtil._messageDescriptionWalkablePositions(user, rootObjWords);
+		}
+		if (i == keysMap.get("descWereableItems")) {
+			MessageDescriptionsUtil.descriptionWereables(user, usePronoun, grammarDescribeItem);
+		}
+		if (i == keysMap.get("descHead")) {
+			Item helmet = user.getWearHelmet();
+			if (helmet != null) {
+				String message = MessageDescriptionsUtil._messageDescriptionCharacterWears(user, helmet, "on", "head", usePronoun, 
+						grammarDescribeCharacterWears);
+				if (!message.isEmpty()) {
+					main.Main.printMessage(message);
+				}
+			}
+		}
+		if (i == keysMap.get("descChest")) {
+			Item chest = user.getWearChest();
+			if (chest != null) {
+				String message = MessageDescriptionsUtil._messageDescriptionCharacterWears(user, chest, "in", "chest", usePronoun, 
+						grammarDescribeCharacterWears);
+				if (!message.isEmpty()) {
+					main.Main.printMessage(message);
+				}
+			}
+		}
+		if (i == keysMap.get("descPants")) {
+			Item pants = user.getWearPants();
+			if (pants != null) {
+				String message = MessageDescriptionsUtil._messageDescriptionCharacterWears(user, pants, "on", "legs", usePronoun, 
+						grammarDescribeCharacterWears);
+				if (!message.isEmpty()) {
+					main.Main.printMessage(message);
+				}
+			}
+		}
+		if (i == keysMap.get("descGloves")) {
+			Item gloves = user.getWearGloves();
+			if (gloves != null) {
+				String message = MessageDescriptionsUtil._messageDescriptionCharacterWears(user, gloves, "in", "hands", usePronoun, 
+						grammarDescribeCharacterWears);
+				if (!message.isEmpty()) {
+					main.Main.printMessage(message);
+				}
+			}
+		}
+		if (i == keysMap.get("descHands")) {
+			String message = MessageDescriptionsUtil._messageDescriptionCharacterWearsHands(user, grammarDescribeCharacterWears, usePronoun);
+			if (message.length() > 10) {
+				message += "";
+				main.Main.printMessage(message);
+			}
+		}
+		main.Main.hasChanged = false;
 	}
 
 }

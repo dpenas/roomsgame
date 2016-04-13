@@ -265,4 +265,30 @@ public class MessageDescriptionsUtil {
 		}
 		main.Main.printMessage(message);
 	}
+	
+	public static void descriptionWereables(ActiveCharacter user, boolean usePronoun, GrammarsGeneral grammarDescribeItem) {
+		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+		names.add(user);
+		Item helmet = user.getWearHelmet();
+		if (helmet != null) {
+			names.add(helmet);
+		}
+		Item chest = user.getWearChest();
+		if (chest != null) {
+			names.add(chest);
+		}
+		Item pants = user.getWearPants();
+		if (pants != null) {
+			names.add(pants);
+		}
+		Item gloves = user.getWearGloves();
+		if (gloves != null) {
+			names.add(gloves);
+		}
+		ArrayList<Item> hands = user.getWearHandsAttack();
+		if (hands.size() > 0) {
+			names.add(hands.get(0));
+		}
+		main.Main.generatePrintMessage(names, grammarDescribeItem, "DESCITEM", "DESCWEARS", usePronoun, false);
+	}
 }
