@@ -15,13 +15,11 @@ public class LongSword extends WereableWeapon {
 	
 	public LongSword (Character character, Map map, Room room, Tuple<Integer, Integer> position,
 			int level, boolean isMagic) {
-		//TODO: Change the 10 (which is the attack of the weapon) to the algorithm based on level
 		super("sword", null, "", "m", 
 				5, 5, 100, character, 
 				new ArrayList<WeaponType>(),
 				map, room, position, 10 + level, 0, true, 0, level, isMagic);
 		this.setAdjectives(this.getTwoHandSwordAttributes());
-		//TODO: Change this to be a function
 		ArrayList<WeaponType> weaponType = new ArrayList<WeaponType>();
 		weaponType.add(WeaponType.LEFTHAND);
 		weaponType.add(WeaponType.RIGHTHAND);
@@ -31,7 +29,6 @@ public class LongSword extends WereableWeapon {
 			attributes.add("magic");
 			this.setAdjectives(attributes);
 		}
-//		this.setName(Translations.getNameItem("sword", this.getAdjectives()));
 		this.setAttributes(this.getLevel(), false);
 		
 	}

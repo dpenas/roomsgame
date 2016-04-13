@@ -56,7 +56,7 @@ public class Main {
 	public static ResourceBundle messagesWereables, keyBinding;
 	public static int countElements;
 	public static HashMap<String, Integer> keysMap;
-	public static boolean debug = true;
+	public static boolean debug = false;
 	public static boolean testMode = false;
 	public static boolean canUsePronoun = false;
 	public static char[] usedSymbols = {'.', 'P', 'G', 'A'};
@@ -115,18 +115,11 @@ public class Main {
 	static ActionHandler actionHandler;
 	static GrammarsGeneral grammarAttack;
 	static GrammarsGeneral grammarPickItem;
-	static GrammarsGeneral grammarUseItem;
-	static GrammarsGeneral grammarDescribeItem;
-	static GrammarsGeneral grammarDescribePersonal;
-	static GrammarsGeneral grammarDescribeEnvironment;
-	static GrammarsGeneral grammarDescribeEnvironmentSimple;
-	static GrammarsGeneral grammarDescribeCharacterWears;
 	static GrammarsGeneral grammarUnvalidDescription;
-	static GrammarsGeneral grammarSimpleDescription;
 	static GrammarsGeneral grammarAdjectiveDescription;
 	static GrammarsGeneral grammarMissDescription;
 	static GrammarsGeneral grammarGeneralDescription;
-	static GrammarsGeneral grammarSimpleVerb;
+//	static GrammarsGeneral grammarSimpleVerb;
 	static GrammarsGeneral grammarGeneralObj;
 	
 	public static boolean isInputType(Integer[] type, int key) {
@@ -288,9 +281,7 @@ public class Main {
 		_initializeMap();
 		_setKeyMap();
 		j.print(user.getPosition().y, user.getPosition().x, user.getSymbolRepresentation(), arrayColors[selectedColor][0]);
-		actionHandler = new ActionHandler(keysMap, user, grammarUseItem, grammarPickItem, grammarMissDescription,
-				grammarAdjectiveDescription, grammarAttack, grammarGeneralDescription, grammarDescribeCharacterWears, 
-				grammarDescribeEnvironmentSimple, grammarDescribePersonal, grammarDescribeItem, rootObjWords);
+		actionHandler = new ActionHandler(keysMap, user, rootObj, rootObjWords);
 	}
 	
 	public static void _initializeMap() {
@@ -608,22 +599,13 @@ public class Main {
 		rootObjGrammar = parser.parse(new FileReader("./src/grammars/languages/objectGrammar" + language + ".json")).getAsJsonObject();
 		grammarAttack = new GrammarsGeneral(JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject());
 		grammarPickItem = new GrammarsGeneral(JSONParsing.getElement(rootObj, "PICK").getAsJsonObject());
-		grammarUseItem = new GrammarsGeneral(JSONParsing.getElement(rootObj, "USE").getAsJsonObject());
-		grammarDescribeItem = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCITEM").getAsJsonObject());
-		grammarDescribePersonal = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCPERSONAL").getAsJsonObject());
-		grammarDescribeEnvironment = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCENV").getAsJsonObject());
-		grammarDescribeEnvironmentSimple = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCENVSIMPLE").getAsJsonObject());
-		grammarDescribeCharacterWears = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCCHAWEARS").getAsJsonObject());
+		grammarGeneralDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "GENERAL").getAsJsonObject());
 		grammarUnvalidDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCUNVALID").getAsJsonObject());
-		grammarSimpleDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCSIMPLE").getAsJsonObject());
 		grammarAdjectiveDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCRIPTIONADJECTIVE").getAsJsonObject());
 		grammarMissDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "ATTACKMISS").getAsJsonObject());
-		grammarGeneralDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "GENERAL").getAsJsonObject());
-		grammarSimpleVerb = new GrammarsGeneral(JSONParsing.getElement(rootObj, "SIMPLEVERB").getAsJsonObject());
 		grammarGeneralObj = new GrammarsGeneral(JSONParsing.getElement(rootObjGrammar, "GENERAL").getAsJsonObject());
 		if (!testMode){
 			gameFlow();
 		}
-		
 	}
 }

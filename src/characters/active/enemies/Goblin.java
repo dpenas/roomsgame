@@ -21,7 +21,6 @@ public class Goblin extends ActiveCharacter {
 				30, 100, 100, new ArrayList<WereableWeapon>(), new ArrayList<WereableArmor>(), 60,
 				70, 0, new ArrayList<Item>(), 0, 0, 100, 50, 0, "G", 3, new FollowingMove(), adjectives, level);
 		WereableWeapon oneHandSword = new ShortSword(this, null, null, null, level, false);
-		System.out.println("Adj: " + this.getAdjectives().size());
 		this.setTirenessTotal(5);
 		this.setExperienceGiven(35+level*10);
 		this.addSpell(new Fireball());

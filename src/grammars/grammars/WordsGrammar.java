@@ -6,6 +6,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import grammars.parsing.JSONParsing;
+import main.Main;
 import net.slashie.util.Pair;
 
 public class WordsGrammar {
@@ -64,8 +65,10 @@ public class WordsGrammar {
 		// TODO: Change to search for all the names
 		ArrayList<Pair<String, JsonArray>> result = new ArrayList<Pair<String, JsonArray>>();
 		JsonObject nameJSON = JSONParsing.getElement(rootObj, "N").getAsJsonObject();
-		System.out.println("nameJSON: " + nameJSON);
-		System.out.println("name: " + name);
+		if (Main.debug) {
+			System.out.println("nameJSON: " + nameJSON);
+			System.out.println("name: " + name);
+		}
 		JsonArray jsonArray = JSONParsing.getElement(nameJSON, name).getAsJsonArray();
 		try {
 			jsonArray = JSONParsing.getElement(nameJSON, name).getAsJsonArray();

@@ -212,10 +212,7 @@ public class Map {
 		if (tuple1.y < tuple2.y){
 			lowestY = tuple1.y;
 			highestY = tuple2.y;
-			//System.out.println("Entro en la primera: highestY " + highestY + "\n");
-			//System.out.println("Entro en la primera: lowestY " + lowestY + "\n");
 		} else {
-			//System.out.println("Entro en la segunda " + tuple2.y + "\n");
 			lowestY = tuple2.y;
 			highestY = tuple1.y;
 		}
@@ -240,7 +237,6 @@ public class Map {
 	 * @return
 	 */
 	public Tuple<Integer, Integer> get_free_room_x_y(Tuple<Integer, Integer> initial_tuple){
-		// System.out.println("initial_tuple: " + initial_tuple.x + " " + initial_tuple.y);
 		int initial_x = initial_tuple.x;
 		int initial_y = initial_tuple.y;
 		if (Main.debug){
@@ -256,7 +252,6 @@ public class Map {
 						System.out.println("i = " + i + " j = " + j + " free_room[i][j] = " + free_room[i][j] + "\n");
 					}
 					Tuple<Integer, Integer> free_x_and_y = new Tuple<Integer, Integer>(i, j);
-					// System.out.println("final_tuple!!!!!: " + free_x_and_y.x + " " + free_x_and_y.y);
 					return free_x_and_y;
 				}
 			}
@@ -448,16 +443,12 @@ public class Map {
 			createRoomMatrix(initialPoint, finalPoint);
 			this.rooms.add(r);
 			number_rooms++;
-			System.out.println("Initial Point: (" + initialPoint.x + "," + initialPoint.y + ")");
-			System.out.println("Final Point: (" + finalPoint.x + "," + finalPoint.y + ")");
 			GenericMatrixFunctions.printMatrix(this.getFreeRoom());
 		}
 		complete_map();
 		assignDoors();
-		System.out.println("hey Portals");
 		int randomNumber = RandUtil.RandomNumber(0, this.getRooms().size());
 		this.setHasPortals(this.getRooms().get(randomNumber).initializePortals());
-		System.out.println("End Portals");
 	}
 	
 	public void assignIndividualDoor(Room room){
@@ -523,21 +514,8 @@ public class Map {
 			if (roomDoor.isMapPositionHere(finalPositionOtherRoom) && !roomDoor.equals(room) && 
 					!room.getConnected_rooms().contains(roomDoor)) {
 				Door door = new Door(doorFirstPosition, finalPositionOtherRoom, room, roomDoor);
-				System.out.println("LOLOLO");
-				if (!room.isInCorner(door.getPositionRoom1()) &&
-						!room.isInCorner(door.getPositionRoom2()) &&
-						!roomDoor.isInCorner(door.getPositionRoom1()) &&
-						!roomDoor.isInCorner(door.getPositionRoom2())){
-					System.out.println(door.getPositionRoom1().x + "," + door.getPositionRoom1().y);
-					System.out.println(door.getPositionRoom2().x + "," + door.getPositionRoom2().y);
-					System.out.println("ROOM CORNERS: ");
-					for (Tuple<Integer, Integer> tuple: room.getCorners()){
-						System.out.println(tuple.x + "," + tuple.y);
-					}
-					System.out.println("THE OTHER ONE: ");
-					for (Tuple<Integer, Integer> tuple: roomDoor.getCorners()){
-						System.out.println(tuple.x + "," + tuple.y);
-					}
+				if (!room.isInCorner(door.getPositionRoom1()) && !room.isInCorner(door.getPositionRoom2())
+						&& !roomDoor.isInCorner(door.getPositionRoom1()) && !roomDoor.isInCorner(door.getPositionRoom2())){
 					room.getDoors().add(door);
 					roomDoor.getDoors().add(door);
 					room.getConnected_rooms().add(roomDoor);
@@ -567,7 +545,6 @@ public class Map {
 		
 		if (Main.debug){
 			System.out.println("Doors: ");
-			
 			for (Room r : this.getRooms()){
 				System.out.println("Room Initial Point: (" + r.getGlobal_initial().x + "," + r.getGlobal_initial().y + ")");
 				System.out.println("Final Point: (" + r.getGlobal_final().x + "," + r.getGlobal_final().y + ")");
@@ -603,12 +580,12 @@ public class Map {
 			unreachable.remove(room);
 			visitedRooms.add(room);
 		}
-		
-		for (Room r: unreachable){
-			System.out.println("Unreachable INI: (" + r.getGlobal_initial().x + "," + r.getGlobal_initial().y + ")");
-			System.out.println("Unreachable FIN: (" + r.getGlobal_final().x + "," + r.getGlobal_final().y + ")");
+		if (Main.debug) {
+			for (Room r: unreachable){
+				System.out.println("Unreachable INI: (" + r.getGlobal_initial().x + "," + r.getGlobal_initial().y + ")");
+				System.out.println("Unreachable FIN: (" + r.getGlobal_final().x + "," + r.getGlobal_final().y + ")");
+			}
 		}
-		
 		return unreachable;
 	}
 	
@@ -617,7 +594,6 @@ public class Map {
 		int maximum = 0;
 		int limit = 10;
 		while (unreachable.size() != 0 && maximum < limit){
-			System.out.println(this.getRooms().size());
 			for (Room r : unreachable){
 				this.assignIndividualDoor(r);
 			}
@@ -637,7 +613,6 @@ public class Map {
 		for(Room room : this.getRooms()){
 			if (user.getRoom().equals(room)){
 				for (Tuple<Integer, Integer> pos: room.getBorders()){
-					// System.out.println("Borders: (" + pos.x + "," + pos.y + ")");
 					if (RandUtil.containsTuple(pos, user.getVisiblePositions())){
 						j.print(pos.y, pos.x, '#', main.Main.arrayColors[main.Main.selectedColor][1]);
 					}

@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import grammars.grammars.GrammarsRetrieval;
+import main.Main;
 import util.RandUtil;
 
 public class JSONParsing {
@@ -53,15 +54,19 @@ public class JSONParsing {
 	
 	public static void printSet(JsonObject object) {
 		Set<Entry<String, JsonElement>> set = object.entrySet();
-		for (Entry<String, JsonElement> entry: set) {
-		    System.out.println(entry.getKey() + ": " + entry.getValue());
+		if (Main.debug) {
+			for (Entry<String, JsonElement> entry: set) {
+			    System.out.println(entry.getKey() + ": " + entry.getValue());
+			}
 		}
 	}
 	
 	public static String getTranslationWord(String word, String type, JsonObject rootObjWords) {
-		System.out.println(word);
-		System.out.println(type);
-		System.out.println(rootObjWords);
+		if (Main.debug) {
+			System.out.println(word);
+			System.out.println(type);
+			System.out.println(rootObjWords);
+		}
 		JsonArray elementWord = JSONParsing.getElement(JSONParsing.getElement(rootObjWords, type).getAsJsonObject(), word).getAsJsonArray();
 		return JSONParsing.getElement(elementWord, "translation");
 	}

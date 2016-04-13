@@ -3,6 +3,7 @@ package grammars.grammars;
 import java.util.ArrayList;
 
 import grammars.parsing.JSONParsing;
+import main.Main;
 import net.slashie.util.Pair;
 import util.Tuple;
 
@@ -29,11 +30,13 @@ public class PrintableObject {
 	}
 	
 	public String getPositionDirections(Tuple<Integer, Integer> characterPos) {
-		System.out.println("BEGIN Position Directions: ");
-		System.out.println("object x = " + this.getPosition().x);
-		System.out.println("object y = " + this.getPosition().y);
-		System.out.println("character x = " + characterPos.x);
-		System.out.println("character y = " + characterPos.y);
+		if (Main.debug) {
+			System.out.println("BEGIN Position Directions: ");
+			System.out.println("object x = " + this.getPosition().x);
+			System.out.println("object y = " + this.getPosition().y);
+			System.out.println("character x = " + characterPos.x);
+			System.out.println("character y = " + characterPos.y);
+		}
 		int thisx = this.getPosition().x;
 		int thisy = this.getPosition().y;
 		int characterx = characterPos.x;

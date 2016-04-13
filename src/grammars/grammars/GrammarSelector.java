@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import grammars.parsing.JSONParsing;
+import main.Main;
 import net.slashie.util.Pair;
 
 public abstract class GrammarSelector {
@@ -23,15 +24,15 @@ public abstract class GrammarSelector {
 	protected abstract ArrayList<Pair<String, JsonArray>> changeValue(ArrayList<Pair<String, JsonArray>> sentenceArray, String valueToChange, String changeToValue, String typeChangeToValue);
 	
 	protected String getImportantRestriction(String value1Type, String value1, String value2Type, String value2) {
-		System.out.println("I receive value1Type: " + value1Type + " value1: " + value1 + " value2Type: " 
+		if (Main.debug) {
+			System.out.println("I receive value1Type: " + value1Type + " value1: " + value1 + " value2Type: " 
 				+ value2Type + " value2: " + value2);
+		}
 		for (int i = 0; i < WORD_IMPORTANCE.length; i++) {
 			if (WORD_IMPORTANCE[i].equals(value1Type)) {
-				System.out.println("I'm returning value2");
 				return value2;
 			}
 			if (WORD_IMPORTANCE[i].equals(value2Type)) {
-				System.out.println("I'm returning value1");
 				return value1;
 			}
 		}
@@ -103,8 +104,10 @@ public abstract class GrammarSelector {
 			String elementA = "";
 			String elementB = "";
 			Pair<String, String> pair = null;
-			for (Pair<String, JsonArray> a : sentenceArray) {
-				System.out.println(a.getA() + " ");
+			if (Main.debug) {
+				for (Pair<String, JsonArray> a : sentenceArray) {
+					System.out.println(a.getA() + " ");
+				}
 			}
 			switch (restrictionType) {
 				case "num": 
@@ -141,8 +144,6 @@ public abstract class GrammarSelector {
 	}
 	
 	public String returnParseString(String string, String element) {
-		System.out.println("String: " + string);
-		System.out.println("Element: " + element);
 		return string.substring(0, string.indexOf(element));
 	}
 	

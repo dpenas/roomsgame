@@ -201,14 +201,7 @@ public class Room {
 		}
 		
 		for (Item item: itemsRoom){
-			System.out.println("Items Room:");
-			System.out.println(item.getPosition().x);
-			System.out.println(item.getPosition().y);
-			System.out.println("Tuple received:");
-			System.out.println(tuple.x);
-			System.out.println(tuple.y);
 			if (RandUtil.sameTuple(item.getPosition(), tuple)){
-				System.out.println("I return this: " + item.getSymbolRepresentation());
 				return item.getSymbolRepresentation();
 			}
 		}
@@ -288,7 +281,6 @@ public class Room {
 		int tries = 0;
 		int maxTries = 10;
 		while (this.getPortals().size() <= initialNumberPortals && tries < maxTries) {
-			System.out.println("tries: " + tries);
 			Tuple<Integer, Integer> pos = this.getRandomInsidePosition();
 			if (pos != null) {
 				if (!RandUtil.containsTuple(pos, this.getInsidecolumns()) && this.getItemsPosition(pos).size() <= 0

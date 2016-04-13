@@ -6,6 +6,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import grammars.parsing.JSONParsing;
+import main.Main;
 import net.slashie.util.Pair;
 import util.RandUtil;
 
@@ -56,7 +57,9 @@ public class GrammarSelectorNP extends GrammarSelector {
 	protected ArrayList<Pair<String, JsonArray>> fillWords() {
 		ArrayList<Pair<String, JsonArray>> resultArray = new ArrayList<Pair<String, JsonArray>>();
 		for (String value : this.getGrammar().getTypeWordGrammar()) {
-			System.out.println("Value: " + value);
+			if (Main.debug) {
+				System.out.println("Value: " + value);
+			}
 			switch (value) {
 				case "DET" : resultArray.add(getRandomDeterminant());
 					break;
@@ -73,8 +76,10 @@ public class GrammarSelectorNP extends GrammarSelector {
 	}
 	
 	protected ArrayList<Pair<String, JsonArray>> changeValue(ArrayList<Pair<String, JsonArray>> sentenceArray, String valueToChange, String changeToValue, String typeChangeToValue){
-		System.out.println("Value to change!!: " + valueToChange);
-		System.out.println("Change to!!: " + changeToValue);
+		if (Main.debug) {
+			System.out.println("Value to change: " + valueToChange);
+			System.out.println("Change to: " + changeToValue);
+		}
 		ArrayList<Pair<String, JsonArray>> selectedTypeWord = new ArrayList<Pair<String, JsonArray>>();
 		switch (typeChangeToValue) {
 			case "DET" :
@@ -88,12 +93,11 @@ public class GrammarSelectorNP extends GrammarSelector {
 				selectedTypeWord = this.getAllAdjectives();
 				break;
 		}
-		
-//		System.out.println("SelectedTypeWord.get(A): " + selectedTypeWord.get(0).getA());
-//		System.out.println("sentenceArray.get(0).getA(): " + sentenceArray.get(0).getA());
 		for (int i = 0; i < selectedTypeWord.size(); i++) {
-			System.out.println("changeToValue: "+ changeToValue);
-			System.out.println("selectedTypeWord.get(i).getA(): "+ selectedTypeWord.get(i).getA());
+			if (Main.debug) {
+				System.out.println("changeToValue: "+ changeToValue);
+				System.out.println("selectedTypeWord.get(i).getA(): "+ selectedTypeWord.get(i).getA());
+			}
 			if (selectedTypeWord.get(i).getA().equals(changeToValue)) {
 				Pair<String, JsonArray> newPair = selectedTypeWord.get(i); 
 				for (int j = 0; j < sentenceArray.size(); j++) {
@@ -128,13 +132,17 @@ public class GrammarSelectorNP extends GrammarSelector {
 	}
 	
 	public ArrayList<Pair<String, JsonArray>> getRandomSentencePair() {
-		System.out.println(this.getGrammar());
-		System.out.println(this.getName());
+		if (Main.debug) {
+			System.out.println(this.getGrammar());
+			System.out.println(this.getName());
+		}
 		ArrayList<Pair<String, JsonArray>> sentenceArray = this.fillWords();
-		for (Pair<String, JsonArray> a : sentenceArray) {
-			if (a != null) {
-				System.out.println(a.getA());
-				System.out.println(a.getB());
+		if (Main.debug) {
+			for (Pair<String, JsonArray> a : sentenceArray) {
+				if (a != null) {
+					System.out.println(a.getA());
+					System.out.println(a.getB());
+				}
 			}
 		}
 		sentenceArray = this.applyRestrictions(sentenceArray);

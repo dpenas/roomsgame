@@ -30,24 +30,19 @@ public class ActionHandler {
 	private JsonObject rootObjWords;
 	private ActiveCharacter user;
 	
-	public ActionHandler(HashMap<String, Integer> keysMap, ActiveCharacter user, 
-			GrammarsGeneral grammarUseItem, GrammarsGeneral grammarPickItem,
-			GrammarsGeneral grammarMissDescription, GrammarsGeneral grammarAdjectiveDescription,
-			GrammarsGeneral grammarAttack, GrammarsGeneral grammarGeneralDescription,
-			GrammarsGeneral grammarDescribeCharacterWears, GrammarsGeneral grammarDescribeEnvironmentSimple,
-			GrammarsGeneral grammarDescribePersonal, GrammarsGeneral grammarDescribeItem,
-			JsonObject rootObjWords) {
+	public ActionHandler(HashMap<String, Integer> keysMap, ActiveCharacter user, JsonObject rootObj, JsonObject rootObjWords) {
+		grammarAttack = new GrammarsGeneral(JSONParsing.getElement(rootObj, "ATTACK").getAsJsonObject());
+		grammarPickItem = new GrammarsGeneral(JSONParsing.getElement(rootObj, "PICK").getAsJsonObject());
+		grammarUseItem = new GrammarsGeneral(JSONParsing.getElement(rootObj, "USE").getAsJsonObject());
+		grammarDescribeItem = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCITEM").getAsJsonObject());
+		grammarDescribePersonal = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCPERSONAL").getAsJsonObject());
+		grammarDescribeEnvironment = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCENV").getAsJsonObject());
+		grammarDescribeEnvironmentSimple = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCENVSIMPLE").getAsJsonObject());
+		grammarDescribeCharacterWears = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCCHAWEARS").getAsJsonObject());
+		grammarAdjectiveDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCRIPTIONADJECTIVE").getAsJsonObject());
+		grammarMissDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "ATTACKMISS").getAsJsonObject());
+		grammarGeneralDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "GENERAL").getAsJsonObject());
 		this.keysMap = keysMap;
-		this.grammarUseItem = grammarUseItem;
-		this.grammarPickItem = grammarPickItem;
-		this.grammarMissDescription = grammarMissDescription;
-		this.grammarAdjectiveDescription = grammarAdjectiveDescription;
-		this.grammarAttack = grammarAttack;
-		this.grammarGeneralDescription = grammarGeneralDescription;
-		this.grammarDescribeCharacterWears = grammarDescribeCharacterWears;
-		this.grammarDescribeEnvironmentSimple = grammarDescribeEnvironmentSimple;
-		this.grammarDescribePersonal = grammarDescribePersonal;
-		this.grammarDescribeItem = grammarDescribeEnvironmentSimple;
 		this.rootObjWords = rootObjWords;
 		this.user = user;
 	}

@@ -262,7 +262,6 @@ public class ActiveCharacter extends Character {
 		int defenderLife = defender.getLife() - damageDone;
 		defenderLife = defenderLife < 0 ? 0 : defenderLife;
 		defender.setLife(defenderLife);
-		System.out.println("Defender Life: " + defenderLife);
 		this.setCharacterDead(defender);
 		return true;
 	}
@@ -278,7 +277,6 @@ public class ActiveCharacter extends Character {
 			}
 		}
 		Pair<Boolean, ActiveCharacter> returnValue = new Pair<Boolean, ActiveCharacter>(this.attack(monster), monster);
-		System.out.println("Vida monster: " + map.getMonstersPosition(this).get(0).getLife());
 		return returnValue;
 	}
 	
@@ -289,7 +287,6 @@ public class ActiveCharacter extends Character {
 		int defenderLife = defender.getLife() - spell.getDamage();
 		defenderLife = defenderLife < 0 ? 0 : defenderLife;
 		defender.setLife(defenderLife);
-		System.out.println("Defender Life: " + defenderLife);
 		this.setCharacterDead(defender);
 	}
 	
@@ -317,8 +314,6 @@ public class ActiveCharacter extends Character {
 					}
 				}
 			}
-		} else {
-			System.out.println("No spells");
 		}
 		return hurtCharacters;
 	}
@@ -456,9 +451,7 @@ public class ActiveCharacter extends Character {
 	}
 	
 	public void printInventory(ArrayList<Item> inventory, WSwingConsoleInterface j, int initPos_i, int initPos_j){
-		System.out.println("Printing Inventory: ");
 		for (int i = 0; i < inventory.size(); i++){
-			System.out.println("Item: " + 1);
 			String name = i + 1 + " - " + inventory.get(i).getName();
 			j.print(initPos_j, initPos_i + i, name);
 		}
@@ -955,10 +948,6 @@ public class ActiveCharacter extends Character {
 			adjectivesUser.add("scared");
 		} else {
 			adjectivesUser.add("average");
-		}
-		System.out.println("Adjectives non main: ");
-		for (String adjective : adjectivesUser) {
-			System.out.println(adjective);
 		}
 		this.setAdjectives(adjectivesUser);
 	}

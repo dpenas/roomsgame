@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.google.gson.JsonObject;
 
+import main.Main;
 import net.slashie.util.Pair;
 
 public class GrammarIndividual {
@@ -16,9 +17,9 @@ public class GrammarIndividual {
 	private ArrayList<String> numberGrammar;
 	
 	public GrammarIndividual(JsonObject object) {
-		System.out.println("WHAT I RECEIVE");
-		System.out.println(object);
-		System.out.println("FINISH WHAT I RECEIVE");
+		if (Main.debug) {
+			System.out.println(object);
+		}
 		this.object = object;
 		this.restrictions = this.setRestrictions(GrammarsRetrieval.getRestrictions(object));
 		this.grammar = GrammarsRetrieval.getGrammar(object);
@@ -29,7 +30,6 @@ public class GrammarIndividual {
 	public ArrayList<String> setTypeGrammar() {
 		ArrayList<String> grammarTypes = new ArrayList<String>();
 		for (String grammar : this.getGrammar().get("keys")) {
-			System.out.println("HOOOOOOOLAAAAAA: " + grammar);
 			int endType = 0;
 			if (grammar.equals(grammar.toUpperCase())) {
 				endType = grammar.indexOf("_");
