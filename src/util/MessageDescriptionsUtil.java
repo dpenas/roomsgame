@@ -251,20 +251,20 @@ public class MessageDescriptionsUtil {
 		main.Main.generatePrintMessage(names, grammarAdjectiveDescription, "DESCTOBE", "DESCTOBE", false, false);
 	}
 	
-//	public static void describeSpells(ActiveCharacter user, JsonObject rootObjWords, GrammarsGeneral grammarSimpleVerb){
-//		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
-//		PrintableObject spells = new PrintableObject("spells", "", null, null);
-//		names.add(spells);
-//		GrammarIndividual grammarIndividual = grammarSimpleVerb.getRandomGrammar();
-//		String message = main.Main._getMessage(grammarIndividual, names, "DESCGENERAL", "DESCGENERAL", false, false) + ": ";
-//		
-//		JsonObject namesWords = JSONParsing.getElement(rootObjWords, "N").getAsJsonObject();
-//		for (Spell spell : user.getSpells()) {
-//			JsonArray spellName = JSONParsing.getElement(namesWords, spell.getName()).getAsJsonArray();
-//			message += JSONParsing.getElement(spellName, "translation") + " ";
-//		}
-//		main.Main.printMessage(message);
-//	}
+	public static void describeSpells(ActiveCharacter user, JsonObject rootObjWords, GrammarsGeneral grammarSimpleVerb){
+		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
+		PrintableObject spells = new PrintableObject("spells", "", null, null);
+		names.add(spells);
+		GrammarIndividual grammarIndividual = grammarSimpleVerb.getRandomGrammar();
+		String message = main.Main._getMessage(grammarIndividual, names, "DESCGENERAL", "DESCGENERAL", false, false) + ": ";
+		
+		JsonObject namesWords = JSONParsing.getElement(rootObjWords, "N").getAsJsonObject();
+		for (Spell spell : user.getSpells()) {
+			JsonArray spellName = JSONParsing.getElement(namesWords, spell.getName()).getAsJsonArray();
+			message += JSONParsing.getElement(spellName, "translation") + " ";
+		}
+		main.Main.printMessage(message);
+	}
 	
 	public static void descriptionWereables(ActiveCharacter user, boolean usePronoun, GrammarsGeneral grammarDescribeItem) {
 		ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();

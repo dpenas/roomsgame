@@ -68,6 +68,7 @@ public class Main {
 	static Integer[] pickItemInput;
 	static Integer[] attackInput;
 	public static Integer[] spellInput;
+	public static Integer[] descriptionSpellInput;
 	static Integer[] descriptionInput;
 	static Integer[] descriptionWereableInput;
 	public static Integer[] throwItemInput;
@@ -119,7 +120,7 @@ public class Main {
 	static GrammarsGeneral grammarAdjectiveDescription;
 	static GrammarsGeneral grammarMissDescription;
 	static GrammarsGeneral grammarGeneralDescription;
-//	static GrammarsGeneral grammarSimpleVerb;
+	static GrammarsGeneral grammarSimpleVerb;
 	static GrammarsGeneral grammarGeneralObj;
 	
 	public static boolean isInputType(Integer[] type, int key) {
@@ -183,6 +184,7 @@ public class Main {
 		pickItemInput = new Integer[] {keysMap.get("pickItem")};
 		attackInput = new Integer[] {keysMap.get("attack")};
 		spellInput = new Integer[] {keysMap.get("spell")};
+		descriptionSpellInput = new Integer[] {keysMap.get("descSpell")};
 		descriptionInput = new Integer[] {keysMap.get("descInv"), keysMap.get("descStats"), keysMap.get("descMana"), 
 				keysMap.get("descMonster"), keysMap.get("descEnv"), keysMap.get("descWalkablePositions")};
 		descriptionWereableInput = new Integer[] {keysMap.get("descHead"), keysMap.get("descHands"), keysMap.get("descChest"),
@@ -494,6 +496,8 @@ public class Main {
         	messageLabel.requestFocus();
         } else if (isInputType(rebindKeysInput, i)){
         	rebindKeys();
+        } else if (isInputType(descriptionSpellInput, i)) {
+        	MessageDescriptionsUtil.describeSpells(user, rootObjWords, grammarSimpleVerb);
         }
 	}
 	
@@ -603,6 +607,7 @@ public class Main {
 		grammarUnvalidDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCUNVALID").getAsJsonObject());
 		grammarAdjectiveDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCRIPTIONADJECTIVE").getAsJsonObject());
 		grammarMissDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "ATTACKMISS").getAsJsonObject());
+		grammarSimpleVerb = new GrammarsGeneral(JSONParsing.getElement(rootObj, "SIMPLEVERB").getAsJsonObject());
 		grammarGeneralObj = new GrammarsGeneral(JSONParsing.getElement(rootObjGrammar, "GENERAL").getAsJsonObject());
 		if (!testMode){
 			gameFlow();
