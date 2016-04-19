@@ -98,7 +98,7 @@ public class Main {
 	public static boolean hasEquipedItem = false;
 	public static boolean hasThrownItem = false;
 	static boolean hasUnequipedItem = false;
-	static boolean hasPickedItem = false;
+	public static boolean hasPickedItem = false;
 	static boolean doMonstersTurn = false;
 	public static boolean bindingFinished = false;
 	public static boolean unequipPressed = false;

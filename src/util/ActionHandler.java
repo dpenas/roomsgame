@@ -56,7 +56,7 @@ public class ActionHandler {
 			if (hasPickedItem) {
 				main.Main.useAndWithItem(item);
 			} else {
-				hasPickedItem = true;
+				main.Main.hasPickedItem = true;
 				main.Main.generatePrintMessage(names, grammarPickItem, "PICK", "PICK", usePronoun, false);
 			}
 			
