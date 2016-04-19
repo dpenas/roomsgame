@@ -120,7 +120,8 @@
             ],
             "restrictions": [
                 {"SIMPLE_1.num": "V_1.num"},
-                {"ADJECTIVE_1.num": "V_1.num"}
+                {"ADJECTIVE_1.num": "V_1.num"},
+                {"ADJECTIVE_1.gen": "SIMPLE_1.gen"}
             ]
         }
     },

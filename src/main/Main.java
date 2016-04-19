@@ -541,6 +541,8 @@ public class Main {
 						namesMiss.add(user);
 						String messageMiss = ", " + _getMessage(grammarIndividualMiss, namesMiss, "MISS", "MISS", true, false);
 						user.setPrepositions(prepositionBefore);
+						String[] words = messageMiss.split("\\s+");
+						messageMiss = messageMiss.replaceFirst(words[2] + " ", "");
 						printMessage(message.getB() + messageMiss);
 					}	
 				}
@@ -565,7 +567,7 @@ public class Main {
 	}
 	
 	public static void configureTextArea() {
-		float sizeIncrease = 3.0f;
+		float sizeIncrease = 10.0f;
 		Font font = messageLabel.getFont();
 		float size = font.getSize() + sizeIncrease;
 		messageLabel.setEditable(false);

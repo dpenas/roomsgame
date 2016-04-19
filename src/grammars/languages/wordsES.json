@@ -653,14 +653,14 @@
             {"translation": "rata"},
             {"numopposite": "rats"},
             {"gen": "fem"},
-            {"pronoun": ""}
+            {"pronoun": "ella"}
         ],
         "rats": [
             {"num": "plural"},
             {"translation": "ratas"},
             {"numopposite": "rat"},
             {"gen": "fem"},
-            {"pronoun": ""}
+            {"pronoun": "ellas"}
         ],
         "life": [
             {"num": "sing"},

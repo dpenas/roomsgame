@@ -113,6 +113,8 @@ public class ActionHandler {
 					} else {
 						monster.getB().setHasBeenAttackedByHeroe(true);
 					}
+					String[] words = messageMiss.split("\\s+");
+					messageMiss = messageMiss.replaceFirst(words[1] + " ", "");
 					main.Main.printMessage(message + messageAgain + messageMiss);
 				}
 	    	}
