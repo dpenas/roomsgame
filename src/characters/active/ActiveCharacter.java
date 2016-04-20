@@ -647,20 +647,22 @@ public class ActiveCharacter extends Character {
 		return false;
 	}
 	
-	public void useItem(Item item){
+	public boolean useItem(Item item){
 		if (item.isWereableItem()){
 			if (item.isWereableArmor()){
-				this.equipArmor((WereableArmor)item);
+				return this.equipArmor((WereableArmor)item);
 			} else {
 				if (item.isWereableWeapon()){
-					this.equipWeapon((WereableWeapon)item);
+					return this.equipWeapon((WereableWeapon)item);
 				}
 			}
 		} else {
 			if (item.isConsumableItem()){
-				this.useConsumable((Consumable)item);
+				return this.useConsumable((Consumable)item);
 			}
 		}
+		
+		return false;
 	}
 	
 	public Pair<Boolean, String> doTurn(ActiveCharacter user, GrammarIndividual grammarAttack, JsonObject rootObjWords){

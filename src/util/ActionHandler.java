@@ -128,12 +128,16 @@ public class ActionHandler {
 			ArrayList<PrintableObject> names = new ArrayList<PrintableObject>();
 			names.add(user);
 			names.add(item);
-			user.useItem(item);
+			boolean result = user.useItem(item);
 			main.Main.printEverything(false);
 			if (item.isWereableItem()) {
+				if (!result) {
+					main.Main._messageUnvalid();
+					main.Main.hasEquipedItem = false;
+				}
 				if (main.Main.hasEquipedItem) {
 					main.Main.useAndWithItem(item);
-				} else {
+				} else if (result) {
 					main.Main.generatePrintMessage(names, grammarUseItem, "EQUIP", "EQUIP", usePronoun, false);
 					main.Main.hasEquipedItem = true;
 				}
