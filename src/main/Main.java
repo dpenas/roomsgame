@@ -48,6 +48,7 @@ import util.ActionHandler;
 import util.JTextAreaWithListener;
 import util.MessageDescriptionsUtil;
 import util.RandUtil;
+import util.SoundReproduction;
 import util.Tuple;
 
 
@@ -76,6 +77,7 @@ public class Main {
 	static Integer[] changeNumericDescInput;
 	static Integer[] changeColorsInput;
 	static Integer[] rebindKeysInput;
+	static Integer[] activateSoundInput;
 	static Integer[] arrayColors1 = new Integer[]{12,2,3,11,5,15,7};
 	static Integer[] arrayColors2 = new Integer[]{8,4,3,11,15,6,14};
 	public static Integer[][] arrayColors = {arrayColors1, arrayColors2};
@@ -104,6 +106,7 @@ public class Main {
 	public static boolean unequipPressed = false;
 	public static boolean spellsPressed = false;
 	public static boolean throwPressed = false;
+	public static boolean isSoundActivated = true;
 	static JsonParser parser = new JsonParser();
 	static JsonObject rootObj;
 	public static JTextAreaWithListener messageLabel = new JTextAreaWithListener(j);
@@ -122,6 +125,7 @@ public class Main {
 	static GrammarsGeneral grammarGeneralDescription;
 	static GrammarsGeneral grammarSimpleVerb;
 	static GrammarsGeneral grammarGeneralObj;
+	static SoundReproduction walkSound;
 	
 	public static boolean isInputType(Integer[] type, int key) {
 		return Arrays.asList(type).contains(key);
@@ -194,6 +198,7 @@ public class Main {
 		changeNumericDescInput = new Integer[] {keysMap.get("changeNumericDesc")};
 		changeColorsInput = new Integer[] {keysMap.get("changeColors")};
 		rebindKeysInput = new Integer[] {keysMap.get("rebindKeys")};
+		activateSoundInput = new Integer[] {keysMap.get("activateSound")};
 	}
 	
 	private static void printUserInformation() {
@@ -240,6 +245,9 @@ public class Main {
             		}
 	            	hasChanged = false;
             	}
+        	}
+        	if (isSoundActivated) {
+        		walkSound.reproduce();
         	}
         } else {
         	_messageUnvalid();
@@ -494,10 +502,12 @@ public class Main {
         	hasThrownItem = false;
         	unequipPressed = true;
         	messageLabel.requestFocus();
-        } else if (isInputType(rebindKeysInput, i)){
+        } else if (isInputType(rebindKeysInput, i)) {
         	rebindKeys();
         } else if (isInputType(descriptionSpellInput, i)) {
         	MessageDescriptionsUtil.describeSpells(user, rootObjWords, grammarSimpleVerb);
+        } else if (isInputType(activateSoundInput, i)) {
+        	activateDeactivateSound();
         }
 	}
 	
@@ -595,11 +605,16 @@ public class Main {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void activateDeactivateSound() {
+		isSoundActivated = !isSoundActivated;
+	}
 
 	public static void main(String[] args) throws IOException, JsonIOException, JsonSyntaxException, InstantiationException, IllegalAccessException {
 		_setLanguage();
 		configureTextArea();
 		j.getTargetFrame().requestFocus();
+		rootObj = parser.parse(new FileReader("./src/grammars/languages/sentenceGrammar" + language + ".json")).getAsJsonObject();
 		rootObj = parser.parse(new FileReader("./src/grammars/languages/sentenceGrammar" + language + ".json")).getAsJsonObject();
 		rootObjWords = parser.parse(new FileReader("./src/grammars/languages/words" + language + ".json")).getAsJsonObject();
 		rootObjGrammar = parser.parse(new FileReader("./src/grammars/languages/objectGrammar" + language + ".json")).getAsJsonObject();
@@ -611,6 +626,7 @@ public class Main {
 		grammarMissDescription = new GrammarsGeneral(JSONParsing.getElement(rootObj, "ATTACKMISS").getAsJsonObject());
 		grammarSimpleVerb = new GrammarsGeneral(JSONParsing.getElement(rootObj, "SIMPLEVERB").getAsJsonObject());
 		grammarGeneralObj = new GrammarsGeneral(JSONParsing.getElement(rootObjGrammar, "GENERAL").getAsJsonObject());
+		walkSound = new SoundReproduction("./src/sounds/step.wav");
 		if (!testMode){
 			gameFlow();
 		}
