@@ -57,8 +57,6 @@ public class JTextAreaWithListener extends JTextArea implements KeyListener{
 					if (!useMousePosition2) {
 						positionToUse = mousePosition2;
 					}
-					System.out.println(positionToUse[0]);
-					System.out.println(positionToUse[1]);
 					robot.mouseMove(positionToUse[0], positionToUse[1]);
 					useMousePosition2 = !useMousePosition2;
 				}
