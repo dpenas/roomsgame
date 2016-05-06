@@ -87,7 +87,7 @@ public class Main {
 	static Room roomEnemy;
 	static Room roomCharacter;
 	static DefaultCaret caret;
-	static WSwingConsoleInterface j = new WSwingConsoleInterface("RoomsGame");
+	public static WSwingConsoleInterface j = new WSwingConsoleInterface("RoomsGame");
 	static ActiveCharacter user = null;
 	static boolean firstTime = true;
 	public static boolean hasChanged = false;
