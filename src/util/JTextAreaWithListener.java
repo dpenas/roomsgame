@@ -1,5 +1,7 @@
 package util;
 
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -14,9 +16,20 @@ import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 @SuppressWarnings("serial")
 public class JTextAreaWithListener extends JTextArea implements KeyListener{
 	private WSwingConsoleInterface j;
+	Robot robot = null;
+	int[] mousePosition1 = {30, 55};
+	int[] mousePosition2 = {50, 55};
+	boolean useMousePosition2 = false;
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
+		if (robot == null) {
+			try {
+				robot = new Robot();
+			} catch (AWTException e) {
+				e.printStackTrace();
+			}
+		}
 		int lengthBefore = main.Main.messageLabel.getText().length();
 		int lengthAfter = lengthBefore;
 		StrokeInformer strokeInformer = new StrokeInformer();
@@ -39,6 +52,13 @@ public class JTextAreaWithListener extends JTextArea implements KeyListener{
 				lengthAfter = main.Main.messageLabel.getText().length();
 				if (lengthAfter == lengthBefore && !main.Main.isTwoKeysInput(code)) {
 					j.getTargetFrame().requestFocus();
+				} else {
+					int[] positionToUse = mousePosition1;
+					if (!useMousePosition2) {
+						positionToUse = mousePosition2;
+					}
+					robot.mouseMove(positionToUse[0], positionToUse[1]);
+					useMousePosition2 = !useMousePosition2;
 				}
 			}
 		} catch (JsonIOException | JsonSyntaxException | InstantiationException | IllegalAccessException e) {

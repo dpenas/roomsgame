@@ -257,7 +257,7 @@
         ],
         "asquerosa":
             [
-            {"num": "plural"},
+            {"num": "sing"},
             {"translation": "asquerosa"}, 
             {"numopposite": "asquerosas"}, 
             {"genopposite": "creepy"},
@@ -495,7 +495,7 @@
         "scared": 
             [
             {"num": "sing"},
-            {"translation": "tiene miedo"},
+            {"translation": "miedoso"},
             {"numopposite": "scared"}, 
             {"gen": ""}
         ],

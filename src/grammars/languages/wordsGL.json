@@ -229,7 +229,7 @@
             {"translation": "vellas"}, 
             {"numopposite": "vella"},
             {"genopposite": "vellos"},
-            {"gen": "fem"}
+            {"gen": "fem"} 
         ],
         "creepy":
             [
@@ -495,7 +495,7 @@
         "scared": 
             [
             {"num": "sing"},
-            {"translation": "ten medo"},
+            {"translation": "medoso"},
             {"numopposite": "scared"}, 
             {"gen": ""}
         ],
