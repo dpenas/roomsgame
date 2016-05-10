@@ -39,8 +39,8 @@
     "SIMPLENODET": {
         "GM_1": {
             "S": [
-                {"N_1": ""},
-                {"ADJ_1": "array"}
+            	{"ADJ_1": "array"},
+                {"N_1": ""}
             ],
             "restrictions": [
                 {"ADJ_1.num": "N_1.num"},

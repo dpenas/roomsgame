@@ -27,6 +27,7 @@ public class ActionHandler {
 	private GrammarsGeneral grammarDescribeEnvironmentSimple;
 	private GrammarsGeneral grammarDescribePersonal;
 	private GrammarsGeneral grammarDescribeItem;
+	private GrammarsGeneral grammarDescribeSimple;
 	private JsonObject rootObjWords;
 	private ActiveCharacter user;
 	
@@ -35,6 +36,7 @@ public class ActionHandler {
 		grammarPickItem = new GrammarsGeneral(JSONParsing.getElement(rootObj, "PICK").getAsJsonObject());
 		grammarUseItem = new GrammarsGeneral(JSONParsing.getElement(rootObj, "USE").getAsJsonObject());
 		grammarDescribeItem = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCITEM").getAsJsonObject());
+		grammarDescribeSimple = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCSIMPLE").getAsJsonObject());
 		grammarDescribePersonal = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCPERSONAL").getAsJsonObject());
 		grammarDescribeEnvironment = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCENV").getAsJsonObject());
 		grammarDescribeEnvironmentSimple = new GrammarsGeneral(JSONParsing.getElement(rootObj, "DESCENVSIMPLE").getAsJsonObject());
@@ -190,7 +192,7 @@ public class ActionHandler {
 		}
 		if (i == keysMap.get("descStats")) {
 			main.Main.printMessage(MessageDescriptionsUtil._messageDescriptionStats(user, false, isNumericDescription,
-					grammarDescribePersonal, rootObjWords, user, grammarDescribeEnvironmentSimple));
+					grammarDescribePersonal, rootObjWords, user, grammarDescribeSimple));
 		}
 		if (i == keysMap.get("descMonster")) {
 			for (ActiveCharacter monster : user.getMap().getMonstersPosition(user)) {

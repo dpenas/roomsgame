@@ -224,6 +224,7 @@ public class MessageDescriptionsUtil {
 			namesExperience.add(character);
 			namesExperience.add(experience);
 			grammarIndividual = grammarDescribeEnvironmentSimple.getRandomGrammar();
+			System.out.println(message);
 			message = message + 
 					main.Main._getMessage(grammarIndividual, namesExperience, "DESCPERSONAL", "DESCPERSONAL", true, false) + 
 					" " + user.getExperience();
