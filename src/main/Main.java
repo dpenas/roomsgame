@@ -87,7 +87,7 @@ public class Main {
 	static Room roomEnemy;
 	static Room roomCharacter;
 	static DefaultCaret caret;
-	public static WSwingConsoleInterface j = new WSwingConsoleInterface("RoomsGame");
+	public static WSwingConsoleInterface j = new WSwingConsoleInterface("The Accessible Dungeon");
 	static ActiveCharacter user = null;
 	static boolean firstTime = true;
 	public static boolean hasChanged = false;
