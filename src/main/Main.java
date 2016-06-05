@@ -78,6 +78,8 @@ public class Main {
 	static Integer[] changeColorsInput;
 	static Integer[] rebindKeysInput;
 	static Integer[] activateSoundInput;
+	static Integer[] increaseFontInput;
+	static Integer[] decreaseFontInput;
 	static Integer[] arrayColors1 = new Integer[]{12,2,3,11,5,15,7};
 	static Integer[] arrayColors2 = new Integer[]{8,4,3,11,15,6,14};
 	public static Integer[][] arrayColors = {arrayColors1, arrayColors2};
@@ -107,6 +109,7 @@ public class Main {
 	public static boolean spellsPressed = false;
 	public static boolean throwPressed = false;
 	public static boolean isSoundActivated = true;
+	public static boolean hasIncreasedFontSize = false;
 	static JsonParser parser = new JsonParser();
 	static JsonObject rootObj;
 	public static JTextAreaWithListener messageLabel = new JTextAreaWithListener(j);
@@ -199,6 +202,8 @@ public class Main {
 		changeColorsInput = new Integer[] {keysMap.get("changeColors")};
 		rebindKeysInput = new Integer[] {keysMap.get("rebindKeys")};
 		activateSoundInput = new Integer[] {keysMap.get("activateSound")};
+		increaseFontInput = new Integer[] {keysMap.get("increaseFont")};
+		decreaseFontInput = new Integer[] {keysMap.get("decreaseFont")};
 	}
 	
 	private static void printUserInformation() {
@@ -508,6 +513,10 @@ public class Main {
         	MessageDescriptionsUtil.describeSpells(user, rootObjWords, grammarSimpleVerb);
         } else if (isInputType(activateSoundInput, i)) {
         	activateDeactivateSound();
+        } else if (isInputType(increaseFontInput, i)) {
+        	increaseFontSize();
+        } else if (isInputType(decreaseFontInput, i)) {
+        	decreaseFontSize();
         }
 	}
 	
@@ -576,18 +585,33 @@ public class Main {
 		}
 	}
 	
-	public static void configureTextArea() {
-		float sizeIncrease = 10.0f;
+	public static void increaseFontSize() {
+		float sizeIncrease = 5.0f;
 		Font font = messageLabel.getFont();
 		float size = font.getSize() + sizeIncrease;
 		messageLabel.setEditable(false);
 		messageLabel.setFont(font.deriveFont(size));
+	}
+	
+	public static void decreaseFontSize() {
+		float sizeDecrease = 5.0f;
+		Font font = messageLabel.getFont();
+		float size = font.getSize() - sizeDecrease;
+		messageLabel.setEditable(false);
+		messageLabel.setFont(font.deriveFont(size));
+	}
+	
+	public static void configureTextArea() {
+		if (!hasIncreasedFontSize) {
+			increaseFontSize();
+		}
 		window = new JFrame();
 		caret = (DefaultCaret)messageLabel.getCaret();
 		jScrollPane = new JScrollPane(messageLabel);
 		window.add(jScrollPane);
 		window.setVisible(true);
 		window.setBounds(0, 0, 600, 350);
+		hasIncreasedFontSize = true;
 	}
 	
 	public static void restartMessage() {
