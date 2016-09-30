@@ -21,7 +21,7 @@ where %JRE_HOME% is the directory where JAVA is installed.
 
 For other OS's it would be necessary to install and activate it manually. Check http://www.oracle.com/technetwork/articles/javase/index-jsp-136191.html for more information.
 
-Movement system
+# Movement system
 
 movement - cursor keys
 
@@ -56,3 +56,7 @@ description possible movement positions - N
 numeric description on/off - C
 
 change colors - Q
+
+# More information
+
+For more information or feedback, create an issue in this project: https://github.com/dpenas/roomsgame/issues or visit our subreddit: https://www.reddit.com/r/roomsgame
